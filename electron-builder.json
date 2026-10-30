@@ -1,0 +1,39 @@
+{
+  "appId": "com.evergrowschools.erp",
+  "productName": "Ever Grow Schools ERP",
+  "copyright": "Copyright © 2026 Ever Grow Schools",
+  "directories": {
+    "output": "dist-electron",
+    "buildResources": "electron/assets"
+  },
+  "files": [
+    "electron/**/*",
+    "frontend/dist/**/*",
+    "package.json"
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      },
+      {
+        "target": "portable",
+        "arch": ["x64"]
+      }
+    ],
+    "icon": "electron/assets/icon.ico"
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "Ever Grow Schools ERP",
+    "differentialPackage": false,
+    "installerIcon": "electron/assets/icon.ico",
+    "uninstallerIcon": "electron/assets/icon.ico",
+    "installerHeaderIcon": "electron/assets/icon.ico"
+  }
+}

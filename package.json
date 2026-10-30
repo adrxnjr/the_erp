@@ -1,0 +1,25 @@
+{
+  "name": "school-erp-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Enterprise School ERP Management System",
+  "main": "electron/main.cjs",
+  "author": "Ever Grow Schools",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "preview": "npm --prefix frontend run preview",
+    "backend": "cd backend && powershell -Command \"$env:DISABLE_SQLALCHEMY_CEXT='1'; .\\.venv\\Scripts\\uvicorn.exe app.main:app --reload --port 8000\"",
+    "desktop:dev": "concurrently -k \"npm run dev\" \"wait-on http://127.0.0.1:5173 && cross-env NODE_ENV=development electron . --dev\"",
+    "desktop:pack": "npm run build && electron-builder --config electron-builder.json --dir",
+    "desktop:build": "npm run build && electron-builder --config electron-builder.json"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6",
+    "cross-env": "^10.1.0",
+    "electron": "^45.1.0",
+    "electron-builder": "^26.18.0",
+    "puppeteer": "^25.16.0",
+    "wait-on": "^9.5.1"
+  }
+}
