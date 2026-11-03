@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import {
   DollarSign,
   FileDown,
@@ -19,8 +20,12 @@ import {
 
 export const FeesPage: React.FC = () => {
   const { user } = useAuth();
-  const isStudent = user?.portal_type === 'student';
-  const isParent = user?.portal_type === 'parent';
+  const toast = useToast();
+  const isStudent = user?.portal_type === 'student' || user?.roles?.includes('student');
+  const isParent =
+    user?.portal_type === 'parent' ||
+    user?.roles?.includes('parent') ||
+    (user?.portal_type === 'parent_student' && !user?.roles?.includes('student'));
   const isStaff = !isStudent && !isParent;
 
   // Student Fee State
@@ -156,14 +161,23 @@ export const FeesPage: React.FC = () => {
     }
   }, [user, isStudent, isParent]);
 
+  useEffect(() => {
+    document.title = 'Fees & Payments Ledger — Ever Grow Schools ERP';
+  }, []);
+
   const handleProcessPayment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedStudent) return;
+    const amountVal = parseFloat(paymentForm.amount);
+    if (isNaN(amountVal) || amountVal <= 0) {
+      toast.error('Please enter a valid payment amount greater than zero.');
+      return;
+    }
 
     try {
       const res = await api.post('/finance/payments', {
         student_id: selectedStudent.id,
-        amount: parseFloat(paymentForm.amount),
+        amount: amountVal,
         payment_method: paymentForm.payment_method,
         transaction_reference: paymentForm.transaction_reference || undefined,
         remarks: paymentForm.remarks,
@@ -171,9 +185,9 @@ export const FeesPage: React.FC = () => {
 
       setRecentReceipt(res.data.receipt);
       setIsPayModalOpen(false);
-      alert(`Payment recorded! Receipt No: ${res.data.receipt.receipt_number}`);
+      toast.success(`Payment recorded! Receipt No: ${res.data.receipt.receipt_number}`);
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Error processing payment');
+      toast.error(err.response?.data?.message || 'Error processing payment');
     }
   };
 
@@ -190,8 +204,9 @@ export const FeesPage: React.FC = () => {
       document.body.appendChild(link);
       link.click();
       link.remove();
+      toast.success('Official receipt PDF downloaded successfully.');
     } catch (err: any) {
-      alert('Official receipt PDF downloaded successfully.');
+      toast.error('Failed to download receipt PDF.');
     }
   };
 
@@ -292,7 +307,7 @@ export const FeesPage: React.FC = () => {
                     <td className="py-3.5 px-5 text-slate-500 font-mono">{item.due_date}</td>
                     <td className="py-3.5 px-5">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        ✓ Paid in Full
+                        Paid in Full
                       </span>
                     </td>
                   </tr>
@@ -488,7 +503,7 @@ export const FeesPage: React.FC = () => {
                         <div className="text-[10px] font-bold uppercase text-emerald-800">Balance Due</div>
                         <div className="text-xl md:text-2xl font-black text-emerald-600 mt-0.5">$0.00</div>
                         <span className="text-[9px] font-extrabold text-emerald-700 uppercase">
-                          All Paid ✓
+                          All Paid
                         </span>
                       </div>
                     </div>
@@ -567,7 +582,7 @@ export const FeesPage: React.FC = () => {
                       <div className="bg-white/95 px-5 py-4 rounded-2xl border border-white shadow-md text-center min-w-[120px]">
                         <div className="text-[10px] font-bold uppercase text-emerald-800">Balance Due</div>
                         <div className="text-xl md:text-2xl font-black text-emerald-600 mt-0.5">$0.00</div>
-                        <span className="text-[9px] font-extrabold text-emerald-700 uppercase">All Paid ✓</span>
+                        <span className="text-[9px] font-extrabold text-emerald-700 uppercase">All Paid</span>
                       </div>
                     </div>
                   </div>
@@ -623,7 +638,7 @@ export const FeesPage: React.FC = () => {
                           <td className="py-3.5 px-5 text-slate-500 font-mono">{item.due_date}</td>
                           <td className="py-3.5 px-5">
                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                              ✓ Paid in Full
+                              Paid in Full
                             </span>
                           </td>
                         </tr>

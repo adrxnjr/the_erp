@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Navigate } from 'react-router-dom';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import {
   MessageSquare,
   Bot,
@@ -110,8 +111,17 @@ interface SpecializedTutor {
 
 // ---------------- MARKDOWN RENDERER COMPONENT ----------------
 
+function escapeHtml(unsafe: string): string {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 function formatInline(text: string): string {
-  let res = text.replace(
+  let res = escapeHtml(text).replace(
     /\$\$(.*?)\$\$/g,
     '<span class="font-mono font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200 inline-block my-0.5">$1</span>'
   );
@@ -318,7 +328,12 @@ const COLLEGE_SPECIALIZED_TUTORS: SpecializedTutor[] = [
 
 export const CareerPage: React.FC = () => {
   const { user } = useAuth();
-  const isStudent = user?.portal_type === 'student';
+  const toast = useToast();
+  const isStudent = user?.portal_type === 'student' || user?.roles?.includes('student');
+
+  useEffect(() => {
+    document.title = 'AI Career Guidance & Pathway Planner — Ever Grow Schools ERP';
+  }, []);
 
   if (!isStudent) {
     return <Navigate to="/" replace />;
@@ -412,7 +427,7 @@ export const CareerPage: React.FC = () => {
         id: 'ai-err-' + Date.now(),
         role: 'assistant',
         content:
-          '⚠️ Unable to connect to the AI academic server. Please try again or rephrase your question.',
+          'Unable to connect to the AI academic server. Please try again or rephrase your question.',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
       setChatMessages((prev) => [...prev, errorMsg]);
@@ -452,15 +467,15 @@ export const CareerPage: React.FC = () => {
       } catch (err) {
         console.log('Enquiry logged:', enquiryMessage);
       }
-      setEnquirySuccess(
-        `Your request has been successfully routed to ${selectedTutor.name} and the College Dean's Academic Office. The tutor will connect with you during lab hours.`
-      );
+      const succMsg = `Your request has been successfully routed to ${selectedTutor.name} and the College Dean's Academic Office. The tutor will connect with you during lab hours.`;
+      setEnquirySuccess(succMsg);
+      toast.success(succMsg);
       setTimeout(() => {
         setIsConnectModalOpen(false);
         setEnquirySuccess(null);
       }, 2500);
     } catch (err) {
-      alert('Unable to send request. Please try again.');
+      toast.error('Unable to send request. Please try again.');
     } finally {
       setSendingEnquiry(false);
     }
@@ -998,7 +1013,7 @@ export const CareerPage: React.FC = () => {
                     {
                       id: 'reset-1',
                       role: 'assistant',
-                      content: `### 🔄 Chat Cleared\n\nHello Liam! I am ready for your next question. How can I help you with your homework or skill practice today?`,
+                      content: `### Chat Cleared\n\nHello Liam! I am ready for your next question. How can I help you with your homework or skill practice today?`,
                       timestamp: new Date().toLocaleTimeString([], {
                         hour: '2-digit',
                         minute: '2-digit',

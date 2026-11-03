@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import api from '../api/client';
 import {
   Trophy,
@@ -117,7 +118,15 @@ interface RedemptionRequest {
 
 export const StudentRewardsPage: React.FC = () => {
   const { user } = useAuth();
-  const isParent = user?.portal_type === 'parent';
+  const toast = useToast();
+  const isParent =
+    user?.portal_type === 'parent' ||
+    user?.roles?.includes('parent') ||
+    (user?.portal_type === 'parent_student' && !user?.roles?.includes('student'));
+
+  useEffect(() => {
+    document.title = 'Gamified Student Rewards & Wall of Fame — Ever Grow Schools ERP';
+  }, []);
 
   // State
   const [activeTab, setActiveTab] = useState<'dashboard' | 'leaderboard' | 'store'>('dashboard');
@@ -204,8 +213,9 @@ export const StudentRewardsPage: React.FC = () => {
       document.body.appendChild(link);
       link.click();
       link.remove();
+      toast.success('Certificate of Achievement downloaded successfully.');
     } catch (err) {
-      alert('Failed to generate achievement certificate.');
+      toast.error('Failed to generate achievement certificate.');
     }
   };
 

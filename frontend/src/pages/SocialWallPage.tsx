@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import api from '../api/client';
 import {
   MessageSquare,
@@ -49,15 +50,20 @@ function formatRelativeTime(dateString: string): string {
   }
 }
 
-const REACTION_EMOJIS: Record<string, { emoji: string; label: string; color: string }> = {
-  LIKE: { emoji: '👍', label: 'Like', color: 'text-blue-600' },
-  LOVE: { emoji: '❤️', label: 'Love', color: 'text-rose-600' },
-  CLAP: { emoji: '👏', label: 'Clap', color: 'text-amber-600' },
-  WOW: { emoji: '😮', label: 'Wow', color: 'text-purple-600' },
+const REACTION_EMOJIS: Record<string, { label: string; color: string; icon: any }> = {
+  LIKE: { label: 'Like', color: 'text-blue-600', icon: ThumbsUp },
+  LOVE: { label: 'Love', color: 'text-rose-600', icon: Heart },
+  CLAP: { label: 'Applaud', color: 'text-amber-600', icon: Award },
+  WOW: { label: 'Inspiring', color: 'text-purple-600', icon: Smile },
 };
 
 export const SocialWallPage: React.FC = () => {
   const { user } = useAuth();
+  const toast = useToast();
+
+  useEffect(() => {
+    document.title = 'Campus Community Feed & Social Wall — Ever Grow Schools ERP';
+  }, []);
   const [activeTab, setActiveTab] = useState<'feed' | 'pending'>('feed');
   const [filterType, setFilterType] = useState<string>('all');
   const [posts, setPosts] = useState<any[]>([]);
@@ -246,7 +252,7 @@ export const SocialWallPage: React.FC = () => {
         prev.map((p) => (p.id === postId ? { ...p, comments_count: p.comments_count + 1 } : p))
       );
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to submit comment.');
+      toast.error(err.response?.data?.message || 'Failed to submit comment.');
     } finally {
       setSubmittingComment((prev) => ({ ...prev, [postId]: false }));
     }
@@ -256,11 +262,11 @@ export const SocialWallPage: React.FC = () => {
   const handleApprovePost = async (postId: string) => {
     try {
       await api.put(`/social/posts/${postId}/approve`);
-      showToast('Post verified and published to school feed ✅');
+      toast.success('Post verified and published to school feed');
       fetchPendingPosts();
       fetchFeed();
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to approve post.');
+      toast.error(err.response?.data?.message || 'Failed to approve post.');
     }
   };
 
@@ -268,10 +274,10 @@ export const SocialWallPage: React.FC = () => {
   const handleRejectPost = async (postId: string) => {
     try {
       await api.put(`/social/posts/${postId}/reject`);
-      showToast('Post rejected and archived.');
+      toast.success('Post rejected and archived.');
       fetchPendingPosts();
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to reject post.');
+      toast.error(err.response?.data?.message || 'Failed to reject post.');
     }
   };
 
@@ -279,10 +285,10 @@ export const SocialWallPage: React.FC = () => {
   const handleTogglePin = async (postId: string) => {
     try {
       const res = await api.put(`/social/posts/${postId}/pin`);
-      showToast(res.data?.is_pinned ? 'Post pinned to top 📌' : 'Post unpinned');
+      toast.success(res.data?.is_pinned ? 'Post pinned to top' : 'Post unpinned');
       fetchFeed();
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to toggle pin.');
+      toast.error(err.response?.data?.message || 'Failed to toggle pin.');
     }
   };
 
@@ -291,11 +297,11 @@ export const SocialWallPage: React.FC = () => {
     if (!window.confirm('Are you sure you want to permanently delete this post?')) return;
     try {
       await api.delete(`/social/posts/${postId}`);
-      showToast('Post permanently deleted.');
+      toast.success('Post permanently deleted.');
       fetchFeed();
       if (isAdmin) fetchPendingPosts();
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to delete post.');
+      toast.error(err.response?.data?.message || 'Failed to delete post.');
     }
   };
 
@@ -305,7 +311,7 @@ export const SocialWallPage: React.FC = () => {
     if (!file) return;
 
     if (file.size > 5 * 1024 * 1024) {
-      alert('Image size exceeds 5MB limit.');
+      toast.error('Image size exceeds 5MB limit.');
       return;
     }
 
@@ -322,7 +328,7 @@ export const SocialWallPage: React.FC = () => {
       });
       setPostForm((prev) => ({ ...prev, image_url: res.data?.image_url || '' }));
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to upload photo.');
+      toast.error(err.response?.data?.message || 'Failed to upload photo.');
       setImageFile(null);
       setImagePreview(null);
     } finally {
@@ -358,11 +364,11 @@ export const SocialWallPage: React.FC = () => {
       setImageFile(null);
       setImagePreview(null);
 
-      showToast('Post submitted for admin review ✅');
+      toast.success('Post submitted for admin review');
       fetchFeed();
       if (isAdmin) fetchPendingPosts();
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to submit post.');
+      toast.error(err.response?.data?.message || 'Failed to submit post.');
     } finally {
       setSubmittingPost(false);
     }
@@ -763,11 +769,11 @@ export const SocialWallPage: React.FC = () => {
                       <div className="pt-3 border-t border-black/[0.05] flex items-center justify-between text-xs text-slate-500">
                         {/* Reaction counters */}
                         <div className="flex items-center space-x-3">
-                          <div className="flex items-center space-x-1 font-semibold text-slate-700">
-                            {post.reactions_count?.LIKE > 0 && <span>👍 {post.reactions_count.LIKE}</span>}
-                            {post.reactions_count?.LOVE > 0 && <span>❤️ {post.reactions_count.LOVE}</span>}
-                            {post.reactions_count?.CLAP > 0 && <span>👏 {post.reactions_count.CLAP}</span>}
-                            {post.reactions_count?.WOW > 0 && <span>😮 {post.reactions_count.WOW}</span>}
+                          <div className="flex items-center space-x-2 font-semibold text-slate-700">
+                            {post.reactions_count?.LIKE > 0 && <span className="text-blue-600">Like ({post.reactions_count.LIKE})</span>}
+                            {post.reactions_count?.LOVE > 0 && <span className="text-rose-600">Love ({post.reactions_count.LOVE})</span>}
+                            {post.reactions_count?.CLAP > 0 && <span className="text-amber-600">Applaud ({post.reactions_count.CLAP})</span>}
+                            {post.reactions_count?.WOW > 0 && <span className="text-purple-600">Inspiring ({post.reactions_count.WOW})</span>}
                             {post.total_reactions === 0 && <span>Be the first to react</span>}
                           </div>
                         </div>
@@ -803,11 +809,7 @@ export const SocialWallPage: React.FC = () => {
                                 : 'text-slate-600 hover:bg-slate-100'
                             }`}
                           >
-                            <span>
-                              {post.user_reaction
-                                ? REACTION_EMOJIS[post.user_reaction]?.emoji
-                                : '👍'}
-                            </span>
+                            <ThumbsUp className="w-3.5 h-3.5" />
                             <span>
                               {post.user_reaction
                                 ? REACTION_EMOJIS[post.user_reaction]?.label
@@ -815,23 +817,27 @@ export const SocialWallPage: React.FC = () => {
                             </span>
                           </button>
 
-                          {/* Floating Emoji Picker */}
+                          {/* Floating Reaction Picker */}
                           {activeReactionPickerId === post.id && (
                             <div className="absolute left-0 bottom-full mb-2 bg-white rounded-2xl shadow-xl border border-slate-200 p-1.5 flex items-center space-x-1 z-30 animate-fadeIn">
-                              {Object.entries(REACTION_EMOJIS).map(([type, meta]) => (
-                                <button
-                                  key={type}
-                                  onClick={() => handleToggleReaction(post.id, type)}
-                                  className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg hover:scale-125 transition-all ${
-                                    post.user_reaction === type
-                                      ? 'bg-blue-100 ring-2 ring-blue-500'
-                                      : 'hover:bg-slate-100'
-                                  }`}
-                                  title={meta.label}
-                                >
-                                  {meta.emoji}
-                                </button>
-                              ))}
+                              {Object.entries(REACTION_EMOJIS).map(([type, meta]) => {
+                                const IconComponent = meta.icon;
+                                return (
+                                  <button
+                                    key={type}
+                                    onClick={() => handleToggleReaction(post.id, type)}
+                                    className={`px-2.5 py-1.5 rounded-xl flex items-center space-x-1 text-xs font-bold hover:scale-105 transition-all ${
+                                      post.user_reaction === type
+                                        ? 'bg-blue-100 ring-2 ring-blue-500 text-blue-700'
+                                        : 'hover:bg-slate-100 text-slate-700'
+                                    }`}
+                                    title={meta.label}
+                                  >
+                                    <IconComponent className="w-3.5 h-3.5" />
+                                    <span>{meta.label}</span>
+                                  </button>
+                                );
+                              })}
                             </div>
                           )}
                         </div>
@@ -994,7 +1000,7 @@ export const SocialWallPage: React.FC = () => {
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-extrabold text-[#1D1D1F] flex items-center space-x-2">
                 <Pin className="w-4 h-4 text-indigo-600 fill-indigo-600" />
-                <span>📌 Pinned Notices</span>
+                <span>Pinned Notices</span>
               </h2>
             </div>
             {(widgets.pinned_notices || []).length === 0 ? (

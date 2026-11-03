@@ -15,6 +15,7 @@ class EnquiryCreate(BaseModel):
     parent_email: Optional[EmailStr] = None
     address: Optional[str] = None
     notes: Optional[str] = None
+    hp_website: Optional[str] = None
 
 
 class EnquiryUpdate(BaseModel):

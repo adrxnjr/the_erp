@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api/client';
+import { useToast } from '../context/ToastContext';
 import {
   Landmark,
   Receipt,
@@ -63,6 +64,7 @@ interface TreasuryGovernanceData {
 }
 
 export const TreasuryPage: React.FC = () => {
+  const toast = useToast();
   const [data, setData] = useState<TreasuryGovernanceData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -73,6 +75,10 @@ export const TreasuryPage: React.FC = () => {
   const [selectedBill, setSelectedBill] = useState<VendorBill | null>(null);
   const [paying, setPaying] = useState(false);
   const [paySuccessMsg, setPaySuccessMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    document.title = 'Institutional Treasury & Debt Governance — Ever Grow Schools ERP';
+  }, []);
 
   const fetchTreasury = async () => {
     try {
@@ -115,12 +121,13 @@ export const TreasuryPage: React.FC = () => {
         });
       }
 
+      toast.success(`Bill from ${selectedBill.vendor_name} for ${selectedBill.amount} settled successfully.`);
       setTimeout(() => {
         setSelectedBill(null);
         setPaySuccessMsg(null);
       }, 1600);
     } catch (err: any) {
-      alert(err?.response?.data?.message || 'Error processing payment transaction');
+      toast.error(err?.response?.data?.message || 'Error processing payment transaction');
     } finally {
       setPaying(false);
     }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import api from '../api/client';
 import {
   Trophy,
@@ -137,6 +138,11 @@ interface StudentOption {
 
 export const AdminRewardsPage: React.FC = () => {
   const { user } = useAuth();
+  const toast = useToast();
+
+  useEffect(() => {
+    document.title = 'Rewards Administration & Fulfillment — Ever Grow Schools ERP';
+  }, []);
 
   const [activeTab, setActiveTab] = useState<'overview' | 'award' | 'redemptions' | 'store' | 'badges'>('overview');
 
@@ -297,8 +303,9 @@ export const AdminRewardsPage: React.FC = () => {
       setReviewModalRedemption(null);
       fetchRedemptions(redemptionFilter);
       fetchOverviewData();
+      toast.success(`Redemption status updated to ${reviewStatus}.`);
     } catch (err: any) {
-      alert(err?.response?.data?.message || 'Failed to update redemption status.');
+      toast.error(err?.response?.data?.message || 'Failed to update redemption status.');
     } finally {
       setSubmittingReview(false);
     }
@@ -325,8 +332,9 @@ export const AdminRewardsPage: React.FC = () => {
       setNewItemName('');
       setNewItemDesc('');
       setNewItemCost(100);
+      toast.success('Reward store item added successfully.');
     } catch (err: any) {
-      alert(err?.response?.data?.message || 'Failed to add reward item.');
+      toast.error(err?.response?.data?.message || 'Failed to add reward item.');
     }
   };
 
@@ -337,8 +345,9 @@ export const AdminRewardsPage: React.FC = () => {
         is_active: !item.is_active,
       });
       setStoreItems(storeItems.map((i) => (i.id === item.id ? res.data : i)));
+      toast.success(`Item is now ${!item.is_active ? 'active' : 'inactive'}.`);
     } catch (err: any) {
-      alert('Failed to update item state.');
+      toast.error('Failed to update item state.');
     }
   };
 
@@ -363,8 +372,9 @@ export const AdminRewardsPage: React.FC = () => {
       setShowAddBadgeModal(false);
       setNewBadgeName('');
       setNewBadgeDesc('');
+      toast.success('Honor badge created successfully.');
     } catch (err: any) {
-      alert(err?.response?.data?.message || 'Failed to add badge.');
+      toast.error(err?.response?.data?.message || 'Failed to add badge.');
     }
   };
 
@@ -376,8 +386,9 @@ export const AdminRewardsPage: React.FC = () => {
         is_active: !badge.is_active,
       });
       setBadges(badges.map((b) => (b.id === badge.id ? res.data : b)));
+      toast.success(`Badge is now ${!badge.is_active ? 'active' : 'inactive'}.`);
     } catch (err: any) {
-      alert('Failed to update badge state.');
+      toast.error('Failed to update badge state.');
     }
   };
 

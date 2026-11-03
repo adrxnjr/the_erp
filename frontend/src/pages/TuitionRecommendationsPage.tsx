@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import api from '../api/client';
 import {
   GraduationCap,
@@ -24,8 +25,13 @@ import {
 
 export const TuitionRecommendationsPage: React.FC = () => {
   const { user } = useAuth();
+  const toast = useToast();
   const [activeTab, setActiveTab] = useState<'recommendations' | 'my-enquiries'>('recommendations');
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    document.title = 'Recommended Academic Tuitions & Coaches — Ever Grow Schools ERP';
+  }, []);
 
   // If Parent, hold list of children
   const [children, setChildren] = useState<any[]>([]);
@@ -151,14 +157,16 @@ export const TuitionRecommendationsPage: React.FC = () => {
         notes: enquiryNotes.trim() || 'Parent/Student interested in enrolling for upcoming term.',
       });
 
-      setEnquirySuccess('Enquiry successfully submitted! Academy counselor will contact you.');
+      const msg = 'Enquiry successfully submitted! Academy counselor will contact you.';
+      setEnquirySuccess(msg);
+      toast.success(msg);
       fetchMyEnquiries();
       setTimeout(() => {
         setIsEnquireModalOpen(false);
         setActiveTab('my-enquiries');
       }, 1200);
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to submit enquiry.');
+      toast.error(err.response?.data?.message || 'Failed to submit enquiry.');
     } finally {
       setSubmittingEnquiry(false);
     }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import {
   Lock,
   CheckCircle,
@@ -16,8 +17,12 @@ import {
 
 export const AttendancePage: React.FC = () => {
   const { user } = useAuth();
-  const isStudent = user?.portal_type === 'student';
-  const isParent = user?.portal_type === 'parent';
+  const toast = useToast();
+  const isStudent = user?.portal_type === 'student' || user?.roles?.includes('student');
+  const isParent =
+    user?.portal_type === 'parent' ||
+    user?.roles?.includes('parent') ||
+    (user?.portal_type === 'parent_student' && !user?.roles?.includes('student'));
 
   // ---------------- STUDENT & PARENT VIEW STATE ----------------
   const [studentAttendance, setStudentAttendance] = useState<any>(null);
@@ -55,6 +60,7 @@ export const AttendancePage: React.FC = () => {
 
   // ---------------- FETCH LOGIC: STUDENT / PARENT ----------------
   useEffect(() => {
+    document.title = 'Daily Attendance Tracking — Ever Grow Schools ERP';
     if (isStudent) {
       const fetchStudentAttendance = async () => {
         setLoadingStudent(true);
@@ -214,7 +220,7 @@ export const AttendancePage: React.FC = () => {
 
   const handleSaveAttendance = async () => {
     if (staffInfo.is_admin) {
-      alert('Institutional Policy: Administrator accounts have read-only attendance oversight. Attendance cannot be modified directly.');
+      toast.error('Institutional Policy: Administrator accounts have read-only attendance oversight. Attendance cannot be modified directly.');
       return;
     }
 
@@ -235,13 +241,19 @@ export const AttendancePage: React.FC = () => {
         items,
       });
 
-      setMessage('Attendance successfully marked and recorded!');
+      const succ = 'Attendance successfully marked and recorded!';
+      setMessage(succ);
+      toast.success(succ);
     } catch (err: any) {
       if (err.response?.status === 403) {
         setIsLocked(true);
-        setMessage('Attendance for this date is locked. You must submit a formal correction request.');
+        const lockMsg = 'Attendance for this date is locked. You must submit a formal correction request.';
+        setMessage(lockMsg);
+        toast.error(lockMsg);
       } else {
-        setMessage(err.response?.data?.message || 'Error recording attendance.');
+        const errMsg = err.response?.data?.message || 'Error recording attendance.';
+        setMessage(errMsg);
+        toast.error(errMsg);
       }
     } finally {
       setLoading(false);
@@ -316,7 +328,7 @@ export const AttendancePage: React.FC = () => {
                           : 'bg-rose-50 text-rose-700 border border-rose-200'
                       }`}
                     >
-                      {isAboveThreshold ? '✓ Eligible for Term Exams (>75%)' : '⚠ Below 75% Requirement'}
+                      {isAboveThreshold ? 'Eligible for Term Exams (>75%)' : 'Below 75% Requirement'}
                     </span>
                   </div>
                 </div>

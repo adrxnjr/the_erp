@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime, timezone
 from typing import List, Optional
 from fastapi import APIRouter, Depends, Query, Request, status
 from sqlalchemy.orm import Session
@@ -30,14 +31,27 @@ router = APIRouter(prefix="/students", tags=["Student Admissions & Management"])
     response_model=EnquiryResponse,
     status_code=status.HTTP_201_CREATED,
     summary="Submit Admission Enquiry (Public)",
-    description="Public form submission requiring no authentication. Protected by rate limiting.",
+    description="Public form submission requiring no authentication. Protected by rate limiting and honeypot anti-spam.",
 )
-@limiter.limit("5/minute")
+@limiter.limit("5/hour")
 def submit_enquiry(
     request: Request,
     payload: EnquiryCreate,
     db: Session = Depends(get_db),
 ):
+    # Invisible honeypot check: if filled, quietly drop spam submission
+    if payload.hp_website and payload.hp_website.strip():
+        return EnquiryResponse(
+            id=uuid.uuid4(),
+            enquiry_number=f"ENQ-{datetime.now().year}-9999",
+            student_name=payload.student_name,
+            grade_applying_for=payload.grade_applying_for,
+            parent_name=payload.parent_name,
+            parent_phone=payload.parent_phone,
+            parent_email=payload.parent_email,
+            status="submitted",
+            created_at=datetime.now(timezone.utc),
+        )
     return StudentService.create_enquiry(db=db, data=payload)
 
 

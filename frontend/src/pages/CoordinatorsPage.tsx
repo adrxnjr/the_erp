@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import {
   Layers,
   Users,
@@ -42,6 +43,11 @@ interface Coordinator {
 
 export const CoordinatorsPage: React.FC = () => {
   const { user } = useAuth();
+  const toast = useToast();
+
+  useEffect(() => {
+    document.title = 'Academic Wing Coordinators — Ever Grow Schools ERP';
+  }, []);
   const [coordinators, setCoordinators] = useState<Coordinator[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -176,16 +182,20 @@ export const CoordinatorsPage: React.FC = () => {
     try {
       if (editingCoordinator) {
         await api.put(`/coordinators/${editingCoordinator.id}`, payload);
-        setFeedback('Coordinator profile updated successfully!');
+        const msg = 'Coordinator profile updated successfully!';
+        setFeedback(msg);
+        toast.success(msg);
       } else {
         await api.post('/coordinators', payload);
-        setFeedback('New coordinator profile created successfully!');
+        const msg = 'New coordinator profile created successfully!';
+        setFeedback(msg);
+        toast.success(msg);
       }
       setShowModal(false);
       fetchCoordinators();
       setTimeout(() => setFeedback(null), 3500);
     } catch (err: any) {
-      alert(err.response?.data?.detail || 'Error saving coordinator profile');
+      toast.error(err.response?.data?.detail || 'Error saving coordinator profile');
     } finally {
       setSaving(false);
     }

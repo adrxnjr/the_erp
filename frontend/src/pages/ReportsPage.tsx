@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/client';
-import { Download, CalendarCheck, CreditCard } from 'lucide-react';
+import { useToast } from '../context/ToastContext';
+import { Download, CalendarCheck, CreditCard, Loader2 } from 'lucide-react';
 
 export const ReportsPage: React.FC = () => {
+  const toast = useToast();
   const [classes, setClasses] = useState<any[]>([]);
   const [academicYears, setAcademicYears] = useState<any[]>([]);
   const [selectedClass, setSelectedClass] = useState('');
@@ -10,6 +12,7 @@ export const ReportsPage: React.FC = () => {
   const [downloading, setDownloading] = useState<string | null>(null);
 
   useEffect(() => {
+    document.title = 'Reports & Analytics Exports — Ever Grow Schools ERP';
     const fetchDropdowns = async () => {
       try {
         const [clsRes, yrRes] = await Promise.all([
@@ -30,7 +33,10 @@ export const ReportsPage: React.FC = () => {
   }, []);
 
   const handleExportAttendanceExcel = async () => {
-    if (!selectedClass) return;
+    if (!selectedClass) {
+      toast.error('Please select a class/grade before generating the attendance report.');
+      return;
+    }
     setDownloading('attendance');
     try {
       const response = await api.get(`/reports/attendance/excel?class_id=${selectedClass}`, {
@@ -43,15 +49,19 @@ export const ReportsPage: React.FC = () => {
       document.body.appendChild(link);
       link.click();
       link.remove();
+      toast.success('Attendance Excel report downloaded successfully.');
     } catch (e) {
-      alert('Failed to generate attendance Excel report');
+      toast.error('Failed to generate attendance Excel report. Please ensure matching records exist.');
     } finally {
       setDownloading(null);
     }
   };
 
   const handleExportFeesExcel = async () => {
-    if (!selectedYear) return;
+    if (!selectedYear) {
+      toast.error('Please select an academic session year before generating the fee ledger.');
+      return;
+    }
     setDownloading('fees');
     try {
       const response = await api.get(`/reports/fees/excel?academic_year_id=${selectedYear}`, {
@@ -64,8 +74,9 @@ export const ReportsPage: React.FC = () => {
       document.body.appendChild(link);
       link.click();
       link.remove();
+      toast.success('Fee register Excel workbook downloaded successfully.');
     } catch (e) {
-      alert('Failed to generate fee Excel report');
+      toast.error('Failed to generate fee Excel report. Please ensure records exist for this session.');
     } finally {
       setDownloading(null);
     }
@@ -117,9 +128,13 @@ export const ReportsPage: React.FC = () => {
           <button
             onClick={handleExportAttendanceExcel}
             disabled={downloading === 'attendance'}
-            className="ios-gloss-btn-emerald w-full py-2.5 text-xs font-semibold space-x-2"
+            className="ios-gloss-btn-emerald w-full py-2.5 text-xs font-semibold space-x-2 flex items-center justify-center disabled:opacity-60"
           >
-            <Download className="w-4 h-4 text-white" />
+            {downloading === 'attendance' ? (
+              <Loader2 className="w-4 h-4 text-white animate-spin" />
+            ) : (
+              <Download className="w-4 h-4 text-white" />
+            )}
             <span>
               {downloading === 'attendance' ? 'Generating Workbook...' : 'Download Attendance Excel'}
             </span>
@@ -162,9 +177,13 @@ export const ReportsPage: React.FC = () => {
           <button
             onClick={handleExportFeesExcel}
             disabled={downloading === 'fees'}
-            className="ios-gloss-btn w-full py-2.5 text-xs font-semibold space-x-2"
+            className="ios-gloss-btn w-full py-2.5 text-xs font-semibold space-x-2 flex items-center justify-center disabled:opacity-60"
           >
-            <Download className="w-4 h-4 text-white" />
+            {downloading === 'fees' ? (
+              <Loader2 className="w-4 h-4 text-white animate-spin" />
+            ) : (
+              <Download className="w-4 h-4 text-white" />
+            )}
             <span>
               {downloading === 'fees' ? 'Generating Workbook...' : 'Download Fee Ledger Excel'}
             </span>

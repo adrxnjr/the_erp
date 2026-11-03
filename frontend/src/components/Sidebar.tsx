@@ -23,6 +23,7 @@ import {
   Layers,
   Brain,
   Trophy,
+  X,
 } from 'lucide-react';
 import { AnimatedLogo } from './AnimatedLogo';
 import logoImg from '../assets/logo.png';
@@ -34,7 +35,12 @@ interface NavItem {
   badge?: number;
 }
 
-export const Sidebar: React.FC = () => {
+interface SidebarProps {
+  mobileOpen?: boolean;
+  onCloseMobile?: () => void;
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMobile }) => {
   const { user, logout } = useAuth();
   const [pendingSocialCount, setPendingSocialCount] = useState<number>(0);
   
@@ -173,10 +179,21 @@ export const Sidebar: React.FC = () => {
   }
 
   return (
-    <aside className="w-56 bg-[#E9EEF5] text-slate-700 flex flex-col shrink-0 h-screen sticky top-0 border-r border-white/80 shadow-[6px_0_18px_#C5D0E0] z-30 select-none">
-      {/* Brand Header */}
-      <div className="w-full px-1.5 py-2 border-b border-white/60 flex items-center justify-center overflow-hidden">
+    <aside
+      className={`fixed inset-y-0 left-0 z-50 md:sticky md:top-0 w-64 md:w-56 bg-[#E9EEF5] text-slate-700 flex flex-col shrink-0 h-screen border-r border-white/80 shadow-[6px_0_18px_#C5D0E0] select-none transition-transform duration-300 ease-in-out ${
+        mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+      }`}
+    >
+      {/* Brand Header with mobile close button */}
+      <div className="w-full px-2 py-2 border-b border-white/60 flex items-center justify-between overflow-hidden relative">
         <AnimatedLogo className="w-full" idPrefix="sidebar-logo" />
+        <button
+          onClick={onCloseMobile}
+          aria-label="Close navigation drawer"
+          className="md:hidden absolute right-3 p-1.5 rounded-xl bg-white/70 hover:bg-white text-slate-500 hover:text-slate-800 border border-slate-200/80 shadow-xs"
+        >
+          <X className="w-4 h-4" />
+        </button>
       </div>
 
       {/* Navigation Header */}
@@ -191,6 +208,7 @@ export const Sidebar: React.FC = () => {
               key={item.to}
               to={item.to}
               end={item.to === '/'}
+              onClick={onCloseMobile}
               className={({ isActive }) =>
                 `flex items-center justify-between px-3 py-2.5 rounded-2xl text-sm transition-all duration-200 ${
                   isActive

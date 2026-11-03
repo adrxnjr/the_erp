@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import {
   Bus,
   MapPin,
@@ -96,9 +97,17 @@ interface RouteItem {
 
 export const TransportPage: React.FC = () => {
   const { user } = useAuth();
-  const isStudent = user?.portal_type === 'student';
-  const isParent = user?.portal_type === 'parent';
+  const toast = useToast();
+  const isStudent = user?.portal_type === 'student' || user?.roles?.includes('student');
+  const isParent =
+    user?.portal_type === 'parent' ||
+    user?.roles?.includes('parent') ||
+    (user?.portal_type === 'parent_student' && !user?.roles?.includes('student'));
   const isStaff = !isStudent && !isParent;
+
+  useEffect(() => {
+    document.title = 'GPS Fleet Tracker & Student Bus Transit — Ever Grow Schools ERP';
+  }, []);
 
   // For students and parents, the tracker tab is their primary view
   const [activeTab, setActiveTab] = useState<'tracker' | 'live' | 'fleet' | 'routes' | 'driver'>(
@@ -373,33 +382,39 @@ export const TransportPage: React.FC = () => {
         speed: simSpeedInput,
         recorded_at: new Date().toISOString(),
       });
-      setSimStatusMsg(`Ping delivered: Lat ${newLat.toFixed(4)}, Lng ${newLng.toFixed(4)} at ${simSpeedInput} km/h`);
+      const msg = `Ping delivered: Lat ${newLat.toFixed(4)}, Lng ${newLng.toFixed(4)} at ${simSpeedInput} km/h`;
+      setSimStatusMsg(msg);
+      toast.success(msg);
       fetchLiveFleet();
       if (activeTab === 'tracker') {
         fetchBusTracking(selectedStudentId || undefined);
       }
     } catch (err: any) {
-      alert(err.response?.data?.detail || 'Ping failed.');
+      toast.error(err.response?.data?.detail || 'Ping failed.');
     }
   };
 
   const handleStartTrip = async (routeId: string) => {
     try {
       const res = await api.post(`/transport/trips/${routeId}/start`);
-      setSimStatusMsg(`Trip started! Trip ID: ${res.data.trip_id}`);
+      const msg = `Trip started! Trip ID: ${res.data.trip_id}`;
+      setSimStatusMsg(msg);
+      toast.success(msg);
       fetchLiveFleet();
     } catch (err: any) {
-      alert(err.response?.data?.detail || 'Could not start trip.');
+      toast.error(err.response?.data?.detail || 'Could not start trip.');
     }
   };
 
   const handleEndTrip = async (tripId: string) => {
     try {
       await api.post(`/transport/trips/${tripId}/end`);
-      setSimStatusMsg('Trip marked as completed.');
+      const msg = 'Trip marked as completed.';
+      setSimStatusMsg(msg);
+      toast.success(msg);
       fetchLiveFleet();
     } catch (err: any) {
-      alert(err.response?.data?.detail || 'Could not end trip.');
+      toast.error(err.response?.data?.detail || 'Could not end trip.');
     }
   };
 
@@ -414,9 +429,10 @@ export const TransportPage: React.FC = () => {
         model: 'Tata Starbus Ultra',
         device_id: 'GPS-98214',
       });
+      toast.success('Vehicle registered successfully.');
       fetchMasterData();
     } catch (err: any) {
-      alert(err.response?.data?.detail || 'Failed to save vehicle');
+      toast.error(err.response?.data?.detail || 'Failed to save vehicle');
     }
   };
 
@@ -685,7 +701,7 @@ export const TransportPage: React.FC = () => {
                       {/* Step 1: Depot */}
                       <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 flex items-center space-x-3">
                         <div className="w-8 h-8 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
-                          ✓
+                          <CheckCircle2 className="w-4 h-4 text-white" />
                         </div>
                         <div>
                           <div className="text-[11px] font-bold text-slate-900">1. Depot Departed</div>
@@ -708,7 +724,7 @@ export const TransportPage: React.FC = () => {
                               : 'bg-emerald-500 text-white'
                           }`}
                         >
-                          {busProgress < 50 ? '2' : '✓'}
+                          {busProgress < 50 ? '2' : <CheckCircle2 className="w-4 h-4 text-white" />}
                         </div>
                         <div>
                           <div className="text-[11px] font-bold text-slate-900">2. Cruising En-Route</div>
@@ -733,7 +749,7 @@ export const TransportPage: React.FC = () => {
                               : 'bg-slate-200 text-slate-600'
                           }`}
                         >
-                          📍
+                          <MapPin className="w-4 h-4" />
                         </div>
                         <div>
                           <div className="text-[11px] font-bold text-slate-900">
@@ -927,7 +943,7 @@ export const TransportPage: React.FC = () => {
                       </div>
                       <div className="mt-1.5 flex flex-col items-center bg-white/95 backdrop-blur-md px-3 py-1 rounded-xl border border-blue-200 shadow-md">
                         <span className="text-[11px] font-extrabold text-blue-700 flex items-center space-x-1">
-                          <span>{isStudent ? '📍 My Assigned Stop' : "📍 Child's Stop"}</span>
+                          <span>{isStudent ? 'My Assigned Stop' : "Child's Stop"}</span>
                         </span>
                         <span className="text-[10px] font-semibold text-slate-800">
                           {busData.student_stop_name}
@@ -1041,7 +1057,7 @@ export const TransportPage: React.FC = () => {
                             className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-white text-[10px]"
                             title="Verified Commercial Driver"
                           >
-                            ✓
+                            <CheckCircle2 className="w-3 h-3 text-white" />
                           </span>
                         </div>
 

@@ -1,3 +1,4 @@
+import uuid
 from typing import Any, Dict, Optional
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
@@ -133,10 +134,11 @@ def register_exception_handlers(app: FastAPI) -> None:
         )
         # Never leak traceback or DB connection details to users in responses
         message = "An unexpected internal server error occurred."
+        tracking_id = f"req-{uuid.uuid4().hex[:10]}"
         if settings.DEBUG and settings.APP_ENV != "production":
-            details = {"exception_type": type(exc).__name__, "hint": str(exc)}
+            details = {"exception_type": type(exc).__name__, "hint": str(exc), "tracking_id": tracking_id}
         else:
-            details = {}
+            details = {"tracking_id": tracking_id}
 
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

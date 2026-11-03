@@ -55,8 +55,11 @@ interface ChildItem {
 
 export const TimetablePage: React.FC = () => {
   const { user } = useAuth();
-  const isStudent = user?.portal_type === 'student';
-  const isParent = user?.portal_type === 'parent';
+  const isStudent = user?.portal_type === 'student' || user?.roles?.includes('student');
+  const isParent =
+    user?.portal_type === 'parent' ||
+    user?.roles?.includes('parent') ||
+    (user?.portal_type === 'parent_student' && !user?.roles?.includes('student'));
   const isStaff = !isStudent && !isParent;
 
   const [periods, setPeriods] = useState<PeriodItem[]>([]);
@@ -74,6 +77,7 @@ export const TimetablePage: React.FC = () => {
 
   // 1. Initial Data Fetching
   useEffect(() => {
+    document.title = 'Class Schedule & Timetable — Ever Grow Schools ERP';
     const initData = async () => {
       setLoading(true);
       try {
@@ -315,6 +319,28 @@ export const TimetablePage: React.FC = () => {
       }
     );
   };
+
+  if (loading) {
+    return (
+      <div className="space-y-6 pb-12 animate-fadeIn">
+        <div className="flex items-center space-x-3">
+          <div className="w-11 h-11 rounded-2xl bg-slate-200 animate-pulse" />
+          <div className="space-y-2">
+            <div className="h-6 w-64 bg-slate-200 rounded animate-pulse" />
+            <div className="h-4 w-96 bg-slate-100 rounded animate-pulse" />
+          </div>
+        </div>
+        <div className="bg-white/80 rounded-3xl p-8 border border-black/[0.06] shadow-sm space-y-4">
+          <div className="h-8 w-48 bg-slate-200 rounded-xl animate-pulse" />
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="h-32 bg-slate-100 rounded-2xl animate-pulse" />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 pb-12 animate-fadeIn">
@@ -565,7 +591,7 @@ export const TimetablePage: React.FC = () => {
           </div>
           <div>
             <div className="text-[10px] font-bold uppercase text-slate-400">Scheduling Verification</div>
-            <div className="text-base font-extrabold text-emerald-700 mt-0.5">100% Conflict-Free ✓</div>
+            <div className="text-base font-extrabold text-emerald-700 mt-0.5">100% Conflict-Free</div>
           </div>
         </div>
 

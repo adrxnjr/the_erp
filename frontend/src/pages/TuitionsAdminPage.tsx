@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/client';
+import { useToast } from '../context/ToastContext';
 import {
   GraduationCap,
   Building2,
@@ -25,6 +26,7 @@ import {
 } from 'lucide-react';
 
 export const TuitionsAdminPage: React.FC = () => {
+  const toast = useToast();
   const [activeTab, setActiveTab] = useState<'centers' | 'add' | 'enquiries'>('centers');
   const [centers, setCenters] = useState<any[]>([]);
   const [enquiries, setEnquiries] = useState<any[]>([]);
@@ -111,16 +113,17 @@ export const TuitionsAdminPage: React.FC = () => {
   };
 
   useEffect(() => {
+    document.title = 'Tuition Centers Administration — Ever Grow Schools ERP';
     fetchData();
   }, []);
 
   const handleApproveCenter = async (id: string, name: string) => {
     try {
       await api.post(`/tuitions/${id}/approve`);
-      alert(`Tuition center "${name}" has been verified and approved.`);
+      toast.success(`Tuition center "${name}" has been verified and approved.`);
       fetchData();
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to approve tuition center.');
+      toast.error(err.response?.data?.message || 'Failed to approve tuition center.');
     }
   };
 
@@ -130,9 +133,10 @@ export const TuitionsAdminPage: React.FC = () => {
         status: newStatus,
         notes: `Status updated to ${newStatus} by administration desk.`,
       });
+      toast.success(`Enquiry marked as ${newStatus}.`);
       fetchData();
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to update enquiry status.');
+      toast.error(err.response?.data?.message || 'Failed to update enquiry status.');
     }
   };
 
@@ -183,7 +187,7 @@ export const TuitionsAdminPage: React.FC = () => {
         }
       }
 
-      alert('Tuition Center successfully registered with faculty and batch schedules!');
+      toast.success('Tuition Center successfully registered with faculty and batch schedules!');
       // Reset form
       setNewCenter({
         name: '',
@@ -201,7 +205,7 @@ export const TuitionsAdminPage: React.FC = () => {
       fetchData();
     } catch (err: any) {
       console.error('Failed to register tuition center:', err);
-      alert(err.response?.data?.message || 'Error registering tuition center.');
+      toast.error(err.response?.data?.message || 'Error registering tuition center.');
     } finally {
       setSubmitting(false);
     }
@@ -228,9 +232,9 @@ export const TuitionsAdminPage: React.FC = () => {
         rating: 4.8,
       });
       fetchData();
-      alert('Teacher added successfully!');
+      toast.success('Teacher added successfully!');
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to add teacher.');
+      toast.error(err.response?.data?.message || 'Failed to add teacher.');
     }
   };
 
@@ -261,9 +265,9 @@ export const TuitionsAdminPage: React.FC = () => {
         current_enrolled: 0,
       });
       fetchData();
-      alert('Batch schedule added successfully!');
+      toast.success('Batch schedule added successfully!');
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to add batch.');
+      toast.error(err.response?.data?.message || 'Failed to add batch.');
     }
   };
 

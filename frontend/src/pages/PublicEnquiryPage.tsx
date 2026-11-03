@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import {
   Users,
   Search,
@@ -57,6 +58,8 @@ export const PublicEnquiryPage: React.FC<PublicEnquiryPageProps> = ({ isPublic =
           user.username === 'adrin')
     );
 
+  const toast = useToast();
+
   // Form Submission State (for public portal)
   const [formData, setFormData] = useState({
     student_name: '',
@@ -66,7 +69,9 @@ export const PublicEnquiryPage: React.FC<PublicEnquiryPageProps> = ({ isPublic =
     grade_applying_for: 'Grade 1',
     address: '',
     notes: '',
+    hp_website: '',
   });
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [submittedNumber, setSubmittedNumber] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -78,6 +83,10 @@ export const PublicEnquiryPage: React.FC<PublicEnquiryPageProps> = ({ isPublic =
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [selectedEnquiry, setSelectedEnquiry] = useState<EnquiryItem | null>(null);
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    document.title = 'Online Student Admission Enquiry — Ever Grow Schools';
+  }, []);
 
   const fetchEnquiries = async () => {
     setLoadingEnquiries(true);
@@ -100,19 +109,46 @@ export const PublicEnquiryPage: React.FC<PublicEnquiryPageProps> = ({ isPublic =
   const handleCopyToken = (token: string) => {
     navigator.clipboard.writeText(token);
     setCopiedToken(token);
+    toast.success('Enquiry reference number copied to clipboard.');
     setTimeout(() => setCopiedToken(null), 2000);
   };
 
   const handlePublicSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const errors: Record<string, string> = {};
+
+    if (!formData.student_name.trim() || formData.student_name.trim().length < 2) {
+      errors.student_name = 'Student full name is required (min 2 characters).';
+    }
+    if (!formData.parent_name.trim() || formData.parent_name.trim().length < 2) {
+      errors.parent_name = 'Parent/guardian name is required.';
+    }
+    const cleanPhone = formData.parent_phone.replace(/\D/g, '');
+    if (cleanPhone.length !== 10) {
+      errors.parent_phone = 'Phone number must be a valid 10-digit number (e.g. 9822000001).';
+    }
+    if (formData.parent_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.parent_email.trim())) {
+      errors.parent_email = 'Please provide a valid email address (e.g. parent@example.com).';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      toast.error('Please fix the highlighted errors before submitting.');
+      return;
+    }
+
+    setFormErrors({});
     setLoading(true);
     setError(null);
 
     try {
       const res = await api.post('/students/enquiries', formData);
       setSubmittedNumber(res.data.enquiry_number);
+      toast.success('Enquiry submitted successfully!');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to submit enquiry. Please try again.');
+      const errMsg = err.response?.data?.message || err.response?.data?.detail || 'Failed to submit enquiry. Please try again.';
+      setError(errMsg);
+      toast.error(errMsg);
     } finally {
       setLoading(false);
     }
@@ -530,6 +566,7 @@ export const PublicEnquiryPage: React.FC<PublicEnquiryPageProps> = ({ isPublic =
                   grade_applying_for: 'Grade 1',
                   address: '',
                   notes: '',
+                  hp_website: '',
                 });
               }}
               className="ios-gloss-btn-secondary px-6 py-2.5 text-xs font-semibold"
@@ -547,26 +584,49 @@ export const PublicEnquiryPage: React.FC<PublicEnquiryPageProps> = ({ isPublic =
             </div>
           )}
 
+          {/* Invisible Anti-Spam Honeypot Field */}
+          <input
+            type="text"
+            name="hp_website"
+            id="hp_website"
+            tabIndex={-1}
+            autoComplete="off"
+            value={formData.hp_website}
+            onChange={(e) => setFormData({ ...formData, hp_website: e.target.value })}
+            className="hidden"
+            aria-hidden="true"
+          />
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+              <label htmlFor="enquiry-student-name" className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
                 Candidate / Student Name *
               </label>
               <input
+                id="enquiry-student-name"
                 type="text"
                 required
                 value={formData.student_name}
-                onChange={(e) => setFormData({ ...formData, student_name: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, student_name: e.target.value });
+                  if (formErrors.student_name) setFormErrors({ ...formErrors, student_name: '' });
+                }}
                 placeholder="Full name of applicant"
-                className="w-full px-4 py-2.5 bg-slate-50/80 border border-black/[0.08] rounded-[14px] text-sm focus:ring-2 focus:ring-[#0071E3] focus:bg-white focus:outline-hidden transition-all"
+                className={`w-full px-4 py-2.5 bg-slate-50/80 border rounded-[14px] text-sm focus:ring-2 focus:bg-white focus:outline-hidden transition-all ${
+                  formErrors.student_name ? 'border-rose-400 focus:ring-rose-400 bg-rose-50/30' : 'border-black/[0.08] focus:ring-[#0071E3]'
+                }`}
               />
+              {formErrors.student_name && (
+                <p className="text-[11px] font-semibold text-rose-500 mt-1">{formErrors.student_name}</p>
+              )}
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+              <label htmlFor="enquiry-grade" className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
                 Grade / Class Applying For *
               </label>
               <select
+                id="enquiry-grade"
                 value={formData.grade_applying_for}
                 onChange={(e) => setFormData({ ...formData, grade_applying_for: e.target.value })}
                 className="w-full px-4 py-2.5 bg-slate-50/80 border border-black/[0.08] rounded-[14px] text-sm focus:ring-2 focus:ring-[#0071E3] focus:bg-white focus:outline-hidden transition-all"
@@ -582,31 +642,49 @@ export const PublicEnquiryPage: React.FC<PublicEnquiryPageProps> = ({ isPublic =
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+              <label htmlFor="enquiry-parent-name" className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
                 Parent / Guardian Name *
               </label>
               <input
+                id="enquiry-parent-name"
                 type="text"
                 required
                 value={formData.parent_name}
-                onChange={(e) => setFormData({ ...formData, parent_name: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, parent_name: e.target.value });
+                  if (formErrors.parent_name) setFormErrors({ ...formErrors, parent_name: '' });
+                }}
                 placeholder="Father/Mother/Guardian"
-                className="w-full px-4 py-2.5 bg-slate-50/80 border border-black/[0.08] rounded-[14px] text-sm focus:ring-2 focus:ring-[#0071E3] focus:bg-white focus:outline-hidden transition-all"
+                className={`w-full px-4 py-2.5 bg-slate-50/80 border rounded-[14px] text-sm focus:ring-2 focus:bg-white focus:outline-hidden transition-all ${
+                  formErrors.parent_name ? 'border-rose-400 focus:ring-rose-400 bg-rose-50/30' : 'border-black/[0.08] focus:ring-[#0071E3]'
+                }`}
               />
+              {formErrors.parent_name && (
+                <p className="text-[11px] font-semibold text-rose-500 mt-1">{formErrors.parent_name}</p>
+              )}
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+              <label htmlFor="enquiry-parent-phone" className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
                 Contact Phone Number *
               </label>
               <input
+                id="enquiry-parent-phone"
                 type="tel"
                 required
                 value={formData.parent_phone}
-                onChange={(e) => setFormData({ ...formData, parent_phone: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, parent_phone: e.target.value });
+                  if (formErrors.parent_phone) setFormErrors({ ...formErrors, parent_phone: '' });
+                }}
                 placeholder="10-digit mobile number"
-                className="w-full px-4 py-2.5 bg-slate-50/80 border border-black/[0.08] rounded-[14px] text-sm focus:ring-2 focus:ring-[#0071E3] focus:bg-white focus:outline-hidden transition-all"
+                className={`w-full px-4 py-2.5 bg-slate-50/80 border rounded-[14px] text-sm focus:ring-2 focus:bg-white focus:outline-hidden transition-all ${
+                  formErrors.parent_phone ? 'border-rose-400 focus:ring-rose-400 bg-rose-50/30' : 'border-black/[0.08] focus:ring-[#0071E3]'
+                }`}
               />
+              {formErrors.parent_phone && (
+                <p className="text-[11px] font-semibold text-rose-500 mt-1">{formErrors.parent_phone}</p>
+              )}
             </div>
           </div>
 

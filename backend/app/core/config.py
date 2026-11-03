@@ -23,6 +23,25 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
+    @field_validator("SECRET_KEY", mode="after")
+    @classmethod
+    def validate_secret_key(cls, v: str, info) -> str:
+        app_env = info.data.get("APP_ENV", "development")
+        if app_env and app_env.lower() == "production":
+            if (
+                not v
+                or len(v) < 32
+                or "insecure" in v.lower()
+                or "change-in-production" in v.lower()
+                or v == "school-erp-insecure-development-secret-key-change-in-production-min-32-chars"
+            ):
+                raise ValueError(
+                    "CRITICAL SECURITY ABORT: In production environment (APP_ENV=production), "
+                    "SECRET_KEY must be a cryptographically secure random string with at least 32 characters, "
+                    "and cannot use default development keys."
+                )
+        return v
+
     # Database
     POSTGRES_SERVER: str = "localhost"
     POSTGRES_PORT: int = 5432
@@ -80,6 +99,9 @@ class Settings(BaseSettings):
     UPLOAD_DIR: str = "./uploads"
     REPORT_DIR: str = "./reports"
     MAX_UPLOAD_SIZE_MB: int = 10
+
+    # Redis & Caching / Rate Limiting (optional in dev, recommended for multi-worker production)
+    REDIS_URL: str | None = None
 
     # Logging
     LOG_LEVEL: str = "INFO"

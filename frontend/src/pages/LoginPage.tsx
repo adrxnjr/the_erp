@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api, { resolveApiBaseUrl } from '../api/client';
@@ -33,6 +33,10 @@ export const LoginPage: React.FC = () => {
 
   // Server Endpoint Configuration State (for multi-computer / cloud deployment)
   const [showServerModal, setShowServerModal] = useState(false);
+
+  useEffect(() => {
+    document.title = 'Secure Portal Sign In — Ever Grow Schools ERP';
+  }, []);
   const [serverUrlInput, setServerUrlInput] = useState(() => localStorage.getItem('EVERGROW_API_URL') || '');
   const [serverSaved, setServerSaved] = useState(false);
 

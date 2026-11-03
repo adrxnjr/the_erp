@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { CustomDropdown } from '../components/CustomDropdown';
 import type { DropdownOption } from '../components/CustomDropdown';
 import {
@@ -29,12 +30,17 @@ import {
 
 export const ExaminationsPage: React.FC = () => {
   const { user } = useAuth();
-  const isStudent = user?.portal_type === 'student';
-  const isParent = user?.portal_type === 'parent';
+  const toast = useToast();
+  const isStudent = user?.portal_type === 'student' || user?.roles?.includes('student');
+  const isParent =
+    user?.portal_type === 'parent' ||
+    user?.roles?.includes('parent') ||
+    (user?.portal_type === 'parent_student' && !user?.roles?.includes('student'));
   const isStaff = !isStudent && !isParent;
 
   const [exams, setExams] = useState<any[]>([]);
   const [selectedExam, setSelectedExam] = useState<any | null>(null);
+  const [loadingExams, setLoadingExams] = useState<boolean>(true);
   const [reportCardData, setReportCardData] = useState<any | null>(null);
   const [loadingReportCard, setLoadingReportCard] = useState<boolean>(false);
   const [downloadingPdf, setDownloadingPdf] = useState<boolean>(false);
@@ -60,13 +66,21 @@ export const ExaminationsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
+    document.title = 'Examinations & Student Report Cards — Ever Grow Schools ERP';
     const fetchInitialData = async () => {
+      setLoadingExams(true);
       try {
         const exRes = await api.get('/exams');
         const examList = Array.isArray(exRes.data) ? exRes.data : [];
         setExams(examList);
 
-        if (examList.length > 0) {
+        const selectable = isStudent
+          ? examList.filter((e: any) => e.is_published || e.status === 'published')
+          : examList;
+
+        if (selectable.length > 0) {
+          setSelectedExam(selectable[0]);
+        } else if (examList.length > 0 && !isStudent) {
           setSelectedExam(examList[0]);
         }
 
@@ -102,11 +116,13 @@ export const ExaminationsPage: React.FC = () => {
         }
       } catch (e) {
         console.error('Error fetching exams:', e);
+      } finally {
+        setLoadingExams(false);
       }
     };
 
     fetchInitialData();
-  }, [user, isStaff, isParent]);
+  }, [user, isStaff, isParent, isStudent]);
 
   // Fetch student's report card when selectedExam or selectedChildId changes (for Student / Parent)
   useEffect(() => {
@@ -200,12 +216,12 @@ export const ExaminationsPage: React.FC = () => {
         })),
       };
       const res = await api.post(`/exams/${selectedExam.id}/teacher-grading-sheet`, payload);
-      setSaveSuccessMessage(
-        res.data.message || `Successfully updated ${gradingSheet.subject_name} marks for all students!`
-      );
+      const msg = res.data.message || `Successfully updated ${gradingSheet.subject_name} marks for all students!`;
+      setSaveSuccessMessage(msg);
+      toast.success(msg);
       setTimeout(() => setSaveSuccessMessage(null), 4000);
     } catch (err: any) {
-      alert(err.response?.data?.detail || 'Failed to update subject marks.');
+      toast.error(err.response?.data?.detail || 'Failed to update subject marks.');
     } finally {
       setSavingMarks(false);
     }
@@ -219,7 +235,7 @@ export const ExaminationsPage: React.FC = () => {
       setReportCardData(res.data);
       setShowPreviewModal(true);
     } catch (e) {
-      alert('Failed to load official student report card');
+      toast.error('Failed to load official student report card');
     }
   };
 
@@ -239,10 +255,11 @@ export const ExaminationsPage: React.FC = () => {
         parent_approved_by_name: res.data.parent_approved_by_name,
         parent_feedback: res.data.parent_feedback,
       }));
-      setApprovalSuccessMsg('✅ Report card formally acknowledged & approved! Your confirmation has been recorded and synced with teachers.');
+      setApprovalSuccessMsg('Report card formally acknowledged & approved! Your confirmation has been recorded and synced with teachers.');
+      toast.success('Report card formally acknowledged & approved!');
       setTimeout(() => setApprovalSuccessMsg(null), 6000);
     } catch (err: any) {
-      alert(err?.response?.data?.detail || 'Failed to approve report card.');
+      toast.error(err?.response?.data?.detail || 'Failed to approve report card.');
     } finally {
       setApprovingReportCard(false);
     }
@@ -267,8 +284,9 @@ export const ExaminationsPage: React.FC = () => {
       document.body.appendChild(link);
       link.click();
       link.remove();
+      toast.success('Official PDF Report Card downloaded successfully.');
     } catch (err: any) {
-      alert('Report card cannot be downloaded. Ensure examination marks are finalized.');
+      toast.error('Report card cannot be downloaded. Ensure examination marks are finalized.');
     } finally {
       setDownloadingPdf(false);
     }
@@ -278,11 +296,11 @@ export const ExaminationsPage: React.FC = () => {
     if (!selectedExam) return;
     try {
       await api.post(`/exams/${selectedExam.id}/publish-results`);
-      alert('Examination results compiled, ranked, and published successfully!');
+      toast.success('Examination results compiled, ranked, and published successfully!');
       const res = await api.get('/exams');
       setExams(res.data);
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Error publishing results');
+      toast.error(err.response?.data?.message || err.response?.data?.detail || 'Error publishing results');
     }
   };
 
@@ -344,44 +362,53 @@ export const ExaminationsPage: React.FC = () => {
 
       {/* Exam Sessions Filter Cards */}
       <div>
-        <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">
-          Select Examination Session ({exams.length} Available)
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {exams.map((exam) => {
-            const isSelected = selectedExam?.id === exam.id;
-            return (
-              <div
-                key={exam.id}
-                onClick={() => setSelectedExam(exam)}
-                className={`cursor-pointer p-5 rounded-[22px] transition-all duration-200 border ${
-                  isSelected
-                    ? 'bg-white border-[#0071E3] shadow-md shadow-blue-500/10 ring-2 ring-blue-500/20'
-                    : 'bg-white/80 border-black/[0.06] hover:bg-white hover:border-slate-300 shadow-sm'
-                }`}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-bold text-sm text-[#1D1D1F]">{exam.name}</span>
-                  <span
-                    className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full capitalize ${
-                      exam.is_published
-                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                        : 'bg-amber-50 text-amber-700 border border-amber-200'
-                    }`}
-                  >
-                    {exam.is_published ? 'Published' : 'Draft'}
-                  </span>
-                </div>
-                <div className="flex items-center space-x-1.5 text-xs text-slate-500 font-medium">
-                  <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                  <span>
-                    Session: {exam.start_date} to {exam.end_date}
-                  </span>
-                </div>
+        {(() => {
+          const visibleExams = isStudent
+            ? exams.filter((e) => e.is_published || e.status === 'published')
+            : exams;
+          return (
+            <>
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">
+                Select Examination Session ({visibleExams.length} Available)
               </div>
-            );
-          })}
-        </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {visibleExams.map((exam) => {
+                  const isSelected = selectedExam?.id === exam.id;
+                  return (
+                    <div
+                      key={exam.id}
+                      onClick={() => setSelectedExam(exam)}
+                      className={`cursor-pointer p-5 rounded-[22px] transition-all duration-200 border ${
+                        isSelected
+                          ? 'bg-white border-[#0071E3] shadow-md shadow-blue-500/10 ring-2 ring-blue-500/20'
+                          : 'bg-white/80 border-black/[0.06] hover:bg-white hover:border-slate-300 shadow-sm'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-bold text-sm text-[#1D1D1F]">{exam.name}</span>
+                        <span
+                          className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full capitalize ${
+                            exam.is_published
+                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                              : 'bg-amber-50 text-amber-700 border border-amber-200'
+                          }`}
+                        >
+                          {exam.is_published ? 'Published' : 'Draft'}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-1.5 text-xs text-slate-500 font-medium">
+                        <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                        <span>
+                          Session: {exam.start_date} to {exam.end_date}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          );
+        })()}
       </div>
 
       {/* ---------------- STUDENT / PARENT VIEW: COMPREHENSIVE DIGITAL REPORT CARD ---------------- */}
@@ -564,7 +591,7 @@ export const ExaminationsPage: React.FC = () => {
                             </td>
                             <td className="py-3.5 px-5">
                               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                ✓ Passed
+                                Passed
                               </span>
                             </td>
                             <td className="py-3.5 px-5 text-slate-600 max-w-xs truncate">{sub.remarks}</td>
@@ -840,7 +867,7 @@ export const ExaminationsPage: React.FC = () => {
                             </span>
                             {gradingSheet.can_edit && (
                               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                ✓ Authorized Subject Faculty
+                                Authorized Subject Faculty
                               </span>
                             )}
                           </div>
@@ -956,7 +983,7 @@ export const ExaminationsPage: React.FC = () => {
                                       : 'bg-rose-50 text-rose-700 border border-rose-200'
                                   }`}
                                 >
-                                  {s.status === 'Pass' ? '✓ Passed' : '⚠ Failed'}
+                                  {s.status === 'Pass' ? 'Passed' : 'Failed'}
                                 </span>
                               </td>
                               <td className="py-3 px-4">

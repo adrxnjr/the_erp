@@ -31,7 +31,7 @@ def create_exam_type(
     payload: ExamTypeCreate,
     request: Request,
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_roles("super_admin", "school_admin", "principal")),
+    current_user: User = Depends(require_roles("super_admin", "school_admin", "principal", "teacher")),
 ):
     return ExaminationService.create_exam_type(db, payload, current_user, request)
 
@@ -49,7 +49,7 @@ def create_exam(
     payload: ExamCreate,
     request: Request,
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_roles("super_admin", "school_admin", "principal")),
+    current_user: User = Depends(require_roles("super_admin", "school_admin", "principal", "teacher")),
 ):
     return ExaminationService.create_exam(db, payload, current_user, request)
 
@@ -68,7 +68,7 @@ def add_exam_subject(
     exam_id: uuid.UUID,
     payload: ExamSubjectCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_roles("super_admin", "school_admin", "principal")),
+    current_user: User = Depends(require_roles("super_admin", "school_admin", "principal", "teacher")),
 ):
     return ExaminationService.add_exam_subject(db, exam_id, payload, current_user)
 
@@ -77,7 +77,7 @@ def add_exam_subject(
 def create_grade_scale(
     payload: GradeScaleCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_roles("super_admin", "school_admin", "principal")),
+    current_user: User = Depends(require_roles("super_admin", "school_admin", "principal", "teacher")),
 ):
     return ExaminationService.create_grade_scale(db, payload, current_user)
 
@@ -105,7 +105,7 @@ def publish_results(
     exam_id: uuid.UUID,
     request: Request,
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_roles("super_admin", "school_admin", "principal")),
+    current_user: User = Depends(require_roles("super_admin", "school_admin", "principal", "teacher")),
 ):
     return ExaminationService.calculate_and_publish_results(db, exam_id, current_user, request)
 

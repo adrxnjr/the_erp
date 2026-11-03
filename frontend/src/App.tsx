@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ToastProvider } from './context/ToastContext';
 import { Layout } from './components/Layout';
 import { LoginPage } from './pages/LoginPage';
 import { PublicEnquiryPage } from './pages/PublicEnquiryPage';
@@ -22,8 +23,11 @@ import { SocialWallPage } from './pages/SocialWallPage';
 import { CoordinatorsPage } from './pages/CoordinatorsPage';
 import { StudentRewardsPage } from './pages/StudentRewardsPage';
 import { AdminRewardsPage } from './pages/AdminRewardsPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 import { WelcomeScreen } from './components/WelcomeScreen';
+import { RoleGuard } from './components/RoleGuard';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 // In Electron / file protocol, HashRouter avoids file:// 404 routing issues; BrowserRouter is used on web
 const isElectron =
@@ -63,51 +67,114 @@ export function App() {
 
   return (
     <AuthProvider>
-      {showWelcome && (
-        <WelcomeScreen
-          schoolName="Ever Grow Schools"
-          onComplete={() => setShowWelcome(false)}
-        />
-      )}
-      <RouterComponent>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/admission-enquiry" element={<PublicEnquiryPage isPublic={true} />} />
+      <ToastProvider>
+        {showWelcome && (
+          <WelcomeScreen
+            schoolName="Ever Grow Schools"
+            onComplete={() => setShowWelcome(false)}
+          />
+        )}
+        <ErrorBoundary>
+        <RouterComponent>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/admission-enquiry" element={<PublicEnquiryPage isPublic={true} />} />
 
-          {/* Authenticated Dashboard Shell */}
-          <Route
-            element={
-              <ProtectedRoute>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
-            <Route path="/" element={<DashboardPage />} />
-            <Route path="/social-wall" element={<SocialWallPage />} />
-            <Route path="/students" element={<StudentsPage />} />
-            <Route path="/academic" element={<AcademicPage />} />
-            <Route path="/attendance" element={<AttendancePage />} />
-            <Route path="/timetable" element={<TimetablePage />} />
-            <Route path="/examinations" element={<ExaminationsPage />} />
-            <Route path="/fees" element={<FeesPage />} />
-            <Route path="/transport" element={<TransportPage />} />
-            <Route path="/career" element={<CareerPage />} />
-            <Route path="/staff-attendance" element={<StaffAttendancePage />} />
-            <Route path="/treasury" element={<TreasuryPage />} />
-            <Route path="/tuitions" element={<TuitionsAdminPage />} />
-            <Route path="/tuition-recommendations" element={<TuitionRecommendationsPage />} />
-            <Route path="/coordinators" element={<CoordinatorsPage />} />
-            <Route path="/rewards" element={<StudentRewardsPage />} />
-            <Route path="/student/rewards" element={<StudentRewardsPage />} />
-            <Route path="/admin/rewards" element={<AdminRewardsPage />} />
-            <Route path="/reports" element={<ReportsPage />} />
-            <Route path="/enquiry" element={<PublicEnquiryPage />} />
-          </Route>
+            {/* Authenticated Dashboard Shell */}
+            <Route
+              element={
+                <ProtectedRoute>
+                  <Layout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="/" element={<DashboardPage />} />
+              <Route path="/social-wall" element={<SocialWallPage />} />
+              
+              {/* Staff-Only Protected Routes */}
+              <Route
+                path="/students"
+                element={
+                  <RoleGuard allowedPortals={['staff']} restrictedMessage="Access Restricted: Student Records & Admission portal is reserved for school staff.">
+                    <StudentsPage />
+                  </RoleGuard>
+                }
+              />
+              <Route
+                path="/academic"
+                element={
+                  <RoleGuard allowedPortals={['staff']} restrictedMessage="Access Restricted: Academic structure management is reserved for faculty and coordinators.">
+                    <AcademicPage />
+                  </RoleGuard>
+                }
+              />
+              <Route path="/attendance" element={<AttendancePage />} />
+              <Route path="/timetable" element={<TimetablePage />} />
+              <Route path="/examinations" element={<ExaminationsPage />} />
+              <Route path="/fees" element={<FeesPage />} />
+              <Route path="/transport" element={<TransportPage />} />
+              <Route path="/career" element={<CareerPage />} />
+              <Route
+                path="/staff-attendance"
+                element={
+                  <RoleGuard allowedPortals={['staff']} restrictedMessage="Access Restricted: Faculty attendance register is reserved for school administration.">
+                    <StaffAttendancePage />
+                  </RoleGuard>
+                }
+              />
+              <Route
+                path="/treasury"
+                element={
+                  <RoleGuard allowedPortals={['staff']} allowedRoles={['super_admin', 'school_admin', 'principal', 'accountant']} restrictedMessage="Access Restricted: School Treasury is restricted to authorized financial officers.">
+                    <TreasuryPage />
+                  </RoleGuard>
+                }
+              />
+              <Route
+                path="/tuitions"
+                element={
+                  <RoleGuard allowedPortals={['staff']} restrictedMessage="Access Restricted: After-school coaching directory management is reserved for staff.">
+                    <TuitionsAdminPage />
+                  </RoleGuard>
+                }
+              />
+              <Route path="/tuition-recommendations" element={<TuitionRecommendationsPage />} />
+              <Route
+                path="/coordinators"
+                element={
+                  <RoleGuard allowedPortals={['staff']} restrictedMessage="Access Restricted: Academic Coordinators registry is restricted to faculty leads.">
+                    <CoordinatorsPage />
+                  </RoleGuard>
+                }
+              />
+              <Route path="/rewards" element={<StudentRewardsPage />} />
+              <Route path="/student/rewards" element={<StudentRewardsPage />} />
+              <Route
+                path="/admin/rewards"
+                element={
+                  <RoleGuard allowedPortals={['staff']} restrictedMessage="Access Restricted: Rewards & honors store management is reserved for school staff.">
+                    <AdminRewardsPage />
+                  </RoleGuard>
+                }
+              />
+              <Route
+                path="/reports"
+                element={
+                  <RoleGuard allowedPortals={['staff']} restrictedMessage="Access Restricted: Official institutional report cards and export generation is reserved for staff.">
+                    <ReportsPage />
+                  </RoleGuard>
+                }
+              />
+              <Route path="/enquiry" element={<PublicEnquiryPage />} />
+            </Route>
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </RouterComponent>
-    </AuthProvider>
+            {/* 404 Catch-All */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </RouterComponent>
+      </ErrorBoundary>
+    </ToastProvider>
+  </AuthProvider>
   );
 }
 

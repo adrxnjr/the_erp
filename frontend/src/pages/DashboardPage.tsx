@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import api from '../api/client';
 import {
   Users,
@@ -35,6 +36,23 @@ import {
 
 export const DashboardPage: React.FC = () => {
   const { user } = useAuth();
+  const location = useLocation();
+  const toast = useToast();
+  const [restrictedNotice, setRestrictedNotice] = useState<string | null>(null);
+
+  useEffect(() => {
+    document.title = 'Dashboard — Ever Grow Schools ERP';
+    if (location.state && (location.state as any).accessRestricted) {
+      setRestrictedNotice(
+        (location.state as any).restrictedMessage ||
+          'Access Restricted: You do not have administrative credentials to view that page.'
+      );
+      try {
+        window.history.replaceState({}, document.title);
+      } catch {}
+    }
+  }, [location.state]);
+
   const [stats, setStats] = useState<any>(null);
   const [children, setChildren] = useState<any[]>([]);
   const [childRewards, setChildRewards] = useState<Record<string, any>>({});
@@ -122,12 +140,12 @@ export const DashboardPage: React.FC = () => {
 
   const handleNotifyParent = (studentId: string, phone: string, studentName: string) => {
     setNotifiedStudents((prev) => ({ ...prev, [studentId]: true }));
-    alert(`Statutory low attendance alert dispatched via SMS/WhatsApp to parent of ${studentName} (${phone}).`);
+    toast.success(`Statutory low attendance alert dispatched via SMS/WhatsApp to parent of ${studentName} (${phone}).`);
   };
 
   const handleDownloadIdCard = async (studentId: string, admissionNumber: string) => {
     if (!studentId) {
-      alert('Student record ID not available.');
+      toast.error('Student record ID not available.');
       return;
     }
     try {
@@ -144,9 +162,10 @@ export const DashboardPage: React.FC = () => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
+      toast.success(`Student ID Card for ${admissionNumber || 'student'} downloaded.`);
     } catch (err: any) {
       console.error('Failed to download ID card:', err);
-      alert('Failed to generate student ID card. Please try again.');
+      toast.error('Failed to generate student ID card. Please try again.');
     } finally {
       setDownloadingId(null);
     }
@@ -169,6 +188,21 @@ export const DashboardPage: React.FC = () => {
 
     return (
       <div className="space-y-6 max-w-6xl mx-auto pb-12 animate-fadeIn">
+        {restrictedNotice && (
+          <div role="alert" aria-live="polite" className="p-4 rounded-2xl bg-rose-50 border border-rose-300 text-rose-900 text-xs font-semibold flex items-center justify-between shadow-sm">
+            <div className="flex items-center space-x-2.5">
+              <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
+              <span>{restrictedNotice}</span>
+            </div>
+            <button
+              onClick={() => setRestrictedNotice(null)}
+              aria-label="Dismiss access restricted notice"
+              className="text-rose-500 hover:text-rose-700 text-sm font-bold ml-3"
+            >
+              ×
+            </button>
+          </div>
+        )}
         <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="relative z-10 max-w-2xl space-y-2">
             <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 border border-blue-200">
@@ -306,6 +340,21 @@ export const DashboardPage: React.FC = () => {
   if (user?.portal_type === 'parent') {
     return (
       <div className="space-y-6 animate-fadeIn">
+        {restrictedNotice && (
+          <div role="alert" aria-live="polite" className="p-4 rounded-2xl bg-rose-50 border border-rose-300 text-rose-900 text-xs font-semibold flex items-center justify-between shadow-sm">
+            <div className="flex items-center space-x-2.5">
+              <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
+              <span>{restrictedNotice}</span>
+            </div>
+            <button
+              onClick={() => setRestrictedNotice(null)}
+              aria-label="Dismiss access restricted notice"
+              className="text-rose-500 hover:text-rose-700 text-sm font-bold ml-3"
+            >
+              ×
+            </button>
+          </div>
+        )}
         <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden">
           <div className="relative z-10 max-w-xl">
             <span className="px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 text-xs font-semibold rounded-full uppercase tracking-wider">
@@ -523,6 +572,21 @@ export const DashboardPage: React.FC = () => {
 
     return (
       <div className="space-y-8 animate-fadeIn max-w-7xl mx-auto pb-12">
+        {restrictedNotice && (
+          <div role="alert" aria-live="polite" className="p-4 rounded-2xl bg-rose-50 border border-rose-300 text-rose-900 text-xs font-semibold flex items-center justify-between shadow-sm">
+            <div className="flex items-center space-x-2.5">
+              <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
+              <span>{restrictedNotice}</span>
+            </div>
+            <button
+              onClick={() => setRestrictedNotice(null)}
+              aria-label="Dismiss access restricted notice"
+              className="text-rose-500 hover:text-rose-700 text-sm font-bold ml-3"
+            >
+              ×
+            </button>
+          </div>
+        )}
         {/* Super Admin Executive Hero Banner */}
         <div className="bg-gradient-to-r from-purple-50/90 via-indigo-50/80 to-blue-50/90 rounded-[28px] p-8 text-slate-900 border border-purple-200/80 shadow-[0_8px_32px_rgba(88,86,214,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
           <div className="relative z-10 space-y-2">
@@ -848,6 +912,21 @@ export const DashboardPage: React.FC = () => {
 
     return (
       <div className="space-y-8 animate-fadeIn max-w-7xl mx-auto pb-12">
+        {restrictedNotice && (
+          <div role="alert" aria-live="polite" className="p-4 rounded-2xl bg-rose-50 border border-rose-300 text-rose-900 text-xs font-semibold flex items-center justify-between shadow-sm">
+            <div className="flex items-center space-x-2.5">
+              <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
+              <span>{restrictedNotice}</span>
+            </div>
+            <button
+              onClick={() => setRestrictedNotice(null)}
+              aria-label="Dismiss access restricted notice"
+              className="text-rose-500 hover:text-rose-700 text-sm font-bold ml-3"
+            >
+              ×
+            </button>
+          </div>
+        )}
         {/* Admin Executive Header */}
         <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
           <div className="relative z-10 space-y-2">
