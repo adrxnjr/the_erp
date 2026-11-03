@@ -8,22 +8,26 @@ import axios from 'axios';
  * 4. In web browser, uses relative '/api/v1' path handled by Vite/Nginx proxy
  */
 export const resolveApiBaseUrl = (): string => {
-  const envUrl = import.meta.env.VITE_API_URL;
-  if (envUrl && typeof envUrl === 'string' && envUrl.trim().length > 0) {
-    return envUrl.trim().replace(/\/+$/, '');
-  }
-
+  // 1. Explicit user override from Settings modal
   if (typeof window !== 'undefined') {
     const customUrl = localStorage.getItem('EVERGROW_API_URL');
     if (customUrl && customUrl.trim().length > 0) {
       return customUrl.trim().replace(/\/+$/, '');
     }
-
-    if (window.location.protocol === 'file:') {
-      return 'http://127.0.0.1:8000/api/v1';
-    }
   }
 
+  // 2. Build-time environment variable
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl && typeof envUrl === 'string' && envUrl.trim().length > 0) {
+    return envUrl.trim().replace(/\/+$/, '');
+  }
+
+  // 3. Electron file:// protocol fallback
+  if (typeof window !== 'undefined' && window.location.protocol === 'file:') {
+    return 'http://127.0.0.1:8000/api/v1';
+  }
+
+  // 4. Default web relative path (works with Vite proxy or reverse proxy)
   return '/api/v1';
 };
 
@@ -36,10 +40,19 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
   // If request already has an explicit Authorization header, preserve it
-  if (!config.headers.Authorization) {
+  const hasAuth =
+    (typeof config.headers.get === 'function' && config.headers.get('Authorization')) ||
+    config.headers.Authorization ||
+    config.headers.authorization;
+
+  if (!hasAuth) {
     const token = localStorage.getItem('access_token');
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      if (typeof config.headers.set === 'function') {
+        config.headers.set('Authorization', `Bearer ${token}`);
+      } else {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
   }
   return config;

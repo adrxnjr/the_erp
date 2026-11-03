@@ -222,3 +222,124 @@ def create_holiday(
     db: Session = Depends(get_db),
 ):
     return AcademicService.create_holiday(db, payload)
+
+
+# --- Curriculum Syllabus (Coordinator Governed) ---
+@router.get("/syllabus", summary="List All Curriculum Syllabi")
+def list_syllabi(
+    wing_name: Optional[str] = None,
+    subject_id: Optional[uuid.UUID] = None,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    from app.models.academic import Syllabus
+    stmt = select(Syllabus).where(Syllabus.is_active == True)
+    if wing_name and isinstance(wing_name, str):
+        stmt = stmt.where(Syllabus.wing_name == wing_name)
+    if subject_id and not hasattr(subject_id, "default"):
+        stmt = stmt.where(Syllabus.subject_id == subject_id)
+    items = list(db.execute(stmt.order_by(Syllabus.subject_name)).scalars().all())
+    return [item.to_dict() for item in items]
+
+
+@router.get("/syllabus/permission", summary="Check if current user is authorized to update syllabi")
+def check_syllabus_permission(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    from app.models.coordinator import CoordinatorProfile
+    from app.models.staff import Staff
+
+    roles = [ur.role.name for ur in current_user.user_roles if ur.role]
+    is_role_coord = "coordinator" in roles
+    coord_profile = db.execute(
+        select(CoordinatorProfile).where(CoordinatorProfile.user_id == current_user.id)
+    ).scalar_one_or_none()
+    staff = db.execute(select(Staff).where(Staff.user_id == current_user.id)).scalar_one_or_none()
+    is_staff_coord = staff and (
+        "coordinator" in (staff.designation or "").lower() or
+        "coordination" in (staff.department or "").lower()
+    )
+
+    can_update = bool(is_role_coord or coord_profile or is_staff_coord)
+    coordinator_name = coord_profile.full_name if coord_profile else (staff.full_name if staff else current_user.username)
+    wing_name = coord_profile.wing if coord_profile else "Academic Coordination"
+
+    return {
+        "can_update": can_update,
+        "is_coordinator": can_update,
+        "coordinator_name": coordinator_name,
+        "wing_name": wing_name,
+        "message": (
+            "Coordinator verified. You have full edit and publishing rights over curriculum syllabi."
+            if can_update
+            else "Curriculum Authority Protected: Only Academic Wing Coordinators are authorized to update curriculum syllabi."
+        ),
+    }
+
+
+@router.put("/syllabus/{syllabus_id}", summary="Update Curriculum Syllabus (Coordinator Only)")
+def update_syllabus(
+    syllabus_id: uuid.UUID,
+    payload: dict,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    from app.models.academic import Syllabus
+    from app.models.coordinator import CoordinatorProfile
+    from app.models.staff import Staff
+    from fastapi import HTTPException
+
+    # Strict Permission Check: Only Coordinators can update syllabus
+    roles = [ur.role.name for ur in current_user.user_roles if ur.role]
+    is_role_coord = "coordinator" in roles
+    coord_profile = db.execute(
+        select(CoordinatorProfile).where(CoordinatorProfile.user_id == current_user.id)
+    ).scalar_one_or_none()
+    staff = db.execute(select(Staff).where(Staff.user_id == current_user.id)).scalar_one_or_none()
+    is_staff_coord = staff and (
+        "coordinator" in (staff.designation or "").lower() or
+        "coordination" in (staff.department or "").lower()
+    )
+
+    if not (is_role_coord or coord_profile or is_staff_coord):
+        raise HTTPException(
+            status_code=403,
+            detail="Forbidden: Only designated Academic Wing Coordinators are authorized to update curriculum syllabi."
+        )
+
+    if isinstance(syllabus_id, str):
+        try:
+            syllabus_id = uuid.UUID(syllabus_id)
+        except (ValueError, TypeError):
+            pass
+
+    syllabus = db.execute(select(Syllabus).where(Syllabus.id == syllabus_id)).scalar_one_or_none()
+    if not syllabus:
+        raise HTTPException(status_code=404, detail="Syllabus record not found.")
+
+    coord_name = coord_profile.full_name if coord_profile else (staff.full_name if staff else current_user.username)
+
+    # Apply updates
+    if "overview" in payload:
+        syllabus.overview = payload["overview"]
+    if "total_units" in payload:
+        syllabus.total_units = int(payload["total_units"])
+    if "total_hours" in payload:
+        syllabus.total_hours = int(payload["total_hours"])
+    if "units" in payload:
+        syllabus.units = payload["units"]
+    if "textbooks" in payload:
+        syllabus.textbooks = payload["textbooks"]
+    if "learning_outcomes" in payload:
+        syllabus.learning_outcomes = payload["learning_outcomes"]
+    if "status" in payload:
+        syllabus.status = payload["status"]
+
+    syllabus.coordinator_name = coord_name
+    syllabus.coordinator_user_id = current_user.id
+
+    db.commit()
+    db.refresh(syllabus)
+    return syllabus.to_dict()
+

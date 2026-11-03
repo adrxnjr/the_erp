@@ -47,3 +47,11 @@ class UUIDPrimaryKeyMixin:
         default=uuid.uuid4,
         nullable=False,
     )
+
+
+# Late import to ensure metadata registration
+try:
+    from app.models.tuition import TuitionCenter, TuitionTeacher, TuitionBatch, TuitionEnquiry  # noqa: F401
+    from app.models.social import Post, PostReaction, PostComment, PostView  # noqa: F401
+except ImportError:
+    pass

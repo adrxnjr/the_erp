@@ -1,180 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
 
 @layer base {
   :root {
-    --ios-bg: #F5F5F7;
-    --ios-card: rgba(255, 255, 255, 0.88);
-    --ios-border: rgba(0, 0, 0, 0.06);
-    --ios-blue: #0071E3;
-    --ios-blue-light: #E8F2FD;
-    --ios-indigo: #5856D6;
-    --ios-purple: #AF52DE;
-    --ios-pink: #FF2D55;
-    --ios-teal: #30B0C7;
-    --ios-green: #34C759;
-    --ios-orange: #FF9500;
+    --neu-bg: #E9EEF5;
+    --neu-surface: #E9EEF5;
+    --neu-dark: #C5D0E0;
+    --neu-light: #FFFFFF;
+    --neu-primary: #0066FF;
+    --neu-primary-dark: #0052CC;
+    --neu-text: #1E293B;
+    --neu-muted: #64748B;
+  }
+
+  html, body, button, input, select, textarea, optgroup {
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   }
 
   body {
-    background-color: #F5F5F7;
-    color: #1D1D1F;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #E9EEF5;
+    color: #1E293B;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    letter-spacing: -0.015em;
-    selection-background-color: #0071E3;
+    letter-spacing: -0.012em;
+    selection-background-color: #0066FF;
     selection-color: #ffffff;
   }
 }
 
 /* =========================================================================
-   APPLE iOS GLOSS BUTTON SYSTEM
+   PROFESSIONAL NEUMORPHIC (SOFT UI) DESIGN SYSTEM
    ========================================================================= */
 
-/* Primary iOS Glossy Button */
-.ios-gloss-btn {
-  position: relative;
-  background: linear-gradient(180deg, #0077ED 0%, #0066CC 100%);
-  color: #ffffff;
+/* Neumorphic Extruded Panels / Cards */
+.neu-flat,
+.ios-card {
+  background: #E9EEF5;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 8px 8px 20px #C5D0E0, -8px -8px 20px #FFFFFF;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.neu-card-interactive,
+.ios-card-interactive {
+  background: #E9EEF5;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 8px 8px 20px #C5D0E0, -8px -8px 20px #FFFFFF;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.neu-card-interactive:hover,
+.ios-card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 12px 12px 26px #BAC6D8, -12px -12px 26px #FFFFFF;
+  border-color: rgba(255, 255, 255, 1);
+}
+
+.neu-card-interactive:active,
+.ios-card-interactive:active {
+  transform: translateY(0);
+  box-shadow: inset 4px 4px 8px #C5D0E0, inset -4px -4px 8px #FFFFFF;
+}
+
+/* Neumorphic Inset / Sunken Wells (for inputs, tracks, wells) */
+.neu-inset,
+.neu-pressed {
+  background: #E9EEF5;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: inset 3px 3px 6px #C5D0E0, inset -3px -3px 6px #FFFFFF;
+}
+
+/* Neumorphic Form Input */
+.neu-input {
+  background: #E9EEF5;
+  color: #1E293B;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: inset 3px 3px 6px #C5D0E0, inset -3px -3px 6px #FFFFFF;
+  transition: all 0.2s ease;
+}
+
+.neu-input:focus {
+  outline: none;
+  box-shadow: inset 4px 4px 8px #BAC6D8, inset -4px -4px 8px #FFFFFF, 0 0 0 2px rgba(0, 102, 255, 0.35);
+}
+
+/* Neumorphic Tactile Buttons */
+.neu-btn {
+  background: #E9EEF5;
+  color: #1E293B;
   font-weight: 600;
-  border-radius: 9999px;
-  box-shadow: 
-    0 4px 14px -1px rgba(0, 113, 227, 0.35),
-    0 1px 3px rgba(0, 0, 0, 0.08),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.42),
-    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.15);
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 5px 5px 12px #C5D0E0, -5px -5px 12px #FFFFFF;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
-.ios-gloss-btn::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 48%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.06) 100%);
-  border-radius: 9999px 9999px 40px 40px;
-  pointer-events: none;
-}
-
-.ios-gloss-btn:hover {
-  transform: translateY(-1.5px);
-  box-shadow: 
-    0 6px 20px -1px rgba(0, 113, 227, 0.45),
-    0 2px 6px rgba(0, 0, 0, 0.1),
-    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.55),
-    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.15);
-}
-
-.ios-gloss-btn:active {
-  transform: scale(0.975) translateY(0.5px);
-  box-shadow: 
-    0 2px 8px rgba(0, 113, 227, 0.3),
-    inset 0 1.5px 3px rgba(0, 0, 0, 0.2);
-}
-
-/* Secondary iOS Light Glossy Button */
-.ios-gloss-btn-secondary {
-  position: relative;
-  background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 100%);
-  color: #1D1D1F;
-  font-weight: 600;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 9999px;
-  box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.04),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ios-gloss-btn-secondary::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 48%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 100%);
-  border-radius: 9999px 9999px 40px 40px;
-  pointer-events: none;
-}
-
-.ios-gloss-btn-secondary:hover {
-  background: linear-gradient(180deg, #FFFFFF 0%, #EDEDF0 100%);
+.neu-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+  box-shadow: 7px 7px 16px #BAC6D8, -7px -7px 16px #FFFFFF;
 }
 
-.ios-gloss-btn-secondary:active {
-  transform: scale(0.98);
-  background: #E8E8ED;
+.neu-btn:active {
+  transform: translateY(0);
+  box-shadow: inset 3px 3px 6px #C5D0E0, inset -3px -3px 6px #FFFFFF;
 }
 
-/* Emerald / Green Glossy Button */
-.ios-gloss-btn-emerald {
-  position: relative;
-  background: linear-gradient(180deg, #34C759 0%, #28A745 100%);
-  color: #ffffff;
+/* Neumorphic Primary (Vibrant Blue Accent) Button */
+.neu-btn-primary,
+.ios-gloss-btn {
+  background: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
+  color: #FFFFFF;
   font-weight: 600;
-  border-radius: 9999px;
-  box-shadow: 
-    0 4px 14px -1px rgba(52, 199, 89, 0.35),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.45);
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 6px 6px 16px rgba(0, 82, 204, 0.38), -4px -4px 12px #FFFFFF;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.neu-btn-primary:hover,
+.ios-gloss-btn:hover {
+  background: linear-gradient(135deg, #0070FF 0%, #005CE6 100%);
+  box-shadow: 8px 8px 20px rgba(0, 82, 204, 0.48), -5px -5px 14px #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.neu-btn-primary:active,
+.ios-gloss-btn:active {
+  transform: translateY(0);
+  box-shadow: inset 3px 3px 6px rgba(0, 40, 100, 0.5), -2px -2px 6px #FFFFFF;
+}
+
+/* Neumorphic Secondary Soft Button */
+.neu-btn-secondary,
+.ios-gloss-btn-secondary {
+  background: #E9EEF5;
+  color: #334155;
+  font-weight: 600;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 5px 5px 12px #C5D0E0, -5px -5px 12px #FFFFFF;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.neu-btn-secondary:hover,
+.ios-gloss-btn-secondary:hover {
+  transform: translateY(-1px);
+  box-shadow: 7px 7px 16px #BAC6D8, -7px -7px 16px #FFFFFF;
+  color: #0F172A;
+}
+
+.neu-btn-secondary:active,
+.ios-gloss-btn-secondary:active {
+  transform: translateY(0);
+  box-shadow: inset 3px 3px 6px #C5D0E0, inset -3px -3px 6px #FFFFFF;
+}
+
+/* Emerald Accent Neumorphic Button */
+.ios-gloss-btn-emerald {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: #FFFFFF;
+  font-weight: 600;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 6px 6px 16px rgba(5, 150, 105, 0.35), -4px -4px 12px #FFFFFF;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-.ios-gloss-btn-emerald::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 48%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 100%);
-  border-radius: 9999px 9999px 40px 40px;
-  pointer-events: none;
-}
+
 .ios-gloss-btn-emerald:hover {
-  transform: translateY(-1.5px);
-  box-shadow: 0 6px 18px rgba(52, 199, 89, 0.45);
+  transform: translateY(-1px);
+  box-shadow: 8px 8px 20px rgba(5, 150, 105, 0.45), -5px -5px 14px #FFFFFF;
 }
+
 .ios-gloss-btn-emerald:active {
-  transform: scale(0.975);
+  transform: translateY(0);
+  box-shadow: inset 3px 3px 6px rgba(4, 120, 87, 0.5), -2px -2px 6px #FFFFFF;
 }
 
-/* =========================================================================
-   APPLE iOS POPUP & MODAL SYSTEM (CURVED CORNERS 28px - 32px)
-   ========================================================================= */
-
+/* Neumorphic Modal Dialog */
+.neu-modal,
 .ios-modal {
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(32px);
-  -webkit-backdrop-filter: blur(32px);
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 
-    0 24px 64px -12px rgba(0, 0, 0, 0.14),
-    0 8px 24px -4px rgba(0, 0, 0, 0.05),
-    inset 0 1px 2px rgba(255, 255, 255, 0.8);
-  animation: iosModalIn 0.34s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  background: #E9EEF5;
+  border-radius: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 16px 16px 40px #BAC6D8, -16px -16px 40px #FFFFFF;
+  animation: neuModalIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes iosModalIn {
+@keyframes neuModalIn {
   from {
     opacity: 0;
-    transform: scale(0.94) translateY(12px);
+    transform: scale(0.95) translateY(10px);
   }
   to {
     opacity: 1;
@@ -183,47 +222,116 @@
 }
 
 /* =========================================================================
-   APPLE iOS LIGHT GLASS CARDS (NO DARK BACKGROUNDS)
+   GLOBAL NEUMORPHIC APPLICATION ENHANCEMENTS ACROSS ALL PAGES
    ========================================================================= */
 
-.ios-card {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 
-    0 4px 20px -2px rgba(0, 0, 0, 0.035),
-    0 1px 4px rgba(0, 0, 0, 0.02);
-  border-radius: 26px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+/* All Cards, Panels, and Container Surfaces */
+.bg-white.rounded-2xl,
+.bg-white.rounded-3xl,
+.bg-white.rounded-xl.shadow-sm,
+.bg-white.rounded-xl.shadow-md,
+.bg-white.rounded-2xl.shadow-sm,
+.bg-white.rounded-2xl.shadow-md,
+.bg-white.rounded-xl.border,
+.bg-white.rounded-2xl.border,
+.bg-white.rounded-3xl.border,
+.bg-slate-50.rounded-2xl,
+.bg-slate-50.rounded-xl.border {
+  background-color: #E9EEF5 !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 8px 8px 20px #C5D0E0, -8px -8px 20px #FFFFFF !important;
 }
 
-.ios-card-interactive {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 
-    0 4px 20px -2px rgba(0, 0, 0, 0.035),
-    0 1px 4px rgba(0, 0, 0, 0.02);
-  border-radius: 26px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+/* Form Inputs, Select Dropdowns, Textareas Across All Pages */
+input[type="text"]:not([type="checkbox"]):not([type="radio"]),
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="date"],
+select,
+textarea {
+  background-color: #E9EEF5 !important;
+  color: #1E293B !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  box-shadow: inset 3px 3px 6px #C5D0E0, inset -3px -3px 6px #FFFFFF !important;
 }
 
-.ios-card-interactive:hover {
-  transform: translateY(-2.5px);
-  box-shadow: 
-    0 16px 36px -4px rgba(0, 0, 0, 0.07),
-    0 4px 12px -2px rgba(0, 0, 0, 0.03);
-  border-color: rgba(255, 255, 255, 1);
+/* Styled Native Select Dropdowns Following Ever Grow Soft UI Theme */
+select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230066FF' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 0.85rem center !important;
+  background-size: 1rem 1rem !important;
+  padding-right: 2.5rem !important;
+  border-radius: 16px !important;
+  cursor: pointer !important;
 }
 
-/* Apple Light Pearl Canvas (Used for Maps / Visualizers instead of Dark) */
+select option {
+  background-color: #FFFFFF !important;
+  color: #1E293B !important;
+  padding: 10px 14px !important;
+  font-weight: 600 !important;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+  outline: none !important;
+  box-shadow: inset 3px 3px 7px #BAC6D8, inset -3px -3px 7px #FFFFFF, 0 0 0 2px rgba(0, 102, 255, 0.35) !important;
+}
+
+/* Neumorphic Tables */
+table {
+  background-color: #E9EEF5 !important;
+}
+
+thead th {
+  background-color: #E9EEF5 !important;
+  color: #475569 !important;
+  border-bottom: 1px solid rgba(197, 208, 224, 0.5) !important;
+}
+
+tbody tr {
+  transition: all 0.15s ease;
+}
+
+tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Neumorphic Pearl Canvas (maps, telemetry, charts) */
 .ios-light-canvas {
-  background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 50%, #E2E8F0 100%);
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.03);
-  border-radius: 24px;
+  background: #E9EEF5;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: inset 4px 4px 8px #C5D0E0, inset -4px -4px 8px #FFFFFF;
+  border-radius: 20px;
+}
+
+/* Neumorphic Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #E9EEF5;
+}
+::-webkit-scrollbar-thumb {
+  background: #BAC6D8;
+  border-radius: 9999px;
+  border: 2px solid #E9EEF5;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
 }
 
 /* =========================================================================
@@ -232,6 +340,21 @@
 
 .smooth-spring {
   transition: all 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes logoSoftFloat {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
+  }
+  50% {
+    transform: translateY(-6px) scale(1.025);
+    filter: drop-shadow(0 12px 24px rgba(0, 102, 255, 0.22));
+  }
+}
+
+.animate-logo-float {
+  animation: logoSoftFloat 4s ease-in-out infinite;
 }
 
 @keyframes gentleFloat {

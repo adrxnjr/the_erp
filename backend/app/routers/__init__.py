@@ -13,6 +13,11 @@ from app.routers.dashboards import router as dashboards_router
 from app.routers.reports import router as reports_router
 from app.routers.transport import router as transport_router
 from app.routers.career import router as career_router
+from app.routers.id_cards import router as id_cards_router
+from app.routers.tuition import router as tuition_router
+from app.routers.social import router as social_router
+from app.routers.coordinators import router as coordinators_router
+from app.routers.rewards import router as rewards_router
 
 __all__ = [
     "health_router",
@@ -30,4 +35,9 @@ __all__ = [
     "reports_router",
     "transport_router",
     "career_router",
+    "id_cards_router",
+    "tuition_router",
+    "social_router",
+    "coordinators_router",
+    "rewards_router",
 ]

@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=(".env", "backend/.env", "../backend/.env"),
         env_file_encoding="utf-8",
         case_sensitive=True,
         extra="ignore",
@@ -34,8 +34,21 @@ class Settings(BaseSettings):
     @field_validator("DATABASE_URL", mode="before")
     @classmethod
     def assemble_db_connection(cls, v: str | None, info) -> str:
+        import os
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        default_sqlite = os.path.join(base_dir, "school_erp.db")
+
         if isinstance(v, str) and v.strip():
-            return v.strip()
+            url = v.strip()
+            if url.startswith("sqlite:///") and "school_erp.db" in url:
+                if os.path.exists(default_sqlite):
+                    return f"sqlite:///{default_sqlite.replace('\\', '/')}"
+            return url
+
+        # If DATABASE_URL is not provided or empty, check if local SQLite db exists
+        if os.path.exists(default_sqlite):
+            return f"sqlite:///{default_sqlite.replace('\\', '/')}"
+
         data = info.data
         user = data.get("POSTGRES_USER", "postgres")
         password = data.get("POSTGRES_PASSWORD", "postgres")

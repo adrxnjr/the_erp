@@ -28,7 +28,13 @@ from app.routers import (
     users_router,
     transport_router,
     career_router,
+    id_cards_router,
+    tuition_router,
+    social_router,
+    coordinators_router,
+    rewards_router,
 )
+from fastapi.staticfiles import StaticFiles
 
 
 @asynccontextmanager
@@ -65,6 +71,7 @@ def create_application() -> FastAPI:
         app.add_middleware(
             CORSMiddleware,
             allow_origins=settings.CORS_ORIGINS,
+            allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],
@@ -89,6 +96,17 @@ def create_application() -> FastAPI:
     app.include_router(reports_router, prefix=settings.API_V1_PREFIX)
     app.include_router(transport_router, prefix=settings.API_V1_PREFIX)
     app.include_router(career_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(id_cards_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(tuition_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(social_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(coordinators_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(rewards_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(rewards_router, prefix="")
+
+    # Mount /uploads for static media (photos on social wall, etc.)
+    uploads_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "uploads")
+    os.makedirs(os.path.join(uploads_dir, "social"), exist_ok=True)
+    app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
 
     @app.get("/", tags=["Root"], include_in_schema=False)
     def root():

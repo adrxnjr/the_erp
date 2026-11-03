@@ -7,13 +7,24 @@ from sqlalchemy.orm import sessionmaker, Session
 from app.core.config import settings
 from app.core.logging import logger
 
+is_sqlite = "sqlite" in str(settings.DATABASE_URL)
+
+connect_args = (
+    {"connect_timeout": 3}
+    if "psycopg" in str(settings.DATABASE_URL)
+    else ({"check_same_thread": False} if is_sqlite else {})
+)
+
+engine_kwargs = {"pool_pre_ping": True}
+if not is_sqlite:
+    engine_kwargs["pool_size"] = 10
+    engine_kwargs["max_overflow"] = 20
+
 # Create SQLAlchemy 2.0 engine
 engine = create_engine(
     str(settings.DATABASE_URL),
-    pool_pre_ping=True,
-    pool_size=10,
-    max_overflow=20,
-    connect_args={"connect_timeout": 3} if "psycopg" in str(settings.DATABASE_URL) else {},
+    connect_args=connect_args,
+    **engine_kwargs,
 )
 
 # Standard sessionmaker for application workflows

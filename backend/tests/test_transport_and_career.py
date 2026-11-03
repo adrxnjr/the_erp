@@ -152,3 +152,47 @@ def test_career_recommendation_and_approval_workflow(client: TestClient, super_a
     assert pdf_resp.status_code == 200
     assert pdf_resp.headers["content-type"] == "application/pdf"
     assert len(pdf_resp.content) > 1000
+
+
+def test_student_and_parent_my_bus_tracking(client: TestClient, super_admin_user, db_session: Session):
+    """Verify /transport/my-bus returns live tracking, driver, velocity, ETA, and stops for student portal."""
+    login_resp = client.post(
+        "/api/v1/auth/login",
+        json={"portal_type": "staff", "username": "superadmin_test", "password": "SuperSecret123!"},
+    )
+    headers = {"Authorization": f"Bearer {login_resp.json()['access_token']}"}
+
+    # Setup Academic Year, Student
+    ay = AcademicYear(id=uuid.uuid4(), name="2026-2027-Transport", start_date=date(2026, 6, 1), end_date=date(2027, 4, 30), is_active=True)
+    db_session.add(ay)
+    db_session.flush()
+
+    student = Student(
+        id=uuid.uuid4(),
+        admission_number="ADM-BUS-01",
+        full_name="Liam Smith",
+        date_of_birth=date(2015, 3, 14),
+        gender="male",
+        academic_year_id=ay.id,
+        admission_date=date(2026, 6, 15),
+        status="active",
+    )
+    db_session.add(student)
+    db_session.commit()
+
+    # Call /transport/my-bus
+    resp = client.get(f"/api/v1/transport/my-bus?student_id={student.id}", headers=headers)
+    assert resp.status_code == 200
+    data = resp.json()
+
+    assert data["has_transport"] is True
+    assert "route_name" in data
+    assert "driver_name" in data
+    assert "driver_phone" in data
+    assert "vehicle_registration" in data
+    assert "current_speed" in data
+    assert "eta_minutes" in data
+    assert "distance_km" in data
+    assert "stops" in data
+    assert len(data["stops"]) >= 1
+

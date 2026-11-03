@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from typing import List, Optional
 from fastapi import Request, status
 from sqlalchemy import select
-from sqlalchemy.orm import Session, selectinload
+from sqlalchemy.orm import Session, selectinload, joinedload
 
 from app.core.config import settings
 from app.core.exceptions import AppError
@@ -14,7 +14,7 @@ from app.core.security import (
     hash_password,
     verify_password,
 )
-from app.models.user import RefreshToken, User
+from app.models.user import RefreshToken, User, UserRole
 from app.schemas.auth import TokenResponse
 from app.services.audit_service import record_audit
 
@@ -24,6 +24,7 @@ STAFF_ROLES = {
     "correspondent",
     "school_admin",
     "teacher",
+    "coordinator",
     "accountant",
     "non_teaching",
     "driver",
@@ -57,7 +58,7 @@ class AuthService:
         # A. Try matching by exact username or email first
         base_stmt = (
             select(User)
-            .options(selectinload(User.user_roles))
+            .options(selectinload(User.user_roles).joinedload(UserRole.role))
             .where((User.username == clean_id) | (User.email == clean_id))
         )
         user = db.execute(base_stmt).scalars().first()
@@ -66,7 +67,7 @@ class AuthService:
         if not user and portal_type in ("parent", "parent_student"):
             parent_stmt = (
                 select(User)
-                .options(selectinload(User.user_roles))
+                .options(selectinload(User.user_roles).joinedload(UserRole.role))
                 .outerjoin(Guardian, Guardian.user_id == User.id)
                 .where(
                     (User.portal_type == "parent")
@@ -84,7 +85,7 @@ class AuthService:
 
             st_user_stmt = (
                 select(User)
-                .options(selectinload(User.user_roles))
+                .options(selectinload(User.user_roles).joinedload(UserRole.role))
                 .join(Student, Student.user_id == User.id)
                 .where(
                     (Student.admission_number.in_(possible_adm))
@@ -98,7 +99,7 @@ class AuthService:
         if not user and portal_type == "staff":
             staff_user_stmt = (
                 select(User)
-                .options(selectinload(User.user_roles))
+                .options(selectinload(User.user_roles).joinedload(UserRole.role))
                 .outerjoin(Staff, Staff.user_id == User.id)
                 .where(
                     (User.portal_type == "staff")
@@ -115,7 +116,7 @@ class AuthService:
         if not user:
             phone_stmt = (
                 select(User)
-                .options(selectinload(User.user_roles))
+                .options(selectinload(User.user_roles).joinedload(UserRole.role))
                 .where(User.phone_number == clean_id)
             )
             user = db.execute(phone_stmt).scalars().first()
@@ -285,7 +286,9 @@ class AuthService:
 
         # Load user
         user = db.execute(
-            select(User).options(selectinload(User.user_roles)).where(User.id == user_uuid)
+            select(User)
+            .options(selectinload(User.user_roles).joinedload(UserRole.role))
+            .where(User.id == user_uuid)
         ).scalar_one_or_none()
 
         if not user or not user.is_active or user.is_locked:

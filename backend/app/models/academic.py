@@ -1,7 +1,7 @@
 import uuid
-from typing import List, Optional
+from typing import List, Optional, Any, Dict
 from datetime import date
-from sqlalchemy import Boolean, Date, ForeignKey, Index, Integer, String, Text, UniqueConstraint, text
+from sqlalchemy import Boolean, Date, ForeignKey, Index, Integer, String, Text, UniqueConstraint, text, JSON
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base, TimestampMixin, UUIDPrimaryKeyMixin
@@ -151,3 +151,53 @@ class Holiday(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
     def __repr__(self) -> str:
         return f"<Holiday {self.name} ({self.start_date} to {self.end_date})>"
+
+
+class Syllabus(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """
+    Curriculum syllabus and course learning units governed exclusively by Wing Coordinators.
+    """
+    __tablename__ = "syllabi"
+
+    subject_id: Mapped[Optional[uuid.UUID]] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("subjects.id", ondelete="CASCADE"), nullable=True, index=True
+    )
+    subject_name: Mapped[str] = mapped_column(String(100), nullable=False)
+    subject_code: Mapped[str] = mapped_column(String(30), nullable=False)
+    wing_name: Mapped[str] = mapped_column(String(100), nullable=False)  # Primary Wing (Grades 1-5), Middle School Wing (Grades 6-9), Senior Secondary Wing (Grades 10-12)
+    grade_range: Mapped[str] = mapped_column(String(100), default="Grades 1-5", nullable=False)
+    academic_year: Mapped[str] = mapped_column(String(50), default="2026-2027", nullable=False)
+    total_units: Mapped[int] = mapped_column(Integer, default=6, nullable=False)
+    total_hours: Mapped[int] = mapped_column(Integer, default=120, nullable=False)
+    overview: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    units: Mapped[Optional[Any]] = mapped_column(JSON, default=list, nullable=True)
+    textbooks: Mapped[Optional[Any]] = mapped_column(JSON, default=list, nullable=True)
+    learning_outcomes: Mapped[Optional[Any]] = mapped_column(JSON, default=list, nullable=True)
+    coordinator_name: Mapped[str] = mapped_column(String(150), default="Academic Coordinator", nullable=False)
+    coordinator_user_id: Mapped[Optional[uuid.UUID]] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("users.id", ondelete="SET NULL"), nullable=True
+    )
+    status: Mapped[str] = mapped_column(String(50), default="Approved & Published", nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "id": str(self.id),
+            "subject_id": str(self.subject_id) if self.subject_id else None,
+            "subject_name": self.subject_name,
+            "subject_code": self.subject_code,
+            "wing_name": self.wing_name,
+            "grade_range": self.grade_range,
+            "academic_year": self.academic_year,
+            "total_units": self.total_units,
+            "total_hours": self.total_hours,
+            "overview": self.overview or "",
+            "units": self.units or [],
+            "textbooks": self.textbooks or [],
+            "learning_outcomes": self.learning_outcomes or [],
+            "coordinator_name": self.coordinator_name,
+            "coordinator_user_id": str(self.coordinator_user_id) if self.coordinator_user_id else None,
+            "status": self.status,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
+

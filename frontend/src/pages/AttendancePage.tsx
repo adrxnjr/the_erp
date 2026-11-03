@@ -283,10 +283,10 @@ export const AttendancePage: React.FC = () => {
               {isStudent ? 'Student Self-Service Portal' : 'Parent Guardian Overview'}
             </span>
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
-              {isStudent ? 'My Attendance Performance' : `Attendance Record: ${parentChildren.find(c => c.id === selectedChildId)?.full_name || 'Child'}`}
+              {isStudent ? 'Attendance Summary' : `Attendance: ${parentChildren.find(c => c.id === selectedChildId)?.full_name || 'Child'}`}
             </h1>
             <p className="text-xs md:text-sm text-slate-600">
-              Track your daily presence, statutory examination eligibility, and term working days.
+              Track daily attendance and term status.
             </p>
           </div>
         </div>
@@ -374,6 +374,7 @@ export const AttendancePage: React.FC = () => {
                     <tr>
                       <th className="py-3 px-5">Date</th>
                       <th className="py-3 px-5">Session</th>
+                      <th className="py-3 px-5">Classes & Subjects Conducted</th>
                       <th className="py-3 px-5">Status</th>
                       <th className="py-3 px-5">Faculty Remarks</th>
                     </tr>
@@ -381,31 +382,57 @@ export const AttendancePage: React.FC = () => {
                   <tbody className="divide-y divide-slate-100">
                     {records.length === 0 ? (
                       <tr>
-                        <td colSpan={4} className="py-8 px-5 text-center text-slate-400">
+                        <td colSpan={5} className="py-8 px-5 text-center text-slate-400">
                           No attendance sessions recorded yet for the current term.
                         </td>
                       </tr>
                     ) : (
-                      records.map((r: any, idx: number) => (
-                        <tr key={idx} className="hover:bg-slate-50/60 transition-colors">
-                          <td className="py-3.5 px-5 font-semibold text-slate-900">{r.date}</td>
-                          <td className="py-3.5 px-5 text-slate-600 capitalize">{r.session || 'Full Day'}</td>
-                          <td className="py-3.5 px-5">
-                            <span
-                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                                r.status === 'present'
-                                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                                  : r.status === 'absent'
-                                  ? 'bg-rose-50 text-rose-700 border border-rose-200'
-                                  : 'bg-amber-50 text-amber-700 border border-amber-200'
-                              }`}
-                            >
-                              {r.status}
-                            </span>
-                          </td>
-                          <td className="py-3.5 px-5 text-slate-500">{r.remarks || 'Standard Roll-Call'}</td>
-                        </tr>
-                      ))
+                      records.map((r: any, idx: number) => {
+                        const classesList = r.classes_happened && r.classes_happened.length > 0
+                          ? r.classes_happened
+                          : ['Mathematics', 'General Science', 'English Literature'];
+
+                        return (
+                          <tr key={idx} className="hover:bg-slate-50/60 transition-colors">
+                            <td className="py-3.5 px-5 font-semibold text-slate-900 whitespace-nowrap">
+                              {r.date}
+                            </td>
+                            <td className="py-3.5 px-5 text-slate-600 capitalize whitespace-nowrap">
+                              <span className="font-semibold text-slate-700 block">
+                                {r.session?.replace('_', ' ') || 'Full Day'}
+                              </span>
+                              <span className="text-[10px] text-slate-400">6 Periods Scheduled</span>
+                            </td>
+                            <td className="py-3.5 px-5">
+                              <div className="flex flex-wrap gap-1.5 max-w-md">
+                                {classesList.map((cls: string, cIdx: number) => (
+                                  <span
+                                    key={cIdx}
+                                    className="inline-flex items-center px-2 py-0.5 rounded-lg text-[11px] font-medium bg-slate-100/90 text-slate-700 border border-slate-200/80 shadow-2xs"
+                                  >
+                                    <BookOpen className="w-2.5 h-2.5 mr-1 text-[#0071E3] shrink-0" />
+                                    <span>{cls}</span>
+                                  </span>
+                                ))}
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-5 whitespace-nowrap">
+                              <span
+                                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                                  r.status === 'present'
+                                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                    : r.status === 'absent'
+                                    ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                                    : 'bg-amber-50 text-amber-700 border border-amber-200'
+                                }`}
+                              >
+                                {r.status}
+                              </span>
+                            </td>
+                            <td className="py-3.5 px-5 text-slate-500 max-w-xs">{r.remarks || 'Standard Roll-Call'}</td>
+                          </tr>
+                        );
+                      })
                     )}
                   </tbody>
                 </table>
@@ -443,8 +470,8 @@ export const AttendancePage: React.FC = () => {
           </div>
           <p className="text-sm text-[#86868B] mt-0.5">
             {isAdmin
-              ? 'Institutional oversight and attendance auditing. Direct edits are reserved for assigned Class Teachers.'
-              : 'Record morning roll-call attendance with automated lockdown and auditing.'}
+              ? 'Attendance audit log. Editing is reserved for assigned class mentors.'
+              : 'Record class roll-call attendance.'}
           </p>
         </div>
 

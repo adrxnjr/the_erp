@@ -16,6 +16,12 @@ import { TransportPage } from './pages/TransportPage';
 import { CareerPage } from './pages/CareerPage';
 import { StaffAttendancePage } from './pages/StaffAttendancePage';
 import { TreasuryPage } from './pages/TreasuryPage';
+import { TuitionsAdminPage } from './pages/TuitionsAdminPage';
+import { TuitionRecommendationsPage } from './pages/TuitionRecommendationsPage';
+import { SocialWallPage } from './pages/SocialWallPage';
+import { CoordinatorsPage } from './pages/CoordinatorsPage';
+import { StudentRewardsPage } from './pages/StudentRewardsPage';
+import { AdminRewardsPage } from './pages/AdminRewardsPage';
 
 import { WelcomeScreen } from './components/WelcomeScreen';
 
@@ -77,6 +83,7 @@ export function App() {
             }
           >
             <Route path="/" element={<DashboardPage />} />
+            <Route path="/social-wall" element={<SocialWallPage />} />
             <Route path="/students" element={<StudentsPage />} />
             <Route path="/academic" element={<AcademicPage />} />
             <Route path="/attendance" element={<AttendancePage />} />
@@ -87,6 +94,12 @@ export function App() {
             <Route path="/career" element={<CareerPage />} />
             <Route path="/staff-attendance" element={<StaffAttendancePage />} />
             <Route path="/treasury" element={<TreasuryPage />} />
+            <Route path="/tuitions" element={<TuitionsAdminPage />} />
+            <Route path="/tuition-recommendations" element={<TuitionRecommendationsPage />} />
+            <Route path="/coordinators" element={<CoordinatorsPage />} />
+            <Route path="/rewards" element={<StudentRewardsPage />} />
+            <Route path="/student/rewards" element={<StudentRewardsPage />} />
+            <Route path="/admin/rewards" element={<AdminRewardsPage />} />
             <Route path="/reports" element={<ReportsPage />} />
             <Route path="/enquiry" element={<PublicEnquiryPage />} />
           </Route>

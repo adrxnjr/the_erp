@@ -25,16 +25,20 @@ import {
   HelpCircle,
   FileSpreadsheet,
   Layers,
-  Sparkles,
   ArrowRight,
   Briefcase,
   Check,
+  Download,
+  Loader2,
+  Trophy,
 } from 'lucide-react';
 
 export const DashboardPage: React.FC = () => {
   const { user } = useAuth();
   const [stats, setStats] = useState<any>(null);
   const [children, setChildren] = useState<any[]>([]);
+  const [childRewards, setChildRewards] = useState<Record<string, any>>({});
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [studentExtra, setStudentExtra] = useState<any>({
     attendance: null,
     timetable: [],
@@ -64,6 +68,18 @@ export const DashboardPage: React.FC = () => {
         if (user?.portal_type === 'parent') {
           const res = await api.get('/portal/parent/children');
           setChildren(res.data);
+          if (Array.isArray(res.data)) {
+            const rewardsMap: Record<string, any> = {};
+            await Promise.allSettled(
+              res.data.map(async (child: any) => {
+                try {
+                  const rRes = await api.get('/rewards/my-points', { params: { student_id: child.id } });
+                  rewardsMap[child.id] = rRes.data;
+                } catch (err) {}
+              })
+            );
+            setChildRewards(rewardsMap);
+          }
         } else if (user?.portal_type === 'student') {
           const profile = await api.get('/portal/student/profile');
           setStats(profile.data);
@@ -109,6 +125,33 @@ export const DashboardPage: React.FC = () => {
     alert(`Statutory low attendance alert dispatched via SMS/WhatsApp to parent of ${studentName} (${phone}).`);
   };
 
+  const handleDownloadIdCard = async (studentId: string, admissionNumber: string) => {
+    if (!studentId) {
+      alert('Student record ID not available.');
+      return;
+    }
+    try {
+      setDownloadingId(studentId);
+      const res = await api.get(`/id-cards/student/${studentId}`, {
+        responseType: 'blob',
+      });
+      const blob = new Blob([res.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `ID_Card_${admissionNumber || 'student'}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err: any) {
+      console.error('Failed to download ID card:', err);
+      alert('Failed to generate student ID card. Please try again.');
+    } finally {
+      setDownloadingId(null);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
@@ -126,7 +169,7 @@ export const DashboardPage: React.FC = () => {
 
     return (
       <div className="space-y-6 max-w-6xl mx-auto pb-12 animate-fadeIn">
-        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden">
+        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="relative z-10 max-w-2xl space-y-2">
             <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 border border-blue-200">
               Student Self-Service Portal
@@ -138,6 +181,25 @@ export const DashboardPage: React.FC = () => {
               Enrolled in <span className="font-semibold text-slate-800">{stats?.class_name || 'Class 10-A'}</span> | Admission No:{' '}
               <span className="font-mono font-medium text-slate-800">{stats?.admission_number || 'ADM-2026-0001'}</span>
             </p>
+          </div>
+          <div className="relative z-10 flex items-center space-x-3">
+            <button
+              onClick={() => handleDownloadIdCard(stats?.id, stats?.admission_number)}
+              disabled={downloadingId === stats?.id}
+              className="ios-gloss-btn px-4 py-2.5 text-xs font-bold space-x-2 flex items-center shadow-md hover:shadow-lg disabled:opacity-50"
+            >
+              {downloadingId === stats?.id ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-white" />
+                  <span>Generating Card...</span>
+                </>
+              ) : (
+                <>
+                  <Download className="w-4 h-4 text-white" />
+                  <span>Download My ID Card</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
 
@@ -200,14 +262,14 @@ export const DashboardPage: React.FC = () => {
           <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-3xl p-6 shadow-sm space-y-3">
             <h3 className="text-sm font-bold text-slate-900 flex items-center space-x-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>Academic Integrity & Hall Ticket Clearance</span>
+              <span>Attendance Status</span>
             </h3>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Your attendance records comply with CBSE/ICSE regulatory standards. Ensure cumulative attendance remains above 75% throughout the term to guarantee examination hall ticket issuance.
+              Your attendance meets examination requirements. Keep attendance above 75% for exam clearance.
             </p>
             <div className="pt-2">
               <Link to="/attendance" className="inline-flex items-center space-x-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700">
-                <span>View Attendance History Log</span>
+                <span>View Attendance History</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -217,18 +279,18 @@ export const DashboardPage: React.FC = () => {
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-bold flex items-center space-x-2 text-indigo-950">
                 <Compass className="w-4 h-4 text-indigo-600" />
-                <span>AI Career Guidance & College Pathways</span>
+                <span>Artificial Intelligence</span>
               </h3>
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-700 border border-indigo-200">
                 RIASEC AI
               </span>
             </div>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Discover engineering, medical, law, and arts competitive exams (JEE, NEET, CLAT, CUET) and personalized roadmap recommendations.
+              Explore college pathways, competitive entrance exams, and personalized career roadmaps.
             </p>
             <div className="pt-2">
               <Link to="/career" className="ios-gloss-btn px-4 py-2 text-xs font-semibold space-x-1.5 inline-flex items-center">
-                <span>Launch Career Assessment</span>
+                <span>Start Assessment</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -287,15 +349,90 @@ export const DashboardPage: React.FC = () => {
                   </div>
                 </div>
 
+                {/* Gamified Rewards Summary Card */}
+                {childRewards[child.id] && (
+                  <div className="mt-4 pt-4 border-t border-black/[0.05] space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Trophy className="w-4 h-4 text-amber-500" />
+                        <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">Merit & Honors</span>
+                      </div>
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-100 text-amber-800 border border-amber-300">
+                        {childRewards[child.id].current_level} SCHOLAR
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between bg-amber-50/70 p-3 rounded-2xl border border-amber-200/80">
+                      <div>
+                        <div className="text-[10px] font-bold text-slate-500 uppercase">Scholarship Points</div>
+                        <div className="text-lg font-black text-amber-700">
+                          {childRewards[child.id].total_points.toLocaleString()} <span className="text-xs font-bold text-slate-500">pts</span>
+                        </div>
+                      </div>
+                      <Link
+                        to="/rewards"
+                        className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs shadow-sm flex items-center gap-1.5 transition"
+                      >
+                        <span>View Full Rewards</span>
+                        <ChevronRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+
+                    {/* Top 3 Badges Earned */}
+                    {childRewards[child.id].earned_badges && childRewards[child.id].earned_badges.length > 0 && (
+                      <div className="space-y-1.5">
+                        <div className="text-[11px] font-semibold text-slate-400">Distinctions Earned:</div>
+                        <div className="grid grid-cols-3 gap-2">
+                          {childRewards[child.id].earned_badges.slice(0, 3).map((eb: any) => {
+                            const isNew = (new Date().getTime() - new Date(eb.awarded_at).getTime()) < 14 * 24 * 60 * 60 * 1000;
+                            return (
+                              <div
+                                key={eb.id}
+                                className="relative bg-white/80 p-2 rounded-xl border border-slate-200/80 text-center shadow-xs overflow-hidden"
+                              >
+                                {isNew && (
+                                  <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-rose-500 text-white text-[8px] font-black uppercase px-1.5 py-0.2 rounded-bl shadow-xs">
+                                    NEW!
+                                  </span>
+                                )}
+                                <div className="flex items-center justify-center py-1">
+                                  <Award className="w-5 h-5 text-amber-500" />
+                                </div>
+                                <div className="text-[10px] font-bold text-slate-800 truncate mt-1">
+                                  {eb.badge?.name || 'Achievement'}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 <div className="mt-4 pt-3 border-t border-black/[0.05] flex items-center justify-between text-xs">
                   <Link to="/attendance" className="font-semibold text-blue-600 hover:text-blue-700 flex items-center space-x-1">
                     <span>View Attendance</span>
                     <ChevronRight className="w-3.5 h-3.5" />
                   </Link>
-                  <Link to="/transport" className="font-semibold text-slate-600 hover:text-slate-800 flex items-center space-x-1">
-                    <span>Track Bus</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </Link>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => handleDownloadIdCard(child.id, child.admission_number)}
+                      disabled={downloadingId === child.id}
+                      className="px-2.5 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200/80 font-semibold flex items-center space-x-1 transition-all disabled:opacity-50"
+                      title="Download Student ID Card"
+                    >
+                      {downloadingId === child.id ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-600" />
+                      ) : (
+                        <span>ID Card</span>
+                      )}
+                    </button>
+                    <Link to="/transport" className="font-semibold text-slate-600 hover:text-slate-800 flex items-center space-x-1">
+                      <span>Track Bus</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}
@@ -311,66 +448,66 @@ export const DashboardPage: React.FC = () => {
   const bigSchoolWorkflowSteps = [
     {
       id: 'step-01',
-      title: '1. Admissions & Enrollment Desk',
-      category: 'Inquiry & Registration',
-      description: 'Online applications & walk-ins received. Identity documents verified, birth certificates audited, admission fees receipted, and student assigned permanent Admission ID.',
+      title: '1. Admissions & Enrollment',
+      category: 'Admissions',
+      description: 'Receive applications, verify student records, and issue admission IDs.',
       link: '/students',
-      linkText: 'Admissions Module',
-      badge: 'Front-Office Intake',
+      linkText: 'Admissions',
+      badge: 'Step 1',
     },
     {
       id: 'step-02',
-      title: '2. Academic Allocation & Timetables',
-      category: 'Curriculum Scheduling',
-      description: 'Students mapped to Grades & Sections. Primary Class Teacher assigned. Subject specialists mapped to weekly timetable periods (Mon-Sat) with classroom conflict prevention.',
+      title: '2. Classes & Timetables',
+      category: 'Academics',
+      description: 'Assign students to classes, allocate teachers, and set weekly schedules.',
       link: '/academic',
-      linkText: 'Classrooms & Timetable',
-      badge: 'Academic Planning',
+      linkText: 'Timetable',
+      badge: 'Step 2',
     },
     {
       id: 'step-03',
-      title: '3. Digital Roll-Call & Low Attendance Radar',
-      category: 'Daily Statutory Discipline',
-      description: 'Every morning by 08:30 AM, class teachers submit digital roll-call. The system automatically computes cumulative student attendance % and flags students falling below 75% for board exam debarment alerts.',
+      title: '3. Attendance Tracking',
+      category: 'Attendance',
+      description: 'Record daily roll-call and monitor students below the 75% target.',
       link: '/attendance',
-      linkText: 'Attendance Oversight',
-      badge: 'Regulatory Mandate',
+      linkText: 'Attendance',
+      badge: 'Step 3',
     },
     {
       id: 'step-04',
-      title: '4. Continuous Evaluation & Examinations',
-      category: 'Pedagogy & Assessment',
-      description: 'Formative unit tests and term final examinations conducted. Marks recorded in gradebook, GPA calculated, and CBSE/ICSE report cards compiled with automatic grading curves.',
+      title: '4. Examinations & Grades',
+      category: 'Exams',
+      description: 'Conduct term assessments, record subject marks, and issue report cards.',
       link: '/examinations',
-      linkText: 'Marks & Report Cards',
-      badge: 'Academic Quality',
+      linkText: 'Examinations',
+      badge: 'Step 4',
     },
     {
       id: 'step-05',
-      title: '5. Student Fee Invoicing & Collections',
-      category: 'Accounts Receivable',
-      description: 'Tuition fees, lab fees, and transport bus subscriptions generated per term. Online gateway and cash counter payments reconciled, automated receipts issued, and fee defaulter rosters monitored.',
+      title: '5. Fees & Payments',
+      category: 'Fees',
+      description: 'Generate term fee invoices, collect dues, and issue receipts.',
       link: '/fees',
-      linkText: 'Fee Collection Engine',
-      badge: 'Cashflow Inflow',
+      linkText: 'Fees',
+      badge: 'Step 5',
     },
     {
       id: 'step-06',
-      title: '6. GPS Fleet Logistics & Campus Security',
-      category: 'Student Safety Operations',
-      description: 'School buses tracked in real-time with GPS telematics, speed limit alerts, geofenced route boundaries, and driver attendance verification for safe morning and evening student transit.',
+      title: '6. Transport & Buses',
+      category: 'Transport',
+      description: 'Real-time bus tracking and student transit route management.',
       link: '/transport',
-      linkText: 'Fleet Radar',
-      badge: 'Logistics Safety',
+      linkText: 'Transport',
+      badge: 'Step 6',
     },
     {
       id: 'step-07',
-      title: '7. Staff Workforce & Institutional Treasury',
-      category: 'Trustee Governance',
-      description: 'Super Admin and Principal oversee faculty daily attendance and periods taught, authorize monthly vendor bills (Power, Telecom, Fleet Fuel, Books), and service institutional capital bank loans.',
+      title: '7. Staff & Treasury',
+      category: 'Operations',
+      description: 'Oversee faculty attendance, operating expenses, and institutional finances.',
       link: isSuperAdmin ? '/treasury' : '/staff-attendance',
-      linkText: isSuperAdmin ? 'Treasury & Loans' : 'Staff Attendance',
-      badge: 'Supervisory Governance',
+      linkText: isSuperAdmin ? 'Treasury' : 'Staff',
+      badge: 'Step 7',
     },
   ];
 
@@ -391,7 +528,7 @@ export const DashboardPage: React.FC = () => {
           <div className="relative z-10 space-y-2">
             <div className="flex items-center space-x-2">
               <span className="px-3 py-1 bg-purple-100 text-purple-700 border border-purple-200 text-xs font-semibold rounded-full uppercase tracking-wider flex items-center space-x-1.5 shadow-2xs">
-                <Sparkles className="w-3.5 h-3.5" />
+                <ShieldCheck className="w-3.5 h-3.5" />
                 <span>Super Admin Board Trustee</span>
               </span>
               <span className="px-3 py-1 bg-emerald-500/15 text-[#34C759] border border-emerald-500/30 text-xs font-semibold rounded-full">
@@ -399,10 +536,10 @@ export const DashboardPage: React.FC = () => {
               </span>
             </div>
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
-              Institutional Governance & Operations
+              Governance & Operations
             </h1>
             <p className="text-slate-600 text-xs md:text-sm max-w-2xl">
-              High-level supervisory oversight across student body, teaching faculty workforce, institutional loans, and accounts payable disbursement.
+              Supervisory overview of students, staff, and institutional finances.
             </p>
           </div>
 
@@ -525,11 +662,11 @@ export const DashboardPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Layers className="w-5 h-5 text-[#0071E3]" />
                 <h2 className="text-lg font-bold text-[#1D1D1F]">
-                  Complete Big School Operational Workflow Map
+                  Operational Workflow
                 </h2>
               </div>
               <p className="text-xs text-slate-500 mt-1 max-w-2xl">
-                End-to-end practical institutional architecture illustrating how Ever Grow Schools manages admissions, staff workload, attendance, exams, fees, transport, and treasury.
+                Step-by-step overview of institutional management.
               </p>
             </div>
             <span className="px-3 py-1 rounded-full bg-blue-50 text-[#0071E3] border border-blue-200 text-xs font-semibold self-start md:self-auto">
@@ -724,10 +861,10 @@ export const DashboardPage: React.FC = () => {
               </span>
             </div>
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
-              Campus Operations & Academic Oversight
+              Campus Operations
             </h1>
             <p className="text-slate-600 text-xs md:text-sm max-w-2xl">
-              Teacher & student headcounts, institutional total attendance tracking, low attendance student radar, and end-to-end practical school workflow.
+              Daily summary of students, faculty, and academic programs.
             </p>
           </div>
 
@@ -853,11 +990,11 @@ export const DashboardPage: React.FC = () => {
                   <AlertTriangle className="w-4 h-4" />
                 </div>
                 <h2 className="text-lg font-bold text-[#1D1D1F]">
-                  Low Attendance Student Radar ({lowAttendanceRadar.length} Flagged)
+                  Low Attendance Alerts ({lowAttendanceRadar.length})
                 </h2>
               </div>
               <p className="text-xs text-slate-500 mt-1">
-                Students below the 75% statutory board examination eligibility threshold. Immediate parent undertaking and counseling required.
+                Students with aggregate attendance below 75%.
               </p>
             </div>
             <span className="px-3 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200 self-start sm:self-auto">

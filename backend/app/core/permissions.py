@@ -3,12 +3,12 @@ from typing import Callable, List, Optional
 from fastapi import Depends, Header, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy import select
-from sqlalchemy.orm import Session, selectinload
+from sqlalchemy.orm import Session, selectinload, joinedload
 
 from app.core.exceptions import AppError
 from app.core.security import decode_token
 from app.db.dependencies import get_db
-from app.models.user import User
+from app.models.user import User, UserRole
 
 bearer_scheme = HTTPBearer(auto_error=False)
 
@@ -49,7 +49,7 @@ def get_current_user(
     # Fetch user eagerly with user_roles and role relations
     stmt = (
         select(User)
-        .options(selectinload(User.user_roles))
+        .options(selectinload(User.user_roles).joinedload(UserRole.role))
         .where(User.id == user_uuid)
     )
     user = db.execute(stmt).scalar_one_or_none()

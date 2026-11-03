@@ -11,6 +11,7 @@ from app.models.academic import (
     Subject,
     ClassSubject,
     Holiday,
+    Syllabus,
 )
 from app.models.audit import AuditLog
 from app.models.student import (
@@ -67,6 +68,30 @@ from app.models.career import (
     AssessmentAnswer,
     CareerRecommendation,
     CounsellorReview,
+)
+from app.models.tuition import (
+    TuitionCenter,
+    TuitionTeacher,
+    TuitionBatch,
+    TuitionEnquiry,
+)
+from app.models.social import (
+    Post,
+    PostReaction,
+    PostComment,
+    PostView,
+    PostType,
+    PostVisibility,
+    ReactionType,
+)
+from app.models.coordinator import CoordinatorProfile
+from app.models.rewards import (
+    PointTransaction,
+    StudentPointSummary,
+    Badge,
+    StudentBadge,
+    RewardItem,
+    RewardRedemption,
 )
 
 __all__ = [
@@ -127,4 +152,21 @@ __all__ = [
     "AssessmentAnswer",
     "CareerRecommendation",
     "CounsellorReview",
+    "TuitionCenter",
+    "TuitionTeacher",
+    "TuitionBatch",
+    "TuitionEnquiry",
+    "Post",
+    "PostReaction",
+    "PostComment",
+    "PostView",
+    "PostType",
+    "PostVisibility",
+    "ReactionType",
+    "PointTransaction",
+    "StudentPointSummary",
+    "Badge",
+    "StudentBadge",
+    "RewardItem",
+    "RewardRedemption",
 ]

@@ -134,6 +134,10 @@ class ExamResult(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     grade: Mapped[Optional[str]] = mapped_column(String(10), nullable=True)
     rank: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     status: Mapped[str] = mapped_column(String(20), default="draft", nullable=False)  # draft, submitted, reviewed, approved, published
+    parent_approved: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    parent_approved_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+    parent_approved_by_name: Mapped[Optional[str]] = mapped_column(String(150), nullable=True)
+    parent_feedback: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
 
 
 class MarkCorrectionRequest(Base, UUIDPrimaryKeyMixin, TimestampMixin):
