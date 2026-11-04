@@ -15,7 +15,6 @@ import {
   GraduationCap,
   Users,
   Briefcase,
-  School,
   Bus,
 } from 'lucide-react';
 import { WelcomeScreen } from '../components/WelcomeScreen';
@@ -155,67 +154,67 @@ export const LoginPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen w-full flex flex-col lg:flex-row bg-white">
+    <div className="h-screen max-h-screen w-full flex flex-col lg:flex-row bg-white overflow-y-auto lg:overflow-hidden select-none">
       {/* ─────────────────────────────────────────────────────────────
           LEFT SIDE: BRAND ARTWORK & INSTITUTIONAL DESIGN PANEL
           ───────────────────────────────────────────────────────────── */}
-      <div className="w-full lg:w-1/2 xl:w-[48%] min-h-[380px] lg:min-h-screen relative flex flex-col justify-between p-8 sm:p-12 lg:p-14 overflow-hidden bg-gradient-to-br from-blue-50/90 via-slate-50 to-indigo-50/70 border-b lg:border-b-0 lg:border-r border-slate-200/80">
+      <div className="w-full lg:w-1/2 xl:w-[48%] h-full max-h-screen relative flex flex-col justify-between p-5 lg:p-7 xl:p-9 overflow-hidden bg-gradient-to-br from-blue-50/90 via-slate-50 to-indigo-50/70 border-b lg:border-b-0 lg:border-r border-slate-200/80">
         {/* Decorative Ambient Background Glows */}
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-emerald-300/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-emerald-300/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute top-1/2 left-1/3 w-80 h-80 bg-purple-300/15 rounded-full blur-3xl pointer-events-none" />
 
         {/* Top Header: Quick Return Link */}
         <div className="relative z-10 flex items-center justify-between">
           <Link
             to="/"
-            className="inline-flex items-center space-x-2 text-xs font-bold text-slate-600 hover:text-[#0071E3] transition-colors py-1 px-3 rounded-full bg-white/80 border border-slate-200/80 shadow-xs"
+            className="inline-flex items-center space-x-2 text-xs font-bold text-slate-600 hover:text-[#0071E3] transition-colors py-1 px-3 rounded-full bg-white/80 border border-slate-200/80 shadow-2xs"
           >
             <ArrowLeft className="w-3.5 h-3.5 text-[#0071E3]" />
             <span>Return to School Website</span>
           </Link>
         </div>
 
-        {/* Center: Artistic Illustration & Brand Showcase */}
-        <div className="relative z-10 my-auto py-8 sm:py-12 space-y-8 max-w-lg">
+        {/* Center: Brand Showcase & Animated Logo */}
+        <div className="relative z-10 my-auto py-2 xl:py-4 space-y-4 xl:space-y-6 max-w-lg">
           {/* Animated Logo */}
           <div className="flex justify-center lg:justify-start">
-            <AnimatedLogo className="w-full max-w-[360px] sm:max-w-[430px]" idPrefix="login-left" />
+            <AnimatedLogo className="w-full max-w-[260px] sm:max-w-[300px] xl:max-w-[340px]" idPrefix="login-left" />
           </div>
 
           {/* Core Institutional Typography */}
-          <div className="space-y-3">
-            <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+          <div className="space-y-2 xl:space-y-3">
+            <h1 className="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight leading-tight">
               Empowering Future Leaders with Smart Governance
             </h1>
-            <p className="text-slate-600 text-sm leading-relaxed">
+            <p className="text-xs xl:text-sm text-slate-600 leading-relaxed">
               Welcome to the official Ever Grow Schools management portal. Access academic records,
               grading, attendance registers, bus GPS tracking, and school communications.
             </p>
           </div>
 
           {/* Quick Institutional Highlights */}
-          <div className="grid grid-cols-2 gap-3 pt-2">
-            <div className="bg-white/90 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-3.5 shadow-2xs space-y-1">
-              <div className="flex items-center space-x-2 text-[#0071E3]">
-                <GraduationCap className="w-4 h-4" />
+          <div className="grid grid-cols-2 gap-2.5 pt-1">
+            <div className="bg-white/90 backdrop-blur-sm border border-slate-200/80 rounded-xl p-2.5 shadow-2xs space-y-0.5">
+              <div className="flex items-center space-x-1.5 text-[#0071E3]">
+                <GraduationCap className="w-3.5 h-3.5" />
                 <span className="text-xs font-black text-slate-900">2,500+ Students</span>
               </div>
-              <p className="text-[11px] text-slate-500 font-medium">Holistic CBSE & State Curriculum</p>
+              <p className="text-[10px] text-slate-500 font-medium">Holistic CBSE & State Curriculum</p>
             </div>
 
-            <div className="bg-white/90 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-3.5 shadow-2xs space-y-1">
-              <div className="flex items-center space-x-2 text-emerald-600">
-                <Bus className="w-4 h-4" />
+            <div className="bg-white/90 backdrop-blur-sm border border-slate-200/80 rounded-xl p-2.5 shadow-2xs space-y-0.5">
+              <div className="flex items-center space-x-1.5 text-emerald-600">
+                <Bus className="w-3.5 h-3.5" />
                 <span className="text-xs font-black text-slate-900">24 Smart Fleets</span>
               </div>
-              <p className="text-[11px] text-slate-500 font-medium">Live GPS Student Transit Safety</p>
+              <p className="text-[10px] text-slate-500 font-medium">Live GPS Student Transit Safety</p>
             </div>
           </div>
         </div>
 
         {/* Bottom Institutional Accreditation */}
-        <div className="relative z-10 pt-4 border-t border-slate-200/80 flex flex-wrap items-center justify-between text-[11px] text-slate-500 font-medium gap-2">
+        <div className="relative z-10 pt-2.5 border-t border-slate-200/80 flex flex-wrap items-center justify-between text-[10px] text-slate-500 font-medium gap-1.5">
           <span>CBSE Affiliation No: 1930482</span>
           <span>•</span>
           <span>ISO 9001:2025 Certified Campus</span>
@@ -225,44 +224,44 @@ export const LoginPage: React.FC = () => {
       </div>
 
       {/* ─────────────────────────────────────────────────────────────
-          RIGHT SIDE: PURE FLAT INTEGRATED LOGIN INTERFACE (NO POPUP / NO CARD BOX)
+          RIGHT SIDE: PURE FLAT INTEGRATED LOGIN INTERFACE (FITS IN VIEWPORT WITHOUT SCROLLING)
           ───────────────────────────────────────────────────────────── */}
-      <div className="w-full lg:w-1/2 xl:w-[52%] flex flex-col justify-between p-6 sm:p-10 lg:p-16 min-h-screen bg-white">
-        {/* Main Form Body - Integrated Directly On The Page */}
-        <div className="w-full max-w-md mx-auto my-auto space-y-6">
-          {/* Clean Integrated Header */}
-          <div className="space-y-2">
-            <div className="flex items-center space-x-3">
-              <img src={logoImg} alt="Ever Grow Schools Logo" className="w-10 h-10 object-contain" />
+      <div className="w-full lg:w-1/2 xl:w-[52%] h-full max-h-screen flex flex-col justify-between p-5 lg:p-7 xl:p-9 bg-white overflow-hidden">
+        {/* Main Form Body - Compact & Centered */}
+        <div className="w-full max-w-sm xl:max-w-md mx-auto my-auto space-y-3.5 xl:space-y-4">
+          {/* Integrated Header */}
+          <div className="space-y-1">
+            <div className="flex items-center space-x-2.5">
+              <img src={logoImg} alt="Ever Grow Schools Logo" className="w-8 h-8 object-contain shrink-0" />
               <div>
-                <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+                <h2 className="text-xl xl:text-2xl font-black text-slate-900 tracking-tight leading-tight">
                   Ever Grow Schools Portal
                 </h2>
-                <p className="text-[11px] text-slate-500 font-extrabold uppercase tracking-wider">
+                <p className="text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">
                   Institutional Sign In
                 </p>
               </div>
             </div>
-            <p className="text-xs text-slate-500 leading-relaxed">
+            <p className="text-[11px] text-slate-500 leading-tight">
               Select your user category and enter your institutional credentials to access your dashboard.
             </p>
           </div>
 
           {/* Segmented Portal Switcher */}
-          <div className="grid grid-cols-3 gap-1.5 p-1.5 bg-slate-100 rounded-2xl border border-slate-200/80">
+          <div className="grid grid-cols-3 gap-1 p-1 bg-slate-100 rounded-xl border border-slate-200/80">
             <button
               type="button"
               onClick={() => {
                 setPortalType('staff');
                 setError(null);
               }}
-              className={`py-2.5 text-xs font-bold rounded-xl transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
+              className={`py-1.5 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1 cursor-pointer ${
                 portalType === 'staff'
-                  ? 'bg-white text-slate-900 shadow-sm border border-slate-200/80'
+                  ? 'bg-white text-slate-900 shadow-xs border border-slate-200/80'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <Briefcase className="w-3.5 h-3.5 text-blue-600" />
+              <Briefcase className="w-3.5 h-3.5 text-blue-600 shrink-0" />
               <span>Staff / Admin</span>
             </button>
 
@@ -272,13 +271,13 @@ export const LoginPage: React.FC = () => {
                 setPortalType('student');
                 setError(null);
               }}
-              className={`py-2.5 text-xs font-bold rounded-xl transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
+              className={`py-1.5 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1 cursor-pointer ${
                 portalType === 'student'
-                  ? 'bg-white text-slate-900 shadow-sm border border-slate-200/80'
+                  ? 'bg-white text-slate-900 shadow-xs border border-slate-200/80'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <GraduationCap className="w-3.5 h-3.5 text-indigo-600" />
+              <GraduationCap className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
               <span>Student</span>
             </button>
 
@@ -288,29 +287,29 @@ export const LoginPage: React.FC = () => {
                 setPortalType('parent');
                 setError(null);
               }}
-              className={`py-2.5 text-xs font-bold rounded-xl transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
+              className={`py-1.5 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1 cursor-pointer ${
                 portalType === 'parent'
-                  ? 'bg-white text-slate-900 shadow-sm border border-slate-200/80'
+                  ? 'bg-white text-slate-900 shadow-xs border border-slate-200/80'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <Users className="w-3.5 h-3.5 text-emerald-600" />
+              <Users className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
               <span>Parent</span>
             </button>
           </div>
 
           {/* In-Page Error Banner */}
           {error && (
-            <div className="p-3.5 bg-red-50 border border-red-200 rounded-2xl flex items-start space-x-2.5 text-xs text-red-700 animate-shake">
+            <div className="p-2.5 bg-red-50 border border-red-200 rounded-xl flex items-start space-x-2 text-xs text-red-700 animate-shake">
               <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
               <div className="leading-snug">{error}</div>
             </div>
           )}
 
           {/* Credential Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-2.5 xl:space-y-3">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5">
+              <label className="block text-[11px] font-bold text-slate-700 mb-1">
                 {portalType === 'staff'
                   ? 'Employee ID / Staff Username'
                   : portalType === 'student'
@@ -318,8 +317,8 @@ export const LoginPage: React.FC = () => {
                   : 'Registered Parent Email / Phone / ID'}
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                  <User className="w-4 h-4" />
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                  <User className="w-3.5 h-3.5" />
                 </div>
                 <input
                   type="text"
@@ -333,28 +332,28 @@ export const LoginPage: React.FC = () => {
                       ? 'e.g. student1 or ADM-2026-0001'
                       : 'e.g. parent1 or parent phone'
                   }
-                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0071E3] transition-all font-medium"
+                  className="w-full pl-9 pr-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0071E3] transition-all font-medium"
                 />
               </div>
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-xs font-bold text-slate-700">Account Password</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-[11px] font-bold text-slate-700">Account Password</label>
                 <a
                   href="#contact"
                   onClick={(e) => {
                     e.preventDefault();
                     setError('To reset your credentials, please contact the campus IT Helpdesk or Administrator.');
                   }}
-                  className="text-[11px] text-[#0071E3] font-semibold hover:underline"
+                  className="text-[10px] text-[#0071E3] font-semibold hover:underline"
                 >
                   Forgot Password?
                 </a>
               </div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                  <KeyRound className="w-4 h-4" />
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                  <KeyRound className="w-3.5 h-3.5" />
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -362,44 +361,44 @@ export const LoginPage: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter password"
-                  className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0071E3] transition-all font-mono"
+                  className="w-full pl-9 pr-9 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0071E3] transition-all font-mono"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                 </button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-xs pt-1">
-              <label className="flex items-center space-x-2 text-slate-600 cursor-pointer">
+            <div className="flex items-center justify-between text-xs pt-0.5">
+              <label className="flex items-center space-x-1.5 text-slate-600 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="w-3.5 h-3.5 rounded text-[#0071E3] focus:ring-[#0071E3] border-slate-300"
                 />
-                <span className="text-[11px] font-medium">Keep me signed in</span>
+                <span className="text-[10px] font-medium">Keep me signed in</span>
               </label>
-              <div className="flex items-center space-x-1 text-[11px] text-slate-400">
+              <div className="flex items-center space-x-1 text-[10px] text-slate-400">
                 <Lock className="w-3 h-3 text-emerald-600" />
                 <span>256-Bit SSL Encrypted</span>
               </div>
             </div>
 
-            {/* Flat Full-Width Submit Button */}
+            {/* Flat Submit Button */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 rounded-xl bg-[#0071E3] hover:bg-[#0077ED] active:bg-[#0062C4] text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all flex items-center justify-center space-x-2 disabled:opacity-60 cursor-pointer"
+              className="w-full py-2.5 px-4 rounded-xl bg-[#0071E3] hover:bg-[#0077ED] active:bg-[#0062C4] text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all flex items-center justify-center space-x-1.5 disabled:opacity-60 cursor-pointer"
             >
               {loading ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                   <span>Authenticating...</span>
                 </>
               ) : (
@@ -419,21 +418,21 @@ export const LoginPage: React.FC = () => {
           </form>
 
           {/* Quick Demo Logins Badges */}
-          <div className="pt-4 border-t border-slate-100 space-y-2.5">
-            <div className="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">
+          <div className="pt-2.5 border-t border-slate-100 space-y-1.5">
+            <div className="text-[9px] font-extrabold uppercase text-slate-400 tracking-wider">
               Quick Demo Logins (One-Click Testing):
             </div>
-            <div className="grid grid-cols-2 gap-2 text-[11px]">
+            <div className="grid grid-cols-2 gap-1.5 text-[11px]">
               <button
                 type="button"
                 disabled={loading}
                 onClick={() => handleQuickDemoLogin('adrin', '123', 'staff')}
-                className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-left transition-colors flex items-center space-x-2 cursor-pointer"
+                className="p-1.5 xl:p-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-left transition-colors flex items-center space-x-1.5 cursor-pointer"
               >
-                <div className="w-2.5 h-2.5 rounded-full bg-blue-600 shrink-0"></div>
+                <div className="w-2 h-2 rounded-full bg-blue-600 shrink-0"></div>
                 <div className="truncate">
-                  <strong className="text-slate-900 block leading-tight">Super Admin</strong>
-                  <span className="text-[10px] text-slate-500 font-mono">adrin / 123</span>
+                  <strong className="text-slate-900 block leading-tight text-[11px]">Super Admin</strong>
+                  <span className="text-[9px] text-slate-500 font-mono">adrin / 123</span>
                 </div>
               </button>
 
@@ -441,12 +440,12 @@ export const LoginPage: React.FC = () => {
                 type="button"
                 disabled={loading}
                 onClick={() => handleQuickDemoLogin('staff3', '123', 'staff')}
-                className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-left transition-colors flex items-center space-x-2 cursor-pointer"
+                className="p-1.5 xl:p-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-left transition-colors flex items-center space-x-1.5 cursor-pointer"
               >
-                <div className="w-2.5 h-2.5 rounded-full bg-indigo-600 shrink-0"></div>
+                <div className="w-2 h-2 rounded-full bg-indigo-600 shrink-0"></div>
                 <div className="truncate">
-                  <strong className="text-slate-900 block leading-tight">Teacher</strong>
-                  <span className="text-[10px] text-slate-500 font-mono">staff3 / 123</span>
+                  <strong className="text-slate-900 block leading-tight text-[11px]">Teacher</strong>
+                  <span className="text-[9px] text-slate-500 font-mono">staff3 / 123</span>
                 </div>
               </button>
 
@@ -454,12 +453,12 @@ export const LoginPage: React.FC = () => {
                 type="button"
                 disabled={loading}
                 onClick={() => handleQuickDemoLogin('parent1', '123', 'parent')}
-                className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-left transition-colors flex items-center space-x-2 cursor-pointer"
+                className="p-1.5 xl:p-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-left transition-colors flex items-center space-x-1.5 cursor-pointer"
               >
-                <div className="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0"></div>
+                <div className="w-2 h-2 rounded-full bg-emerald-600 shrink-0"></div>
                 <div className="truncate">
-                  <strong className="text-slate-900 block leading-tight">Parent</strong>
-                  <span className="text-[10px] text-slate-500 font-mono">parent1 / 123</span>
+                  <strong className="text-slate-900 block leading-tight text-[11px]">Parent</strong>
+                  <span className="text-[9px] text-slate-500 font-mono">parent1 / 123</span>
                 </div>
               </button>
 
@@ -467,12 +466,12 @@ export const LoginPage: React.FC = () => {
                 type="button"
                 disabled={loading}
                 onClick={() => handleQuickDemoLogin('student1', '123', 'student')}
-                className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-left transition-colors flex items-center space-x-2 cursor-pointer"
+                className="p-1.5 xl:p-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-left transition-colors flex items-center space-x-1.5 cursor-pointer"
               >
-                <div className="w-2.5 h-2.5 rounded-full bg-amber-600 shrink-0"></div>
+                <div className="w-2 h-2 rounded-full bg-amber-600 shrink-0"></div>
                 <div className="truncate">
-                  <strong className="text-slate-900 block leading-tight">Student</strong>
-                  <span className="text-[10px] text-slate-500 font-mono">student1 / 123</span>
+                  <strong className="text-slate-900 block leading-tight text-[11px]">Student</strong>
+                  <span className="text-[9px] text-slate-500 font-mono">student1 / 123</span>
                 </div>
               </button>
             </div>
@@ -480,9 +479,9 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {/* Flat Bottom Security Assurance Footer */}
-        <div className="w-full pt-6 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-medium">
-          <div className="flex items-center space-x-1.5">
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+        <div className="w-full pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500 font-medium">
+          <div className="flex items-center space-x-1">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
             <span>Ever Grow Institutional Security</span>
           </div>
           <span className="text-slate-400">Version 2.4.0-LTS</span>
