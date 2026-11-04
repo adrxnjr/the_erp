@@ -1,34 +1,44 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import { Layout } from './components/Layout';
 import { LandingPage } from './pages/LandingPage';
-import { LoginPage } from './pages/LoginPage';
-import { PublicEnquiryPage } from './pages/PublicEnquiryPage';
 import { DashboardPage } from './pages/DashboardPage';
-import { StudentsPage } from './pages/StudentsPage';
-import { AttendancePage } from './pages/AttendancePage';
-import { ExaminationsPage } from './pages/ExaminationsPage';
-import { FeesPage } from './pages/FeesPage';
-import { ReportsPage } from './pages/ReportsPage';
-import { AcademicPage } from './pages/AcademicPage';
-import { TimetablePage } from './pages/TimetablePage';
-import { TransportPage } from './pages/TransportPage';
-import { CareerPage } from './pages/CareerPage';
-import { StaffAttendancePage } from './pages/StaffAttendancePage';
-import { TreasuryPage } from './pages/TreasuryPage';
-import { TuitionsAdminPage } from './pages/TuitionsAdminPage';
-import { TuitionRecommendationsPage } from './pages/TuitionRecommendationsPage';
-import { SocialWallPage } from './pages/SocialWallPage';
-import { CoordinatorsPage } from './pages/CoordinatorsPage';
-import { StudentRewardsPage } from './pages/StudentRewardsPage';
-import { AdminRewardsPage } from './pages/AdminRewardsPage';
-import { NotFoundPage } from './pages/NotFoundPage';
+
+// Performance-optimized dynamic code splitting for sub-pages
+const LoginPage = lazy(() => import('./pages/LoginPage').then(m => ({ default: m.LoginPage })));
+const PublicEnquiryPage = lazy(() => import('./pages/PublicEnquiryPage').then(m => ({ default: m.PublicEnquiryPage })));
+const StudentsPage = lazy(() => import('./pages/StudentsPage').then(m => ({ default: m.StudentsPage })));
+const AttendancePage = lazy(() => import('./pages/AttendancePage').then(m => ({ default: m.AttendancePage })));
+const ExaminationsPage = lazy(() => import('./pages/ExaminationsPage').then(m => ({ default: m.ExaminationsPage })));
+const FeesPage = lazy(() => import('./pages/FeesPage').then(m => ({ default: m.FeesPage })));
+const ReportsPage = lazy(() => import('./pages/ReportsPage').then(m => ({ default: m.ReportsPage })));
+const AcademicPage = lazy(() => import('./pages/AcademicPage').then(m => ({ default: m.AcademicPage })));
+const TimetablePage = lazy(() => import('./pages/TimetablePage').then(m => ({ default: m.TimetablePage })));
+const TransportPage = lazy(() => import('./pages/TransportPage').then(m => ({ default: m.TransportPage })));
+const CareerPage = lazy(() => import('./pages/CareerPage').then(m => ({ default: m.CareerPage })));
+const StaffAttendancePage = lazy(() => import('./pages/StaffAttendancePage').then(m => ({ default: m.StaffAttendancePage })));
+const TreasuryPage = lazy(() => import('./pages/TreasuryPage').then(m => ({ default: m.TreasuryPage })));
+const TuitionsAdminPage = lazy(() => import('./pages/TuitionsAdminPage').then(m => ({ default: m.TuitionsAdminPage })));
+const TuitionRecommendationsPage = lazy(() => import('./pages/TuitionRecommendationsPage').then(m => ({ default: m.TuitionRecommendationsPage })));
+const SocialWallPage = lazy(() => import('./pages/SocialWallPage').then(m => ({ default: m.SocialWallPage })));
+const CoordinatorsPage = lazy(() => import('./pages/CoordinatorsPage').then(m => ({ default: m.CoordinatorsPage })));
+const StudentRewardsPage = lazy(() => import('./pages/StudentRewardsPage').then(m => ({ default: m.StudentRewardsPage })));
+const AdminRewardsPage = lazy(() => import('./pages/AdminRewardsPage').then(m => ({ default: m.AdminRewardsPage })));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
 import { WelcomeScreen } from './components/WelcomeScreen';
 import { RoleGuard } from './components/RoleGuard';
 import { ErrorBoundary } from './components/ErrorBoundary';
+
+// Clean Apple-style lightweight route fallback loader
+const RouteLoader: React.FC = () => (
+  <div className="flex flex-col items-center justify-center min-h-[50vh] p-8 space-y-4 animate-fadeIn">
+    <div className="w-9 h-9 border-3 border-[#0071E3] border-t-transparent rounded-full animate-spin"></div>
+    <span className="text-xs font-semibold text-slate-500 tracking-wide">Loading module...</span>
+  </div>
+);
 
 // In Electron / file protocol, HashRouter avoids file:// 404 routing issues; BrowserRouter is used on web
 const isElectron =
@@ -100,7 +110,8 @@ export function App() {
         )}
         <ErrorBoundary>
         <RouterComponent>
-          <Routes>
+          <Suspense fallback={<RouteLoader />}>
+            <Routes>
             {/* Root Route: Landing Page if guest, Dashboard if authenticated */}
             <Route path="/" element={<RootHandler />} />
 
@@ -202,7 +213,8 @@ export function App() {
             {/* 404 Catch-All */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-        </RouterComponent>
+        </Suspense>
+      </RouterComponent>
       </ErrorBoundary>
     </ToastProvider>
   </AuthProvider>

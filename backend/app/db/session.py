@@ -17,8 +17,8 @@ connect_args = (
 
 engine_kwargs = {"pool_pre_ping": True}
 if not is_sqlite:
-    engine_kwargs["pool_size"] = 10
-    engine_kwargs["max_overflow"] = 20
+    engine_kwargs["pool_size"] = settings.DB_POOL_SIZE
+    engine_kwargs["max_overflow"] = settings.DB_MAX_OVERFLOW
 
 # Create SQLAlchemy 2.0 engine
 engine = create_engine(

@@ -49,6 +49,8 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str = "postgres"
     POSTGRES_DB: str = "school_erp_db"
     DATABASE_URL: str | None = None
+    DB_POOL_SIZE: int = 20
+    DB_MAX_OVERFLOW: int = 40
 
     @field_validator("DATABASE_URL", mode="before")
     @classmethod
