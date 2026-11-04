@@ -19,6 +19,7 @@ import {
   Bus,
 } from 'lucide-react';
 import { WelcomeScreen } from '../components/WelcomeScreen';
+import { AnimatedLogo } from '../components/AnimatedLogo';
 import logoImg from '../assets/logo.png';
 
 export const LoginPage: React.FC = () => {
@@ -182,80 +183,9 @@ export const LoginPage: React.FC = () => {
 
         {/* Center: Artistic Illustration & Brand Showcase */}
         <div className="relative z-10 my-auto py-8 sm:py-12 space-y-8 max-w-lg">
-          {/* Stylized Botanical & Brand Graphic */}
-          <div className="relative">
-            {/* SVG Organic Foliage & Growth Silhouette Graphic */}
-            <svg
-              className="w-full max-w-[320px] sm:max-w-[380px] h-auto drop-shadow-md mx-auto lg:mx-0"
-              viewBox="0 0 400 240"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <defs>
-                <linearGradient id="leafGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#0071E3" stopOpacity="0.85" />
-                  <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.4" />
-                </linearGradient>
-                <linearGradient id="leafGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#10B981" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#34D399" stopOpacity="0.35" />
-                </linearGradient>
-                <linearGradient id="leafGrad3" x1="0%" y1="50%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#6366F1" stopOpacity="0.75" />
-                  <stop offset="100%" stopColor="#818CF8" stopOpacity="0.3" />
-                </linearGradient>
-                <linearGradient id="leafGrad4" x1="50%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#F59E0B" stopOpacity="0.7" />
-                  <stop offset="100%" stopColor="#FBBF24" stopOpacity="0.25" />
-                </linearGradient>
-              </defs>
-
-              {/* Layered Organic Foliage Curves Inspired by School Logo */}
-              <path
-                d="M40 220 C60 120, 160 80, 260 90 C320 95, 360 140, 380 220 Z"
-                fill="url(#leafGrad1)"
-              />
-              <path
-                d="M70 220 C90 140, 180 110, 280 120 C330 125, 360 170, 370 220 Z"
-                fill="#FFFFFF"
-                fillOpacity="0.6"
-              />
-              <path
-                d="M10 220 C40 100, 140 40, 230 60 C300 75, 320 150, 330 220 Z"
-                fill="url(#leafGrad2)"
-              />
-              <path
-                d="M110 220 C140 130, 220 90, 300 110 C340 120, 360 170, 370 220 Z"
-                fill="url(#leafGrad3)"
-              />
-              <path
-                d="M150 220 C180 150, 240 120, 310 135 C340 145, 360 185, 365 220 Z"
-                fill="url(#leafGrad4)"
-              />
-
-              {/* Central Stylized Emblem Card */}
-              <rect
-                x="135"
-                y="30"
-                width="130"
-                height="130"
-                rx="32"
-                fill="#FFFFFF"
-                fillOpacity="0.95"
-                stroke="#E2E8F0"
-                strokeWidth="1.5"
-                filter="drop-shadow(0 10px 20px rgba(0, 113, 227, 0.12))"
-              />
-            </svg>
-
-            {/* Centered Brand Emblem over SVG */}
-            <div className="absolute top-[38px] left-[143px] w-[114px] h-[114px] flex items-center justify-center pointer-events-none">
-              <img
-                src={logoImg}
-                alt="Ever Grow Schools Logo"
-                className="w-20 h-20 object-contain drop-shadow-sm animate-pulse-slow"
-              />
-            </div>
+          {/* Animated Logo */}
+          <div className="flex justify-center lg:justify-start">
+            <AnimatedLogo className="w-full max-w-[360px] sm:max-w-[430px]" idPrefix="login-left" />
           </div>
 
           {/* Core Institutional Typography */}
