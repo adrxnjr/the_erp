@@ -19,7 +19,6 @@ import {
 } from 'lucide-react';
 import { WelcomeScreen } from '../components/WelcomeScreen';
 import { AnimatedLogo } from '../components/AnimatedLogo';
-import logoImg from '../assets/logo.png';
 
 export const LoginPage: React.FC = () => {
   const { login } = useAuth();
@@ -229,24 +228,6 @@ export const LoginPage: React.FC = () => {
       <div className="w-full lg:w-1/2 xl:w-[52%] h-full max-h-screen flex flex-col justify-between p-5 lg:p-7 xl:p-9 bg-white overflow-hidden">
         {/* Main Form Body - Compact & Centered */}
         <div className="w-full max-w-sm xl:max-w-md mx-auto my-auto space-y-3.5 xl:space-y-4">
-          {/* Integrated Header */}
-          <div className="space-y-1">
-            <div className="flex items-center space-x-2.5">
-              <img src={logoImg} alt="Ever Grow Schools Logo" className="w-8 h-8 object-contain shrink-0" />
-              <div>
-                <h2 className="text-xl xl:text-2xl font-black text-slate-900 tracking-tight leading-tight">
-                  Ever Grow Schools Portal
-                </h2>
-                <p className="text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">
-                  Institutional Sign In
-                </p>
-              </div>
-            </div>
-            <p className="text-[11px] text-slate-500 leading-tight">
-              Select your user category and enter your institutional credentials to access your dashboard.
-            </p>
-          </div>
-
           {/* Segmented Portal Switcher */}
           <div className="grid grid-cols-3 gap-1 p-1 bg-slate-100 rounded-xl border border-slate-200/80">
             <button
