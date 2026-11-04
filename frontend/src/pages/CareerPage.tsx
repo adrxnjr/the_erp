@@ -161,14 +161,14 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
           return (
             <div
               key={index}
-              className="my-3 rounded-2xl bg-slate-900 text-slate-100 overflow-hidden border border-slate-800 shadow-md"
+              className="my-3 rounded-2xl bg-slate-50 text-slate-800 overflow-hidden border border-slate-200 shadow-xs"
             >
-              <div className="flex items-center justify-between px-4 py-2 bg-slate-800/80 border-b border-slate-700/60 text-[11px] font-mono text-slate-400">
+              <div className="flex items-center justify-between px-4 py-2 bg-slate-100 border-b border-slate-200 text-[11px] font-mono text-slate-600">
                 <span>{lang || 'code'}</span>
                 <button
                   type="button"
                   onClick={() => handleCopy(code, codeId)}
-                  className="flex items-center space-x-1 hover:text-white transition-colors"
+                  className="flex items-center space-x-1 hover:text-[#0071E3] transition-colors"
                 >
                   {copiedId === codeId ? (
                     <>

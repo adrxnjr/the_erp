@@ -378,7 +378,7 @@ export const SocialWallPage: React.FC = () => {
     <div className="space-y-6 max-w-7xl mx-auto pb-12 animate-fadeIn">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-slate-900/95 backdrop-blur text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center space-x-2 text-xs font-semibold animate-fadeIn border border-white/10">
+        <div className="fixed bottom-6 right-6 z-50 bg-white/95 backdrop-blur text-slate-800 px-5 py-3 rounded-2xl shadow-xl flex items-center space-x-2 text-xs font-semibold animate-fadeIn border border-slate-200/80">
           <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           <span>{toastMessage}</span>
         </div>

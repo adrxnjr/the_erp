@@ -221,7 +221,7 @@ def redeem_reward_item(
         "admin_notes": redemption.admin_notes,
         "student_name": target_student.full_name,
         "reward_item_name": item.name if item else "Reward Item",
-        "reward_item_icon": item.icon_emoji if item else "🎁",
+        "reward_item_icon": item.icon_emoji if item else "",
         "reward_item": item,
     }
 
@@ -259,7 +259,7 @@ def get_my_redemptions(
             "admin_notes": r.admin_notes,
             "student_name": target_student.full_name,
             "reward_item_name": item.name if item else "Reward Item",
-            "reward_item_icon": item.icon_emoji if item else "🎁",
+            "reward_item_icon": item.icon_emoji if item else "",
             "reward_item": item,
         })
     return out
@@ -319,7 +319,7 @@ def get_all_redemptions(
             "admin_notes": r.admin_notes,
             "student_name": student.full_name if student else "Student",
             "reward_item_name": item.name if item else "Reward Item",
-            "reward_item_icon": item.icon_emoji if item else "🎁",
+            "reward_item_icon": item.icon_emoji if item else "",
             "reward_item": item,
         })
     return out
@@ -356,7 +356,7 @@ def review_redemption_request(
         "admin_notes": redemption.admin_notes,
         "student_name": student.full_name if student else "Student",
         "reward_item_name": item.name if item else "Reward Item",
-        "reward_item_icon": item.icon_emoji if item else "🎁",
+        "reward_item_icon": item.icon_emoji if item else "",
         "reward_item": item,
     }
 

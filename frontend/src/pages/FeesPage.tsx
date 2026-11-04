@@ -612,9 +612,9 @@ export const FeesPage: React.FC = () => {
               {/* Combined Family Overview Banner */}
               {familySummary && (
                 <div
-                  className={`rounded-[28px] p-6 md:p-8 text-white shadow-lg relative overflow-hidden transition-all ${familySummary.outstanding_balance > 0
-                      ? 'bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-700 shadow-slate-900/20'
-                      : 'bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 shadow-emerald-500/20'
+                  className={`rounded-[28px] p-6 md:p-8 shadow-sm border border-black/[0.06] relative overflow-hidden transition-all ${familySummary.outstanding_balance > 0
+                      ? 'bg-white/95 text-slate-900'
+                      : 'bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 text-white shadow-emerald-500/20'
                     }`}
                 >
                   <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
@@ -746,19 +746,19 @@ export const FeesPage: React.FC = () => {
             </div>
           ) : feeData ? (
             <div className="space-y-6">
-              {/* Outstanding Dues Banner OR All Paid Banner */}
+              {/* Outstanding Dues Banner OR All Paid Banner (Light Neumorphic Theme) */}
               {feeData.outstanding_balance > 0 ? (
-                <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-700 rounded-[28px] p-6 md:p-8 text-white shadow-xl shadow-indigo-950/20 relative overflow-hidden">
+                <div className="bg-white/95 backdrop-blur-xl border border-black/[0.06] rounded-[28px] p-6 md:p-8 text-slate-900 shadow-sm relative overflow-hidden">
                   <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                     <div className="space-y-3 max-w-xl">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-400/20 text-amber-300 border border-amber-400/30">
-                        <Clock className="w-3.5 h-3.5 mr-1.5 text-amber-300" />
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-50 text-amber-800 border border-amber-200">
+                        <Clock className="w-3.5 h-3.5 mr-1.5 text-amber-600" />
                         Academic Action Required • Pending Dues
                       </span>
-                      <h2 className="text-2xl md:text-3xl font-black tracking-tight text-white">
+                      <h2 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900">
                         Balance Due: ${Number(feeData.outstanding_balance).toLocaleString()}.00
                       </h2>
-                      <p className="text-xs md:text-sm text-slate-300 leading-relaxed">
+                      <p className="text-xs md:text-sm text-slate-600 leading-relaxed">
                         You have scheduled curricular charges pending clearance for the 2026–2027 academic session.
                         Complete your payment seamlessly through the institutional Amazon Pay portal.
                       </p>
@@ -775,10 +775,10 @@ export const FeesPage: React.FC = () => {
 
                         <button
                           onClick={() => handleResetDemoFees()}
-                          className="px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/15 text-white/90 text-xs font-semibold flex items-center space-x-1.5 transition-colors border border-white/10"
+                          className="px-4 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold flex items-center space-x-1.5 transition-colors border border-slate-200"
                           title="Reset demo dues"
                         >
-                          <RotateCcw className="w-3.5 h-3.5" />
+                          <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
                           <span>Reset Demo Dues</span>
                         </button>
                       </div>
@@ -786,26 +786,26 @@ export const FeesPage: React.FC = () => {
 
                     {/* Dues Metrics HUD */}
                     <div className="flex flex-wrap items-center gap-3">
-                      <div className="bg-white/10 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/15 text-center min-w-[120px]">
+                      <div className="bg-slate-50 border border-slate-200/80 px-5 py-4 rounded-2xl text-center min-w-[120px]">
                         <div className="text-[10px] font-bold uppercase text-slate-400">Total Annual Fee</div>
-                        <div className="text-xl md:text-2xl font-black text-white mt-0.5">
+                        <div className="text-xl md:text-2xl font-black text-slate-900 mt-0.5">
                           ${Number(feeData.total_annual_fee).toLocaleString()}
                         </div>
                       </div>
 
-                      <div className="bg-white/10 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/15 text-center min-w-[120px]">
+                      <div className="bg-slate-50 border border-slate-200/80 px-5 py-4 rounded-2xl text-center min-w-[120px]">
                         <div className="text-[10px] font-bold uppercase text-slate-400">Total Paid</div>
-                        <div className="text-xl md:text-2xl font-black text-emerald-400 mt-0.5">
+                        <div className="text-xl md:text-2xl font-black text-emerald-600 mt-0.5">
                           ${Number(feeData.total_paid).toLocaleString()}
                         </div>
                       </div>
 
-                      <div className="bg-amber-400 text-slate-950 px-5 py-4 rounded-2xl border border-amber-300 shadow-md text-center min-w-[120px]">
-                        <div className="text-[10px] font-extrabold uppercase text-slate-900">Balance Due</div>
-                        <div className="text-xl md:text-2xl font-black mt-0.5">
+                      <div className="bg-amber-50 text-amber-900 px-5 py-4 rounded-2xl border border-amber-300 shadow-xs text-center min-w-[120px]">
+                        <div className="text-[10px] font-extrabold uppercase text-amber-800">Balance Due</div>
+                        <div className="text-xl md:text-2xl font-black mt-0.5 text-[#B12704]">
                           ${Number(feeData.outstanding_balance).toLocaleString()}
                         </div>
-                        <span className="text-[9px] font-black text-slate-900 uppercase">
+                        <span className="text-[9px] font-black text-amber-700 uppercase">
                           Action Required
                         </span>
                       </div>

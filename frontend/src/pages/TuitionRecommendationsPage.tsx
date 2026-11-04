@@ -531,7 +531,7 @@ export const TuitionRecommendationsPage: React.FC = () => {
                       className="w-full ios-gloss-btn py-2 text-xs font-bold space-x-1.5 flex items-center justify-center shadow-sm"
                     >
                       <PhoneCall className="w-3.5 h-3.5 text-white" />
-                      <span>📞 Enquire Now</span>
+                      <span>Enquire Now</span>
                     </button>
                   </div>
                 </div>
@@ -559,7 +559,7 @@ export const TuitionRecommendationsPage: React.FC = () => {
                 {myEnquiries.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="px-6 py-10 text-center text-[#86868B] text-sm">
-                      No inquiries sent yet. Click "📞 Enquire Now" on any recommended tuition to register interest.
+                      No inquiries sent yet. Click "Enquire Now" on any recommended tuition to register interest.
                     </td>
                   </tr>
                 ) : (

@@ -383,7 +383,7 @@ class RewardsService:
             ).scalar_one_or_none()
 
             top_badge_name = top_student_badge.badge.name if top_student_badge and top_student_badge.badge else "Star Pupil"
-            top_badge_icon = top_student_badge.badge.icon_emoji if top_student_badge and top_student_badge.badge else "🌟"
+            top_badge_icon = top_student_badge.badge.icon_emoji if top_student_badge and top_student_badge.badge else ""
 
             leaderboard.append({
                 "rank": rank,

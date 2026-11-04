@@ -76,7 +76,7 @@ class AwardPointsRequest(BaseModel):
 class RewardItemCreate(BaseModel):
     name: str
     description: str
-    icon_emoji: str = "🎁"
+    icon_emoji: str = ""
     points_cost: int = Field(..., gt=0)
     category: str = "PRIVILEGE"
     stock: int = -1
@@ -137,7 +137,7 @@ class RewardRedemptionOut(BaseModel):
 class BadgeCreate(BaseModel):
     name: str
     description: str
-    icon_emoji: str = "🎯"
+    icon_emoji: str = ""
     category: str = "ACADEMIC"
     criteria_type: str = "POINTS_TOTAL"
     criteria_value: int = 0

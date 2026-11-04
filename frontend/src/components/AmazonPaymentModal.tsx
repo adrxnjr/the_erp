@@ -859,8 +859,8 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
                           {upiSubTab === 'qr' ? (
                             <div className="flex flex-col sm:flex-row items-center gap-5 p-4 bg-white rounded-2xl border border-slate-200">
                               {/* Dynamic QR Display */}
-                              <div className="w-36 h-36 bg-slate-900 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-inner relative">
-                                <QrCode className="w-28 h-28 text-white" />
+                              <div className="w-36 h-36 bg-slate-50 border-2 border-slate-200 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-inner relative">
+                                <QrCode className="w-28 h-28 text-slate-800" />
                                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                                   <div className="bg-amber-500 text-slate-950 font-black text-[9px] px-1.5 py-0.5 rounded shadow">
                                     EVERGROW
@@ -909,7 +909,7 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
                                 <button
                                   type="button"
                                   onClick={handleVerifyVpa}
-                                  className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition-colors"
+                                  className="px-4 py-2 bg-[#0071E3] text-white rounded-xl text-xs font-bold hover:bg-[#0077ED] transition-colors shadow-xs"
                                 >
                                   {vpaVerified ? 'Verified' : 'Verify'}
                                 </button>
@@ -1067,7 +1067,7 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
                     <button
                       type="button"
                       onClick={handleApplyPromo}
-                      className="px-5 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition-colors"
+                      className="px-5 py-2 bg-[#0071E3] text-white rounded-xl text-xs font-bold hover:bg-[#0077ED] transition-colors shadow-xs"
                     >
                       Apply
                     </button>

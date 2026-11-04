@@ -74,7 +74,7 @@ class Badge(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
     name: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=False)
-    icon_emoji: Mapped[str] = mapped_column(String(20), default="🎯", nullable=False)
+    icon_emoji: Mapped[str] = mapped_column(String(20), default="", nullable=False)
     category: Mapped[str] = mapped_column(
         String(50), default="ACADEMIC", nullable=False
     )  # ATTENDANCE, ACADEMIC, BEHAVIOR, SPECIAL
@@ -121,7 +121,7 @@ class RewardItem(Base, UUIDPrimaryKeyMixin):
 
     name: Mapped[str] = mapped_column(String(150), nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=False)
-    icon_emoji: Mapped[str] = mapped_column(String(20), default="🎁", nullable=False)
+    icon_emoji: Mapped[str] = mapped_column(String(20), default="", nullable=False)
     points_cost: Mapped[int] = mapped_column(Integer, nullable=False)
     category: Mapped[str] = mapped_column(
         String(50), default="PRIVILEGE", nullable=False

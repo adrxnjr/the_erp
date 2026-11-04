@@ -749,21 +749,23 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
         </div>
       </section>
 
-      {/* 8. FOOTER */}
-      <footer id="contact" className="bg-slate-900 text-slate-300 py-16 border-t border-slate-800">
+      {/* 8. FOOTER (LIGHT APPLE THEME) */}
+      <footer id="contact" className="bg-white/95 backdrop-blur-xl text-slate-600 py-16 border-t border-slate-200/90 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-xs">
             {/* Column 1: School Identity */}
             <div className="space-y-4 md:col-span-1">
               <div className="flex items-center space-x-2.5">
-                <img src={logoImg} alt="Ever Grow Logo" className="w-7 h-7 object-contain bg-white rounded-lg p-0.5" />
-                <span className="text-base font-black text-white">Ever Grow Schools</span>
+                <div className="w-8 h-8 rounded-xl bg-blue-50 border border-blue-200/60 p-1 flex items-center justify-center">
+                  <img src={logoImg} alt="Ever Grow Logo" className="w-full h-full object-contain" />
+                </div>
+                <span className="text-base font-black text-slate-900">Ever Grow Schools</span>
               </div>
-              <p className="text-slate-400 leading-relaxed">
+              <p className="text-slate-500 leading-relaxed">
                 Ever Grow International Schools — accredited institutional campus committed to academic rigor, integrity,
                 character formation, and innovation.
               </p>
-              <div className="text-[10px] text-slate-500 space-y-1 font-mono">
+              <div className="text-[10px] text-slate-400 space-y-1 font-mono">
                 <div>CBSE Affiliation No: 1930482</div>
                 <div>ISO 9001:2025 Certified Campus</div>
               </div>
@@ -771,42 +773,42 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
 
             {/* Column 2: Navigation Links */}
             <div className="space-y-3">
-              <h4 className="text-white font-bold uppercase tracking-wider text-[11px]">Quick Exploration</h4>
-              <ul className="space-y-2 text-slate-400">
-                <li><button onClick={() => scrollToSection('about')} className="hover:text-white transition-colors">Campus Ethos</button></li>
-                <li><button onClick={() => scrollToSection('academics')} className="hover:text-white transition-colors">Curricular Streams</button></li>
-                <li><button onClick={() => scrollToSection('campus-tech')} className="hover:text-white transition-colors">School ERP Systems</button></li>
-                <li><button onClick={() => scrollToSection('tuitions')} className="hover:text-white transition-colors">Extended Learning</button></li>
-                <li><button onClick={() => scrollToSection('enquiry')} className="hover:text-white transition-colors">Online Admissions</button></li>
+              <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[11px]">Quick Exploration</h4>
+              <ul className="space-y-2 text-slate-600 font-medium">
+                <li><button onClick={() => scrollToSection('about')} className="hover:text-[#0071E3] transition-colors">Campus Ethos</button></li>
+                <li><button onClick={() => scrollToSection('academics')} className="hover:text-[#0071E3] transition-colors">Curricular Streams</button></li>
+                <li><button onClick={() => scrollToSection('campus-tech')} className="hover:text-[#0071E3] transition-colors">School ERP Systems</button></li>
+                <li><button onClick={() => scrollToSection('tuitions')} className="hover:text-[#0071E3] transition-colors">Extended Learning</button></li>
+                <li><button onClick={() => scrollToSection('enquiry')} className="hover:text-[#0071E3] transition-colors">Online Admissions</button></li>
               </ul>
             </div>
 
             {/* Column 3: Institutional Portals */}
             <div className="space-y-3">
-              <h4 className="text-white font-bold uppercase tracking-wider text-[11px]">Campus Portals</h4>
-              <ul className="space-y-2 text-slate-400">
+              <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[11px]">Campus Portals</h4>
+              <ul className="space-y-2 text-slate-600 font-medium">
                 <li>
-                  <button onClick={() => handleOpenLogin('staff')} className="hover:text-white transition-colors flex items-center space-x-1">
+                  <button onClick={() => handleOpenLogin('staff')} className="hover:text-[#0071E3] transition-colors flex items-center space-x-1">
                     <span>Faculty & Staff Desk</span>
-                    <ChevronRight className="w-3 h-3 text-slate-500" />
+                    <ChevronRight className="w-3 h-3 text-slate-400" />
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => handleOpenLogin('student')} className="hover:text-white transition-colors flex items-center space-x-1">
+                  <button onClick={() => handleOpenLogin('student')} className="hover:text-[#0071E3] transition-colors flex items-center space-x-1">
                     <span>Student Learning Portal</span>
-                    <ChevronRight className="w-3 h-3 text-slate-500" />
+                    <ChevronRight className="w-3 h-3 text-slate-400" />
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => handleOpenLogin('parent')} className="hover:text-white transition-colors flex items-center space-x-1">
+                  <button onClick={() => handleOpenLogin('parent')} className="hover:text-[#0071E3] transition-colors flex items-center space-x-1">
                     <span>Parent Guardian Desk</span>
-                    <ChevronRight className="w-3 h-3 text-slate-500" />
+                    <ChevronRight className="w-3 h-3 text-slate-400" />
                   </button>
                 </li>
                 <li>
-                  <a href="/admission-enquiry" className="hover:text-white transition-colors flex items-center space-x-1">
+                  <a href="/admission-enquiry" className="hover:text-[#0071E3] transition-colors flex items-center space-x-1">
                     <span>Public Admission Enquiry</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
+                    <ExternalLink className="w-3 h-3 text-slate-400" />
                   </a>
                 </li>
               </ul>
@@ -814,38 +816,38 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
 
             {/* Column 4: Contact Information */}
             <div className="space-y-3">
-              <h4 className="text-white font-bold uppercase tracking-wider text-[11px]">Campus Contact</h4>
-              <div className="space-y-2 text-slate-400">
+              <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[11px]">Campus Contact</h4>
+              <div className="space-y-2.5 text-slate-600 font-medium">
                 <div className="flex items-start space-x-2">
-                  <MapPin className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-[#0071E3] shrink-0 mt-0.5" />
                   <span>Ever Grow Academic Corridor, Global Tech Highway, Sector 4</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Phone className="w-4 h-4 text-blue-400 shrink-0" />
+                  <Phone className="w-4 h-4 text-[#0071E3] shrink-0" />
                   <span>+1 (800) 555-GROW (4769)</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Mail className="w-4 h-4 text-blue-400 shrink-0" />
+                  <Mail className="w-4 h-4 text-[#0071E3] shrink-0" />
                   <span>admissions@evergrowschools.edu</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Clock className="w-4 h-4 text-blue-400 shrink-0" />
+                  <Clock className="w-4 h-4 text-[#0071E3] shrink-0" />
                   <span>Mon – Sat: 8:00 AM – 5:00 PM</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
+          <div className="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 font-medium">
             <div>
               © 2026 Ever Grow Schools. All Rights Reserved. Engineered for Educational Excellence.
             </div>
             <div className="flex items-center space-x-4">
-              <span className="hover:text-slate-400 cursor-pointer">Privacy Charter</span>
+              <span className="hover:text-slate-800 cursor-pointer">Privacy Charter</span>
               <span>•</span>
-              <span className="hover:text-slate-400 cursor-pointer">Terms of Service</span>
+              <span className="hover:text-slate-800 cursor-pointer">Terms of Service</span>
               <span>•</span>
-              <span className="hover:text-slate-400 cursor-pointer">Security Compliance</span>
+              <span className="hover:text-slate-800 cursor-pointer">Security Compliance</span>
             </div>
           </div>
         </div>
@@ -860,3 +862,4 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
     </div>
   );
 };
+

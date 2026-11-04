@@ -912,11 +912,11 @@ def _generate_ai_study_response(message: str, student_name: str, grades_summary:
 
     # 1. Group / Stream Selection Guidance
     if any(k in msg for k in ["group", "stream", "pcm", "pcb", "commerce", "humanities", "choose", "select", "subject choice", "what should i choose", "which group", "career choice", "advice"]):
-        return f"""### 🎯 AI Academic Stream Recommendation for {student_name}
+        return f"""###  AI Academic Stream Recommendation for {student_name}
 
 Based on your verified examination scorecard ({grades_summary}), here is your optimal Senior Secondary Group analysis:
 
-#### 🏆 #1 Optimal Recommendation: **Science Stream (PCM + Computer Science / AI)**
+####  #1 Optimal Recommendation: **Science Stream (PCM + Computer Science / AI)**
 * **Match Suitability:** **98.5% (Exceptional Alignment)**
 * **Core Subject Suite:** Physics, Chemistry, Higher Mathematics, Computer Science & Artificial Intelligence
 * **Why This Fits You Best:**
@@ -924,20 +924,20 @@ Based on your verified examination scorecard ({grades_summary}), here is your op
   2. **Quantitative Dominance:** Your **96% in Mathematics** equips you with the analytical rigor required for advanced calculus, linear algebra, and discrete mathematics.
   3. **Natural Sciences Mastery:** Your **95% in General Science** ensures a seamless transition into core theoretical physics and chemistry.
 
-#### 🚀 Target University Degrees & Career Trajectories:
+####  Target University Degrees & Career Trajectories:
 * **B.Tech / B.S. in Computer Science & Artificial Intelligence**
 * **Robotics, Autonomous Systems & Embedded Engineering**
 * **Computational Data Science & Quantum Computing**
 * **Quantitative Finance & Algorithmic Architecture**
 
-#### 📋 Recommended Action Steps:
+####  Recommended Action Steps:
 1. **Entrance Exam Target:** Start foundational problem solving for **JEE Advanced, BITSAT, and the International Olympiad in Informatics (IOI)**.
 2. **Project Building:** Build hands-on projects in Python/C++ and contribute to algorithmic challenges.
 3. **Elective Suggestion:** Pair Mathematics with Computer Science or Informatics Practices for maximum curriculum synergy."""
 
     # 2. Math Homework - Quadratic Equations
     elif any(k in msg for k in ["quadratic", "ax^2", "ax2", "discriminant", "parabola", "root of equation"]):
-        return """### 📐 Quadratic Equations: Step-by-Step Problem Solving
+        return """###  Quadratic Equations: Step-by-Step Problem Solving
 
 A quadratic equation is a second-degree polynomial of the standard form:
 $$\\mathbf{ax^2 + bx + c = 0} \\quad (a \\neq 0)$$
@@ -956,7 +956,7 @@ $$\\Delta = b^2 - 4ac$$
 
 ---
 
-#### 💡 Worked Example: Solve $x^2 - 5x + 6 = 0$
+####  Worked Example: Solve $x^2 - 5x + 6 = 0$
 1. **Identify Coefficients:** $a = 1$, $b = -5$, $c = 6$
 2. **Calculate Discriminant:**
    $$\\Delta = (-5)^2 - 4(1)(6) = 25 - 24 = 1$$
@@ -965,14 +965,14 @@ $$\\Delta = b^2 - 4ac$$
    * $x_1 = \\frac{5 + 1}{2} = 3$
    * $x_2 = \\frac{5 - 1}{2} = 2$
 4. **Verification:**
-   * $(3)^2 - 5(3) + 6 = 9 - 15 + 6 = 0$ ✅
-   * $(2)^2 - 5(2) + 6 = 4 - 10 + 6 = 0$ ✅
+   * $(3)^2 - 5(3) + 6 = 9 - 15 + 6 = 0$ 
+   * $(2)^2 - 5(2) + 6 = 4 - 10 + 6 = 0$ 
 
 **Roots:** $\\{2, 3\\}$"""
 
     # 3. Math Homework - Pythagorean Theorem
     elif any(k in msg for k in ["pythagor", "hypotenuse", "right triangle", "a^2 + b^2", "a2 + b2"]):
-        return """### 📐 The Pythagorean Theorem: Guide & Solution Method
+        return """###  The Pythagorean Theorem: Guide & Solution Method
 
 The **Pythagorean Theorem** relates the three sides of any **right-angled triangle** ($90^\\circ$):
 
@@ -983,14 +983,14 @@ $$\\mathbf{a^2 + b^2 = c^2}$$
 
 ---
 
-#### 🔢 Key Formulas:
+####  Key Formulas:
 1. Finding the Hypotenuse: $c = \\sqrt{a^2 + b^2}$
 2. Finding a Leg ($a$): $a = \\sqrt{c^2 - b^2}$
 3. Finding a Leg ($b$): $b = \\sqrt{c^2 - a^2}$
 
 ---
 
-#### 💡 Worked Example:
+####  Worked Example:
 * **Given:** A right triangle has base $a = 6\\text{ cm}$ and height $b = 8\\text{ cm}$. Find hypotenuse $c$.
 * **Step 1:** Square both legs:
   $$a^2 = 6^2 = 36$$
@@ -1000,11 +1000,11 @@ $$\\mathbf{a^2 + b^2 = c^2}$$
 * **Step 3:** Take square root:
   $$c = \\sqrt{100} = 10\\text{ cm}$$
 
-✅ **Answer:** The hypotenuse is **$10\\text{ cm}$** (Standard $3-4-5$ scaled triple)."""
+ **Answer:** The hypotenuse is **$10\\text{ cm}$** (Standard $3-4-5$ scaled triple)."""
 
     # 4. Math Homework - General Algebra
     elif any(k in msg for k in ["math", "algebra", "equation", "solve", "derivative", "calculus", "integral", "fraction", "perimeter", "area"]):
-        return """### 📐 Step-by-Step Math Homework Helper
+        return """###  Step-by-Step Math Homework Helper
 
 Let's solve this systematically using mathematical first principles:
 
@@ -1018,12 +1018,12 @@ Let's solve this systematically using mathematical first principles:
 3. **Isolate the Variable:** Divide or multiply by the leading coefficient.
 4. **Substitution Sanity Check:** Plug the resulting value back into the original problem to verify that $\\text{LHS} = \\text{RHS}$.
 
-#### 💡 Need a specific problem solved?
+####  Need a specific problem solved?
 Type the exact equation (e.g. `Solve 3x + 14 = 29` or `Find the area of a circle with radius 7cm`) and I will break it down step-by-step!"""
 
     # 5. Physics - Newton's Laws
     elif any(k in msg for k in ["newton", "laws of motion", "inertia", "action and reaction", "f=ma", "force"]):
-        return """### 🔬 Newton's Three Laws of Motion Explained
+        return """###  Newton's Three Laws of Motion Explained
 
 Sir Isaac Newton formulated the fundamental laws governing classical mechanics:
 
@@ -1047,7 +1047,7 @@ $$\\mathbf{\\vec{F}_{A \\to B} = -\\vec{F}_{B \\to A}}$$
 
     # 6. Biology - Photosynthesis & Cells
     elif any(k in msg for k in ["photosynthesis", "cell", "mitosis", "meiosis", "biology", "dna", "plant"]):
-        return """### 🌿 Biology Study Guide: Essential Concepts & Cheat Sheet
+        return """###  Biology Study Guide: Essential Concepts & Cheat Sheet
 
 #### 1. Photosynthesis Equation & Process
 Photosynthesis takes place within the **chloroplasts** of plant cells:
@@ -1066,7 +1066,7 @@ $$\\mathbf{6CO_2 + 6H_2O + \\text{Sunlight (Photons)} \\xrightarrow{\\text{Chlor
 
     # 7. Computer Science / Python - Binary Search
     elif any(k in msg for k in ["binary search", "python", "code", "algorithm", "programming", "search array", "big o"]):
-        return """### 💻 Computer Science: Binary Search Algorithm in Python
+        return """###  Computer Science: Binary Search Algorithm in Python
 
 **Binary Search** is an efficient divide-and-conquer algorithm for finding an element in a **sorted array**.
 
@@ -1075,7 +1075,7 @@ $$\\mathbf{6CO_2 + 6H_2O + \\text{Sunlight (Photons)} \\xrightarrow{\\text{Chlor
 
 ---
 
-#### 🐍 Python Implementation:
+####  Python Implementation:
 ```python
 def binary_search(arr, target):
     \"\"\"
@@ -1106,12 +1106,12 @@ print(f"Target {target_score} located at index: {result}")
 # Output: Target 98 located at index: 6
 ```
 
-#### 🔍 Why it's fast:
+####  Why it's fast:
 Every comparison cuts the remaining search space in half. For an array with $1,000,000$ items, binary search needs at most **20 comparisons**!"""
 
     # 8. English / Essay / Writing Help
     elif any(k in msg for k in ["essay", "writing", "thesis", "paragraph", "grammar", "english", "outline"]):
-        return """### 📝 English Writing Assistant: High-Scoring Essay Blueprint
+        return """###  English Writing Assistant: High-Scoring Essay Blueprint
 
 To write a persuasive, cohesive essay that earns an **A+ grade**, structure your paper with the **5-Paragraph Framework**:
 
@@ -1137,7 +1137,7 @@ To write a persuasive, cohesive essay that earns an **A+ grade**, structure your
 
     # 9. General Academic / Homework Help
     else:
-        return f"""### 📚 AI Study & Homework Assistant
+        return f"""###  AI Study & Homework Assistant
 
 Hello {student_name}! I am your dedicated Ever Grow academic study assistant. Here is how we can tackle this task:
 
@@ -1153,7 +1153,7 @@ To approach this homework task effectively, let's break it down into fundamental
 3. Verify your answer with a sanity check or boundary condition test.
 
 ---
-💡 **Ask me anything specific!** You can prompt me with:
+ **Ask me anything specific!** You can prompt me with:
 * *"Solve equation: $2x + 7 = 25$"*
 * *"Why is PCM + CS recommended for my grades?"*
 * *"Explain Newton's 3rd law with everyday examples"*

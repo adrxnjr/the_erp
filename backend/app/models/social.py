@@ -91,7 +91,7 @@ class Post(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
 class PostReaction(Base, UUIDPrimaryKeyMixin):
     """
-    Reaction on a social wall post (👍 Like, ❤️ Love, 👏 Clap, 😮 Wow).
+    Reaction on a social wall post (Like, Love, Clap, Wow).
     Constraint: One reaction per user per post.
     """
     __tablename__ = "social_post_reactions"

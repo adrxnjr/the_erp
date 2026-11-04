@@ -154,7 +154,7 @@ class SocialService:
             return None
 
         class_name = student.class_room.name if student.class_room else "Campus"
-        content = f"🎉 Congratulations to {student.full_name} ({class_name}) for {achievement_text}!"
+        content = f"Congratulations to {student.full_name} ({class_name}) for {achievement_text}!"
 
         # System/Admin author fallback
         admin_user = db.execute(
@@ -167,7 +167,7 @@ class SocialService:
             id=uuid.uuid4(),
             author_id=author_id,
             post_type=PostType.AUTO_ACHIEVEMENT.value,
-            title="🏆 Student Academic & Honor Milestone",
+            title="Student Academic & Honor Milestone",
             content=content,
             visibility=PostVisibility.SCHOOL_WIDE.value,
             target_class_id=student.class_id,
@@ -495,7 +495,7 @@ class SocialService:
             select(Student).options(selectinload(Student.class_room)).where(Student.status == "active").limit(3)
         ).scalars().all()
         top_students = []
-        mock_badges = ["📚 Top Scorer", "⭐ Math Wizard", "🏆 Science Prodigy"]
+        mock_badges = ["Top Scorer", "Math Wizard", "Science Prodigy"]
         mock_points = [450, 420, 395]
         for idx, s in enumerate(students):
             top_students.append({
@@ -555,7 +555,7 @@ class SocialService:
             id=uuid.uuid4(),
             author_id=admin_user.id,
             post_type=PostType.ANNOUNCEMENT.value,
-            title="🎉 Annual Sports Day & Cultural Fest 2026 Announced!",
+            title="Annual Sports Day & Cultural Fest 2026 Announced!",
             content="Ever Grow Schools is excited to announce our upcoming Annual Sports & Cultural Meet. Registrations for 100m relay, basketball, swimming, and stage theater are now open at the physical education desk. Let us celebrate athletics and teamwork together!",
             visibility=PostVisibility.SCHOOL_WIDE.value,
             is_pinned=True,
@@ -572,8 +572,8 @@ class SocialService:
             id=uuid.uuid4(),
             author_id=admin_user.id,
             post_type=PostType.AUTO_ACHIEVEMENT.value,
-            title="🏆 Student Academic & Honor Milestone",
-            content=f"🎉 Congratulations to {student_name} ({class_name}) for earning the 📚 Top Scorer badge in Mathematics with an outstanding 98.5% term performance!",
+            title="Student Academic & Honor Milestone",
+            content=f"Congratulations to {student_name} ({class_name}) for earning the Top Scorer badge in Mathematics with an outstanding 98.5% term performance!",
             visibility=PostVisibility.SCHOOL_WIDE.value,
             is_pinned=False,
             is_approved=True,
@@ -586,7 +586,7 @@ class SocialService:
             id=uuid.uuid4(),
             author_id=admin_user.id,
             post_type=PostType.EVENT.value,
-            title="🔬 Inter-School Science & Robotics Innovation Fair",
+            title="Inter-School Science & Robotics Innovation Fair",
             content="Join us this Friday at the Main Campus Auditorium for the 2026 Innovation Fair. Over 40 robotics and IoT projects created by our middle and high school students will be demonstrated live.",
             visibility=PostVisibility.SCHOOL_WIDE.value,
             is_pinned=False,

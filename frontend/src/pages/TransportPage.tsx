@@ -440,8 +440,8 @@ export const TransportPage: React.FC = () => {
     <div className="space-y-6 pb-14 animate-fadeIn">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-5 right-5 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center space-x-3 text-xs font-semibold border border-white/10 animate-bounce">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+        <div className="fixed top-5 right-5 z-50 bg-white text-slate-800 px-5 py-3 rounded-2xl shadow-xl flex items-center space-x-3 text-xs font-semibold border border-slate-200/80 animate-bounce">
+          <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -980,8 +980,8 @@ export const TransportPage: React.FC = () => {
                       }
                     >
                       {/* Floating Live Velocity Bubble */}
-                      <div className="mb-1.5 bg-slate-900/95 text-white px-2.5 py-0.5 rounded-full text-[10px] font-bold shadow-lg flex items-center space-x-1 border border-white/20 whitespace-nowrap">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                      <div className="mb-1.5 bg-white/95 text-slate-800 px-2.5 py-0.5 rounded-full text-[10px] font-bold shadow-md flex items-center space-x-1 border border-slate-200/80 whitespace-nowrap">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                         <span>{liveSpeed} km/h</span>
                       </div>
 

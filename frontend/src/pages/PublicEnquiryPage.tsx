@@ -514,7 +514,7 @@ export const PublicEnquiryPage: React.FC<PublicEnquiryPageProps> = ({ isPublic =
                 <button
                   type="button"
                   onClick={() => setSelectedEnquiry(null)}
-                  className="px-5 py-2 rounded-xl bg-slate-900 text-white font-semibold text-xs hover:bg-slate-800 transition-colors shadow-sm"
+                  className="px-5 py-2 rounded-xl bg-[#0071E3] text-white font-semibold text-xs hover:bg-[#0077ED] transition-colors shadow-sm"
                 >
                   Close Inspection
                 </button>
