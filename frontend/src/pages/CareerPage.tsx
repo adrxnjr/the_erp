@@ -653,9 +653,6 @@ export const CareerPage: React.FC = () => {
                           </div>
                           <div>
                             <div className="text-xs font-bold text-slate-900">{sub.name}</div>
-                            <span className="text-[10px] font-semibold text-slate-500">
-                              {sub.competency}
-                            </span>
                           </div>
                         </div>
 
