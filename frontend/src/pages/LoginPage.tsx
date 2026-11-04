@@ -197,6 +197,13 @@ export const LoginPage: React.FC = () => {
       <div className="w-full lg:w-1/2 xl:w-[52%] h-full max-h-screen flex flex-col justify-between p-5 lg:p-7 xl:p-9 bg-[#EBEEF2] overflow-hidden">
         {/* Main Form Body - Neumorphic Pill Design */}
         <div className="w-full max-w-sm xl:max-w-md mx-auto my-auto space-y-4 xl:space-y-4.5">
+          {/* Heading */}
+          <div className="text-center pb-0.5">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-600 tracking-tight">
+              Login
+            </h2>
+          </div>
+
           {/* Neumorphic Segmented Portal Switcher */}
           <div className="grid grid-cols-3 gap-1.5 p-1.5 bg-[#EBEEF2] rounded-full shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF]">
             <button
