@@ -273,16 +273,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
         <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-white/40 blur-3xl rounded-full -z-10 pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
-          {/* Institutional Badge Pill */}
-          <div className="inline-flex items-center space-x-2 px-5 py-2 rounded-full bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] text-xs font-bold text-slate-700 animate-fade-in border-none">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Admissions Open for Academic Year 2026–2027</span>
-            <span className="text-slate-400">•</span>
-            <span className="text-blue-600 hover:text-blue-800 cursor-pointer transition-colors" onClick={() => scrollToSection('enquiry')}>
-              Apply Online
-            </span>
-          </div>
-
           {/* Hero Headline */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 max-w-5xl mx-auto leading-[1.1] animate-scale-up">
             Empowering Future Leaders with{' '}
@@ -364,9 +354,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
       <section id="about" className="py-20 bg-[#EBEEF2] border-t border-slate-300/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-blue-700 bg-[#EBEEF2] px-4 py-1.5 rounded-full shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
-              Campus Life & Ethos
-            </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               A World-Class Infrastructure Designed for Curiosity
             </h2>
@@ -430,9 +417,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
       <section id="campus-tech" className="py-20 bg-[#EBEEF2] border-t border-slate-300/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-700 bg-[#EBEEF2] px-4 py-1.5 rounded-full shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
-              Next-Gen ERP Technology
-            </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               An Enterprise Platform Built for Transparent Governance
             </h2>
@@ -523,9 +507,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
       <section id="academics" className="py-20 bg-[#EBEEF2] border-t border-slate-300/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 bg-[#EBEEF2] px-4 py-1.5 rounded-full shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
-              Curricular Pathways
-            </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               Structured for Every Milestone of Growth
             </h2>
@@ -584,9 +565,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="bg-[#EBEEF2] rounded-[32px] p-8 md:p-12 text-slate-800 shadow-[8px_8px_20px_#C8D0DC,-8px_-8px_20px_#FFFFFF] border-none">
             <div className="max-w-3xl space-y-4">
-              <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-blue-700">
-                Ever Grow Extended Academy
-              </span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900">
                 Neighborhood Tuition & Subject Mastery Centers
               </h2>
@@ -618,9 +596,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-[#EBEEF2] rounded-[32px] p-8 md:p-12 shadow-[8px_8px_20px_#C8D0DC,-8px_-8px_20px_#FFFFFF] border-none space-y-8">
             <div className="text-center max-w-2xl mx-auto space-y-2">
-              <span className="text-xs font-extrabold uppercase tracking-wider text-blue-700 bg-[#EBEEF2] px-4 py-1.5 rounded-full shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
-                Direct Admission Desk
-              </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
                 Begin Your Child's Educational Journey
               </h2>
