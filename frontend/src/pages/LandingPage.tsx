@@ -166,14 +166,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </button>
           </nav>
 
-          {/* Top-Right Neumorphic Pill "Portal Login" Button */}
+          {/* Top-Right Neumorphic Pill "Login" Button */}
           <div className="hidden sm:flex items-center space-x-3">
             <button
               onClick={() => handleOpenLogin('staff')}
               className="px-5 py-2.5 rounded-full bg-[#EBEEF2] text-slate-700 hover:text-slate-950 text-xs font-bold shadow-[4px_4px_9px_#C8D0DC,-4px_-4px_9px_#FFFFFF] hover:shadow-[5px_5px_12px_#C0CAD8,-5px_-5px_12px_#FFFFFF] active:shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] transition-all flex items-center space-x-2 border-none cursor-pointer"
             >
               <KeyRound className="w-3.5 h-3.5 text-blue-600" />
-              <span>Portal Login</span>
+              <span>Login</span>
             </button>
           </div>
 
