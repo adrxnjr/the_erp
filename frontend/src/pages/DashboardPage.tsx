@@ -45,11 +45,11 @@ export const DashboardPage: React.FC = () => {
     if (location.state && (location.state as any).accessRestricted) {
       setRestrictedNotice(
         (location.state as any).restrictedMessage ||
-          'Access Restricted: You do not have administrative credentials to view that page.'
+        'Access Restricted: You do not have administrative credentials to view that page.'
       );
       try {
         window.history.replaceState({}, document.title);
-      } catch {}
+      } catch { }
     }
   }, [location.state]);
 
@@ -93,7 +93,7 @@ export const DashboardPage: React.FC = () => {
                 try {
                   const rRes = await api.get('/rewards/my-points', { params: { student_id: child.id } });
                   rewardsMap[child.id] = rRes.data;
-                } catch (err) {}
+                } catch (err) { }
               })
             );
             setChildRewards(rewardsMap);
@@ -744,11 +744,10 @@ export const DashboardPage: React.FC = () => {
               <button
                 key={step.id}
                 onClick={() => setActiveWorkflowStep(idx)}
-                className={`p-3 rounded-2xl text-left transition-all border ${
-                  activeWorkflowStep === idx
-                    ? 'bg-blue-50 border-[#0071E3] shadow-xs'
-                    : 'bg-slate-50/70 border-slate-200/60 hover:bg-slate-100/70'
-                }`}
+                className={`p-3 rounded-2xl text-left transition-all border ${activeWorkflowStep === idx
+                  ? 'bg-blue-50 border-[#0071E3] shadow-xs'
+                  : 'bg-slate-50/70 border-slate-200/60 hover:bg-slate-100/70'
+                  }`}
               >
                 <div className={`text-[10px] font-bold uppercase tracking-wider ${activeWorkflowStep === idx ? 'text-[#0071E3]' : 'text-slate-400'}`}>
                   Step 0{idx + 1}
@@ -1176,11 +1175,10 @@ export const DashboardPage: React.FC = () => {
               <button
                 key={step.id}
                 onClick={() => setActiveWorkflowStep(idx)}
-                className={`p-3 rounded-2xl text-left transition-all border ${
-                  activeWorkflowStep === idx
-                    ? 'bg-blue-50 border-[#0071E3] shadow-xs'
-                    : 'bg-slate-50/70 border-slate-200/60 hover:bg-slate-100/70'
-                }`}
+                className={`p-3 rounded-2xl text-left transition-all border ${activeWorkflowStep === idx
+                  ? 'bg-blue-50 border-[#0071E3] shadow-xs'
+                  : 'bg-slate-50/70 border-slate-200/60 hover:bg-slate-100/70'
+                  }`}
               >
                 <div className={`text-[10px] font-bold uppercase tracking-wider ${activeWorkflowStep === idx ? 'text-[#0071E3]' : 'text-slate-400'}`}>
                   Step 0{idx + 1}

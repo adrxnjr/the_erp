@@ -331,11 +331,10 @@ export const CoordinatorsPage: React.FC = () => {
                 key={w}
                 type="button"
                 onClick={() => setWingFilter(w)}
-                className={`px-3 py-1 text-xs font-bold rounded-lg transition-all capitalize ${
-                  wingFilter === w
-                    ? 'bg-[#E9EEF5] text-[#0066FF] shadow-[2px_2px_5px_#C5D0E0,-2px_-2px_5px_#FFFFFF] border border-white/60'
-                    : 'text-slate-500 hover:text-slate-800'
-                }`}
+                className={`px-3 py-1 text-xs font-bold rounded-lg transition-all capitalize ${wingFilter === w
+                  ? 'bg-[#E9EEF5] text-[#0066FF] shadow-[2px_2px_5px_#C5D0E0,-2px_-2px_5px_#FFFFFF] border border-white/60'
+                  : 'text-slate-500 hover:text-slate-800'
+                  }`}
               >
                 {w}
               </button>
@@ -370,9 +369,8 @@ export const CoordinatorsPage: React.FC = () => {
           {filtered.map((coord) => (
             <div
               key={coord.id}
-              className={`p-5 rounded-2xl bg-[#E9EEF5] border border-white/80 shadow-[7px_7px_16px_#C5D0E0,-7px_-7px_16px_#FFFFFF] flex flex-col justify-between transition-transform duration-200 hover:-translate-y-1 relative ${
-                !coord.is_active ? 'opacity-65 grayscale-20' : ''
-              }`}
+              className={`p-5 rounded-2xl bg-[#E9EEF5] border border-white/80 shadow-[7px_7px_16px_#C5D0E0,-7px_-7px_16px_#FFFFFF] flex flex-col justify-between transition-transform duration-200 hover:-translate-y-1 relative ${!coord.is_active ? 'opacity-65 grayscale-20' : ''
+                }`}
             >
               {coord.is_lead && (
                 <div className="absolute top-4 right-4 flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-800 border border-amber-300 shadow-xs">
@@ -470,11 +468,10 @@ export const CoordinatorsPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => handleToggleActive(coord)}
-                  className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all shadow-xs ${
-                    coord.is_active
-                      ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                      : 'bg-slate-200 text-slate-600 border border-slate-300'
-                  }`}
+                  className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all shadow-xs ${coord.is_active
+                    ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                    : 'bg-slate-200 text-slate-600 border border-slate-300'
+                    }`}
                 >
                   {coord.is_active ? 'Active' : 'Inactive'}
                 </button>

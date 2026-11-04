@@ -302,31 +302,28 @@ export const TuitionsAdminPage: React.FC = () => {
         <div className="bg-slate-100 p-1 rounded-2xl flex items-center space-x-1 border border-slate-200/80">
           <button
             onClick={() => setActiveTab('centers')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-              activeTab === 'centers'
-                ? 'bg-white text-blue-700 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'centers'
+              ? 'bg-white text-blue-700 shadow-sm'
+              : 'text-slate-600 hover:text-slate-900'
+              }`}
           >
             Tuition Centers ({centers.length})
           </button>
           <button
             onClick={() => setActiveTab('add')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-              activeTab === 'add'
-                ? 'bg-white text-blue-700 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'add'
+              ? 'bg-white text-blue-700 shadow-sm'
+              : 'text-slate-600 hover:text-slate-900'
+              }`}
           >
             + Add New Center
           </button>
           <button
             onClick={() => setActiveTab('enquiries')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-              activeTab === 'enquiries'
-                ? 'bg-white text-blue-700 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'enquiries'
+              ? 'bg-white text-blue-700 shadow-sm'
+              : 'text-slate-600 hover:text-slate-900'
+              }`}
           >
             Student Enquiries ({enquiries.length})
           </button>
@@ -778,9 +775,8 @@ export const TuitionsAdminPage: React.FC = () => {
                         </td>
                         <td className="px-6 py-4">
                           <span
-                            className={`px-2.5 py-1 text-[11px] font-bold rounded-full border uppercase tracking-wider ${
-                              statusColors[enq.status] || 'bg-slate-100 text-slate-700 border-slate-200'
-                            }`}
+                            className={`px-2.5 py-1 text-[11px] font-bold rounded-full border uppercase tracking-wider ${statusColors[enq.status] || 'bg-slate-100 text-slate-700 border-slate-200'
+                              }`}
                           >
                             {enq.status}
                           </span>

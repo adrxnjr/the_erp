@@ -104,3 +104,18 @@ class FeeConcessionResponse(BaseModel):
     amount: Decimal
     reason: str
     model_config = ConfigDict(from_attributes=True)
+
+
+class OnlineCheckoutPaymentRequest(BaseModel):
+    student_id: Optional[uuid.UUID] = None
+    amount: Decimal = Field(..., gt=Decimal("0.00"))
+    payment_method: str = Field(default="card", description="card, net_banking, upi, amazon_pay, emi")
+    selected_categories: Optional[List[str]] = None
+    card_last4: Optional[str] = None
+    card_brand: Optional[str] = None
+    bank_name: Optional[str] = None
+    upi_id: Optional[str] = None
+    promo_code: Optional[str] = None
+    discount_amount: Optional[Decimal] = Decimal("0.00")
+    remarks: Optional[str] = "Online Fee Payment via Amazon Pay Gateway"
+

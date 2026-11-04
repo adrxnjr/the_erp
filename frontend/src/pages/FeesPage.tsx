@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
+import { AmazonPaymentModal } from '../components/AmazonPaymentModal';
 import {
   DollarSign,
   FileDown,
   CheckCircle,
+  CheckCircle2,
   CreditCard,
   ShieldCheck,
   Receipt as ReceiptIcon,
@@ -16,6 +18,8 @@ import {
   Users,
   User,
   GraduationCap,
+  ArrowRight,
+  RotateCcw,
 } from 'lucide-react';
 
 export const FeesPage: React.FC = () => {
@@ -37,6 +41,10 @@ export const FeesPage: React.FC = () => {
   const [childrenFees, setChildrenFees] = useState<any[]>([]);
   const [selectedChildId, setSelectedChildId] = useState<string>('all');
 
+  // Amazon Payment Modal State
+  const [isAmazonPayModalOpen, setIsAmazonPayModalOpen] = useState(false);
+  const [targetStudentForPayment, setTargetStudentForPayment] = useState<any | null>(null);
+
   // Staff-only Cashier State
   const [students, setStudents] = useState<any[]>([]);
   const [isPayModalOpen, setIsPayModalOpen] = useState(false);
@@ -49,7 +57,7 @@ export const FeesPage: React.FC = () => {
   });
   const [recentReceipt, setRecentReceipt] = useState<any | null>(null);
 
-  useEffect(() => {
+  const fetchFeeData = useCallback(() => {
     if (isParent) {
       setLoadingFee(true);
       api
@@ -60,7 +68,6 @@ export const FeesPage: React.FC = () => {
         })
         .catch((err) => {
           console.warn('Could not fetch family fees, loading fallback:', err);
-          // Fallback showing both children
           const fallbackLiam = {
             student_id: '1',
             student_name: 'Liam Smith',
@@ -68,20 +75,24 @@ export const FeesPage: React.FC = () => {
             class_name: 'Grade 1',
             section_name: 'A',
             academic_session: '2026-2027',
-            total_annual_fee: 45000.0,
+            total_annual_fee: 71000.0,
             total_paid: 50000.0,
-            outstanding_balance: 0.0,
-            status: 'paid',
-            is_all_paid: true,
+            outstanding_balance: 21000.0,
+            status: 'partially_paid',
+            is_all_paid: false,
             breakdown: [
-              { category: 'Term 1 Tuition & Academics', amount: 25000.0, status: 'Paid', due_date: '2026-08-30' },
-              { category: 'Science Lab, IT & Robotics', amount: 12000.0, status: 'Paid', due_date: '2026-09-15' },
-              { category: 'Campus Transport (Route 1)', amount: 8000.0, status: 'Paid', due_date: '2026-10-10' },
+              { id: 'fee-term1', category: 'Term 1 Tuition & Academics', amount: 25000.0, status: 'Paid', due_date: '2026-08-30' },
+              { id: 'fee-lab', category: 'Science Lab, IT & Robotics', amount: 12000.0, status: 'Paid', due_date: '2026-09-15' },
+              { id: 'fee-trans', category: 'Campus Transport (Route 1)', amount: 8000.0, status: 'Paid', due_date: '2026-10-10' },
+              { id: 'fee-term2', category: 'Term 2 Tuition & Academics', amount: 18000.0, status: 'Partially Paid', due_date: '2026-12-15' },
+              { id: 'fee-sports', category: 'Annual Sports & Extracurriculars', amount: 5000.0, status: 'Not Paid', due_date: '2027-01-10' },
+              { id: 'fee-exam', category: 'Examination & Library Clearance', amount: 3000.0, status: 'Not Paid', due_date: '2027-02-15' },
             ],
             receipts: [
               { id: '1', receipt_number: 'REC-2026-0001', amount: 25000.0, method: 'BANK TRANSFER', date: '2026-08-15', remarks: 'Term 1 Academic Tuition Fee' },
               { id: '2', receipt_number: 'REC-2026-0002', amount: 12000.0, method: 'CARD', date: '2026-09-10', remarks: 'Science Lab & Robotics Charges' },
               { id: '3', receipt_number: 'REC-2026-0003', amount: 8000.0, method: 'UPI', date: '2026-10-05', remarks: 'Route 1 Campus Bus Transport' },
+              { id: '4', receipt_number: 'RCP-2026-00001', amount: 5000.0, method: 'UPI', date: '2026-11-02', remarks: 'Tuition installment' },
             ],
           };
           const fallbackEmma = {
@@ -91,27 +102,30 @@ export const FeesPage: React.FC = () => {
             class_name: 'Grade 1',
             section_name: 'A',
             academic_session: '2026-2027',
-            total_annual_fee: 45000.0,
+            total_annual_fee: 71000.0,
             total_paid: 45000.0,
-            outstanding_balance: 0.0,
-            status: 'paid',
-            is_all_paid: true,
+            outstanding_balance: 26000.0,
+            status: 'partially_paid',
+            is_all_paid: false,
             breakdown: [
-              { category: 'Term 1 Tuition & Academics', amount: 25000.0, status: 'Paid', due_date: '2026-08-30' },
-              { category: 'Science Lab, IT & Robotics', amount: 12000.0, status: 'Paid', due_date: '2026-09-15' },
-              { category: 'Campus Transport (Route 1)', amount: 8000.0, status: 'Paid', due_date: '2026-10-10' },
+              { id: 'fee-term1', category: 'Term 1 Tuition & Academics', amount: 25000.0, status: 'Paid', due_date: '2026-08-30' },
+              { id: 'fee-lab', category: 'Science Lab, IT & Robotics', amount: 12000.0, status: 'Paid', due_date: '2026-09-15' },
+              { id: 'fee-trans', category: 'Campus Transport (Route 1)', amount: 8000.0, status: 'Paid', due_date: '2026-10-10' },
+              { id: 'fee-term2', category: 'Term 2 Tuition & Academics', amount: 18000.0, status: 'Not Paid', due_date: '2026-12-15' },
+              { id: 'fee-sports', category: 'Annual Sports & Extracurriculars', amount: 5000.0, status: 'Not Paid', due_date: '2027-01-10' },
+              { id: 'fee-exam', category: 'Examination & Library Clearance', amount: 3000.0, status: 'Not Paid', due_date: '2027-02-15' },
             ],
             receipts: [
-              { id: '4', receipt_number: 'REC-2026-0004', amount: 25000.0, method: 'BANK TRANSFER', date: '2026-08-16', remarks: 'Term 1 Academic Tuition Fee' },
-              { id: '5', receipt_number: 'REC-2026-0005', amount: 12000.0, method: 'CARD', date: '2026-09-11', remarks: 'Science Lab & Robotics Charges' },
-              { id: '6', receipt_number: 'REC-2026-0006', amount: 8000.0, method: 'UPI', date: '2026-10-06', remarks: 'Route 1 Campus Bus Transport' },
+              { id: '5', receipt_number: 'REC-2026-0004', amount: 25000.0, method: 'BANK TRANSFER', date: '2026-08-16', remarks: 'Term 1 Academic Tuition Fee' },
+              { id: '6', receipt_number: 'REC-2026-0005', amount: 12000.0, method: 'CARD', date: '2026-09-11', remarks: 'Science Lab & Robotics Charges' },
+              { id: '7', receipt_number: 'REC-2026-0006', amount: 8000.0, method: 'UPI', date: '2026-10-06', remarks: 'Route 1 Campus Bus Transport' },
             ],
           };
           setFamilySummary({
-            total_annual_fee: 90000.0,
+            total_annual_fee: 142000.0,
             total_paid: 95000.0,
-            outstanding_balance: 0.0,
-            is_all_paid: true,
+            outstanding_balance: 47000.0,
+            is_all_paid: false,
             total_children: 2,
           });
           setChildrenFees([fallbackLiam, fallbackEmma]);
@@ -129,20 +143,30 @@ export const FeesPage: React.FC = () => {
         .catch((err) => {
           console.warn('Could not fetch student fees:', err);
           setFeeData({
-            is_all_paid: true,
-            status: 'paid',
-            total_annual_fee: 45000.0,
-            total_paid: 45000.0,
-            outstanding_balance: 0.0,
+            student_id: '1',
+            student_name: 'Liam Smith',
+            admission_number: 'ADM-2026-0001',
+            class_name: 'Grade 1',
+            section_name: 'A',
+            academic_session: '2026-2027',
+            is_all_paid: false,
+            status: 'partially_paid',
+            total_annual_fee: 71000.0,
+            total_paid: 50000.0,
+            outstanding_balance: 21000.0,
             breakdown: [
-              { category: 'Term 1 Tuition & Academics', amount: 25000.0, status: 'Paid', due_date: '2026-08-30' },
-              { category: 'Science Lab, IT & Robotics', amount: 12000.0, status: 'Paid', due_date: '2026-09-15' },
-              { category: 'Campus Transport (Route 1)', amount: 8000.0, status: 'Paid', due_date: '2026-10-10' },
+              { id: 'fee-term1', category: 'Term 1 Tuition & Academics', amount: 25000.0, status: 'Paid', due_date: '2026-08-30' },
+              { id: 'fee-lab', category: 'Science Lab, IT & Robotics', amount: 12000.0, status: 'Paid', due_date: '2026-09-15' },
+              { id: 'fee-trans', category: 'Campus Transport (Route 1)', amount: 8000.0, status: 'Paid', due_date: '2026-10-10' },
+              { id: 'fee-term2', category: 'Term 2 Tuition & Academics', amount: 18000.0, status: 'Partially Paid', due_date: '2026-12-15' },
+              { id: 'fee-sports', category: 'Annual Sports & Extracurriculars', amount: 5000.0, status: 'Not Paid', due_date: '2027-01-10' },
+              { id: 'fee-exam', category: 'Examination & Library Clearance', amount: 3000.0, status: 'Not Paid', due_date: '2027-02-15' },
             ],
             receipts: [
               { id: '1', receipt_number: 'REC-2026-0001', amount: 25000.0, method: 'BANK TRANSFER', date: '2026-08-15', remarks: 'Term 1 Academic Tuition Fee' },
               { id: '2', receipt_number: 'REC-2026-0002', amount: 12000.0, method: 'CARD', date: '2026-09-10', remarks: 'Science Lab & Robotics Charges' },
               { id: '3', receipt_number: 'REC-2026-0003', amount: 8000.0, method: 'UPI', date: '2026-10-05', remarks: 'Route 1 Campus Bus Transport' },
+              { id: '4', receipt_number: 'RCP-2026-00001', amount: 5000.0, method: 'UPI', date: '2026-11-02', remarks: 'Tuition installment' },
             ],
           });
         })
@@ -159,11 +183,41 @@ export const FeesPage: React.FC = () => {
         })
         .catch(() => setStudents([]));
     }
-  }, [user, isStudent, isParent]);
+  }, [isParent, isStudent]);
+
+  useEffect(() => {
+    fetchFeeData();
+  }, [fetchFeeData]);
 
   useEffect(() => {
     document.title = 'Fees & Payments Ledger — Ever Grow Schools ERP';
   }, []);
+
+  // Open Amazon Pay Modal
+  const handleOpenAmazonPay = (target?: any) => {
+    const studentToPay = target || feeData;
+    if (!studentToPay) return;
+    setTargetStudentForPayment(studentToPay);
+    setIsAmazonPayModalOpen(true);
+  };
+
+  // Callback on successful payment
+  const handleAmazonPaymentSuccess = (_receipt: any) => {
+    fetchFeeData();
+  };
+
+  // Reset Demo Dues Action (allows repeating payment demo)
+  const handleResetDemoFees = async (studentId?: string) => {
+    try {
+      await api.post('/finance/reset-demo-fees', null, {
+        params: studentId ? { student_id: studentId } : undefined,
+      });
+      toast.success('Fee ledger reset to initial pending dues state for testing.');
+      fetchFeeData();
+    } catch {
+      toast.error('Could not reset demo fees.');
+    }
+  };
 
   const handleProcessPayment = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -205,13 +259,19 @@ export const FeesPage: React.FC = () => {
       link.click();
       link.remove();
       toast.success('Official receipt PDF downloaded successfully.');
-    } catch (err: any) {
+    } catch {
       toast.error('Failed to download receipt PDF.');
     }
   };
 
-  // Helper to render an individual child's fee ledger & receipt table
+  // Helper to render an individual child's fee ledger & receipt table (Parent View)
   const renderChildFeeCard = (childFee: any) => {
+    const hasDues = childFee.outstanding_balance > 0;
+    const clearancePct = Math.min(
+      100,
+      Math.round(((childFee.total_paid || 0) / (childFee.total_annual_fee || 1)) * 100)
+    );
+
     return (
       <div key={childFee.student_id || childFee.admission_number} className="space-y-6">
         {/* Child Header & Summary Pill Card */}
@@ -237,11 +297,37 @@ export const FeesPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center space-x-2">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                <CheckCircle className="w-3.5 h-3.5 mr-1 text-emerald-600" />
-                All Fees Paid in Full
-              </span>
+            <div className="flex items-center space-x-2.5">
+              {hasDues ? (
+                <>
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                    <Clock className="w-3.5 h-3.5 mr-1 text-amber-600" />
+                    Pending Dues: ${Number(childFee.outstanding_balance).toLocaleString()}.00
+                  </span>
+                  <button
+                    onClick={() => handleOpenAmazonPay(childFee)}
+                    className="px-4 py-2 rounded-xl bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#F0B800] text-slate-950 font-extrabold text-xs shadow-sm flex items-center space-x-1.5 border border-[#FCD200] transition-all transform hover:scale-[1.02]"
+                  >
+                    <CreditCard className="w-3.5 h-3.5 text-slate-950" />
+                    <span>Pay Fees</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-950" />
+                  </button>
+                </>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    <CheckCircle className="w-3.5 h-3.5 mr-1 text-emerald-600" />
+                    All Fees Paid in Full
+                  </span>
+                  <button
+                    onClick={() => handleResetDemoFees(childFee.student_id)}
+                    className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
+                    title="Reset demo dues for testing"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -261,11 +347,24 @@ export const FeesPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 text-center">
-              <div className="text-[10px] font-bold uppercase text-emerald-800">Balance Due</div>
-              <div className="text-xl font-black text-emerald-700 mt-1">
+            <div
+              className={`p-4 rounded-2xl border text-center transition-all ${
+                hasDues ? 'bg-amber-50/80 border-amber-300' : 'bg-emerald-50/70 border-emerald-200'
+              }`}
+            >
+              <div className={`text-[10px] font-bold uppercase ${hasDues ? 'text-amber-800' : 'text-emerald-800'}`}>
+                Balance Due
+              </div>
+              <div
+                className={`text-xl font-black mt-1 ${hasDues ? 'text-[#B12704]' : 'text-emerald-700'}`}
+              >
                 ${Number(childFee.outstanding_balance).toLocaleString()}
               </div>
+              {hasDues && (
+                <span className="text-[9px] font-extrabold text-amber-700 uppercase tracking-tight">
+                  Action Required
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -279,9 +378,26 @@ export const FeesPage: React.FC = () => {
               </h4>
               <p className="text-xs text-slate-500">2026–2027 Curriculum & Facility Charges</p>
             </div>
-            <span className="px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              100% Cleared
-            </span>
+            <div className="flex items-center space-x-2">
+              <span
+                className={`px-3 py-0.5 rounded-full text-xs font-bold border ${
+                  clearancePct === 100
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                    : 'bg-amber-50 text-amber-800 border-amber-200'
+                }`}
+              >
+                {clearancePct}% Cleared
+              </span>
+              {hasDues && (
+                <button
+                  onClick={() => handleOpenAmazonPay(childFee)}
+                  className="px-3 py-1 rounded-xl bg-[#FFD814] hover:bg-[#F7CA00] text-slate-950 font-bold text-xs border border-[#FCD200] shadow-sm flex items-center space-x-1"
+                >
+                  <CreditCard className="w-3 h-3 text-slate-950" />
+                  <span>Pay Due Fees</span>
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="overflow-x-auto">
@@ -292,26 +408,61 @@ export const FeesPage: React.FC = () => {
                   <th className="py-3 px-5">Amount</th>
                   <th className="py-3 px-5">Due Date</th>
                   <th className="py-3 px-5">Clearance Status</th>
+                  <th className="py-3 px-5 text-right">Payment Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {childFee.breakdown?.map((item: any, idx: number) => (
-                  <tr key={idx} className="hover:bg-slate-50/70 transition-colors">
-                    <td className="py-3.5 px-5 font-bold text-slate-900 flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-emerald-500" />
-                      <span>{item.category}</span>
-                    </td>
-                    <td className="py-3.5 px-5 font-mono font-bold text-slate-800">
-                      ${Number(item.amount).toLocaleString()}.00
-                    </td>
-                    <td className="py-3.5 px-5 text-slate-500 font-mono">{item.due_date}</td>
-                    <td className="py-3.5 px-5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        Paid in Full
-                      </span>
-                    </td>
-                  </tr>
-                ))}
+                {childFee.breakdown?.map((item: any, idx: number) => {
+                  const isPaid = item.status === 'Paid';
+                  const isPartiallyPaid = item.status === 'Partially Paid';
+
+                  return (
+                    <tr key={idx} className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3.5 px-5 font-bold text-slate-900 flex items-center space-x-2">
+                        {isPaid ? (
+                          <CheckCircle className="w-4 h-4 text-emerald-500" />
+                        ) : isPartiallyPaid ? (
+                          <Clock className="w-4 h-4 text-amber-500" />
+                        ) : (
+                          <AlertCircle className="w-4 h-4 text-amber-600" />
+                        )}
+                        <span>{item.category}</span>
+                      </td>
+                      <td className="py-3.5 px-5 font-mono font-bold text-slate-800">
+                        ${Number(item.amount).toLocaleString()}.00
+                      </td>
+                      <td className="py-3.5 px-5 text-slate-500 font-mono">{item.due_date}</td>
+                      <td className="py-3.5 px-5">
+                        {isPaid ? (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            Paid in Full
+                          </span>
+                        ) : isPartiallyPaid ? (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                            Partially Paid
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-red-50 text-red-700 border border-red-200">
+                            Action Required: Not Paid
+                          </span>
+                        )}
+                      </td>
+                      <td className="py-3.5 px-5 text-right">
+                        {isPaid ? (
+                          <span className="text-[11px] text-slate-400 font-semibold">Settled</span>
+                        ) : (
+                          <button
+                            onClick={() => handleOpenAmazonPay(childFee)}
+                            className="px-3 py-1 rounded-lg bg-[#FFD814] hover:bg-[#F7CA00] text-slate-950 font-extrabold text-[11px] border border-[#FCD200] shadow-xs inline-flex items-center space-x-1"
+                          >
+                            <span>Pay Fee</span>
+                            <ArrowRight className="w-3 h-3 text-slate-950" />
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -377,32 +528,44 @@ export const FeesPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 pb-12 animate-fadeIn">
-      {/* Top Header Card */}
+    <div className="space-y-6">
+      {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center space-x-3">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-600 flex items-center justify-center text-white shadow-md shadow-emerald-500/20">
-              <CreditCard className="w-6 h-6" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-[#1D1D1F] tracking-tight">
-                {isStudent
-                  ? 'My Fee Dues & Receipts'
-                  : isParent
-                  ? 'Student Fee Invoices & Payment Receipts'
-                  : 'Fee Cashier & Receipts'}
-              </h1>
-              <p className="text-xs md:text-sm text-[#86868B]">
-                {isStudent
-                  ? 'Tuition fee billing, payment receipts, and clearance status.'
-                  : isParent
-                  ? 'View and manage fee payment statements for your children.'
-                  : 'Process student fee payments and receipts.'}
-              </p>
-            </div>
+        <div className="flex items-center space-x-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600 shadow-sm border border-emerald-500/20">
+            <CreditCard className="w-6 h-6" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+              {isParent
+                ? "Family Tuition & Fee Billing"
+                : isStudent
+                ? "My Fee Dues & Receipts"
+                : "Fees & Payments Ledger"}
+            </h1>
+            <p className="text-xs text-slate-500 mt-0.5">
+              {isParent
+                ? "Monitor fee statements, make online payments, and download receipts for your children."
+                : isStudent
+                ? "Tuition fee billing schedule, pending dues, Amazon payment portal, and clearance receipts."
+                : "Centralized student financial ledger, cashier desk, and fee receipt generator."}
+            </p>
           </div>
         </div>
+
+        {/* Staff-only Cashier Button */}
+        {isStaff && (
+          <button
+            onClick={() => {
+              setSelectedStudent(null);
+              setIsPayModalOpen(true);
+            }}
+            className="ios-gloss-btn px-5 py-2.5 text-xs font-semibold space-x-2"
+          >
+            <DollarSign className="w-4 h-4 text-emerald-500" />
+            <span>Record Cashier Fee Payment</span>
+          </button>
+        )}
       </div>
 
       {/* ---------------- PARENT MULTI-CHILD VIEW ---------------- */}
@@ -411,40 +574,40 @@ export const FeesPage: React.FC = () => {
           {loadingFee ? (
             <div className="bg-white rounded-3xl p-16 text-center text-slate-500 space-y-3">
               <div className="w-9 h-9 border-3 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-              <div className="text-sm font-semibold text-slate-700">Loading children fee records...</div>
+              <div className="text-sm font-semibold text-slate-700">Loading family fee ledgers...</div>
             </div>
           ) : (
             <div className="space-y-6">
-              {/* Children Selector Pills */}
+              {/* Children Selector Pill Tab */}
               {childrenFees.length > 1 && (
-                <div className="bg-white/80 backdrop-blur-xl border border-black/[0.06] rounded-2xl p-2 flex flex-wrap items-center gap-2 shadow-xs">
-                  <span className="text-xs font-bold text-slate-500 uppercase px-3">View Fees:</span>
-
+                <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-xl border border-black/[0.06] p-1.5 rounded-2xl w-fit shadow-xs">
                   <button
                     onClick={() => setSelectedChildId('all')}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 ${
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${
                       selectedChildId === 'all'
-                        ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-sm'
-                        : 'text-slate-600 hover:text-slate-900 bg-slate-100/60'
+                        ? 'bg-[#0071E3] text-white shadow-sm'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                     }`}
                   >
                     <Users className="w-3.5 h-3.5" />
-                    <span>Both Children ({childrenFees.length})</span>
+                    <span>All Children ({childrenFees.length})</span>
                   </button>
 
-                  {childrenFees.map((c) => (
+                  {childrenFees.map((child) => (
                     <button
-                      key={c.student_id}
-                      onClick={() => setSelectedChildId(c.student_id)}
-                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 ${
-                        selectedChildId === c.student_id
-                          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm'
-                          : 'text-slate-600 hover:text-slate-900 bg-slate-100/60'
+                      key={child.student_id || child.admission_number}
+                      onClick={() => setSelectedChildId(child.student_id)}
+                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${
+                        selectedChildId === child.student_id
+                          ? 'bg-[#0071E3] text-white shadow-sm'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                       }`}
                     >
                       <User className="w-3.5 h-3.5" />
-                      <span>{c.student_name}</span>
-                      <span className="text-[10px] opacity-80">({c.class_name})</span>
+                      <span>{child.student_name}</span>
+                      {child.outstanding_balance > 0 && (
+                        <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+                      )}
                     </button>
                   ))}
                 </div>
@@ -452,21 +615,51 @@ export const FeesPage: React.FC = () => {
 
               {/* Combined Family Overview Banner */}
               {familySummary && (
-                <div className="bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 rounded-[28px] p-6 md:p-8 text-white shadow-lg shadow-emerald-500/20 relative overflow-hidden">
+                <div
+                  className={`rounded-[28px] p-6 md:p-8 text-white shadow-lg relative overflow-hidden transition-all ${
+                    familySummary.outstanding_balance > 0
+                      ? 'bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-700 shadow-slate-900/20'
+                      : 'bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 shadow-emerald-500/20'
+                  }`}
+                >
                   <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                    <div className="space-y-2 max-w-xl">
+                    <div className="space-y-2.5 max-w-xl">
                       <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-md text-white border border-white/20">
-                        <CheckCircle className="w-3.5 h-3.5 mr-1.5 text-white" />
-                        Account in Good Standing • Family Ledger
+                        {familySummary.outstanding_balance > 0 ? (
+                          <>
+                            <Clock className="w-3.5 h-3.5 mr-1.5 text-amber-300" />
+                            Action Required • Family Ledger Dues
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle className="w-3.5 h-3.5 mr-1.5 text-white" />
+                            Account in Good Standing • Family Ledger
+                          </>
+                        )}
                       </span>
                       <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight">
-                        All Academic Fees Paid in Full!
+                        {familySummary.outstanding_balance > 0
+                          ? `Family Balance Due: $${Number(familySummary.outstanding_balance).toLocaleString()}.00`
+                          : "All Academic Fees Paid in Full!"}
                       </h2>
                       <p className="text-xs md:text-sm text-white/90 leading-relaxed">
-                        Tuition and campus fee statements for both{' '}
-                        <strong>{childrenFees.map((c) => c.student_name).join(' & ')}</strong> are fully
-                        settled for this academic session.
+                        {familySummary.outstanding_balance > 0
+                          ? `Scheduled term charges are pending clearance for ${childrenFees.map((c) => c.student_name).join(' & ')}. Pay securely via the Amazon payment gateway.`
+                          : `Tuition and campus fee statements for both ${childrenFees.map((c) => c.student_name).join(' & ')} are fully settled for this academic session.`}
                       </p>
+
+                      {familySummary.outstanding_balance > 0 && (
+                        <div className="pt-2">
+                          <button
+                            onClick={() => handleOpenAmazonPay(childrenFees[0])}
+                            className="px-6 py-3 rounded-2xl bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#F0B800] text-slate-950 font-black text-sm shadow-md flex items-center space-x-2 border border-[#FCD200] transition-all transform hover:scale-[1.02]"
+                          >
+                            <CreditCard className="w-4 h-4 text-slate-950" />
+                            <span>Pay Family Fees with Amazon Pay</span>
+                            <ArrowRight className="w-4 h-4 text-slate-950" />
+                          </button>
+                        </div>
+                      )}
                     </div>
 
                     {/* Family Metrics HUD */}
@@ -499,11 +692,24 @@ export const FeesPage: React.FC = () => {
                         </div>
                       </div>
 
-                      <div className="bg-white/95 px-5 py-4 rounded-2xl border border-white shadow-md text-center min-w-[120px]">
-                        <div className="text-[10px] font-bold uppercase text-emerald-800">Balance Due</div>
-                        <div className="text-xl md:text-2xl font-black text-emerald-600 mt-0.5">$0.00</div>
-                        <span className="text-[9px] font-extrabold text-emerald-700 uppercase">
-                          All Paid
+                      <div
+                        className={`px-5 py-4 rounded-2xl border shadow-md text-center min-w-[120px] ${
+                          familySummary.outstanding_balance > 0
+                            ? 'bg-amber-400 text-slate-950 border-amber-300'
+                            : 'bg-white/95 text-emerald-800 border-white'
+                        }`}
+                      >
+                        <div className="text-[10px] font-bold uppercase">Balance Due</div>
+                        <div className="text-xl md:text-2xl font-black mt-0.5">
+                          $
+                          {selectedChildId === 'all'
+                            ? Number(familySummary.outstanding_balance).toLocaleString()
+                            : Number(
+                                childrenFees.find((c) => c.student_id === selectedChildId)?.outstanding_balance || 0
+                              ).toLocaleString()}
+                        </div>
+                        <span className="text-[9px] font-extrabold uppercase">
+                          {familySummary.outstanding_balance > 0 ? 'Pending' : 'All Paid'}
                         </span>
                       </div>
                     </div>
@@ -546,8 +752,73 @@ export const FeesPage: React.FC = () => {
             </div>
           ) : feeData ? (
             <div className="space-y-6">
-              {/* "ALL PAID" Hero Card */}
-              {feeData.is_all_paid || feeData.outstanding_balance <= 0 ? (
+              {/* Outstanding Dues Banner OR All Paid Banner */}
+              {feeData.outstanding_balance > 0 ? (
+                <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-700 rounded-[28px] p-6 md:p-8 text-white shadow-xl shadow-indigo-950/20 relative overflow-hidden">
+                  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                    <div className="space-y-3 max-w-xl">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                        <Clock className="w-3.5 h-3.5 mr-1.5 text-amber-300" />
+                        Academic Action Required • Pending Dues
+                      </span>
+                      <h2 className="text-2xl md:text-3xl font-black tracking-tight text-white">
+                        Balance Due: ${Number(feeData.outstanding_balance).toLocaleString()}.00
+                      </h2>
+                      <p className="text-xs md:text-sm text-slate-300 leading-relaxed">
+                        You have scheduled curricular charges pending clearance for the 2026–2027 academic session.
+                        Complete your payment seamlessly through the institutional Amazon Pay portal.
+                      </p>
+
+                      <div className="pt-2 flex flex-wrap items-center gap-3">
+                        <button
+                          onClick={() => handleOpenAmazonPay(feeData)}
+                          className="px-6 py-3 rounded-2xl bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#F0B800] text-slate-950 font-black text-sm shadow-md flex items-center space-x-2 border border-[#FCD200] transition-all transform hover:scale-[1.02]"
+                        >
+                          <CreditCard className="w-4 h-4 text-slate-950" />
+                          <span>Pay Fees with Amazon Pay</span>
+                          <ArrowRight className="w-4 h-4 text-slate-950" />
+                        </button>
+
+                        <button
+                          onClick={() => handleResetDemoFees()}
+                          className="px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/15 text-white/90 text-xs font-semibold flex items-center space-x-1.5 transition-colors border border-white/10"
+                          title="Reset demo dues"
+                        >
+                          <RotateCcw className="w-3.5 h-3.5" />
+                          <span>Reset Demo Dues</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Dues Metrics HUD */}
+                    <div className="flex flex-wrap items-center gap-3">
+                      <div className="bg-white/10 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/15 text-center min-w-[120px]">
+                        <div className="text-[10px] font-bold uppercase text-slate-400">Total Annual Fee</div>
+                        <div className="text-xl md:text-2xl font-black text-white mt-0.5">
+                          ${Number(feeData.total_annual_fee).toLocaleString()}
+                        </div>
+                      </div>
+
+                      <div className="bg-white/10 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/15 text-center min-w-[120px]">
+                        <div className="text-[10px] font-bold uppercase text-slate-400">Total Paid</div>
+                        <div className="text-xl md:text-2xl font-black text-emerald-400 mt-0.5">
+                          ${Number(feeData.total_paid).toLocaleString()}
+                        </div>
+                      </div>
+
+                      <div className="bg-amber-400 text-slate-950 px-5 py-4 rounded-2xl border border-amber-300 shadow-md text-center min-w-[120px]">
+                        <div className="text-[10px] font-extrabold uppercase text-slate-900">Balance Due</div>
+                        <div className="text-xl md:text-2xl font-black mt-0.5">
+                          ${Number(feeData.outstanding_balance).toLocaleString()}
+                        </div>
+                        <span className="text-[9px] font-black text-slate-900 uppercase">
+                          Action Required
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
                 <div className="bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 rounded-[28px] p-6 md:p-8 text-white shadow-lg shadow-emerald-500/20 relative overflow-hidden">
                   <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                     <div className="space-y-2 max-w-xl">
@@ -561,6 +832,15 @@ export const FeesPage: React.FC = () => {
                       <p className="text-xs md:text-sm text-white/90 leading-relaxed">
                         All tuition and campus fee invoices for this academic year are fully settled.
                       </p>
+                      <div className="pt-2">
+                        <button
+                          onClick={() => handleResetDemoFees()}
+                          className="px-4 py-2 rounded-xl bg-white/20 hover:bg-white/30 text-white text-xs font-semibold flex items-center space-x-1.5 transition-colors border border-white/20"
+                        >
+                          <RotateCcw className="w-3.5 h-3.5" />
+                          <span>Reset Demo Dues (Test Amazon Payment Gateway)</span>
+                        </button>
+                      </div>
                     </div>
 
                     {/* All Paid Metrics HUD */}
@@ -587,32 +867,37 @@ export const FeesPage: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              ) : (
-                <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-[28px] p-6 md:p-8 text-white shadow-md">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                      <span className="px-3 py-1 rounded-full text-xs font-bold uppercase bg-white/20 text-white">
-                        Outstanding Fee Balance
-                      </span>
-                      <h2 className="text-2xl font-bold mt-2">
-                        Balance Due: ${Number(feeData.outstanding_balance).toLocaleString()}
-                      </h2>
-                      <p className="text-xs text-white/90">Please clear pending dues by the scheduled due date.</p>
-                    </div>
-                  </div>
-                </div>
               )}
 
               {/* Fee Categories Breakdown */}
               <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-[26px] overflow-hidden shadow-sm">
-                <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+                <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
                     <h3 className="font-bold text-slate-900 text-base">Academic Session Fee Schedule</h3>
                     <p className="text-xs text-slate-500">2026–2027 Curriculum & Facility Charges</p>
                   </div>
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                    100% Cleared
-                  </span>
+                  <div className="flex items-center space-x-2">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-bold border ${
+                        feeData.outstanding_balance <= 0
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          : 'bg-amber-50 text-amber-800 border-amber-200'
+                      }`}
+                    >
+                      {feeData.outstanding_balance <= 0
+                        ? '100% Cleared'
+                        : `${Math.round(((feeData.total_paid || 0) / (feeData.total_annual_fee || 1)) * 100)}% Cleared`}
+                    </span>
+                    {feeData.outstanding_balance > 0 && (
+                      <button
+                        onClick={() => handleOpenAmazonPay(feeData)}
+                        className="px-4 py-2 rounded-xl bg-[#FFD814] hover:bg-[#F7CA00] text-slate-950 font-extrabold text-xs border border-[#FCD200] shadow-sm flex items-center space-x-1.5 transition-transform hover:scale-102"
+                      >
+                        <CreditCard className="w-3.5 h-3.5 text-slate-950" />
+                        <span>Pay Outstanding Fees (${Number(feeData.outstanding_balance).toLocaleString()}.00)</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 <div className="overflow-x-auto">
@@ -623,26 +908,61 @@ export const FeesPage: React.FC = () => {
                         <th className="py-3 px-5">Amount</th>
                         <th className="py-3 px-5">Due Date</th>
                         <th className="py-3 px-5">Clearance Status</th>
+                        <th className="py-3 px-5 text-right">Payment Action</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
-                      {feeData.breakdown?.map((item: any, idx: number) => (
-                        <tr key={idx} className="hover:bg-slate-50/70 transition-colors">
-                          <td className="py-3.5 px-5 font-bold text-slate-900 flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-emerald-500" />
-                            <span>{item.category}</span>
-                          </td>
-                          <td className="py-3.5 px-5 font-mono font-bold text-slate-800">
-                            ${Number(item.amount).toLocaleString()}.00
-                          </td>
-                          <td className="py-3.5 px-5 text-slate-500 font-mono">{item.due_date}</td>
-                          <td className="py-3.5 px-5">
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                              Paid in Full
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
+                      {feeData.breakdown?.map((item: any, idx: number) => {
+                        const isPaid = item.status === 'Paid';
+                        const isPartiallyPaid = item.status === 'Partially Paid';
+
+                        return (
+                          <tr key={idx} className="hover:bg-slate-50/70 transition-colors">
+                            <td className="py-3.5 px-5 font-bold text-slate-900 flex items-center space-x-2">
+                              {isPaid ? (
+                                <CheckCircle className="w-4 h-4 text-emerald-500" />
+                              ) : isPartiallyPaid ? (
+                                <Clock className="w-4 h-4 text-amber-500" />
+                              ) : (
+                                <AlertCircle className="w-4 h-4 text-red-500" />
+                              )}
+                              <span>{item.category}</span>
+                            </td>
+                            <td className="py-3.5 px-5 font-mono font-bold text-slate-800">
+                              ${Number(item.amount).toLocaleString()}.00
+                            </td>
+                            <td className="py-3.5 px-5 text-slate-500 font-mono">{item.due_date}</td>
+                            <td className="py-3.5 px-5">
+                              {isPaid ? (
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                  Paid in Full
+                                </span>
+                              ) : isPartiallyPaid ? (
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                                  Partially Paid
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-red-50 text-red-700 border border-red-200">
+                                  Action Required: Not Paid
+                                </span>
+                              )}
+                            </td>
+                            <td className="py-3.5 px-5 text-right">
+                              {isPaid ? (
+                                <span className="text-[11px] text-slate-400 font-semibold">Settled</span>
+                              ) : (
+                                <button
+                                  onClick={() => handleOpenAmazonPay(feeData)}
+                                  className="px-3 py-1 rounded-lg bg-[#FFD814] hover:bg-[#F7CA00] text-slate-950 font-extrabold text-[11px] border border-[#FCD200] shadow-xs inline-flex items-center space-x-1"
+                                >
+                                  <span>Pay Fee</span>
+                                  <ArrowRight className="w-3 h-3 text-slate-950" />
+                                </button>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
@@ -748,55 +1068,72 @@ export const FeesPage: React.FC = () => {
             </div>
           )}
 
-          <div className="ios-card rounded-[22px] overflow-hidden">
-            <div className="p-5 border-b border-black/[0.05] flex items-center justify-between">
-              <h2 className="font-bold text-[#1D1D1F]">Student Cashier Ledger</h2>
-              <span className="text-xs text-slate-400 font-mono">Process student fee payments</span>
+          {/* Students Directory Ledger */}
+          <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-[26px] overflow-hidden shadow-sm">
+            <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+              <div>
+                <h3 className="font-bold text-slate-900 text-base">Students Tuition Ledger</h3>
+                <p className="text-xs text-slate-500">Select a student to accept cashier payments</p>
+              </div>
             </div>
-            <table className="w-full text-left text-sm">
-              <thead className="bg-black/[0.02] text-[#86868B] text-[11px] uppercase font-semibold border-b border-black/[0.05]">
-                <tr>
-                  <th className="px-6 py-4">Admission No</th>
-                  <th className="px-6 py-4">Student Name</th>
-                  <th className="px-6 py-4 text-right">Cashier Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-black/[0.04]">
-                {(Array.isArray(students) ? students : []).map((s) => (
-                  <tr key={s.id} className="hover:bg-black/[0.02] transition-colors">
-                    <td className="px-6 py-4 font-mono font-semibold text-[#0071E3]">{s.admission_number}</td>
-                    <td className="px-6 py-4 font-semibold text-[#1D1D1F]">{s.full_name}</td>
-                    <td className="px-6 py-4 text-right">
-                      <button
-                        onClick={() => {
-                          setSelectedStudent(s);
-                          setPaymentForm((prev) => ({
-                            ...prev,
-                            transaction_reference: `REF-${Date.now().toString().slice(-6)}`,
-                          }));
-                          setIsPayModalOpen(true);
-                        }}
-                        className="ios-gloss-btn px-4 py-1.5 text-xs font-semibold space-x-1.5"
-                      >
-                        <DollarSign className="w-3.5 h-3.5 text-white" />
-                        <span>Collect Payment</span>
-                      </button>
-                    </td>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-slate-50 text-slate-400 font-bold uppercase tracking-wider border-b border-slate-100">
+                  <tr>
+                    <th className="py-3 px-5">Admission No</th>
+                    <th className="py-3 px-5">Student Name</th>
+                    <th className="py-3 px-5">Class & Section</th>
+                    <th className="py-3 px-5 text-right">Cashier Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {students.map((st) => (
+                    <tr key={st.id} className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3 px-5 font-mono font-bold text-[#0071E3]">{st.admission_number}</td>
+                      <td className="py-3 px-5 font-semibold text-slate-900">{st.full_name}</td>
+                      <td className="py-3 px-5 text-slate-600">
+                        {st.class_room?.name || 'Grade 1'} - {st.section?.name || 'A'}
+                      </td>
+                      <td className="py-3 px-5 text-right">
+                        <button
+                          onClick={() => {
+                            setSelectedStudent(st);
+                            setIsPayModalOpen(true);
+                          }}
+                          className="ios-gloss-btn-emerald px-3 py-1.5 text-xs font-semibold space-x-1"
+                        >
+                          <DollarSign className="w-3 h-3 text-white" />
+                          <span>Accept Payment</span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Collect Payment Modal (Staff Only) */}
-      {isPayModalOpen && selectedStudent && (
-        <div className="fixed inset-0 z-50 bg-black/30 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-white rounded-[28px] max-w-md w-full p-6 shadow-2xl space-y-4">
-            <h3 className="text-base font-bold text-slate-900">Record Fee Payment</h3>
+      {/* Staff Cashier Payment Modal */}
+      {isPayModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl border border-slate-100 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 className="text-base font-bold text-slate-900">
+                {selectedStudent ? `Record Payment: ${selectedStudent.full_name}` : 'Record Cashier Payment'}
+              </h3>
+              <button
+                onClick={() => setIsPayModalOpen(false)}
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center"
+              >
+                ✕
+              </button>
+            </div>
+
             <p className="text-xs text-slate-500">
-              Student: <b>{selectedStudent.full_name}</b> ({selectedStudent.admission_number})
+              Enter payment particulars below. A sequentially numbered official receipt will be generated.
             </p>
 
             <form onSubmit={handleProcessPayment} className="space-y-3.5 pt-2">
@@ -865,6 +1202,16 @@ export const FeesPage: React.FC = () => {
             </form>
           </div>
         </div>
+      )}
+
+      {/* Amazon Pay Full-Featured Checkout Modal */}
+      {targetStudentForPayment && (
+        <AmazonPaymentModal
+          isOpen={isAmazonPayModalOpen}
+          onClose={() => setIsAmazonPayModalOpen(false)}
+          student={targetStudentForPayment}
+          onPaymentSuccess={handleAmazonPaymentSuccess}
+        />
       )}
     </div>
   );
