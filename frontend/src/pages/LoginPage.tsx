@@ -157,17 +157,16 @@ export const LoginPage: React.FC = () => {
       {/* ─────────────────────────────────────────────────────────────
           LEFT SIDE: BRAND ARTWORK & INSTITUTIONAL DESIGN PANEL
           ───────────────────────────────────────────────────────────── */}
-      <div className="w-full lg:w-1/2 xl:w-[48%] h-full max-h-screen relative flex flex-col justify-between p-5 lg:p-7 xl:p-9 overflow-hidden bg-gradient-to-br from-blue-50/90 via-slate-50 to-indigo-50/70 border-b lg:border-b-0 lg:border-r border-slate-200/80">
-        {/* Decorative Ambient Background Glows */}
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-emerald-300/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-1/2 left-1/3 w-80 h-80 bg-purple-300/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="w-full lg:w-1/2 xl:w-[48%] h-full max-h-screen relative flex flex-col justify-between p-5 lg:p-7 xl:p-9 overflow-hidden bg-[#EBEEF2] border-b lg:border-b-0 lg:border-r border-slate-300/40">
+        {/* Soft Ambient Light Reflective Highlights for Neumorphic Balance */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/40 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-slate-200/40 rounded-full blur-3xl pointer-events-none" />
 
         {/* Top Header: Quick Return Link */}
         <div className="relative z-10 flex items-center justify-between">
           <Link
             to="/"
-            className="inline-flex items-center space-x-2 text-xs font-bold text-slate-600 hover:text-[#0071E3] transition-colors py-1.5 px-3.5 rounded-full bg-white/80 border border-slate-200/80 shadow-2xs"
+            className="inline-flex items-center space-x-2 text-xs font-bold text-slate-600 hover:text-slate-900 transition-all py-2 px-4 rounded-full bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] hover:shadow-[4px_4px_9px_#C0CAD8,-4px_-4px_9px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]"
           >
             <ArrowLeft className="w-3.5 h-3.5 text-[#0071E3]" />
             <span>Return to School Website</span>
@@ -193,18 +192,18 @@ export const LoginPage: React.FC = () => {
           </div>
 
           {/* Quick Institutional Highlights */}
-          <div className="grid grid-cols-2 gap-2.5 pt-1">
-            <div className="bg-white/90 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-2.5 shadow-2xs space-y-0.5">
+          <div className="grid grid-cols-2 gap-3 pt-1">
+            <div className="bg-[#EBEEF2] rounded-2xl p-3 shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] space-y-1">
               <div className="flex items-center space-x-1.5 text-[#0071E3]">
-                <GraduationCap className="w-3.5 h-3.5" />
+                <GraduationCap className="w-4 h-4" />
                 <span className="text-xs font-black text-slate-900">2,500+ Students</span>
               </div>
               <p className="text-[10px] text-slate-500 font-medium">Holistic CBSE & State Curriculum</p>
             </div>
 
-            <div className="bg-white/90 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-2.5 shadow-2xs space-y-0.5">
+            <div className="bg-[#EBEEF2] rounded-2xl p-3 shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] space-y-1">
               <div className="flex items-center space-x-1.5 text-emerald-600">
-                <Bus className="w-3.5 h-3.5" />
+                <Bus className="w-4 h-4" />
                 <span className="text-xs font-black text-slate-900">24 Smart Fleets</span>
               </div>
               <p className="text-[10px] text-slate-500 font-medium">Live GPS Student Transit Safety</p>
@@ -213,7 +212,7 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {/* Bottom Institutional Accreditation */}
-        <div className="relative z-10 pt-2.5 border-t border-slate-200/80 flex flex-wrap items-center justify-between text-[10px] text-slate-500 font-medium gap-1.5">
+        <div className="relative z-10 pt-2 border-t border-slate-300/40 flex flex-wrap items-center justify-between text-[10px] text-slate-500 font-medium gap-1.5">
           <span>CBSE Affiliation No: 1930482</span>
           <span>•</span>
           <span>ISO 9001:2025 Certified Campus</span>
