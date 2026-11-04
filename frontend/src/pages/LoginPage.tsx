@@ -15,7 +15,6 @@ import {
   GraduationCap,
   Users,
   Briefcase,
-  Bus,
 } from 'lucide-react';
 import { WelcomeScreen } from '../components/WelcomeScreen';
 import { AnimatedLogo } from '../components/AnimatedLogo';
@@ -192,21 +191,13 @@ export const LoginPage: React.FC = () => {
           </div>
 
           {/* Quick Institutional Highlights */}
-          <div className="grid grid-cols-2 gap-3 pt-1">
-            <div className="bg-[#EBEEF2] rounded-2xl p-3 shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] space-y-1">
+          <div className="pt-1">
+            <div className="inline-block bg-[#EBEEF2] rounded-2xl p-3 shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] space-y-1">
               <div className="flex items-center space-x-1.5 text-[#0071E3]">
                 <GraduationCap className="w-4 h-4" />
                 <span className="text-xs font-black text-slate-900">2,500+ Students</span>
               </div>
               <p className="text-[10px] text-slate-500 font-medium">Holistic CBSE & State Curriculum</p>
-            </div>
-
-            <div className="bg-[#EBEEF2] rounded-2xl p-3 shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] space-y-1">
-              <div className="flex items-center space-x-1.5 text-emerald-600">
-                <Bus className="w-4 h-4" />
-                <span className="text-xs font-black text-slate-900">24 Smart Fleets</span>
-              </div>
-              <p className="text-[10px] text-slate-500 font-medium">Live GPS Student Transit Safety</p>
             </div>
           </div>
         </div>
