@@ -188,17 +188,6 @@ export const LoginPage: React.FC = () => {
               grading, attendance registers, and school communications.
             </p>
           </div>
-
-          {/* Quick Institutional Highlights */}
-          <div className="pt-1.5">
-            <div className="inline-block bg-[#EBEEF2] rounded-2xl p-3.5 shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] space-y-1">
-              <div className="flex items-center space-x-2 text-[#0071E3]">
-                <GraduationCap className="w-4.5 h-4.5" />
-                <span className="text-sm font-black text-slate-900">2,500+ Students</span>
-              </div>
-              <p className="text-xs text-slate-500 font-medium">Holistic CBSE & State Curriculum</p>
-            </div>
-          </div>
         </div>
       </div>
 
