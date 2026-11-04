@@ -9,7 +9,6 @@ import {
   EyeOff,
   Lock,
   AlertCircle,
-  ShieldCheck,
   ArrowRight,
   ArrowLeft,
   GraduationCap,
@@ -156,7 +155,7 @@ export const LoginPage: React.FC = () => {
       {/* ─────────────────────────────────────────────────────────────
           LEFT SIDE: BRAND ARTWORK & INSTITUTIONAL DESIGN PANEL
           ───────────────────────────────────────────────────────────── */}
-      <div className="w-full lg:w-1/2 xl:w-[48%] h-full max-h-screen relative flex flex-col justify-between p-5 lg:p-7 xl:p-9 overflow-hidden bg-[#EBEEF2] border-b lg:border-b-0 lg:border-r border-slate-300/40">
+      <div className="w-full lg:w-1/2 xl:w-[48%] h-full max-h-screen relative flex flex-col justify-between p-5 lg:p-7 xl:p-9 overflow-hidden bg-[#EBEEF2]">
         {/* Soft Ambient Light Reflective Highlights for Neumorphic Balance */}
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/40 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-slate-200/40 rounded-full blur-3xl pointer-events-none" />
@@ -200,15 +199,6 @@ export const LoginPage: React.FC = () => {
               <p className="text-[10px] text-slate-500 font-medium">Holistic CBSE & State Curriculum</p>
             </div>
           </div>
-        </div>
-
-        {/* Bottom Institutional Accreditation */}
-        <div className="relative z-10 pt-2 border-t border-slate-300/40 flex flex-wrap items-center justify-between text-[10px] text-slate-500 font-medium gap-1.5">
-          <span>CBSE Affiliation No: 1930482</span>
-          <span>•</span>
-          <span>ISO 9001:2025 Certified Campus</span>
-          <span>•</span>
-          <span>Ever Grow International</span>
         </div>
       </div>
 
@@ -440,15 +430,6 @@ export const LoginPage: React.FC = () => {
               </button>
             </div>
           </div>
-        </div>
-
-        {/* Flat Bottom Security Assurance Footer */}
-        <div className="w-full pt-2 border-t border-slate-300/40 flex items-center justify-between text-[10px] text-slate-500 font-medium">
-          <div className="flex items-center space-x-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Ever Grow Institutional Security</span>
-          </div>
-          <span className="text-slate-400">Version 2.4.0-LTS</span>
         </div>
       </div>
     </div>
