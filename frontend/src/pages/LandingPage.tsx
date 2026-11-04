@@ -106,21 +106,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
   };
 
   return (
-    <div className="min-h-screen bg-[#E9EEF5] text-slate-800 font-sans selection:bg-[#0071E3] selection:text-white">
-      {/* 1. STICKY GLASSMORPHIC NAVBAR */}
-      <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-xl border-b border-black/[0.06] shadow-2xs transition-all">
+    <div className="min-h-screen bg-[#EBEEF2] text-slate-800 font-sans selection:bg-slate-300 selection:text-slate-900">
+      {/* 1. STICKY NEUMORPHIC NAVBAR */}
+      <header className="sticky top-0 z-40 bg-[#EBEEF2]/90 backdrop-blur-xl border-b border-slate-300/40 transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           {/* Logo Brand */}
           <a href="#" className="flex items-center space-x-3.5 group">
-            <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0071E3] via-indigo-600 to-purple-600 p-0.5 shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
-              <div className="w-full h-full bg-white rounded-[14px] flex items-center justify-center p-1">
-                <img src={logoImg} alt="Ever Grow Schools Logo" className="w-full h-full object-contain" />
-              </div>
+            <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] flex items-center justify-center p-1.5 transition-transform group-hover:scale-105">
+              <img src={logoImg} alt="Ever Grow Schools Logo" className="w-full h-full object-contain" />
             </div>
             <div>
               <div className="flex items-center space-x-1.5">
                 <span className="text-lg font-black tracking-tight text-slate-900">Ever Grow</span>
-                <span className="text-lg font-bold tracking-tight text-[#0071E3]">Schools</span>
+                <span className="text-lg font-bold tracking-tight text-blue-600">Schools</span>
               </div>
               <p className="text-[11px] font-semibold text-slate-500 tracking-tight">
                 Excellence in Holistic Education
@@ -129,52 +127,52 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
           </a>
 
           {/* Desktop Center Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-8 text-xs font-bold text-slate-600">
+          <nav className="hidden lg:flex items-center space-x-6 text-xs font-bold text-slate-600">
             <button
               onClick={() => scrollToSection('about')}
-              className="hover:text-[#0071E3] transition-colors"
+              className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer"
             >
               About School
             </button>
             <button
               onClick={() => scrollToSection('academics')}
-              className="hover:text-[#0071E3] transition-colors"
+              className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer"
             >
               Academics
             </button>
             <button
               onClick={() => scrollToSection('campus-tech')}
-              className="hover:text-[#0071E3] transition-colors"
+              className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer"
             >
               Campus Tech & ERP
             </button>
             <button
               onClick={() => scrollToSection('tuitions')}
-              className="hover:text-[#0071E3] transition-colors"
+              className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer"
             >
               Tuition Centers
             </button>
             <button
               onClick={() => scrollToSection('enquiry')}
-              className="hover:text-[#0071E3] transition-colors"
+              className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer"
             >
               Admissions
             </button>
             <button
               onClick={() => scrollToSection('contact')}
-              className="hover:text-[#0071E3] transition-colors"
+              className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer"
             >
               Contact
             </button>
           </nav>
 
-          {/* Top-Right Highlighted Rectangular "Portal Login" Button */}
+          {/* Top-Right Neumorphic Pill "Portal Login" Button */}
           <div className="hidden sm:flex items-center space-x-3">
             <button
               onClick={() => handleOpenLogin('staff')}
-              className="px-5 py-2.5 rounded-xl bg-[#0071E3] hover:bg-[#0077ED] active:bg-[#0062C4] text-white text-xs font-bold shadow-md shadow-blue-500/25 transition-all flex items-center space-x-2 border border-blue-400/30 transform hover:-translate-y-0.5"
+              className="px-5 py-2.5 rounded-full bg-[#EBEEF2] text-slate-700 hover:text-slate-950 text-xs font-bold shadow-[4px_4px_9px_#C8D0DC,-4px_-4px_9px_#FFFFFF] hover:shadow-[5px_5px_12px_#C0CAD8,-5px_-5px_12px_#FFFFFF] active:shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] transition-all flex items-center space-x-2 border-none cursor-pointer"
             >
-              <KeyRound className="w-3.5 h-3.5" />
+              <KeyRound className="w-3.5 h-3.5 text-blue-600" />
               <span>Portal Login</span>
             </button>
           </div>
@@ -183,14 +181,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
           <div className="lg:hidden flex items-center space-x-2">
             <button
               onClick={() => handleOpenLogin('staff')}
-              className="px-3.5 py-1.5 rounded-lg bg-[#0071E3] text-white text-xs font-bold sm:hidden flex items-center space-x-1"
+              className="px-3.5 py-1.5 rounded-full bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_7px_#FFFFFF] text-slate-700 text-xs font-bold sm:hidden flex items-center space-x-1"
             >
-              <KeyRound className="w-3 h-3" />
+              <KeyRound className="w-3 h-3 text-blue-600" />
               <span>Login</span>
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+              className="p-2.5 rounded-full bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] text-slate-700 transition-colors"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -200,66 +198,66 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
 
         {/* Mobile Dropdown Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white/95 backdrop-blur-xl border-b border-slate-200 px-6 py-5 space-y-4 animate-fade-in">
+          <div className="lg:hidden bg-[#EBEEF2] border-b border-slate-300/40 px-6 py-5 space-y-4 animate-fade-in shadow-[0_10px_20px_rgba(200,208,220,0.5)]">
             <div className="flex flex-col space-y-3 text-sm font-semibold text-slate-700">
               <button
                 onClick={() => scrollToSection('about')}
-                className="text-left py-1 hover:text-[#0071E3]"
+                className="text-left py-1 hover:text-blue-600"
               >
                 About School
               </button>
               <button
                 onClick={() => scrollToSection('academics')}
-                className="text-left py-1 hover:text-[#0071E3]"
+                className="text-left py-1 hover:text-blue-600"
               >
                 Academics & Streams
               </button>
               <button
                 onClick={() => scrollToSection('campus-tech')}
-                className="text-left py-1 hover:text-[#0071E3]"
+                className="text-left py-1 hover:text-blue-600"
               >
                 Campus Technology & ERP
               </button>
               <button
                 onClick={() => scrollToSection('tuitions')}
-                className="text-left py-1 hover:text-[#0071E3]"
+                className="text-left py-1 hover:text-blue-600"
               >
                 Extended Tuition Centers
               </button>
               <button
                 onClick={() => scrollToSection('enquiry')}
-                className="text-left py-1 hover:text-[#0071E3]"
+                className="text-left py-1 hover:text-blue-600"
               >
                 Admission Enquiry
               </button>
               <button
                 onClick={() => scrollToSection('contact')}
-                className="text-left py-1 hover:text-[#0071E3]"
+                className="text-left py-1 hover:text-blue-600"
               >
                 Contact Campus
               </button>
             </div>
 
-            <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
-              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+            <div className="pt-3 border-t border-slate-300/40 flex flex-col gap-2">
+              <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                 Select Portal to Sign In:
               </div>
               <div className="grid grid-cols-3 gap-2">
                 <button
                   onClick={() => handleOpenLogin('staff')}
-                  className="py-2 px-3 rounded-xl bg-blue-50 text-[#0071E3] font-bold text-xs border border-blue-200 text-center"
+                  className="py-2 px-3 rounded-full bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] text-blue-700 font-bold text-xs text-center"
                 >
                   Staff
                 </button>
                 <button
                   onClick={() => handleOpenLogin('student')}
-                  className="py-2 px-3 rounded-xl bg-indigo-50 text-indigo-700 font-bold text-xs border border-indigo-200 text-center"
+                  className="py-2 px-3 rounded-full bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] text-indigo-700 font-bold text-xs text-center"
                 >
                   Student
                 </button>
                 <button
                   onClick={() => handleOpenLogin('parent')}
-                  className="py-2 px-3 rounded-xl bg-emerald-50 text-emerald-700 font-bold text-xs border border-emerald-200 text-center"
+                  className="py-2 px-3 rounded-full bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] text-emerald-700 font-bold text-xs text-center"
                 >
                   Parent
                 </button>
@@ -270,17 +268,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
       </header>
 
       {/* 2. HERO SECTION */}
-      <section className="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
+      <section className="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden bg-[#EBEEF2]">
         {/* Soft Background Accents */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-tr from-blue-300/25 via-indigo-200/25 to-purple-300/20 blur-3xl rounded-full -z-10 pointer-events-none"></div>
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-white/40 blur-3xl rounded-full -z-10 pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
           {/* Institutional Badge Pill */}
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-black/[0.08] shadow-xs text-xs font-bold text-slate-800 animate-fade-in">
+          <div className="inline-flex items-center space-x-2 px-5 py-2 rounded-full bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] text-xs font-bold text-slate-700 animate-fade-in border-none">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>Admissions Open for Academic Year 2026–2027</span>
-            <span className="text-slate-300">•</span>
-            <span className="text-[#0071E3] cursor-pointer" onClick={() => scrollToSection('enquiry')}>
+            <span className="text-slate-400">•</span>
+            <span className="text-blue-600 hover:text-blue-800 cursor-pointer transition-colors" onClick={() => scrollToSection('enquiry')}>
               Apply Online
             </span>
           </div>
@@ -288,7 +286,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
           {/* Hero Headline */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 max-w-5xl mx-auto leading-[1.1] animate-scale-up">
             Empowering Future Leaders with{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0071E3] via-indigo-600 to-purple-600">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">
               Smart Learning
             </span>{' '}
             & Modern Governance
@@ -301,30 +299,30 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             continuous excellence.
           </p>
 
-          {/* Dual Call-To-Action Buttons */}
+          {/* Dual Call-To-Action Neumorphic Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
             <button
               onClick={() => handleOpenLogin('staff')}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-[#0071E3] hover:bg-[#0077ED] text-white text-sm font-extrabold shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center space-x-2.5 border border-blue-400/30 transform hover:-translate-y-0.5"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#EBEEF2] text-slate-700 hover:text-slate-950 text-sm font-bold shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[6px_6px_14px_#C0CAD8,-6px_-6px_14px_#FFFFFF] active:shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] transition-all flex items-center justify-center space-x-2.5 border-none cursor-pointer"
             >
-              <KeyRound className="w-4 h-4" />
+              <KeyRound className="w-4 h-4 text-blue-600" />
               <span>Access School Portal</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-slate-500" />
             </button>
 
             <button
               onClick={() => scrollToSection('about')}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-white/90 hover:bg-white text-slate-800 text-sm font-bold shadow-sm border border-black/[0.08] transition-all flex items-center justify-center space-x-2"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#EBEEF2] text-slate-600 hover:text-slate-900 text-sm font-bold shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] hover:shadow-[5px_5px_12px_#C0CAD8,-5px_-5px_12px_#FFFFFF] active:shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] transition-all flex items-center justify-center space-x-2 border-none cursor-pointer"
             >
               <span>Explore Campus & Curriculum</span>
               <ChevronRight className="w-4 h-4 text-slate-400" />
             </button>
           </div>
 
-          {/* Live Metrics Bar (Apple Neumorphic Floating Cards) */}
-          <div className="pt-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto text-left">
-            <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-[24px] p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200/60 flex items-center justify-center text-[#0071E3] mb-3">
+          {/* Live Metrics Bar (Neumorphic Floating Cards) */}
+          <div className="pt-10 grid grid-cols-2 md:grid-cols-4 gap-5 max-w-5xl mx-auto text-left">
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border-none">
+              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] flex items-center justify-center text-blue-600 mb-3">
                 <GraduationCap className="w-5 h-5" />
               </div>
               <div className="text-3xl font-black text-slate-900 font-mono tracking-tight">2,500+</div>
@@ -332,8 +330,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               <div className="text-[11px] text-slate-400 mt-0.5">Pre-K to Grade 12</div>
             </div>
 
-            <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-[24px] p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/60 flex items-center justify-center text-emerald-600 mb-3">
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border-none">
+              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] flex items-center justify-center text-emerald-600 mb-3">
                 <Trophy className="w-5 h-5" />
               </div>
               <div className="text-3xl font-black text-slate-900 font-mono tracking-tight">100%</div>
@@ -341,8 +339,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               <div className="text-[11px] text-slate-400 mt-0.5">State & National Ranks</div>
             </div>
 
-            <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-[24px] p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200/60 flex items-center justify-center text-indigo-600 mb-3">
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border-none">
+              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] flex items-center justify-center text-indigo-600 mb-3">
                 <Users className="w-5 h-5" />
               </div>
               <div className="text-3xl font-black text-slate-900 font-mono tracking-tight">60+</div>
@@ -350,8 +348,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               <div className="text-[11px] text-slate-400 mt-0.5">Ph.D. & Masters Mentors</div>
             </div>
 
-            <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-[24px] p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200/60 flex items-center justify-center text-amber-600 mb-3">
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border-none">
+              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] flex items-center justify-center text-amber-600 mb-3">
                 <Bus className="w-5 h-5" />
               </div>
               <div className="text-3xl font-black text-slate-900 font-mono tracking-tight">24</div>
@@ -363,10 +361,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
       </section>
 
       {/* 3. ABOUT & CAMPUS LIFE SHOWCASE */}
-      <section id="about" className="py-20 bg-white/70 backdrop-blur-md border-y border-black/[0.05]">
+      <section id="about" className="py-20 bg-[#EBEEF2] border-t border-slate-300/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-[#0071E3] bg-blue-50 px-3.5 py-1 rounded-full border border-blue-200">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-blue-700 bg-[#EBEEF2] px-4 py-1.5 rounded-full shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
               Campus Life & Ethos
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -380,8 +378,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
 
           {/* Highlights Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white border border-slate-200/80 rounded-[28px] p-7 shadow-sm space-y-4 hover:border-[#0071E3]/40 transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center text-[#0071E3]">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-4 border-none">
+              <div className="w-12 h-12 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] flex items-center justify-center text-blue-600">
                 <Cpu className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-slate-900">Robotics & AI Innovation Labs</h3>
@@ -389,14 +387,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
                 Equipped with microcontrollers, 3D printers, and sensor arrays where students build real-world IoT and
                 robotics prototypes starting from Grade 4.
               </p>
-              <div className="pt-2 text-[11px] font-bold text-[#0071E3] flex items-center space-x-1">
+              <div className="pt-2 text-[11px] font-bold text-blue-600 flex items-center space-x-1">
                 <span>Integrated STEM Curriculum</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </div>
             </div>
 
-            <div className="bg-white border border-slate-200/80 rounded-[28px] p-7 shadow-sm space-y-4 hover:border-[#0071E3]/40 transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-4 border-none">
+              <div className="w-12 h-12 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] flex items-center justify-center text-emerald-600">
                 <Trophy className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-slate-900">Olympic Standard Sports Arena</h3>
@@ -410,8 +408,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               </div>
             </div>
 
-            <div className="bg-white border border-slate-200/80 rounded-[28px] p-7 shadow-sm space-y-4 hover:border-[#0071E3]/40 transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-600">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-4 border-none">
+              <div className="w-12 h-12 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] flex items-center justify-center text-purple-600">
                 <BookOpen className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-slate-900">Digital Library & Knowledge Center</h3>
@@ -429,10 +427,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
       </section>
 
       {/* 4. KEY HIGHLIGHTS & ERP FEATURE GRID */}
-      <section id="campus-tech" className="py-20">
+      <section id="campus-tech" className="py-20 bg-[#EBEEF2] border-t border-slate-300/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-3.5 py-1 rounded-full border border-indigo-200">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-700 bg-[#EBEEF2] px-4 py-1.5 rounded-full shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
               Next-Gen ERP Technology
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -447,8 +445,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
           {/* 6 Core Feature Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Feature 1 */}
-            <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-[26px] p-7 shadow-sm hover:shadow-md transition-all space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#0071E3] flex items-center justify-center font-bold">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
+              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] text-blue-600 flex items-center justify-center font-bold">
                 <Compass className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-slate-900 text-base">Smart Tuition Recommendation</h3>
@@ -459,8 +457,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </div>
 
             {/* Feature 2 */}
-            <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-[26px] p-7 shadow-sm hover:shadow-md transition-all space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
+              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] text-amber-600 flex items-center justify-center font-bold">
                 <Award className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-slate-900 text-base">Gamified Student Rewards</h3>
@@ -471,8 +469,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </div>
 
             {/* Feature 3 */}
-            <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-[26px] p-7 shadow-sm hover:shadow-md transition-all space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
+              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] text-emerald-600 flex items-center justify-center font-bold">
                 <Bus className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-slate-900 text-base">Live GPS Fleet Tracking</h3>
@@ -483,8 +481,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </div>
 
             {/* Feature 4 */}
-            <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-[26px] p-7 shadow-sm hover:shadow-md transition-all space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
+              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] text-purple-600 flex items-center justify-center font-bold">
                 <Activity className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-slate-900 text-base">AI Career & Stream Guidance</h3>
@@ -495,8 +493,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </div>
 
             {/* Feature 5 */}
-            <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-[26px] p-7 shadow-sm hover:shadow-md transition-all space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
+              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] text-indigo-600 flex items-center justify-center font-bold">
                 <Users className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-slate-900 text-base">Comprehensive 3-Way Portals</h3>
@@ -507,8 +505,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </div>
 
             {/* Feature 6 */}
-            <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-[26px] p-7 shadow-sm hover:shadow-md transition-all space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
+              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] text-rose-600 flex items-center justify-center font-bold">
                 <QrCode className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-slate-900 text-base">Digital QR Student Credentials</h3>
@@ -522,10 +520,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
       </section>
 
       {/* 5. ACADEMIC STRUCTURE & STREAMS */}
-      <section id="academics" className="py-20 bg-white/70 backdrop-blur-md border-y border-black/[0.05]">
+      <section id="academics" className="py-20 bg-[#EBEEF2] border-t border-slate-300/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3.5 py-1 rounded-full border border-emerald-200">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 bg-[#EBEEF2] px-4 py-1.5 rounded-full shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
               Curricular Pathways
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -538,8 +536,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs space-y-3">
-              <span className="text-[10px] font-black uppercase text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
+              <span className="text-[10px] font-black uppercase text-blue-700 bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] px-3 py-1 rounded-full inline-block">
                 Foundation Stage
               </span>
               <h3 className="text-base font-bold text-slate-900">Pre-Primary (Ages 3–5)</h3>
@@ -548,8 +546,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               </p>
             </div>
 
-            <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs space-y-3">
-              <span className="text-[10px] font-black uppercase text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
+              <span className="text-[10px] font-black uppercase text-indigo-700 bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] px-3 py-1 rounded-full inline-block">
                 Primary School
               </span>
               <h3 className="text-base font-bold text-slate-900">Grades 1 to 5</h3>
@@ -558,8 +556,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               </p>
             </div>
 
-            <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs space-y-3">
-              <span className="text-[10px] font-black uppercase text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md">
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
+              <span className="text-[10px] font-black uppercase text-purple-700 bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] px-3 py-1 rounded-full inline-block">
                 Middle School
               </span>
               <h3 className="text-base font-bold text-slate-900">Grades 6 to 8</h3>
@@ -568,8 +566,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               </p>
             </div>
 
-            <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs space-y-3">
-              <span className="text-[10px] font-black uppercase text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
+              <span className="text-[10px] font-black uppercase text-emerald-700 bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] px-3 py-1 rounded-full inline-block">
                 Senior Secondary
               </span>
               <h3 className="text-base font-bold text-slate-900">Grades 9 to 12</h3>
@@ -582,31 +580,31 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
       </section>
 
       {/* 6. TUITION CENTERS SECTION */}
-      <section id="tuitions" className="py-20">
+      <section id="tuitions" className="py-20 bg-[#EBEEF2] border-t border-slate-300/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-[32px] p-8 md:p-12 text-white shadow-xl shadow-indigo-500/20">
+          <div className="bg-[#EBEEF2] rounded-[32px] p-8 md:p-12 text-slate-800 shadow-[8px_8px_20px_#C8D0DC,-8px_-8px_20px_#FFFFFF] border-none">
             <div className="max-w-3xl space-y-4">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-md text-white border border-white/20">
+              <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-blue-700">
                 Ever Grow Extended Academy
               </span>
-              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">
+              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900">
                 Neighborhood Tuition & Subject Mastery Centers
               </h2>
-              <p className="text-sm md:text-base text-white/90 leading-relaxed">
+              <p className="text-sm md:text-base text-slate-600 leading-relaxed">
                 Beyond regular school hours, Ever Grow operates state-of-the-art coaching centers providing small-batch
                 remedial support, Olympiad mentorship, and doubt clearance with certified master educators.
               </p>
               <div className="pt-2 flex flex-wrap gap-4 text-xs font-bold">
-                <div className="flex items-center space-x-1.5 bg-white/10 px-3.5 py-2 rounded-xl backdrop-blur-sm">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+                <div className="flex items-center space-x-2 bg-[#EBEEF2] px-4 py-2.5 rounded-full shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] text-slate-700">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   <span>Maximum 12 Students Per Batch</span>
                 </div>
-                <div className="flex items-center space-x-1.5 bg-white/10 px-3.5 py-2 rounded-xl backdrop-blur-sm">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+                <div className="flex items-center space-x-2 bg-[#EBEEF2] px-4 py-2.5 rounded-full shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] text-slate-700">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   <span>Personalized Weekly Progress Tracking</span>
                 </div>
-                <div className="flex items-center space-x-1.5 bg-white/10 px-3.5 py-2 rounded-xl backdrop-blur-sm">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+                <div className="flex items-center space-x-2 bg-[#EBEEF2] px-4 py-2.5 rounded-full shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] text-slate-700">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   <span>Direct ERP Gradebook Sync</span>
                 </div>
               </div>
@@ -616,11 +614,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
       </section>
 
       {/* 7. QUICK ADMISSION ENQUIRY SECTION */}
-      <section id="enquiry" className="py-20 bg-white/80 backdrop-blur-xl border-t border-black/[0.05]">
+      <section id="enquiry" className="py-20 bg-[#EBEEF2] border-t border-slate-300/40">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-[#F8FAFC] border border-slate-200/90 rounded-[32px] p-8 md:p-12 shadow-sm space-y-8">
+          <div className="bg-[#EBEEF2] rounded-[32px] p-8 md:p-12 shadow-[8px_8px_20px_#C8D0DC,-8px_-8px_20px_#FFFFFF] border-none space-y-8">
             <div className="text-center max-w-2xl mx-auto space-y-2">
-              <span className="text-xs font-extrabold uppercase tracking-wider text-[#0071E3] bg-blue-50 px-3.5 py-1 rounded-full border border-blue-200">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-blue-700 bg-[#EBEEF2] px-4 py-1.5 rounded-full shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
                 Direct Admission Desk
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
@@ -632,24 +630,24 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </div>
 
             {submittedCode ? (
-              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center space-y-3 animate-fade-in">
-                <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+              <div className="bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] rounded-2xl p-6 text-center space-y-3 animate-fade-in">
+                <div className="w-12 h-12 rounded-full bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] text-emerald-600 flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <h3 className="text-base font-bold text-slate-900">Application Registered Successfully!</h3>
                 <p className="text-xs text-slate-600 max-w-md mx-auto">
                   Your official application tracking reference is:
                 </p>
-                <div className="inline-block px-5 py-2.5 rounded-xl bg-white border border-emerald-300 text-emerald-800 font-mono font-black text-lg tracking-wider shadow-2xs">
+                <div className="inline-block px-6 py-2.5 rounded-full bg-[#EBEEF2] text-emerald-700 font-mono font-black text-lg tracking-wider shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF]">
                   {submittedCode}
                 </div>
                 <div className="text-[11px] text-slate-500 pt-1">
-                  Our admissions admissions team will reach out within 24 hours.
+                  Our admissions team will reach out within 24 hours.
                 </div>
                 <div className="pt-2">
                   <button
                     onClick={() => setSubmittedCode(null)}
-                    className="text-xs text-[#0071E3] font-bold underline"
+                    className="text-xs text-blue-600 font-bold hover:underline cursor-pointer"
                   >
                     Submit Another Enquiry
                   </button>
@@ -659,49 +657,49 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               <form onSubmit={handleQuickEnquirySubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Student Full Name *</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5 pl-2">Student Full Name *</label>
                     <input
                       type="text"
                       required
                       value={enquiryForm.student_name}
                       onChange={(e) => setEnquiryForm({ ...enquiryForm, student_name: e.target.value })}
                       placeholder="e.g. Alexander Smith"
-                      className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                      className="w-full px-5 py-3 bg-[#EBEEF2] rounded-full text-xs text-slate-800 placeholder-slate-400 shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_#C0CAD8,inset_-4px_-4px_8px_#FFFFFF]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Parent / Guardian Name *</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5 pl-2">Parent / Guardian Name *</label>
                     <input
                       type="text"
                       required
                       value={enquiryForm.parent_name}
                       onChange={(e) => setEnquiryForm({ ...enquiryForm, parent_name: e.target.value })}
                       placeholder="e.g. William Smith"
-                      className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                      className="w-full px-5 py-3 bg-[#EBEEF2] rounded-full text-xs text-slate-800 placeholder-slate-400 shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_#C0CAD8,inset_-4px_-4px_8px_#FFFFFF]"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Contact Mobile Number *</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5 pl-2">Contact Mobile Number *</label>
                     <input
                       type="tel"
                       required
                       value={enquiryForm.parent_phone}
                       onChange={(e) => setEnquiryForm({ ...enquiryForm, parent_phone: e.target.value })}
                       placeholder="e.g. +1 (555) 019-2834"
-                      className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                      className="w-full px-5 py-3 bg-[#EBEEF2] rounded-full text-xs text-slate-800 placeholder-slate-400 shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_#C0CAD8,inset_-4px_-4px_8px_#FFFFFF]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Grade Applying For</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5 pl-2">Grade Applying For</label>
                     <select
                       value={enquiryForm.grade_applying_for}
                       onChange={(e) => setEnquiryForm({ ...enquiryForm, grade_applying_for: e.target.value })}
-                      className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                      className="w-full px-5 py-3 bg-[#EBEEF2] rounded-full text-xs text-slate-800 shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] border-none focus:outline-none cursor-pointer"
                     >
                       {['Pre-K / Kindergarten', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'].map((g) => (
                         <option key={g} value={g}>{g}</option>
@@ -716,7 +714,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
                     <button
                       type="button"
                       onClick={() => navigate('/admission-enquiry')}
-                      className="text-[#0071E3] font-bold hover:underline"
+                      className="text-blue-600 font-bold hover:underline cursor-pointer"
                     >
                       Open Full Admission Portal
                     </button>
@@ -725,13 +723,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
                   <button
                     type="submit"
                     disabled={submittingEnquiry}
-                    className="w-full sm:w-auto px-7 py-3 rounded-xl bg-[#0071E3] hover:bg-[#0077ED] text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all flex items-center justify-center space-x-2 disabled:opacity-60"
+                    className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#EBEEF2] text-slate-700 hover:text-slate-950 text-xs font-bold shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[6px_6px_14px_#C0CAD8,-6px_-6px_14px_#FFFFFF] active:shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] transition-all flex items-center justify-center space-x-2 disabled:opacity-60 border-none cursor-pointer"
                   >
                     {submittingEnquiry ? (
                       <span>Registering Application...</span>
                     ) : (
                       <>
-                        <Send className="w-3.5 h-3.5" />
+                        <Send className="w-3.5 h-3.5 text-blue-600" />
                         <span>Submit Admission Enquiry</span>
                       </>
                     )}
@@ -743,14 +741,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
         </div>
       </section>
 
-      {/* 8. FOOTER (LIGHT APPLE THEME) */}
-      <footer id="contact" className="bg-white/95 backdrop-blur-xl text-slate-600 py-16 border-t border-slate-200/90 shadow-xs">
+      {/* 8. FOOTER */}
+      <footer id="contact" className="bg-[#EBEEF2] text-slate-600 py-16 border-t border-slate-300/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-xs">
             {/* Column 1: School Identity */}
             <div className="space-y-4 md:col-span-1">
               <div className="flex items-center space-x-2.5">
-                <div className="w-8 h-8 rounded-xl bg-blue-50 border border-blue-200/60 p-1 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] p-1.5 flex items-center justify-center">
                   <img src={logoImg} alt="Ever Grow Logo" className="w-full h-full object-contain" />
                 </div>
                 <span className="text-base font-black text-slate-900">Ever Grow Schools</span>
@@ -769,11 +767,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             <div className="space-y-3">
               <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[11px]">Quick Exploration</h4>
               <ul className="space-y-2 text-slate-600 font-medium">
-                <li><button onClick={() => scrollToSection('about')} className="hover:text-[#0071E3] transition-colors">Campus Ethos</button></li>
-                <li><button onClick={() => scrollToSection('academics')} className="hover:text-[#0071E3] transition-colors">Curricular Streams</button></li>
-                <li><button onClick={() => scrollToSection('campus-tech')} className="hover:text-[#0071E3] transition-colors">School ERP Systems</button></li>
-                <li><button onClick={() => scrollToSection('tuitions')} className="hover:text-[#0071E3] transition-colors">Extended Learning</button></li>
-                <li><button onClick={() => scrollToSection('enquiry')} className="hover:text-[#0071E3] transition-colors">Online Admissions</button></li>
+                <li><button onClick={() => scrollToSection('about')} className="hover:text-blue-600 transition-colors cursor-pointer">Campus Ethos</button></li>
+                <li><button onClick={() => scrollToSection('academics')} className="hover:text-blue-600 transition-colors cursor-pointer">Curricular Streams</button></li>
+                <li><button onClick={() => scrollToSection('campus-tech')} className="hover:text-blue-600 transition-colors cursor-pointer">School ERP Systems</button></li>
+                <li><button onClick={() => scrollToSection('tuitions')} className="hover:text-blue-600 transition-colors cursor-pointer">Extended Learning</button></li>
+                <li><button onClick={() => scrollToSection('enquiry')} className="hover:text-blue-600 transition-colors cursor-pointer">Online Admissions</button></li>
               </ul>
             </div>
 
@@ -782,25 +780,25 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[11px]">Campus Portals</h4>
               <ul className="space-y-2 text-slate-600 font-medium">
                 <li>
-                  <button onClick={() => handleOpenLogin('staff')} className="hover:text-[#0071E3] transition-colors flex items-center space-x-1">
+                  <button onClick={() => handleOpenLogin('staff')} className="hover:text-blue-600 transition-colors flex items-center space-x-1 cursor-pointer">
                     <span>Faculty & Staff Desk</span>
                     <ChevronRight className="w-3 h-3 text-slate-400" />
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => handleOpenLogin('student')} className="hover:text-[#0071E3] transition-colors flex items-center space-x-1">
+                  <button onClick={() => handleOpenLogin('student')} className="hover:text-blue-600 transition-colors flex items-center space-x-1 cursor-pointer">
                     <span>Student Learning Portal</span>
                     <ChevronRight className="w-3 h-3 text-slate-400" />
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => handleOpenLogin('parent')} className="hover:text-[#0071E3] transition-colors flex items-center space-x-1">
+                  <button onClick={() => handleOpenLogin('parent')} className="hover:text-blue-600 transition-colors flex items-center space-x-1 cursor-pointer">
                     <span>Parent Guardian Desk</span>
                     <ChevronRight className="w-3 h-3 text-slate-400" />
                   </button>
                 </li>
                 <li>
-                  <a href="/admission-enquiry" className="hover:text-[#0071E3] transition-colors flex items-center space-x-1">
+                  <a href="/admission-enquiry" className="hover:text-blue-600 transition-colors flex items-center space-x-1">
                     <span>Public Admission Enquiry</span>
                     <ExternalLink className="w-3 h-3 text-slate-400" />
                   </a>
@@ -813,26 +811,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[11px]">Campus Contact</h4>
               <div className="space-y-2.5 text-slate-600 font-medium">
                 <div className="flex items-start space-x-2">
-                  <MapPin className="w-4 h-4 text-[#0071E3] shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
                   <span>Ever Grow Academic Corridor, Global Tech Highway, Sector 4</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Phone className="w-4 h-4 text-[#0071E3] shrink-0" />
+                  <Phone className="w-4 h-4 text-blue-600 shrink-0" />
                   <span>+1 (800) 555-GROW (4769)</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Mail className="w-4 h-4 text-[#0071E3] shrink-0" />
+                  <Mail className="w-4 h-4 text-blue-600 shrink-0" />
                   <span>admissions@evergrowschools.edu</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Clock className="w-4 h-4 text-[#0071E3] shrink-0" />
+                  <Clock className="w-4 h-4 text-blue-600 shrink-0" />
                   <span>Mon – Sat: 8:00 AM – 5:00 PM</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 font-medium">
+          <div className="pt-8 border-t border-slate-300/40 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 font-medium">
             <div>
               © 2026 Ever Grow Schools. All Rights Reserved. Engineered for Educational Excellence.
             </div>
