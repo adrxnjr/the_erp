@@ -172,31 +172,31 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {/* Center: Brand Showcase & Animated Logo */}
-        <div className="relative z-10 my-auto py-2 xl:py-4 space-y-4 xl:space-y-6 max-w-lg">
+        <div className="relative z-10 my-auto py-2 xl:py-4 space-y-5 xl:space-y-6 max-w-xl xl:max-w-2xl">
           {/* Animated Logo */}
           <div className="flex justify-center lg:justify-start">
-            <AnimatedLogo className="w-full max-w-[260px] sm:max-w-[300px] xl:max-w-[340px]" idPrefix="login-left" />
+            <AnimatedLogo className="w-full max-w-[280px] sm:max-w-[320px] xl:max-w-[360px]" idPrefix="login-left" />
           </div>
 
           {/* Core Institutional Typography */}
-          <div className="space-y-2 xl:space-y-3">
-            <h1 className="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+          <div className="space-y-3 xl:space-y-4">
+            <h1 className="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]">
               Empowering Future Leaders with Smart Governance
             </h1>
-            <p className="text-xs xl:text-sm text-slate-600 leading-relaxed">
+            <p className="text-base sm:text-lg xl:text-xl text-slate-600 leading-relaxed font-normal max-w-xl">
               Welcome to the official Ever Grow Schools management portal. Access academic records,
-              grading, attendance registers, bus GPS tracking, and school communications.
+              grading, attendance registers, and school communications.
             </p>
           </div>
 
           {/* Quick Institutional Highlights */}
-          <div className="pt-1">
-            <div className="inline-block bg-[#EBEEF2] rounded-2xl p-3 shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] space-y-1">
-              <div className="flex items-center space-x-1.5 text-[#0071E3]">
-                <GraduationCap className="w-4 h-4" />
-                <span className="text-xs font-black text-slate-900">2,500+ Students</span>
+          <div className="pt-1.5">
+            <div className="inline-block bg-[#EBEEF2] rounded-2xl p-3.5 shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] space-y-1">
+              <div className="flex items-center space-x-2 text-[#0071E3]">
+                <GraduationCap className="w-4.5 h-4.5" />
+                <span className="text-sm font-black text-slate-900">2,500+ Students</span>
               </div>
-              <p className="text-[10px] text-slate-500 font-medium">Holistic CBSE & State Curriculum</p>
+              <p className="text-xs text-slate-500 font-medium">Holistic CBSE & State Curriculum</p>
             </div>
           </div>
         </div>
