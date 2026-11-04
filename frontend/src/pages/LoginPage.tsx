@@ -228,11 +228,6 @@ export const LoginPage: React.FC = () => {
           RIGHT SIDE: PURE FLAT INTEGRATED LOGIN INTERFACE (NO POPUP / NO CARD BOX)
           ───────────────────────────────────────────────────────────── */}
       <div className="w-full lg:w-1/2 xl:w-[52%] flex flex-col justify-between p-6 sm:p-10 lg:p-16 min-h-screen bg-white">
-        {/* Top Spacer / Status */}
-        <div className="w-full flex items-center justify-between pb-6">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Campus Sign In</span>
-        </div>
-
         {/* Main Form Body - Integrated Directly On The Page */}
         <div className="w-full max-w-md mx-auto my-auto space-y-6">
           {/* Clean Integrated Header */}
