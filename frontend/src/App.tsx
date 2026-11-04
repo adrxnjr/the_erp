@@ -115,8 +115,8 @@ export function App() {
             {/* Root Route: Landing Page if guest, Dashboard if authenticated */}
             <Route path="/" element={<RootHandler />} />
 
-            {/* Direct Login URL: Opens Landing Page with Login Modal pre-activated */}
-            <Route path="/login" element={<LandingPage initialOpenLogin={true} />} />
+            {/* Direct Login URL: Opens Full-Screen Split LoginPage */}
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/standalone-login" element={<LoginPage />} />
 
             {/* Public Admission Form */}

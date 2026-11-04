@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LoginModal } from '../components/LoginModal';
 import api from '../api/client';
 import { useToast } from '../context/ToastContext';
 import {
@@ -42,8 +41,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
   const location = useLocation();
   const toast = useToast();
 
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(initialOpenLogin);
-  const [loginPortalType, setLoginPortalType] = useState<'staff' | 'student' | 'parent'>('staff');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Quick admission form state
@@ -61,18 +58,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
     document.title = 'Ever Grow Schools — Excellence in Holistic Education & Smart Governance';
     const params = new URLSearchParams(location.search);
     if (params.get('login') === 'true' || initialOpenLogin) {
-      setIsLoginModalOpen(true);
       const portalParam = params.get('portal');
-      if (portalParam === 'student' || portalParam === 'parent' || portalParam === 'staff') {
-        setLoginPortalType(portalParam);
-      }
+      const portalQuery = portalParam ? `?portal=${portalParam}` : '';
+      navigate(`/login${portalQuery}`, { replace: true });
     }
-  }, [location, initialOpenLogin]);
+  }, [location, initialOpenLogin, navigate]);
 
   const handleOpenLogin = (portal: 'staff' | 'student' | 'parent' = 'staff') => {
-    setLoginPortalType(portal);
-    setIsLoginModalOpen(true);
     setMobileMenuOpen(false);
+    navigate(`/login?portal=${portal}`);
   };
 
   const handleQuickEnquirySubmit = async (e: React.FormEvent) => {
@@ -852,13 +846,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
           </div>
         </div>
       </footer>
-
-      {/* RECTANGULAR MODAL LOGIN POPUP */}
-      <LoginModal
-        isOpen={isLoginModalOpen}
-        onClose={() => setIsLoginModalOpen(false)}
-        initialPortalType={loginPortalType}
-      />
     </div>
   );
 };
