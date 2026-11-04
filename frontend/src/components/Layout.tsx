@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { Menu, WifiOff, ShieldCheck, RefreshCw } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 
-export const Layout: React.FC = () => {
+export const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
   const location = useLocation();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
@@ -109,7 +109,7 @@ export const Layout: React.FC = () => {
       <div className="flex-1 flex">
         <Sidebar mobileOpen={mobileDrawerOpen} onCloseMobile={() => setMobileDrawerOpen(false)} />
         <main className="flex-1 p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full min-h-[calc(100vh-60px)] md:min-h-screen">
-          <Outlet />
+          {children || <Outlet />}
         </main>
       </div>
     </div>

@@ -201,7 +201,7 @@ export const AdminRewardsPage: React.FC = () => {
         const champs = res.data.filter((s: LeaderboardEntry) => s.current_level === 'CHAMPION').length;
         setChampionCount(champs);
       })
-      .catch(() => {});
+      .catch(() => { });
 
     // Redemptions for counting pending
     api.get('/rewards/redemptions')
@@ -210,17 +210,17 @@ export const AdminRewardsPage: React.FC = () => {
         const pending = res.data.filter((r: RewardRedemption) => r.status === 'PENDING').length;
         setPendingRedemptionsCount(pending);
       })
-      .catch(() => {});
+      .catch(() => { });
 
     // Store items
     api.get('/rewards/store')
       .then((res) => setStoreItems(res.data))
-      .catch(() => {});
+      .catch(() => { });
 
     // Badges
     api.get('/rewards/badges')
       .then((res) => setBadges(res.data))
-      .catch(() => {});
+      .catch(() => { });
 
     // Students list for point awarding
     api.get('/students', { params: { limit: 100 } })
@@ -235,7 +235,7 @@ export const AdminRewardsPage: React.FC = () => {
           }))
         );
       })
-      .catch(() => {});
+      .catch(() => { });
   };
 
   useEffect(() => {
@@ -247,7 +247,7 @@ export const AdminRewardsPage: React.FC = () => {
     const params = statusFilter !== 'ALL' ? { status_filter: statusFilter } : {};
     api.get('/rewards/redemptions', { params })
       .then((res) => setRedemptions(res.data))
-      .catch(() => {});
+      .catch(() => { });
   };
 
   useEffect(() => {
@@ -422,11 +422,10 @@ export const AdminRewardsPage: React.FC = () => {
       <div className="flex flex-wrap items-center gap-2 bg-[#E9EEF5] p-1.5 rounded-2xl shadow-[inset_3px_3px_6px_#C5D0E0,inset_-3px_-3px_6px_#FFFFFF] border border-white/60 w-fit">
         <button
           onClick={() => setActiveTab('overview')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 ${
-            activeTab === 'overview'
-              ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
-              : 'text-slate-500 hover:text-slate-800'
-          }`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 ${activeTab === 'overview'
+            ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
+            : 'text-slate-500 hover:text-slate-800'
+            }`}
         >
           <TrendingUp className="w-4 h-4" />
           <span>Overview</span>
@@ -434,11 +433,10 @@ export const AdminRewardsPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('award')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 ${
-            activeTab === 'award'
-              ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
-              : 'text-slate-500 hover:text-slate-800'
-          }`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 ${activeTab === 'award'
+            ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
+            : 'text-slate-500 hover:text-slate-800'
+            }`}
         >
           <Zap className="w-4 h-4" />
           <span>Award Points</span>
@@ -446,11 +444,10 @@ export const AdminRewardsPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('redemptions')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 relative ${
-            activeTab === 'redemptions'
-              ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
-              : 'text-slate-500 hover:text-slate-800'
-          }`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 relative ${activeTab === 'redemptions'
+            ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
+            : 'text-slate-500 hover:text-slate-800'
+            }`}
         >
           <Gift className="w-4 h-4" />
           <span>Redemptions</span>
@@ -463,11 +460,10 @@ export const AdminRewardsPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('store')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 ${
-            activeTab === 'store'
-              ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
-              : 'text-slate-500 hover:text-slate-800'
-          }`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 ${activeTab === 'store'
+            ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
+            : 'text-slate-500 hover:text-slate-800'
+            }`}
         >
           <Gift className="w-4 h-4" />
           <span>Store Management</span>
@@ -475,11 +471,10 @@ export const AdminRewardsPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('badges')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 ${
-            activeTab === 'badges'
-              ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
-              : 'text-slate-500 hover:text-slate-800'
-          }`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 ${activeTab === 'badges'
+            ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
+            : 'text-slate-500 hover:text-slate-800'
+            }`}
         >
           <Award className="w-4 h-4" />
           <span>Badges</span>
@@ -765,11 +760,10 @@ export const AdminRewardsPage: React.FC = () => {
                 <button
                   key={st}
                   onClick={() => setRedemptionFilter(st)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
-                    redemptionFilter === st
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-slate-500 hover:text-slate-800'
-                  }`}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${redemptionFilter === st
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-slate-500 hover:text-slate-800'
+                    }`}
                 >
                   {st}
                 </button>
@@ -808,15 +802,14 @@ export const AdminRewardsPage: React.FC = () => {
                       </td>
                       <td className="py-3 px-3">
                         <span
-                          className={`text-[11px] font-black uppercase px-2 py-0.5 rounded-full border ${
-                            r.status === 'APPROVED'
-                              ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                              : r.status === 'PENDING'
+                          className={`text-[11px] font-black uppercase px-2 py-0.5 rounded-full border ${r.status === 'APPROVED'
+                            ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                            : r.status === 'PENDING'
                               ? 'bg-amber-100 text-amber-800 border-amber-300'
                               : r.status === 'REJECTED'
-                              ? 'bg-rose-100 text-rose-800 border-rose-300'
-                              : 'bg-purple-100 text-purple-800 border-purple-300'
-                          }`}
+                                ? 'bg-rose-100 text-rose-800 border-rose-300'
+                                : 'bg-purple-100 text-purple-800 border-purple-300'
+                            }`}
                         >
                           {r.status}
                         </span>
@@ -886,11 +879,10 @@ export const AdminRewardsPage: React.FC = () => {
                       {getStoreItemIcon(item)}
                     </div>
                     <span
-                      className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border ${
-                        item.is_active
-                          ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                          : 'bg-slate-200 text-slate-500 border-slate-300'
-                      }`}
+                      className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border ${item.is_active
+                        ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                        : 'bg-slate-200 text-slate-500 border-slate-300'
+                        }`}
                     >
                       {item.is_active ? 'Active' : 'Disabled'}
                     </span>
@@ -912,11 +904,10 @@ export const AdminRewardsPage: React.FC = () => {
 
                   <button
                     onClick={() => handleToggleStoreItem(item)}
-                    className={`w-full py-2 rounded-xl text-xs font-bold transition ${
-                      item.is_active
-                        ? 'bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100'
-                        : 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
-                    }`}
+                    className={`w-full py-2 rounded-xl text-xs font-bold transition ${item.is_active
+                      ? 'bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100'
+                      : 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
+                      }`}
                   >
                     {item.is_active ? 'Disable Item' : 'Enable Item'}
                   </button>
@@ -961,11 +952,10 @@ export const AdminRewardsPage: React.FC = () => {
                       {getBadgeIcon(badge)}
                     </div>
                     <span
-                      className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full border ${
-                        badge.is_active
-                          ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                          : 'bg-slate-200 text-slate-500 border-slate-300'
-                      }`}
+                      className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full border ${badge.is_active
+                        ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                        : 'bg-slate-200 text-slate-500 border-slate-300'
+                        }`}
                     >
                       {badge.is_active ? 'Active' : 'Disabled'}
                     </span>
@@ -985,11 +975,10 @@ export const AdminRewardsPage: React.FC = () => {
 
                 <button
                   onClick={() => handleToggleBadge(badge)}
-                  className={`w-full py-2 rounded-xl text-xs font-bold transition ${
-                    badge.is_active
-                      ? 'bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100'
-                      : 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
-                  }`}
+                  className={`w-full py-2 rounded-xl text-xs font-bold transition ${badge.is_active
+                    ? 'bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100'
+                    : 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
+                    }`}
                 >
                   {badge.is_active ? 'Disable Badge' : 'Enable Badge'}
                 </button>

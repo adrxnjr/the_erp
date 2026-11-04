@@ -3,6 +3,7 @@ import { BrowserRouter, HashRouter, Routes, Route, Navigate } from 'react-router
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import { Layout } from './components/Layout';
+import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { PublicEnquiryPage } from './pages/PublicEnquiryPage';
 import { DashboardPage } from './pages/DashboardPage';
@@ -38,19 +39,42 @@ const isElectron =
 
 const RouterComponent = isElectron ? HashRouter : BrowserRouter;
 
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+// Root handler: displays Public Landing Page when logged out, Dashboard when logged in
+const RootHandler: React.FC = () => {
   const { token, isLoading } = useAuth();
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="w-8 h-8 border-4 border-brand-600 border-t-transparent rounded-full animate-spin"></div>
+      <div className="flex items-center justify-center min-h-screen bg-[#E9EEF5]">
+        <div className="w-8 h-8 border-3 border-[#0071E3] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
 
   if (!token) {
-    return <Navigate to="/login" replace />;
+    return <LandingPage />;
+  }
+
+  return (
+    <Layout>
+      <DashboardPage />
+    </Layout>
+  );
+};
+
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { token, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-[#E9EEF5]">
+        <div className="w-8 h-8 border-3 border-[#0071E3] border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (!token) {
+    return <Navigate to="/?login=true" replace />;
   }
 
   return <>{children}</>;
@@ -77,10 +101,17 @@ export function App() {
         <ErrorBoundary>
         <RouterComponent>
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
+            {/* Root Route: Landing Page if guest, Dashboard if authenticated */}
+            <Route path="/" element={<RootHandler />} />
+
+            {/* Direct Login URL: Opens Landing Page with Login Modal pre-activated */}
+            <Route path="/login" element={<LandingPage initialOpenLogin={true} />} />
+            <Route path="/standalone-login" element={<LoginPage />} />
+
+            {/* Public Admission Form */}
             <Route path="/admission-enquiry" element={<PublicEnquiryPage isPublic={true} />} />
 
-            {/* Authenticated Dashboard Shell */}
+            {/* Authenticated Dashboard Shell for Sub-pages */}
             <Route
               element={
                 <ProtectedRoute>
@@ -88,7 +119,7 @@ export function App() {
                 </ProtectedRoute>
               }
             >
-              <Route path="/" element={<DashboardPage />} />
+              <Route path="/dashboard" element={<Navigate to="/" replace />} />
               <Route path="/social-wall" element={<SocialWallPage />} />
               
               {/* Staff-Only Protected Routes */}

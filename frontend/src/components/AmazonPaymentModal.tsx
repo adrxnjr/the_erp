@@ -1173,3 +1173,4 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
     </div>
   );
 };
+

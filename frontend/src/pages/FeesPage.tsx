@@ -348,9 +348,8 @@ export const FeesPage: React.FC = () => {
             </div>
 
             <div
-              className={`p-4 rounded-2xl border text-center transition-all ${
-                hasDues ? 'bg-amber-50/80 border-amber-300' : 'bg-emerald-50/70 border-emerald-200'
-              }`}
+              className={`p-4 rounded-2xl border text-center transition-all ${hasDues ? 'bg-amber-50/80 border-amber-300' : 'bg-emerald-50/70 border-emerald-200'
+                }`}
             >
               <div className={`text-[10px] font-bold uppercase ${hasDues ? 'text-amber-800' : 'text-emerald-800'}`}>
                 Balance Due
@@ -380,11 +379,10 @@ export const FeesPage: React.FC = () => {
             </div>
             <div className="flex items-center space-x-2">
               <span
-                className={`px-3 py-0.5 rounded-full text-xs font-bold border ${
-                  clearancePct === 100
+                className={`px-3 py-0.5 rounded-full text-xs font-bold border ${clearancePct === 100
                     ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                     : 'bg-amber-50 text-amber-800 border-amber-200'
-                }`}
+                  }`}
               >
                 {clearancePct}% Cleared
               </span>
@@ -540,15 +538,15 @@ export const FeesPage: React.FC = () => {
               {isParent
                 ? "Family Tuition & Fee Billing"
                 : isStudent
-                ? "My Fee Dues & Receipts"
-                : "Fees & Payments Ledger"}
+                  ? "My Fee Dues & Receipts"
+                  : "Fees & Payments Ledger"}
             </h1>
             <p className="text-xs text-slate-500 mt-0.5">
               {isParent
                 ? "Monitor fee statements, make online payments, and download receipts for your children."
                 : isStudent
-                ? "Tuition fee billing schedule, pending dues, Amazon payment portal, and clearance receipts."
-                : "Centralized student financial ledger, cashier desk, and fee receipt generator."}
+                  ? "Tuition fee billing schedule, pending dues, Amazon payment portal, and clearance receipts."
+                  : "Centralized student financial ledger, cashier desk, and fee receipt generator."}
             </p>
           </div>
         </div>
@@ -583,11 +581,10 @@ export const FeesPage: React.FC = () => {
                 <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-xl border border-black/[0.06] p-1.5 rounded-2xl w-fit shadow-xs">
                   <button
                     onClick={() => setSelectedChildId('all')}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${
-                      selectedChildId === 'all'
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${selectedChildId === 'all'
                         ? 'bg-[#0071E3] text-white shadow-sm'
                         : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                    }`}
+                      }`}
                   >
                     <Users className="w-3.5 h-3.5" />
                     <span>All Children ({childrenFees.length})</span>
@@ -597,11 +594,10 @@ export const FeesPage: React.FC = () => {
                     <button
                       key={child.student_id || child.admission_number}
                       onClick={() => setSelectedChildId(child.student_id)}
-                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${
-                        selectedChildId === child.student_id
+                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${selectedChildId === child.student_id
                           ? 'bg-[#0071E3] text-white shadow-sm'
                           : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                      }`}
+                        }`}
                     >
                       <User className="w-3.5 h-3.5" />
                       <span>{child.student_name}</span>
@@ -616,11 +612,10 @@ export const FeesPage: React.FC = () => {
               {/* Combined Family Overview Banner */}
               {familySummary && (
                 <div
-                  className={`rounded-[28px] p-6 md:p-8 text-white shadow-lg relative overflow-hidden transition-all ${
-                    familySummary.outstanding_balance > 0
+                  className={`rounded-[28px] p-6 md:p-8 text-white shadow-lg relative overflow-hidden transition-all ${familySummary.outstanding_balance > 0
                       ? 'bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-700 shadow-slate-900/20'
                       : 'bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 shadow-emerald-500/20'
-                  }`}
+                    }`}
                 >
                   <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                     <div className="space-y-2.5 max-w-xl">
@@ -673,8 +668,8 @@ export const FeesPage: React.FC = () => {
                           {selectedChildId === 'all'
                             ? Number(familySummary.total_annual_fee).toLocaleString()
                             : Number(
-                                childrenFees.find((c) => c.student_id === selectedChildId)?.total_annual_fee || 0
-                              ).toLocaleString()}
+                              childrenFees.find((c) => c.student_id === selectedChildId)?.total_annual_fee || 0
+                            ).toLocaleString()}
                         </div>
                       </div>
 
@@ -687,17 +682,16 @@ export const FeesPage: React.FC = () => {
                           {selectedChildId === 'all'
                             ? Number(familySummary.total_paid).toLocaleString()
                             : Number(
-                                childrenFees.find((c) => c.student_id === selectedChildId)?.total_paid || 0
-                              ).toLocaleString()}
+                              childrenFees.find((c) => c.student_id === selectedChildId)?.total_paid || 0
+                            ).toLocaleString()}
                         </div>
                       </div>
 
                       <div
-                        className={`px-5 py-4 rounded-2xl border shadow-md text-center min-w-[120px] ${
-                          familySummary.outstanding_balance > 0
+                        className={`px-5 py-4 rounded-2xl border shadow-md text-center min-w-[120px] ${familySummary.outstanding_balance > 0
                             ? 'bg-amber-400 text-slate-950 border-amber-300'
                             : 'bg-white/95 text-emerald-800 border-white'
-                        }`}
+                          }`}
                       >
                         <div className="text-[10px] font-bold uppercase">Balance Due</div>
                         <div className="text-xl md:text-2xl font-black mt-0.5">
@@ -705,8 +699,8 @@ export const FeesPage: React.FC = () => {
                           {selectedChildId === 'all'
                             ? Number(familySummary.outstanding_balance).toLocaleString()
                             : Number(
-                                childrenFees.find((c) => c.student_id === selectedChildId)?.outstanding_balance || 0
-                              ).toLocaleString()}
+                              childrenFees.find((c) => c.student_id === selectedChildId)?.outstanding_balance || 0
+                            ).toLocaleString()}
                         </div>
                         <span className="text-[9px] font-extrabold uppercase">
                           {familySummary.outstanding_balance > 0 ? 'Pending' : 'All Paid'}
@@ -878,11 +872,10 @@ export const FeesPage: React.FC = () => {
                   </div>
                   <div className="flex items-center space-x-2">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-bold border ${
-                        feeData.outstanding_balance <= 0
+                      className={`px-3 py-1 rounded-full text-xs font-bold border ${feeData.outstanding_balance <= 0
                           ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                           : 'bg-amber-50 text-amber-800 border-amber-200'
-                      }`}
+                        }`}
                     >
                       {feeData.outstanding_balance <= 0
                         ? '100% Cleared'
