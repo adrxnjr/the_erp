@@ -165,7 +165,7 @@ export const LoginPage: React.FC = () => {
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-emerald-300/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute top-1/2 left-1/3 w-80 h-80 bg-purple-300/15 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Top Header: Badge & Quick Return Link */}
+        {/* Top Header: Quick Return Link */}
         <div className="relative z-10 flex items-center justify-between">
           <Link
             to="/"
@@ -174,11 +174,6 @@ export const LoginPage: React.FC = () => {
             <ArrowLeft className="w-3.5 h-3.5 text-[#0071E3]" />
             <span>Return to School Website</span>
           </Link>
-
-          <div className="hidden sm:inline-flex items-center space-x-1.5 text-[11px] font-extrabold text-slate-500 uppercase tracking-wider bg-white/70 px-3 py-1 rounded-full border border-slate-200/60 shadow-2xs">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Secure Enterprise Node</span>
-          </div>
         </div>
 
         {/* Center: Artistic Illustration & Brand Showcase */}
@@ -190,10 +185,6 @@ export const LoginPage: React.FC = () => {
 
           {/* Core Institutional Typography */}
           <div className="space-y-3">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-100/70 text-[#0071E3] text-xs font-black uppercase tracking-wider border border-blue-200/60">
-              <School className="w-3.5 h-3.5" />
-              <span>Institutional Campus Portal</span>
-            </div>
             <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
               Empowering Future Leaders with Smart Governance
             </h1>
@@ -237,18 +228,9 @@ export const LoginPage: React.FC = () => {
           RIGHT SIDE: PURE FLAT INTEGRATED LOGIN INTERFACE (NO POPUP / NO CARD BOX)
           ───────────────────────────────────────────────────────────── */}
       <div className="w-full lg:w-1/2 xl:w-[52%] flex flex-col justify-between p-6 sm:p-10 lg:p-16 min-h-screen bg-white">
-        {/* Top Navigation Row */}
+        {/* Top Spacer / Status */}
         <div className="w-full flex items-center justify-between pb-6">
-          <div className="flex items-center space-x-2">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Campus Sign In</span>
-          </div>
-          <Link
-            to="/"
-            className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-600 hover:text-[#0071E3] transition-colors py-1.5 px-3.5 rounded-full hover:bg-slate-50 border border-slate-200/80"
-          >
-            <span>Exit to Website</span>
-            <ArrowRight className="w-3.5 h-3.5 text-[#0071E3]" />
-          </Link>
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Campus Sign In</span>
         </div>
 
         {/* Main Form Body - Integrated Directly On The Page */}
