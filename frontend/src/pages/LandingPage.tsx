@@ -4,7 +4,6 @@ import api from '../api/client';
 import { useToast } from '../context/ToastContext';
 import {
   KeyRound,
-  ArrowRight,
   ShieldCheck,
   GraduationCap,
   Users,
@@ -378,26 +377,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             next-generation institutional governance. Nurturing critical thinkers, innovators, and global leaders through
             continuous excellence.
           </p>
-
-          {/* Dual Call-To-Action Vibrant Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <button
-              onClick={() => handleOpenLogin('staff')}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white text-sm font-extrabold shadow-lg shadow-blue-500/30 hover:shadow-indigo-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center space-x-2.5 border-none cursor-pointer"
-            >
-              <KeyRound className="w-4 h-4" />
-              <span>Access School Portal</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-
-            <button
-              onClick={() => scrollToSection('about')}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#EBEEF2] text-slate-700 hover:text-blue-700 text-sm font-bold shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] hover:shadow-[5px_5px_12px_#C0CAD8,-5px_-5px_12px_#FFFFFF] active:shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] border border-blue-200/60 transition-all flex items-center justify-center space-x-2 cursor-pointer"
-            >
-              <span>Explore Campus & Curriculum</span>
-              <ChevronRight className="w-4 h-4 text-blue-500" />
-            </button>
-          </div>
 
           {/* ─────────────────────────────────────────────────────────────
               MINI MOVING STUDENT ANIMATION SHOWCASE (CONTINUOUS MARQUEE)
