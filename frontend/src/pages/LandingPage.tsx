@@ -31,6 +31,14 @@ import {
   FileText,
 } from 'lucide-react';
 import logoImg from '../assets/logo.png';
+import student1 from '../assets/students/student1.jpg';
+import student2 from '../assets/students/student2.jpg';
+import student3 from '../assets/students/student3.jpg';
+import student4 from '../assets/students/student4.jpg';
+import student5 from '../assets/students/student5.jpg';
+import student6 from '../assets/students/student6.jpg';
+import student7 from '../assets/students/student7.jpg';
+import student8 from '../assets/students/student8.jpg';
 
 interface StudentShowcaseItem {
   name: string;
@@ -48,7 +56,7 @@ const STUDENT_SHOWCASE: StudentShowcaseItem[] = [
     achievement: 'National Science Rank 1',
     accent: 'from-emerald-400 to-teal-500',
     tagBg: 'bg-emerald-50 text-emerald-700 border-emerald-200/80',
-    photo: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=200&h=200&q=80',
+    photo: student1,
   },
   {
     name: 'Priya Nair',
@@ -56,7 +64,7 @@ const STUDENT_SHOWCASE: StudentShowcaseItem[] = [
     achievement: 'AI & Robotics Club Lead',
     accent: 'from-blue-500 to-cyan-500',
     tagBg: 'bg-blue-50 text-blue-700 border-blue-200/80',
-    photo: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=200&h=200&q=80',
+    photo: student2,
   },
   {
     name: 'Advik Patel',
@@ -64,7 +72,7 @@ const STUDENT_SHOWCASE: StudentShowcaseItem[] = [
     achievement: 'Math Olympiad Gold',
     accent: 'from-violet-500 to-purple-600',
     tagBg: 'bg-purple-50 text-purple-700 border-purple-200/80',
-    photo: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=200&h=200&q=80',
+    photo: student3,
   },
   {
     name: 'Ananya Iyer',
@@ -72,7 +80,7 @@ const STUDENT_SHOWCASE: StudentShowcaseItem[] = [
     achievement: 'State Debate Champion',
     accent: 'from-pink-500 to-rose-500',
     tagBg: 'bg-rose-50 text-rose-700 border-rose-200/80',
-    photo: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=200&h=200&q=80',
+    photo: student4,
   },
   {
     name: 'Kavya Reddy',
@@ -80,7 +88,7 @@ const STUDENT_SHOWCASE: StudentShowcaseItem[] = [
     achievement: 'Junior STEM Innovator',
     accent: 'from-amber-400 to-orange-500',
     tagBg: 'bg-amber-50 text-amber-700 border-amber-200/80',
-    photo: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=200&h=200&q=80',
+    photo: student5,
   },
   {
     name: 'Devansh Joshi',
@@ -88,7 +96,7 @@ const STUDENT_SHOWCASE: StudentShowcaseItem[] = [
     achievement: 'Athletics & Track Captain',
     accent: 'from-teal-400 to-emerald-500',
     tagBg: 'bg-teal-50 text-teal-700 border-teal-200/80',
-    photo: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=200&h=200&q=80',
+    photo: student6,
   },
   {
     name: 'Zoya Khan',
@@ -96,7 +104,7 @@ const STUDENT_SHOWCASE: StudentShowcaseItem[] = [
     achievement: 'Literature & Arts Lead',
     accent: 'from-fuchsia-500 to-purple-600',
     tagBg: 'bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200/80',
-    photo: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=200&h=200&q=80',
+    photo: student7,
   },
   {
     name: 'Kabir Sen',
@@ -104,7 +112,7 @@ const STUDENT_SHOWCASE: StudentShowcaseItem[] = [
     achievement: 'Coding Hackathon Winner',
     accent: 'from-blue-600 to-indigo-600',
     tagBg: 'bg-indigo-50 text-indigo-700 border-indigo-200/80',
-    photo: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=200&h=200&q=80',
+    photo: student8,
   },
 ];
 
