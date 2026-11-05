@@ -30,6 +30,7 @@ import {
   FileText,
 } from 'lucide-react';
 import logoImg from '../assets/logo.png';
+import heroStudentsImg from '../assets/hero-students.jpg';
 import student1 from '../assets/students/student1.jpg';
 import student2 from '../assets/students/student2.jpg';
 import student3 from '../assets/students/student3.jpg';
@@ -359,24 +360,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
         <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-gradient-to-br from-amber-300/25 to-orange-300/20 blur-3xl rounded-full -z-10 pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
-          {/* Hero Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 max-w-5xl mx-auto leading-[1.1] animate-scale-up">
-            Empowering Future Leaders with{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 via-purple-600 to-pink-500">
-              Smart Learning
-            </span>{' '}
-            &{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-emerald-600 to-blue-600">
-              Modern Governance
-            </span>
-          </h1>
-
-          {/* Mission Statement */}
-          <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-3xl mx-auto font-normal leading-relaxed">
-            Ever Grow International Schools fuses world-class academic rigor, holistic character development, and
-            next-generation institutional governance. Nurturing critical thinkers, innovators, and global leaders through
-            continuous excellence.
-          </p>
+          {/* Hero Banner Photo */}
+          <div className="max-w-4xl mx-auto p-2 sm:p-3 rounded-3xl bg-[#EBEEF2] shadow-[8px_8px_20px_#C8D0DC,-8px_-8px_20px_#FFFFFF] border border-white/80 animate-scale-up">
+            <div className="overflow-hidden rounded-2xl relative shadow-inner">
+              <img
+                src={heroStudentsImg}
+                alt="Ever Grow School Students"
+                className="w-full h-auto max-h-[460px] object-cover object-center transform hover:scale-[1.01] transition-transform duration-500"
+              />
+            </div>
+          </div>
 
           {/* ─────────────────────────────────────────────────────────────
               MINI MOVING STUDENT ANIMATION SHOWCASE (CONTINUOUS MARQUEE)
