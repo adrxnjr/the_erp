@@ -200,8 +200,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </div>
             <div>
               <div className="flex items-center space-x-1.5">
-                <span className="text-lg font-black tracking-tight text-slate-900">Ever Grow</span>
-                <span className="text-lg font-bold tracking-tight text-blue-600">Schools</span>
+                <span className="text-lg font-black tracking-tight text-blue-600">Ever Grow</span>
+                <span className="text-lg font-bold tracking-tight text-[#C25E2E]">Schools</span>
               </div>
               <p className="text-[11px] font-semibold text-slate-500 tracking-tight">
                 Excellence in Holistic Education
@@ -831,7 +831,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
                 <div className="w-9 h-9 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] p-1.5 flex items-center justify-center">
                   <img src={logoImg} alt="Ever Grow Logo" className="w-full h-full object-contain" />
                 </div>
-                <span className="text-base font-black text-slate-900">Ever Grow Schools</span>
+                <div className="flex items-center space-x-1">
+                  <span className="text-base font-black text-blue-600">Ever Grow</span>
+                  <span className="text-base font-bold text-[#C25E2E]">Schools</span>
+                </div>
               </div>
               <p className="text-slate-500 leading-relaxed">
                 Ever Grow International Schools — accredited institutional campus committed to academic rigor, integrity,
