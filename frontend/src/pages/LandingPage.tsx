@@ -351,46 +351,34 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
         )}
       </header>
 
-      {/* 2. HERO SECTION */}
-      <section className="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden bg-[#EBEEF2]">
-        {/* Colorful Multi-Stop Ambient Background Glows */}
-        <div className="absolute -top-10 left-10 w-[550px] h-[550px] bg-gradient-to-tr from-cyan-300/35 to-blue-400/25 blur-3xl rounded-full -z-10 pointer-events-none animate-gentle-float"></div>
-        <div className="absolute top-10 right-10 w-[550px] h-[550px] bg-gradient-to-bl from-purple-300/30 via-pink-300/25 to-rose-300/20 blur-3xl rounded-full -z-10 pointer-events-none animate-gentle-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute bottom-10 left-1/3 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-300/25 to-teal-300/20 blur-3xl rounded-full -z-10 pointer-events-none"></div>
-        <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-gradient-to-br from-amber-300/25 to-orange-300/20 blur-3xl rounded-full -z-10 pointer-events-none"></div>
+      {/* 2. FULL-SCREEN HERO SECTION */}
+      <section className="relative w-full h-[calc(100vh-5rem)] min-h-[560px] overflow-hidden bg-[#EBEEF2]">
+        {/* Full-Screen Edge-to-Edge Hero Image */}
+        <img
+          src={heroStudentsImg}
+          alt="Ever Grow School Students"
+          className="w-full h-full object-cover object-center animate-scale-up"
+        />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
-          {/* Hero Banner Photo */}
-          <div className="max-w-4xl mx-auto p-2 sm:p-3 rounded-3xl bg-[#EBEEF2] shadow-[8px_8px_20px_#C8D0DC,-8px_-8px_20px_#FFFFFF] border border-white/80 animate-scale-up">
-            <div className="overflow-hidden rounded-2xl relative shadow-inner">
-              <img
-                src={heroStudentsImg}
-                alt="Ever Grow School Students"
-                className="w-full h-auto max-h-[460px] object-cover object-center transform hover:scale-[1.01] transition-transform duration-500"
-              />
-            </div>
-          </div>
-
-          {/* ─────────────────────────────────────────────────────────────
-              MINI MOVING STUDENT ANIMATION SHOWCASE (CONTINUOUS MARQUEE)
-              ───────────────────────────────────────────────────────────── */}
-          <div className="pt-6 pb-2 space-y-3.5 overflow-hidden">
-            <div className="inline-flex items-center space-x-2 text-xs font-bold text-slate-600 bg-[#EBEEF2] shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] px-4 py-1.5 rounded-full border border-white/60">
+        {/* Floating Bottom Overlay with Continuous Student Showcase Ticker */}
+        <div className="absolute inset-x-0 bottom-0 pb-6 pt-24 bg-gradient-to-t from-[#EBEEF2] via-[#EBEEF2]/80 to-transparent">
+          <div className="max-w-7xl mx-auto px-4 text-center space-y-3.5 overflow-hidden">
+            <div className="inline-flex items-center space-x-2 text-xs font-bold text-slate-700 bg-[#EBEEF2]/90 backdrop-blur-md shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] px-4 py-1.5 rounded-full border border-white/70">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               <span className="text-slate-900 font-extrabold">2,500+ Active Scholars</span>
-              <span className="text-slate-300">•</span>
+              <span className="text-slate-400">•</span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 font-extrabold">
                 Meet Our Achievers
               </span>
             </div>
 
             {/* Seamless Horizontal Infinite Loop Ticker with Gradient Fade Edges */}
-            <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] py-2">
+            <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] py-1">
               <div className="animate-marquee flex items-center gap-4">
                 {[...STUDENT_SHOWCASE, ...STUDENT_SHOWCASE].map((student, idx) => (
                   <div
                     key={`${student.name}-${idx}`}
-                    className="flex items-center space-x-3.5 px-3.5 py-2.5 rounded-2xl bg-[#EBEEF2] shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] hover:shadow-[6px_6px_14px_#C0CAD8,-6px_-6px_14px_#FFFFFF] transition-all shrink-0 cursor-pointer border border-white/80 group select-none hover:-translate-y-0.5"
+                    className="flex items-center space-x-3.5 px-3.5 py-2.5 rounded-2xl bg-[#EBEEF2]/95 backdrop-blur-md shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] hover:shadow-[6px_6px_14px_#C0CAD8,-6px_-6px_14px_#FFFFFF] transition-all shrink-0 cursor-pointer border border-white/80 group select-none hover:-translate-y-0.5"
                   >
                     {/* Student Photo with Vibrant Gradient Ring */}
                     <div className={`p-0.5 rounded-full bg-gradient-to-tr ${student.accent} shrink-0 shadow-sm group-hover:scale-105 transition-transform`}>
@@ -424,9 +412,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Live Metrics Bar (Colorful Neumorphic Floating Cards) */}
-          <div className="pt-6 grid grid-cols-2 md:grid-cols-4 gap-5 max-w-5xl mx-auto text-left">
+      {/* 2.5 LIVE METRICS BAR */}
+      <section className="py-12 bg-[#EBEEF2]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 max-w-5xl mx-auto text-left">
             <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border border-blue-200/40 group hover:-translate-y-1">
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-md shadow-blue-500/30 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                 <GraduationCap className="w-6 h-6" />
