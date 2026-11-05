@@ -32,6 +32,82 @@ import {
 } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 
+interface StudentShowcaseItem {
+  name: string;
+  grade: string;
+  achievement: string;
+  accent: string;
+  tagBg: string;
+  photo: string;
+}
+
+const STUDENT_SHOWCASE: StudentShowcaseItem[] = [
+  {
+    name: 'Aarav Sharma',
+    grade: 'Grade 10',
+    achievement: 'National Science Rank 1',
+    accent: 'from-emerald-400 to-teal-500',
+    tagBg: 'bg-emerald-50 text-emerald-700 border-emerald-200/80',
+    photo: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=200&h=200&q=80',
+  },
+  {
+    name: 'Priya Nair',
+    grade: 'Grade 12',
+    achievement: 'AI & Robotics Club Lead',
+    accent: 'from-blue-500 to-cyan-500',
+    tagBg: 'bg-blue-50 text-blue-700 border-blue-200/80',
+    photo: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=200&h=200&q=80',
+  },
+  {
+    name: 'Advik Patel',
+    grade: 'Grade 8',
+    achievement: 'Math Olympiad Gold',
+    accent: 'from-violet-500 to-purple-600',
+    tagBg: 'bg-purple-50 text-purple-700 border-purple-200/80',
+    photo: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=200&h=200&q=80',
+  },
+  {
+    name: 'Ananya Iyer',
+    grade: 'Grade 11',
+    achievement: 'State Debate Champion',
+    accent: 'from-pink-500 to-rose-500',
+    tagBg: 'bg-rose-50 text-rose-700 border-rose-200/80',
+    photo: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=200&h=200&q=80',
+  },
+  {
+    name: 'Kavya Reddy',
+    grade: 'Grade 9',
+    achievement: 'Junior STEM Innovator',
+    accent: 'from-amber-400 to-orange-500',
+    tagBg: 'bg-amber-50 text-amber-700 border-amber-200/80',
+    photo: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=200&h=200&q=80',
+  },
+  {
+    name: 'Devansh Joshi',
+    grade: 'Grade 10',
+    achievement: 'Athletics & Track Captain',
+    accent: 'from-teal-400 to-emerald-500',
+    tagBg: 'bg-teal-50 text-teal-700 border-teal-200/80',
+    photo: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=200&h=200&q=80',
+  },
+  {
+    name: 'Zoya Khan',
+    grade: 'Grade 12',
+    achievement: 'Literature & Arts Lead',
+    accent: 'from-fuchsia-500 to-purple-600',
+    tagBg: 'bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200/80',
+    photo: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=200&h=200&q=80',
+  },
+  {
+    name: 'Kabir Sen',
+    grade: 'Grade 7',
+    achievement: 'Coding Hackathon Winner',
+    accent: 'from-blue-600 to-indigo-600',
+    tagBg: 'bg-indigo-50 text-indigo-700 border-indigo-200/80',
+    photo: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=200&h=200&q=80',
+  },
+];
+
 interface LandingPageProps {
   initialOpenLogin?: boolean;
 }
@@ -166,13 +242,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </button>
           </nav>
 
-          {/* Top-Right Neumorphic Pill "Login" Button */}
+          {/* Top-Right Colorful Pill "Login" Button */}
           <div className="hidden sm:flex items-center space-x-3">
             <button
               onClick={() => handleOpenLogin('staff')}
-              className="px-5 py-2.5 rounded-full bg-[#EBEEF2] text-slate-700 hover:text-slate-950 text-xs font-bold shadow-[4px_4px_9px_#C8D0DC,-4px_-4px_9px_#FFFFFF] hover:shadow-[5px_5px_12px_#C0CAD8,-5px_-5px_12px_#FFFFFF] active:shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] transition-all flex items-center space-x-2 border-none cursor-pointer"
+              className="px-5 py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white text-xs font-bold shadow-md shadow-blue-500/25 hover:shadow-indigo-500/40 hover:scale-105 active:scale-95 transition-all flex items-center space-x-2 border-none cursor-pointer"
             >
-              <KeyRound className="w-3.5 h-3.5 text-blue-600" />
+              <KeyRound className="w-3.5 h-3.5" />
               <span>Login</span>
             </button>
           </div>
@@ -181,9 +257,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
           <div className="lg:hidden flex items-center space-x-2">
             <button
               onClick={() => handleOpenLogin('staff')}
-              className="px-3.5 py-1.5 rounded-full bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_7px_#FFFFFF] text-slate-700 text-xs font-bold sm:hidden flex items-center space-x-1"
+              className="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-bold sm:hidden flex items-center space-x-1 shadow-sm"
             >
-              <KeyRound className="w-3 h-3 text-blue-600" />
+              <KeyRound className="w-3 h-3" />
               <span>Login</span>
             </button>
             <button
@@ -245,19 +321,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               <div className="grid grid-cols-3 gap-2">
                 <button
                   onClick={() => handleOpenLogin('staff')}
-                  className="py-2 px-3 rounded-full bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] text-blue-700 font-bold text-xs text-center"
+                  className="py-2 px-3 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold text-xs text-center shadow-sm"
                 >
                   Staff
                 </button>
                 <button
                   onClick={() => handleOpenLogin('student')}
-                  className="py-2 px-3 rounded-full bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] text-indigo-700 font-bold text-xs text-center"
+                  className="py-2 px-3 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold text-xs text-center shadow-sm"
                 >
                   Student
                 </button>
                 <button
                   onClick={() => handleOpenLogin('parent')}
-                  className="py-2 px-3 rounded-full bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] text-emerald-700 font-bold text-xs text-center"
+                  className="py-2 px-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-xs text-center shadow-sm"
                 >
                   Parent
                 </button>
@@ -269,17 +345,23 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
 
       {/* 2. HERO SECTION */}
       <section className="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden bg-[#EBEEF2]">
-        {/* Soft Background Accents */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-white/40 blur-3xl rounded-full -z-10 pointer-events-none"></div>
+        {/* Colorful Multi-Stop Ambient Background Glows */}
+        <div className="absolute -top-10 left-10 w-[550px] h-[550px] bg-gradient-to-tr from-cyan-300/35 to-blue-400/25 blur-3xl rounded-full -z-10 pointer-events-none animate-gentle-float"></div>
+        <div className="absolute top-10 right-10 w-[550px] h-[550px] bg-gradient-to-bl from-purple-300/30 via-pink-300/25 to-rose-300/20 blur-3xl rounded-full -z-10 pointer-events-none animate-gentle-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-10 left-1/3 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-300/25 to-teal-300/20 blur-3xl rounded-full -z-10 pointer-events-none"></div>
+        <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-gradient-to-br from-amber-300/25 to-orange-300/20 blur-3xl rounded-full -z-10 pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
           {/* Hero Headline */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 max-w-5xl mx-auto leading-[1.1] animate-scale-up">
             Empowering Future Leaders with{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 via-purple-600 to-pink-500">
               Smart Learning
             </span>{' '}
-            & Modern Governance
+            &{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-emerald-600 to-blue-600">
+              Modern Governance
+            </span>
           </h1>
 
           {/* Mission Statement */}
@@ -289,61 +371,115 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             continuous excellence.
           </p>
 
-          {/* Dual Call-To-Action Neumorphic Buttons */}
+          {/* Dual Call-To-Action Vibrant Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
             <button
               onClick={() => handleOpenLogin('staff')}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#EBEEF2] text-slate-700 hover:text-slate-950 text-sm font-bold shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[6px_6px_14px_#C0CAD8,-6px_-6px_14px_#FFFFFF] active:shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] transition-all flex items-center justify-center space-x-2.5 border-none cursor-pointer"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white text-sm font-extrabold shadow-lg shadow-blue-500/30 hover:shadow-indigo-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center space-x-2.5 border-none cursor-pointer"
             >
-              <KeyRound className="w-4 h-4 text-blue-600" />
+              <KeyRound className="w-4 h-4" />
               <span>Access School Portal</span>
-              <ArrowRight className="w-4 h-4 text-slate-500" />
+              <ArrowRight className="w-4 h-4" />
             </button>
 
             <button
               onClick={() => scrollToSection('about')}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#EBEEF2] text-slate-600 hover:text-slate-900 text-sm font-bold shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] hover:shadow-[5px_5px_12px_#C0CAD8,-5px_-5px_12px_#FFFFFF] active:shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] transition-all flex items-center justify-center space-x-2 border-none cursor-pointer"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#EBEEF2] text-slate-700 hover:text-blue-700 text-sm font-bold shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] hover:shadow-[5px_5px_12px_#C0CAD8,-5px_-5px_12px_#FFFFFF] active:shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] border border-blue-200/60 transition-all flex items-center justify-center space-x-2 cursor-pointer"
             >
               <span>Explore Campus & Curriculum</span>
-              <ChevronRight className="w-4 h-4 text-slate-400" />
+              <ChevronRight className="w-4 h-4 text-blue-500" />
             </button>
           </div>
 
-          {/* Live Metrics Bar (Neumorphic Floating Cards) */}
-          <div className="pt-10 grid grid-cols-2 md:grid-cols-4 gap-5 max-w-5xl mx-auto text-left">
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border-none">
-              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] flex items-center justify-center text-blue-600 mb-3">
-                <GraduationCap className="w-5 h-5" />
+          {/* ─────────────────────────────────────────────────────────────
+              MINI MOVING STUDENT ANIMATION SHOWCASE (CONTINUOUS MARQUEE)
+              ───────────────────────────────────────────────────────────── */}
+          <div className="pt-6 pb-2 space-y-3.5 overflow-hidden">
+            <div className="inline-flex items-center space-x-2 text-xs font-bold text-slate-600 bg-[#EBEEF2] shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] px-4 py-1.5 rounded-full border border-white/60">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span className="text-slate-900 font-extrabold">2,500+ Active Scholars</span>
+              <span className="text-slate-300">•</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 font-extrabold">
+                Meet Our Achievers
+              </span>
+            </div>
+
+            {/* Seamless Horizontal Infinite Loop Ticker with Gradient Fade Edges */}
+            <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] py-2">
+              <div className="animate-marquee flex items-center gap-4">
+                {[...STUDENT_SHOWCASE, ...STUDENT_SHOWCASE].map((student, idx) => (
+                  <div
+                    key={`${student.name}-${idx}`}
+                    className="flex items-center space-x-3.5 px-3.5 py-2.5 rounded-2xl bg-[#EBEEF2] shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] hover:shadow-[6px_6px_14px_#C0CAD8,-6px_-6px_14px_#FFFFFF] transition-all shrink-0 cursor-pointer border border-white/80 group select-none hover:-translate-y-0.5"
+                  >
+                    {/* Student Photo with Vibrant Gradient Ring */}
+                    <div className={`p-0.5 rounded-full bg-gradient-to-tr ${student.accent} shrink-0 shadow-sm group-hover:scale-105 transition-transform`}>
+                      <img
+                        src={student.photo}
+                        alt={student.name}
+                        className="w-11 h-11 rounded-full object-cover"
+                        loading="lazy"
+                        onError={(e) => {
+                          // Clean fallback placeholder if network fails
+                          (e.target as HTMLElement).style.display = 'none';
+                        }}
+                      />
+                    </div>
+                    {/* Student Details */}
+                    <div className="text-left">
+                      <div className="flex items-center space-x-1.5">
+                        <span className="text-xs font-black text-slate-800 tracking-tight">{student.name}</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      </div>
+                      <div className="flex items-center space-x-1.5 mt-0.5">
+                        <span className="text-[10px] font-bold text-slate-500">{student.grade}</span>
+                        <span className="text-slate-300">•</span>
+                        <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full border ${student.tagBg}`}>
+                          {student.achievement}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="text-3xl font-black text-slate-900 font-mono tracking-tight">2,500+</div>
-              <div className="text-xs font-bold text-slate-600 mt-1">Active Enrolled Students</div>
+            </div>
+          </div>
+
+          {/* Live Metrics Bar (Colorful Neumorphic Floating Cards) */}
+          <div className="pt-6 grid grid-cols-2 md:grid-cols-4 gap-5 max-w-5xl mx-auto text-left">
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border border-blue-200/40 group hover:-translate-y-1">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-md shadow-blue-500/30 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+                <GraduationCap className="w-6 h-6" />
+              </div>
+              <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 font-mono tracking-tight">2,500+</div>
+              <div className="text-xs font-bold text-slate-700 mt-1">Active Enrolled Students</div>
               <div className="text-[11px] text-slate-400 mt-0.5">Pre-K to Grade 12</div>
             </div>
 
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border-none">
-              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] flex items-center justify-center text-emerald-600 mb-3">
-                <Trophy className="w-5 h-5" />
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border border-emerald-200/40 group hover:-translate-y-1">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/30 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+                <Trophy className="w-6 h-6" />
               </div>
-              <div className="text-3xl font-black text-slate-900 font-mono tracking-tight">100%</div>
-              <div className="text-xs font-bold text-slate-600 mt-1">Board Exam Pass Rate</div>
+              <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 font-mono tracking-tight">100%</div>
+              <div className="text-xs font-bold text-slate-700 mt-1">Board Exam Pass Rate</div>
               <div className="text-[11px] text-slate-400 mt-0.5">State & National Ranks</div>
             </div>
 
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border-none">
-              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] flex items-center justify-center text-indigo-600 mb-3">
-                <Users className="w-5 h-5" />
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border border-indigo-200/40 group hover:-translate-y-1">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/30 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+                <Users className="w-6 h-6" />
               </div>
-              <div className="text-3xl font-black text-slate-900 font-mono tracking-tight">60+</div>
-              <div className="text-xs font-bold text-slate-600 mt-1">Specialized Faculty</div>
+              <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 font-mono tracking-tight">60+</div>
+              <div className="text-xs font-bold text-slate-700 mt-1">Specialized Faculty</div>
               <div className="text-[11px] text-slate-400 mt-0.5">Ph.D. & Masters Mentors</div>
             </div>
 
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border-none">
-              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] flex items-center justify-center text-amber-600 mb-3">
-                <Bus className="w-5 h-5" />
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border border-amber-200/40 group hover:-translate-y-1">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-md shadow-amber-500/30 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+                <Bus className="w-6 h-6" />
               </div>
-              <div className="text-3xl font-black text-slate-900 font-mono tracking-tight">24</div>
-              <div className="text-xs font-bold text-slate-600 mt-1">GPS Smart Fleets</div>
+              <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-600 font-mono tracking-tight">24</div>
+              <div className="text-xs font-bold text-slate-700 mt-1">GPS Smart Fleets</div>
               <div className="text-[11px] text-slate-400 mt-0.5">Live Safe Transit Network</div>
             </div>
           </div>
@@ -365,8 +501,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
 
           {/* Highlights Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-4 border-none">
-              <div className="w-12 h-12 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] flex items-center justify-center text-blue-600">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-4 border border-blue-200/50 hover:-translate-y-1 group">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-md shadow-blue-500/25 flex items-center justify-center group-hover:scale-105 transition-transform">
                 <Cpu className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-slate-900">Robotics & AI Innovation Labs</h3>
@@ -380,8 +516,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               </div>
             </div>
 
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-4 border-none">
-              <div className="w-12 h-12 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] flex items-center justify-center text-emerald-600">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-4 border border-emerald-200/50 hover:-translate-y-1 group">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/25 flex items-center justify-center group-hover:scale-105 transition-transform">
                 <Trophy className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-slate-900">Olympic Standard Sports Arena</h3>
@@ -395,8 +531,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               </div>
             </div>
 
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-4 border-none">
-              <div className="w-12 h-12 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] flex items-center justify-center text-purple-600">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-4 border border-purple-200/50 hover:-translate-y-1 group">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-md shadow-purple-500/25 flex items-center justify-center group-hover:scale-105 transition-transform">
                 <BookOpen className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-slate-900">Digital Library & Knowledge Center</h3>
@@ -429,8 +565,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
           {/* 6 Core Feature Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Feature 1 */}
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
-              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] text-blue-600 flex items-center justify-center font-bold">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-blue-200/40 hover:-translate-y-1 group">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-md shadow-blue-500/25 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
                 <Compass className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-slate-900 text-base">Smart Tuition Recommendation</h3>
@@ -441,8 +577,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </div>
 
             {/* Feature 2 */}
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
-              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] text-amber-600 flex items-center justify-center font-bold">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-amber-200/40 hover:-translate-y-1 group">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-md shadow-amber-500/25 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
                 <Award className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-slate-900 text-base">Gamified Student Rewards</h3>
@@ -453,8 +589,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </div>
 
             {/* Feature 3 */}
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
-              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] text-emerald-600 flex items-center justify-center font-bold">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-emerald-200/40 hover:-translate-y-1 group">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/25 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
                 <Bus className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-slate-900 text-base">Live GPS Fleet Tracking</h3>
@@ -465,8 +601,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </div>
 
             {/* Feature 4 */}
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
-              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] text-purple-600 flex items-center justify-center font-bold">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-purple-200/40 hover:-translate-y-1 group">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-md shadow-purple-500/25 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
                 <Activity className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-slate-900 text-base">AI Career & Stream Guidance</h3>
@@ -477,8 +613,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </div>
 
             {/* Feature 5 */}
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
-              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] text-indigo-600 flex items-center justify-center font-bold">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-indigo-200/40 hover:-translate-y-1 group">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-md shadow-indigo-500/25 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
                 <Users className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-slate-900 text-base">Comprehensive 3-Way Portals</h3>
@@ -489,8 +625,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </div>
 
             {/* Feature 6 */}
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
-              <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] text-rose-600 flex items-center justify-center font-bold">
+            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-rose-200/40 hover:-translate-y-1 group">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-rose-500 to-pink-600 text-white shadow-md shadow-rose-500/25 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
                 <QrCode className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-slate-900 text-base">Digital QR Student Credentials</h3>
@@ -517,8 +653,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
-              <span className="text-[10px] font-black uppercase text-blue-700 bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] px-3 py-1 rounded-full inline-block">
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-blue-200/60 hover:-translate-y-1">
+              <span className="text-[10px] font-extrabold uppercase bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-3 py-1 rounded-full inline-block shadow-sm">
                 Foundation Stage
               </span>
               <h3 className="text-base font-bold text-slate-900">Pre-Primary (Ages 3–5)</h3>
@@ -527,8 +663,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               </p>
             </div>
 
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
-              <span className="text-[10px] font-black uppercase text-indigo-700 bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] px-3 py-1 rounded-full inline-block">
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-indigo-200/60 hover:-translate-y-1">
+              <span className="text-[10px] font-extrabold uppercase bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-3 py-1 rounded-full inline-block shadow-sm">
                 Primary School
               </span>
               <h3 className="text-base font-bold text-slate-900">Grades 1 to 5</h3>
@@ -537,8 +673,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               </p>
             </div>
 
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
-              <span className="text-[10px] font-black uppercase text-purple-700 bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] px-3 py-1 rounded-full inline-block">
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-purple-200/60 hover:-translate-y-1">
+              <span className="text-[10px] font-extrabold uppercase bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1 rounded-full inline-block shadow-sm">
                 Middle School
               </span>
               <h3 className="text-base font-bold text-slate-900">Grades 6 to 8</h3>
@@ -547,8 +683,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               </p>
             </div>
 
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border-none">
-              <span className="text-[10px] font-black uppercase text-emerald-700 bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] px-3 py-1 rounded-full inline-block">
+            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-emerald-200/60 hover:-translate-y-1">
+              <span className="text-[10px] font-extrabold uppercase bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-3 py-1 rounded-full inline-block shadow-sm">
                 Senior Secondary
               </span>
               <h3 className="text-base font-bold text-slate-900">Grades 9 to 12</h3>
@@ -563,26 +699,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
       {/* 6. TUITION CENTERS SECTION */}
       <section id="tuitions" className="py-20 bg-[#EBEEF2] border-t border-slate-300/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="bg-[#EBEEF2] rounded-[32px] p-8 md:p-12 text-slate-800 shadow-[8px_8px_20px_#C8D0DC,-8px_-8px_20px_#FFFFFF] border-none">
+          <div className="bg-gradient-to-r from-blue-600 via-indigo-600 via-purple-600 to-pink-600 rounded-[32px] p-8 md:p-12 text-white shadow-xl shadow-indigo-500/25 border-none">
             <div className="max-w-3xl space-y-4">
-              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900">
+              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
                 Neighborhood Tuition & Subject Mastery Centers
               </h2>
-              <p className="text-sm md:text-base text-slate-600 leading-relaxed">
+              <p className="text-sm md:text-base text-white/95 leading-relaxed">
                 Beyond regular school hours, Ever Grow operates state-of-the-art coaching centers providing small-batch
                 remedial support, Olympiad mentorship, and doubt clearance with certified master educators.
               </p>
               <div className="pt-2 flex flex-wrap gap-4 text-xs font-bold">
-                <div className="flex items-center space-x-2 bg-[#EBEEF2] px-4 py-2.5 rounded-full shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] text-slate-700">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-2.5 rounded-full text-white border border-white/20">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
                   <span>Maximum 12 Students Per Batch</span>
                 </div>
-                <div className="flex items-center space-x-2 bg-[#EBEEF2] px-4 py-2.5 rounded-full shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] text-slate-700">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-2.5 rounded-full text-white border border-white/20">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
                   <span>Personalized Weekly Progress Tracking</span>
                 </div>
-                <div className="flex items-center space-x-2 bg-[#EBEEF2] px-4 py-2.5 rounded-full shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] text-slate-700">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-2.5 rounded-full text-white border border-white/20">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
                   <span>Direct ERP Gradebook Sync</span>
                 </div>
               </div>
@@ -698,13 +834,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
                   <button
                     type="submit"
                     disabled={submittingEnquiry}
-                    className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#EBEEF2] text-slate-700 hover:text-slate-950 text-xs font-bold shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[6px_6px_14px_#C0CAD8,-6px_-6px_14px_#FFFFFF] active:shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] transition-all flex items-center justify-center space-x-2 disabled:opacity-60 border-none cursor-pointer"
+                    className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white text-xs font-extrabold shadow-lg shadow-blue-500/25 hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center space-x-2 disabled:opacity-60 border-none cursor-pointer"
                   >
                     {submittingEnquiry ? (
                       <span>Registering Application...</span>
                     ) : (
                       <>
-                        <Send className="w-3.5 h-3.5 text-blue-600" />
+                        <Send className="w-3.5 h-3.5 text-white" />
                         <span>Submit Admission Enquiry</span>
                       </>
                     )}
