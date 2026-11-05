@@ -180,7 +180,7 @@ export const LoginPage: React.FC = () => {
 
           {/* Core Institutional Typography */}
           <div className="space-y-3 xl:space-y-4">
-            <h1 className="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]">
+            <h1 className="text-3xl sm:text-4xl xl:text-5xl font-black text-[#C25E2E] tracking-tight leading-[1.15]">
               Empowering Future Leaders with Smart Governance
             </h1>
             <p className="text-base sm:text-lg xl:text-xl text-slate-600 leading-relaxed font-normal max-w-xl">
