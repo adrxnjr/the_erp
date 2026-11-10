@@ -3,8 +3,10 @@ from contextlib import asynccontextmanager
 
 os.environ.setdefault("DISABLE_SQLALCHEMY_CEXT", "1")
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -34,31 +36,34 @@ from app.routers import (
     coordinators_router,
     rewards_router,
 )
-from fastapi.staticfiles import StaticFiles
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Lifecycle event handler for application startup and shutdown."""
+    # Startup actions
     setup_logging()
-    logger.info(f"Starting {settings.APP_NAME} in [{settings.APP_ENV}] mode...")
-    logger.info(f"API documentation accessible at /docs")
+    logger.info("Application starting up...", app_name=settings.APP_NAME)
+    from app.db.init_db import init_db
+
+    try:
+        init_db()
+        logger.info("Database initialized successfully.")
+    except Exception as e:
+        logger.error(f"Failed to initialize database: {e}")
+
     yield
-    logger.info(f"Shutting down {settings.APP_NAME}...")
+
+    # Shutdown actions
+    logger.info("Application shutting down...")
 
 
 def create_application() -> FastAPI:
-    """Application factory for the School ERP backend."""
     app = FastAPI(
         title=settings.APP_NAME,
-        description=(
-            "Centralized Enterprise Resource Planning (ERP) REST API for School Administration, "
-            "Staff, Parents, and Students."
-        ),
         version="1.0.0",
         docs_url="/docs",
         redoc_url="/redoc",
-        openapi_url=f"{settings.API_V1_PREFIX}/openapi.json",
+        openapi_url="/openapi.json",
         lifespan=lifespan,
     )
 
@@ -66,16 +71,15 @@ def create_application() -> FastAPI:
     app.state.limiter = limiter
     app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-    # CORS configuration
-    if settings.CORS_ORIGINS:
-        app.add_middleware(
-            CORSMiddleware,
-            allow_origins=settings.CORS_ORIGINS,
-            allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
-        )
+    # CORS configuration - Permissive for seamless server and custom domain deployment
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.CORS_ORIGINS or ["*"],
+        allow_origin_regex=r"^https?://.*$",
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     # Register custom exception handlers
     register_exception_handlers(app)
@@ -87,13 +91,13 @@ def create_application() -> FastAPI:
     app.include_router(academic_router, prefix=settings.API_V1_PREFIX)
     app.include_router(students_router, prefix=settings.API_V1_PREFIX)
     app.include_router(staff_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(examination_router, prefix=settings.API_V1_PREFIX)
     app.include_router(attendance_router, prefix=settings.API_V1_PREFIX)
     app.include_router(timetable_router, prefix=settings.API_V1_PREFIX)
-    app.include_router(examination_router, prefix=settings.API_V1_PREFIX)
     app.include_router(finance_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(reports_router, prefix=settings.API_V1_PREFIX)
     app.include_router(portal_router, prefix=settings.API_V1_PREFIX)
     app.include_router(dashboards_router, prefix=settings.API_V1_PREFIX)
-    app.include_router(reports_router, prefix=settings.API_V1_PREFIX)
     app.include_router(transport_router, prefix=settings.API_V1_PREFIX)
     app.include_router(career_router, prefix=settings.API_V1_PREFIX)
     app.include_router(id_cards_router, prefix=settings.API_V1_PREFIX)
@@ -108,14 +112,38 @@ def create_application() -> FastAPI:
     os.makedirs(os.path.join(uploads_dir, "social"), exist_ok=True)
     app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
 
-    @app.get("/", tags=["Root"], include_in_schema=False)
-    def root():
-        return {
-            "name": settings.APP_NAME,
-            "version": "1.0.0",
-            "docs": "/docs",
-            "health": f"{settings.API_V1_PREFIX}/health",
-        }
+    # Mount frontend static build if present for unified full-stack server deployment
+    frontend_dist = os.path.abspath(
+        os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "frontend", "dist")
+    )
+    if os.path.exists(frontend_dist) and os.path.exists(os.path.join(frontend_dist, "index.html")):
+        assets_dir = os.path.join(frontend_dist, "assets")
+        if os.path.exists(assets_dir):
+            app.mount("/assets", StaticFiles(directory=assets_dir), name="frontend_assets")
+
+        @app.get("/{full_path:path}", include_in_schema=False)
+        async def serve_spa(full_path: str):
+            if (
+                full_path.startswith("api")
+                or full_path.startswith("docs")
+                or full_path.startswith("openapi.json")
+                or full_path.startswith("uploads")
+                or full_path.startswith("redoc")
+            ):
+                raise HTTPException(status_code=404, detail="Not Found")
+            target_file = os.path.join(frontend_dist, full_path)
+            if full_path and os.path.exists(target_file) and os.path.isfile(target_file):
+                return FileResponse(target_file)
+            return FileResponse(os.path.join(frontend_dist, "index.html"))
+    else:
+        @app.get("/", tags=["Root"], include_in_schema=False)
+        def root():
+            return {
+                "name": settings.APP_NAME,
+                "version": "1.0.0",
+                "docs": "/docs",
+                "health": f"{settings.API_V1_PREFIX}/health",
+            }
 
     return app
 
