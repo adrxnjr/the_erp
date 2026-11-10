@@ -39,22 +39,14 @@ import {
   UserCog,
   Workflow,
   Settings,
-  ChevronDown,
-  ChevronRight,
 } from 'lucide-react';
 import { AnimatedLogo } from './AnimatedLogo';
-
-interface NavSubItem {
-  to: string;
-  label: string;
-}
 
 interface NavItem {
   to: string;
   label: string;
   icon: any;
   badge?: number;
-  subItems?: NavSubItem[];
 }
 
 interface NavSection {
@@ -71,9 +63,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
   const { user, logout } = useAuth();
   const location = useLocation();
   const [pendingSocialCount, setPendingSocialCount] = useState<number>(0);
-  const [customizeExpanded, setCustomizeExpanded] = useState<boolean>(() => {
-    return location.pathname.startsWith('/admin/customize');
-  });
 
   const isStudent = user?.portal_type === 'student';
   const isParent = user?.portal_type === 'parent';
@@ -103,12 +92,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
         .catch(() => {});
     }
   }, [isSuperAdmin, isAdmin, isCoordinator]);
-
-  useEffect(() => {
-    if (location.pathname.startsWith('/admin/customize')) {
-      setCustomizeExpanded(true);
-    }
-  }, [location.pathname]);
 
   // 1. Super Admin Grouped Navigation
   const superAdminSections: NavSection[] = [
@@ -172,26 +155,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
     {
       title: 'ADMINISTRATION',
       items: [
-        {
-          to: '/admin/customize',
-          label: 'Customize',
-          icon: SlidersHorizontal,
-          subItems: [
-            { to: '/admin/customize?tab=branding', label: 'Branding' },
-            { to: '/admin/customize?tab=profile', label: 'School Profile' },
-            { to: '/admin/customize?tab=academic', label: 'Academic Setup' },
-            { to: '/admin/customize?tab=navigation', label: 'Navigation & Modules' },
-            { to: '/admin/customize?tab=finance', label: 'Finance' },
-            { to: '/admin/customize?tab=permissions', label: 'Roles & Permissions' },
-            { to: '/admin/customize?tab=communication', label: 'Communication' },
-            { to: '/admin/customize?tab=documents', label: 'Documents & Templates' },
-            { to: '/admin/customize?tab=fields', label: 'Custom Fields' },
-            { to: '/admin/customize?tab=transport', label: 'Transport Settings' },
-            { to: '/admin/customize?tab=security', label: 'Security & Access' },
-            { to: '/admin/customize?tab=backup', label: 'Data & Backup' },
-            { to: '/admin/customize?tab=audit', label: 'Audit Log' },
-          ],
-        },
+        { to: '/admin/customize', label: 'Customize', icon: SlidersHorizontal },
         { to: '/admin/roles-users', label: 'Roles & Users', icon: UserCog },
         { to: '/admin/integrations', label: 'Integrations', icon: Workflow },
         { to: '/admin/settings', label: 'Settings', icon: Settings },
@@ -314,89 +278,35 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
               <div className="space-y-0.5">
                 {section.items.map((item) => {
                   const Icon = item.icon;
-                  const hasSubItems = item.subItems && item.subItems.length > 0;
                   const isCurrentActive =
                     item.to === '/'
                       ? location.pathname === '/'
                       : location.pathname.startsWith(item.to);
 
                   return (
-                    <div key={item.label} className="space-y-0.5">
-                      <div className="flex items-center">
-                        <NavLink
-                          to={item.to}
-                          end={item.to === '/'}
-                          onClick={() => {
-                            if (hasSubItems) {
-                              setCustomizeExpanded(!customizeExpanded);
-                            } else {
-                              onCloseMobile?.();
-                            }
-                          }}
-                          className={({ isActive }) =>
-                            `flex-1 flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-all duration-150 ${
-                              isActive || (hasSubItems && isCurrentActive)
-                                ? 'bg-[#E9EEF5] text-[#0066FF] shadow-[inset_2px_2px_5px_#C5D0E0,inset_-2px_-2px_5px_#FFFFFF] font-bold border border-white/60'
-                                : 'text-slate-600 hover:text-slate-900 hover:bg-[#E9EEF5] hover:shadow-[2px_2px_5px_#C5D0E0,-2px_-2px_5px_#FFFFFF] border border-transparent font-medium active:scale-[0.98]'
-                            }`
-                          }
-                        >
-                          <div className="flex items-center space-x-2 min-w-0">
-                            <Icon className="w-3.5 h-3.5 shrink-0" />
-                            <span className="truncate tracking-tight">{item.label}</span>
-                          </div>
-                          <div className="flex items-center space-x-1 shrink-0">
-                            {item.badge && item.badge > 0 ? (
-                              <span className="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-amber-500 text-white shadow-xs">
-                                {item.badge}
-                              </span>
-                            ) : null}
-                            {hasSubItems && (
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setCustomizeExpanded(!customizeExpanded);
-                                }}
-                                className="p-0.5 text-slate-400 hover:text-slate-700"
-                              >
-                                {customizeExpanded ? (
-                                  <ChevronDown className="w-3 h-3" />
-                                ) : (
-                                  <ChevronRight className="w-3 h-3" />
-                                )}
-                              </button>
-                            )}
-                          </div>
-                        </NavLink>
+                    <NavLink
+                      key={item.label}
+                      to={item.to}
+                      end={item.to === '/'}
+                      onClick={onCloseMobile}
+                      className={({ isActive }) =>
+                        `flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-all duration-150 ${
+                          isActive || isCurrentActive
+                            ? 'bg-[#E9EEF5] text-[#0066FF] shadow-[inset_2px_2px_5px_#C5D0E0,inset_-2px_-2px_5px_#FFFFFF] font-bold border border-white/60'
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-[#E9EEF5] hover:shadow-[2px_2px_5px_#C5D0E0,-2px_-2px_5px_#FFFFFF] border border-transparent font-medium active:scale-[0.98]'
+                        }`
+                      }
+                    >
+                      <div className="flex items-center space-x-2 min-w-0">
+                        <Icon className="w-3.5 h-3.5 shrink-0" />
+                        <span className="truncate tracking-tight">{item.label}</span>
                       </div>
-
-                      {/* Expandable Sub-items for Customize */}
-                      {hasSubItems && customizeExpanded && (
-                        <div className="ml-5 pl-2 border-l border-slate-300/60 space-y-0.5 py-0.5">
-                          {item.subItems!.map((sub) => {
-                            const isSubActive =
-                              location.pathname + location.search === sub.to ||
-                              (location.search === '' && sub.to.endsWith('tab=branding'));
-                            return (
-                              <NavLink
-                                key={sub.label}
-                                to={sub.to}
-                                onClick={onCloseMobile}
-                                className={`block px-2 py-1 rounded-lg text-[11px] transition-all ${
-                                  isSubActive
-                                    ? 'text-blue-600 font-bold bg-[#E9EEF5] shadow-[inset_1px_1px_3px_#C5D0E0,inset_-1px_-1px_3px_#FFFFFF]'
-                                    : 'text-slate-500 hover:text-slate-800 font-medium hover:bg-white/40'
-                                }`}
-                              >
-                                <span className="truncate">{sub.label}</span>
-                              </NavLink>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
+                      {item.badge && item.badge > 0 ? (
+                        <span className="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-amber-500 text-white shadow-xs shrink-0">
+                          {item.badge}
+                        </span>
+                      ) : null}
+                    </NavLink>
                   );
                 })}
               </div>
