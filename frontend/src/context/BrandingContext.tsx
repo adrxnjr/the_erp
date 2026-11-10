@@ -13,7 +13,7 @@ interface BrandingContextType {
   resetAllBranding: () => void;
 }
 
-const DEFAULT_SCHOOL_NAME = 'Ever Grow International Schools';
+const DEFAULT_SCHOOL_NAME = 'Ever Grow Schools';
 const DEFAULT_TAGLINE = 'Excellence in Holistic Education';
 
 const BrandingContext = createContext<BrandingContextType | undefined>(undefined);
@@ -42,15 +42,6 @@ export const BrandingProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       return null;
     }
   });
-
-  useEffect(() => {
-    if (schoolName) {
-      if (document.title.includes('—') && document.title.includes('ERP')) {
-        const pagePart = document.title.split('—')[0].trim();
-        document.title = `${pagePart} — ${schoolName} ERP`;
-      }
-    }
-  }, [schoolName]);
 
   const updateSchoolName = (name: string) => {
     setSchoolName(name);
@@ -117,3 +108,4 @@ export const useBranding = (): BrandingContextType => {
   }
   return context;
 };
+
