@@ -222,6 +222,8 @@ export function App() {
               <Route path="/hostel" element={<Navigate to="/" replace />} />
               <Route path="/payroll" element={<RoleGuard allowedPortals={['staff']} allowedRoles={['super_admin', 'school_admin', 'principal', 'accountant']}><ModuleHubPage /></RoleGuard>} />
               <Route path="/inventory" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
+              <Route path="/billing" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
+              <Route path="/scholarships" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
               <Route path="/events" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
               <Route path="/visitors" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
               <Route path="/helpdesk" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />

@@ -381,8 +381,21 @@ export const LoginPage: React.FC = () => {
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-blue-600 shrink-0"></div>
                 <div className="truncate">
-                  <strong className="text-slate-800 block leading-tight text-[11px]">Super Admin</strong>
+                  <strong className="text-slate-800 block leading-tight text-[11px]">Correspondent</strong>
                   <span className="text-[10px] text-slate-500 font-mono">adrin / 123</span>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                disabled={loading}
+                onClick={() => handleQuickDemoLogin('staff', '123', 'staff')}
+                className="p-2 xl:p-2.5 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] hover:shadow-[4px_4px_9px_#C0CAD8,-4px_-4px_9px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-left transition-all flex items-center space-x-2 cursor-pointer border-none"
+              >
+                <div className="w-2.5 h-2.5 rounded-full bg-cyan-600 shrink-0"></div>
+                <div className="truncate">
+                  <strong className="text-slate-800 block leading-tight text-[11px]">Staff (Office Desk)</strong>
+                  <span className="text-[10px] text-slate-500 font-mono">staff / 123</span>
                 </div>
               </button>
 
