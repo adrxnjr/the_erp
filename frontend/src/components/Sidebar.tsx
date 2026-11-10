@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/client';
 import {
@@ -24,15 +24,42 @@ import {
   Brain,
   Trophy,
   X,
+  CheckSquare,
+  Bell,
+  UserPlus,
+  FileText,
+  Library,
+  Building2,
+  Package,
+  Calendar,
+  ShieldAlert,
+  LifeBuoy,
+  BarChart3,
+  SlidersHorizontal,
+  UserCog,
+  Workflow,
+  Settings,
+  ChevronDown,
+  ChevronRight,
 } from 'lucide-react';
 import { AnimatedLogo } from './AnimatedLogo';
-import logoImg from '../assets/logo.png';
+
+interface NavSubItem {
+  to: string;
+  label: string;
+}
 
 interface NavItem {
   to: string;
   label: string;
   icon: any;
   badge?: number;
+  subItems?: NavSubItem[];
+}
+
+interface NavSection {
+  title: string;
+  items: NavItem[];
 }
 
 interface SidebarProps {
@@ -42,8 +69,12 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMobile }) => {
   const { user, logout } = useAuth();
+  const location = useLocation();
   const [pendingSocialCount, setPendingSocialCount] = useState<number>(0);
-  
+  const [customizeExpanded, setCustomizeExpanded] = useState<boolean>(() => {
+    return location.pathname.startsWith('/admin/customize');
+  });
+
   const isStudent = user?.portal_type === 'student';
   const isParent = user?.portal_type === 'parent';
   const isSuperAdmin =
@@ -73,25 +104,102 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
     }
   }, [isSuperAdmin, isAdmin, isCoordinator]);
 
-  // 1. Super Admin Navigation
-  const superAdminNavItems: NavItem[] = [
-    { to: '/', label: 'Dashboard', icon: LayoutDashboard },
-    { to: '/social-wall', label: 'School Wall', icon: Megaphone, badge: pendingSocialCount },
-    { to: '/coordinators', label: 'Coordinators', icon: Layers },
-    { to: '/treasury', label: 'Treasury', icon: Landmark },
-    { to: '/staff-attendance', label: 'Staff', icon: UserCheck },
-    { to: '/students', label: 'Students', icon: Users },
-    { to: '/academic', label: 'Academics', icon: BookOpen },
-    { to: '/attendance', label: 'Attendance', icon: CalendarCheck },
-    { to: '/fees', label: 'Fees', icon: CreditCard },
-    { to: '/transport', label: 'Transport', icon: Bus },
-    { to: '/tuitions', label: 'Tuitions', icon: School },
-    { to: '/admin/rewards', label: 'Rewards', icon: Trophy },
-    { to: '/reports', label: 'Reports', icon: FileSpreadsheet },
-    { to: '/enquiry', label: 'Enquiries', icon: HelpCircle },
+  useEffect(() => {
+    if (location.pathname.startsWith('/admin/customize')) {
+      setCustomizeExpanded(true);
+    }
+  }, [location.pathname]);
+
+  // 1. Super Admin Grouped Navigation
+  const superAdminSections: NavSection[] = [
+    {
+      title: 'MAIN',
+      items: [
+        { to: '/', label: 'Dashboard', icon: LayoutDashboard },
+        { to: '/social-wall', label: 'School Wall', icon: Megaphone, badge: pendingSocialCount },
+        { to: '/approvals', label: 'Approvals', icon: CheckSquare },
+        { to: '/notifications', label: 'Notifications & Alerts', icon: Bell },
+      ],
+    },
+    {
+      title: 'PEOPLE',
+      items: [
+        { to: '/students', label: 'Students', icon: Users },
+        { to: '/staff-attendance', label: 'Staff', icon: UserCheck },
+        { to: '/coordinators', label: 'Coordinators', icon: Layers },
+        { to: '/parents', label: 'Parents', icon: UserPlus },
+        { to: '/enquiry', label: 'Enquiries & Admissions', icon: HelpCircle },
+      ],
+    },
+    {
+      title: 'ACADEMICS',
+      items: [
+        { to: '/academic', label: 'Academics', icon: BookOpen },
+        { to: '/attendance', label: 'Attendance', icon: CalendarCheck },
+        { to: '/examinations', label: 'Exams & Results', icon: GraduationCap },
+        { to: '/tuitions', label: 'Tuitions', icon: School },
+        { to: '/admin/rewards', label: 'Rewards', icon: Trophy },
+        { to: '/homework', label: 'Homework & Circulars', icon: FileText },
+        { to: '/library', label: 'Library', icon: Library },
+        { to: '/hostel', label: 'Hostel', icon: Building2 },
+      ],
+    },
+    {
+      title: 'FINANCE',
+      items: [
+        { to: '/fees', label: 'Fees', icon: CreditCard },
+        { to: '/treasury', label: 'Treasury', icon: Landmark },
+        { to: '/payroll', label: 'Payroll', icon: Receipt },
+        { to: '/inventory', label: 'Inventory & Purchases', icon: Package },
+      ],
+    },
+    {
+      title: 'OPERATIONS',
+      items: [
+        { to: '/transport', label: 'Transport', icon: Bus },
+        { to: '/events', label: 'Events & Calendar', icon: Calendar },
+        { to: '/visitors', label: 'Visitors & Gate Pass', icon: ShieldAlert },
+        { to: '/helpdesk', label: 'Helpdesk / Complaints', icon: LifeBuoy },
+      ],
+    },
+    {
+      title: 'INSIGHTS',
+      items: [
+        { to: '/reports', label: 'Reports', icon: FileSpreadsheet },
+        { to: '/analytics', label: 'Analytics', icon: BarChart3 },
+      ],
+    },
+    {
+      title: 'ADMINISTRATION',
+      items: [
+        {
+          to: '/admin/customize',
+          label: 'Customize',
+          icon: SlidersHorizontal,
+          subItems: [
+            { to: '/admin/customize?tab=branding', label: 'Branding' },
+            { to: '/admin/customize?tab=profile', label: 'School Profile' },
+            { to: '/admin/customize?tab=academic', label: 'Academic Setup' },
+            { to: '/admin/customize?tab=navigation', label: 'Navigation & Modules' },
+            { to: '/admin/customize?tab=finance', label: 'Finance' },
+            { to: '/admin/customize?tab=permissions', label: 'Roles & Permissions' },
+            { to: '/admin/customize?tab=communication', label: 'Communication' },
+            { to: '/admin/customize?tab=documents', label: 'Documents & Templates' },
+            { to: '/admin/customize?tab=fields', label: 'Custom Fields' },
+            { to: '/admin/customize?tab=transport', label: 'Transport Settings' },
+            { to: '/admin/customize?tab=security', label: 'Security & Access' },
+            { to: '/admin/customize?tab=backup', label: 'Data & Backup' },
+            { to: '/admin/customize?tab=audit', label: 'Audit Log' },
+          ],
+        },
+        { to: '/admin/roles-users', label: 'Roles & Users', icon: UserCog },
+        { to: '/admin/integrations', label: 'Integrations', icon: Workflow },
+        { to: '/admin/settings', label: 'Settings', icon: Settings },
+      ],
+    },
   ];
 
-  // 2. School Admin / Principal Navigation
+  // 2. School Admin / Principal Navigation (Unchanged)
   const adminNavItems: NavItem[] = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/social-wall', label: 'School Wall', icon: Megaphone, badge: pendingSocialCount },
@@ -110,7 +218,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
     { to: '/enquiry', label: 'Enquiries', icon: HelpCircle },
   ];
 
-  // 3. Coordinator Navigation
+  // 3. Coordinator Navigation (Unchanged)
   const coordinatorNavItems: NavItem[] = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/coordinators', label: 'Coordinators', icon: Layers },
@@ -126,7 +234,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
     { to: '/reports', label: 'Reports', icon: FileSpreadsheet },
   ];
 
-  // 4. Faculty / Teacher Navigation
+  // 4. Faculty / Teacher Navigation (Unchanged)
   const teacherNavItems: NavItem[] = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/social-wall', label: 'School Wall', icon: Megaphone },
@@ -138,7 +246,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
     { to: '/transport', label: 'Transport', icon: Bus },
   ];
 
-  // 5. Student Navigation
+  // 5. Student Navigation (Unchanged)
   const studentNavItems: NavItem[] = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/social-wall', label: 'School Wall', icon: Megaphone },
@@ -151,7 +259,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
     { to: '/career', label: 'Artificial Intelligence', icon: Brain },
   ];
 
-  // 6. Parent Navigation
+  // 6. Parent Navigation (Unchanged)
   const parentNavItems: NavItem[] = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/social-wall', label: 'School Wall', icon: Megaphone },
@@ -163,29 +271,27 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
     { to: '/rewards', label: 'Rewards', icon: Trophy },
   ];
 
-  let items: NavItem[] = teacherNavItems;
+  let standardItems: NavItem[] = teacherNavItems;
   let menuHeading = 'Menu';
 
-  if (isSuperAdmin) {
-    items = superAdminNavItems;
-  } else if (isAdmin) {
-    items = adminNavItems;
+  if (isAdmin) {
+    standardItems = adminNavItems;
   } else if (isCoordinator) {
-    items = coordinatorNavItems;
+    standardItems = coordinatorNavItems;
   } else if (isStudent) {
-    items = studentNavItems;
+    standardItems = studentNavItems;
   } else if (isParent) {
-    items = parentNavItems;
+    standardItems = parentNavItems;
   }
 
   return (
     <aside
-      className={`fixed inset-y-0 left-0 z-50 md:sticky md:top-0 w-64 md:w-56 bg-[#E9EEF5] text-slate-700 flex flex-col shrink-0 h-screen border-r border-white/80 shadow-[6px_0_18px_#C5D0E0] select-none transition-transform duration-300 ease-in-out ${
+      className={`fixed inset-y-0 left-0 z-50 md:sticky md:top-0 w-64 md:w-60 bg-[#E9EEF5] text-slate-700 flex flex-col shrink-0 h-screen border-r border-white/80 shadow-[6px_0_18px_#C5D0E0] select-none transition-transform duration-300 ease-in-out ${
         mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
       }`}
     >
       {/* Brand Header with mobile close button */}
-      <div className="w-full px-2 py-2 border-b border-white/60 flex items-center justify-between overflow-hidden relative">
+      <div className="w-full px-2 py-2 border-b border-white/60 flex items-center justify-between overflow-hidden relative shrink-0">
         <AnimatedLogo className="w-full" idPrefix="sidebar-logo" />
         <button
           onClick={onCloseMobile}
@@ -196,44 +302,149 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
         </button>
       </div>
 
-      {/* Navigation Header */}
-      <div className="px-3.5 pt-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-slate-400">
-        {menuHeading}
-      </div>
-      <nav className="flex-1 px-2.5 space-y-1 overflow-y-auto py-1">
-        {items.map((item) => {
-          const Icon = item.icon;
-          return (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.to === '/'}
-              onClick={onCloseMobile}
-              className={({ isActive }) =>
-                `flex items-center justify-between px-3 py-2.5 rounded-2xl text-sm transition-all duration-200 ${
-                  isActive
-                    ? 'bg-[#E9EEF5] text-[#0066FF] shadow-[inset_3px_3px_6px_#C5D0E0,inset_-3px_-3px_6px_#FFFFFF] font-bold border border-white/60'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-[#E9EEF5] hover:shadow-[3px_3px_7px_#C5D0E0,-3px_-3px_7px_#FFFFFF] border border-transparent font-semibold active:scale-[0.98]'
-                }`
-              }
-            >
-              <div className="flex items-center space-x-2.5 min-w-0">
-                <Icon className="w-4 h-4 shrink-0" />
-                <span className="truncate tracking-tight">{item.label}</span>
+      {/* Navigation Container with smooth custom scrollbar */}
+      <nav className="flex-1 px-2.5 space-y-3 overflow-y-auto py-2.5 scrollbar-thin scrollbar-thumb-slate-300">
+        {isSuperAdmin ? (
+          // ─── SUPER ADMIN GROUPED SECTIONS ───
+          superAdminSections.map((section) => (
+            <div key={section.title} className="space-y-1">
+              <div className="pt-2 pb-1 px-2.5 text-[10px] font-black uppercase tracking-wider text-slate-400">
+                {section.title}
               </div>
-              {item.badge && item.badge > 0 ? (
-                <span className="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-500 text-white shadow-xs shrink-0">
-                  {item.badge}
-                </span>
-              ) : null}
-            </NavLink>
-          );
-        })}
+              <div className="space-y-0.5">
+                {section.items.map((item) => {
+                  const Icon = item.icon;
+                  const hasSubItems = item.subItems && item.subItems.length > 0;
+                  const isCurrentActive =
+                    item.to === '/'
+                      ? location.pathname === '/'
+                      : location.pathname.startsWith(item.to);
+
+                  return (
+                    <div key={item.label} className="space-y-0.5">
+                      <div className="flex items-center">
+                        <NavLink
+                          to={item.to}
+                          end={item.to === '/'}
+                          onClick={() => {
+                            if (hasSubItems) {
+                              setCustomizeExpanded(!customizeExpanded);
+                            } else {
+                              onCloseMobile?.();
+                            }
+                          }}
+                          className={({ isActive }) =>
+                            `flex-1 flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-all duration-150 ${
+                              isActive || (hasSubItems && isCurrentActive)
+                                ? 'bg-[#E9EEF5] text-[#0066FF] shadow-[inset_2px_2px_5px_#C5D0E0,inset_-2px_-2px_5px_#FFFFFF] font-bold border border-white/60'
+                                : 'text-slate-600 hover:text-slate-900 hover:bg-[#E9EEF5] hover:shadow-[2px_2px_5px_#C5D0E0,-2px_-2px_5px_#FFFFFF] border border-transparent font-medium active:scale-[0.98]'
+                            }`
+                          }
+                        >
+                          <div className="flex items-center space-x-2 min-w-0">
+                            <Icon className="w-3.5 h-3.5 shrink-0" />
+                            <span className="truncate tracking-tight">{item.label}</span>
+                          </div>
+                          <div className="flex items-center space-x-1 shrink-0">
+                            {item.badge && item.badge > 0 ? (
+                              <span className="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-amber-500 text-white shadow-xs">
+                                {item.badge}
+                              </span>
+                            ) : null}
+                            {hasSubItems && (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  setCustomizeExpanded(!customizeExpanded);
+                                }}
+                                className="p-0.5 text-slate-400 hover:text-slate-700"
+                              >
+                                {customizeExpanded ? (
+                                  <ChevronDown className="w-3 h-3" />
+                                ) : (
+                                  <ChevronRight className="w-3 h-3" />
+                                )}
+                              </button>
+                            )}
+                          </div>
+                        </NavLink>
+                      </div>
+
+                      {/* Expandable Sub-items for Customize */}
+                      {hasSubItems && customizeExpanded && (
+                        <div className="ml-5 pl-2 border-l border-slate-300/60 space-y-0.5 py-0.5">
+                          {item.subItems!.map((sub) => {
+                            const isSubActive =
+                              location.pathname + location.search === sub.to ||
+                              (location.search === '' && sub.to.endsWith('tab=branding'));
+                            return (
+                              <NavLink
+                                key={sub.label}
+                                to={sub.to}
+                                onClick={onCloseMobile}
+                                className={`block px-2 py-1 rounded-lg text-[11px] transition-all ${
+                                  isSubActive
+                                    ? 'text-blue-600 font-bold bg-[#E9EEF5] shadow-[inset_1px_1px_3px_#C5D0E0,inset_-1px_-1px_3px_#FFFFFF]'
+                                    : 'text-slate-500 hover:text-slate-800 font-medium hover:bg-white/40'
+                                }`}
+                              >
+                                <span className="truncate">{sub.label}</span>
+                              </NavLink>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))
+        ) : (
+          // ─── NON-SUPER-ADMIN ROLES (UNCHANGED STANDARD LIST) ───
+          <>
+            <div className="px-3.5 pt-1 pb-0.5 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+              {menuHeading}
+            </div>
+            <div className="space-y-1">
+              {standardItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    end={item.to === '/'}
+                    onClick={onCloseMobile}
+                    className={({ isActive }) =>
+                      `flex items-center justify-between px-3 py-2.5 rounded-2xl text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-[#E9EEF5] text-[#0066FF] shadow-[inset_3px_3px_6px_#C5D0E0,inset_-3px_-3px_6px_#FFFFFF] font-bold border border-white/60'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-[#E9EEF5] hover:shadow-[3px_3px_7px_#C5D0E0,-3px_-3px_7px_#FFFFFF] border border-transparent font-semibold active:scale-[0.98]'
+                      }`
+                    }
+                  >
+                    <div className="flex items-center space-x-2.5 min-w-0">
+                      <Icon className="w-4 h-4 shrink-0" />
+                      <span className="truncate tracking-tight">{item.label}</span>
+                    </div>
+                    {item.badge && item.badge > 0 ? (
+                      <span className="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-500 text-white shadow-xs shrink-0">
+                        {item.badge}
+                      </span>
+                    ) : null}
+                  </NavLink>
+                );
+              })}
+            </div>
+          </>
+        )}
       </nav>
 
-      {/* User Profile & Sign Out - Neumorphic Style */}
+      {/* FOOTER: Logged-in user card (name, role, logout) */}
       {user && (
-        <div className="p-2 border-t border-white/70 bg-[#E9EEF5]">
+        <div className="p-2 border-t border-white/70 bg-[#E9EEF5] shrink-0">
           <div className="flex items-center justify-between p-1.5 rounded-xl bg-[#E9EEF5] shadow-[inset_2px_2px_5px_#C5D0E0,inset_-2px_-2px_5px_#FFFFFF] border border-white/40">
             <div className="flex items-center space-x-2 min-w-0">
               <div className="w-7 h-7 rounded-full bg-[#E9EEF5] shadow-[2px_2px_5px_#C5D0E0,-2px_-2px_5px_#FFFFFF] flex items-center justify-center text-[#0066FF] font-bold text-xs border border-white/80 shrink-0">
@@ -252,7 +463,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
             <button
               onClick={logout}
               title="Sign Out"
-              className="p-1 text-slate-400 hover:text-rose-600 bg-[#E9EEF5] shadow-[2px_2px_4px_#C5D0E0,-2px_-2px_4px_#FFFFFF] hover:shadow-[inset_2px_2px_4px_#C5D0E0] rounded-lg transition-all border border-white/50 active:scale-95 shrink-0 ml-1"
+              className="p-1 text-slate-400 hover:text-rose-600 bg-[#E9EEF5] shadow-[2px_2px_4px_#C5D0E0,-2px_-2px_4px_#FFFFFF] hover:shadow-[inset_2px_2px_4px_#C5D0E0] rounded-lg transition-all border border-white/50 active:scale-95 shrink-0 ml-1 cursor-pointer"
             >
               <LogOut className="w-3.5 h-3.5" />
             </button>
@@ -262,4 +473,3 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
     </aside>
   );
 };
-

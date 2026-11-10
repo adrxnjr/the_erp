@@ -26,6 +26,8 @@ const SocialWallPage = lazy(() => import('./pages/SocialWallPage').then(m => ({ 
 const CoordinatorsPage = lazy(() => import('./pages/CoordinatorsPage').then(m => ({ default: m.CoordinatorsPage })));
 const StudentRewardsPage = lazy(() => import('./pages/StudentRewardsPage').then(m => ({ default: m.StudentRewardsPage })));
 const AdminRewardsPage = lazy(() => import('./pages/AdminRewardsPage').then(m => ({ default: m.AdminRewardsPage })));
+const CustomizeAdminPage = lazy(() => import('./pages/CustomizeAdminPage').then(m => ({ default: m.CustomizeAdminPage })));
+const ModuleHubPage = lazy(() => import('./pages/ModuleHubPage').then(m => ({ default: m.ModuleHubPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
 import { WelcomeScreen } from './components/WelcomeScreen';
@@ -208,6 +210,54 @@ export function App() {
                 }
               />
               <Route path="/enquiry" element={<PublicEnquiryPage />} />
+
+              {/* Extended Enterprise Modules */}
+              <Route path="/approvals" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
+              <Route path="/notifications" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
+              <Route path="/parents" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
+              <Route path="/homework" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
+              <Route path="/library" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
+              <Route path="/hostel" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
+              <Route path="/payroll" element={<RoleGuard allowedPortals={['staff']} allowedRoles={['super_admin', 'school_admin', 'principal', 'accountant']}><ModuleHubPage /></RoleGuard>} />
+              <Route path="/inventory" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
+              <Route path="/events" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
+              <Route path="/visitors" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
+              <Route path="/helpdesk" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
+              <Route path="/analytics" element={<RoleGuard allowedPortals={['staff']} allowedRoles={['super_admin', 'school_admin', 'principal']}><ModuleHubPage /></RoleGuard>} />
+
+              {/* Super Admin Dedicated Administration Hub */}
+              <Route
+                path="/admin/customize"
+                element={
+                  <RoleGuard allowedPortals={['staff']} allowedRoles={['super_admin']} restrictedMessage="Access Restricted: System Customization is exclusively reserved for the Super Administrator.">
+                    <CustomizeAdminPage />
+                  </RoleGuard>
+                }
+              />
+              <Route
+                path="/admin/roles-users"
+                element={
+                  <RoleGuard allowedPortals={['staff']} allowedRoles={['super_admin']} restrictedMessage="Access Restricted: User Account & Role administration is reserved for Super Administrator.">
+                    <ModuleHubPage />
+                  </RoleGuard>
+                }
+              />
+              <Route
+                path="/admin/integrations"
+                element={
+                  <RoleGuard allowedPortals={['staff']} allowedRoles={['super_admin']} restrictedMessage="Access Restricted: Integration gateways are reserved for Super Administrator.">
+                    <ModuleHubPage />
+                  </RoleGuard>
+                }
+              />
+              <Route
+                path="/admin/settings"
+                element={
+                  <RoleGuard allowedPortals={['staff']} allowedRoles={['super_admin']} restrictedMessage="Access Restricted: Institutional settings are reserved for Super Administrator.">
+                    <ModuleHubPage />
+                  </RoleGuard>
+                }
+              />
             </Route>
 
             {/* 404 Catch-All */}
