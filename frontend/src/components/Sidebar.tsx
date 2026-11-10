@@ -184,7 +184,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
         { to: '/fees', label: 'Fees & Counter Payments', icon: CreditCard },
         { to: '/billing', label: 'Billings & Invoices', icon: Receipt },
         { to: '/scholarships', label: 'Scholarships & Waivers', icon: Award },
-        { to: '/reports', label: 'Bonafide & Certificates', icon: FileCheck },
+        { to: '/reports', label: 'Reports & Analytics', icon: FileSpreadsheet },
       ],
     },
     {
