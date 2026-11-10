@@ -6,7 +6,6 @@ import {
   UserPlus,
   FileText,
   Library,
-  Building2,
   Receipt,
   Package,
   Calendar,
@@ -37,6 +36,7 @@ import {
 } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
+import schoolData from '../data/schoolData.json';
 
 export const ModuleHubPage: React.FC = () => {
   const location = useLocation();
@@ -50,7 +50,6 @@ export const ModuleHubPage: React.FC = () => {
   else if (pathname.includes('/parents')) moduleKey = 'parents';
   else if (pathname.includes('/homework')) moduleKey = 'homework';
   else if (pathname.includes('/library')) moduleKey = 'library';
-  else if (pathname.includes('/hostel')) moduleKey = 'hostel';
   else if (pathname.includes('/payroll')) moduleKey = 'payroll';
   else if (pathname.includes('/inventory')) moduleKey = 'inventory';
   else if (pathname.includes('/events')) moduleKey = 'events';
@@ -96,6 +95,11 @@ export const ModuleHubPage: React.FC = () => {
     );
     toast.success(`Request ${id} marked as ${action}d.`);
   };
+
+  // Parents Module Search & Pagination State
+  const [parentSearch, setParentSearch] = useState('');
+  const [parentPage, setParentPage] = useState(1);
+  const parentPageSize = 15;
 
   // Roles & User Account Management State
   type UserRole =
@@ -434,53 +438,141 @@ export const ModuleHubPage: React.FC = () => {
       {/* ─────────────────────────────────────────────────────────────
           3. PARENTS MODULE
           ───────────────────────────────────────────────────────────── */}
-      {moduleKey === 'parents' && (
-        <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-600 text-white flex items-center justify-center shadow-md shadow-emerald-500/25">
-                <UserPlus className="w-5 h-5" />
-              </div>
-              <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Parent Accounts & Portal Access</h1>
-                <p className="text-xs text-slate-500">Guardian roster, linked children accounts, and credentials management</p>
-              </div>
-            </div>
-          </div>
+      {moduleKey === 'parents' && (() => {
+        const studentMap = (schoolData.students || []).reduce((acc: any, std: any) => {
+          acc[std.student_id] = std;
+          return acc;
+        }, {});
 
-          <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-4">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead>
-                  <tr className="border-b border-slate-300/60 text-[10px] font-black text-slate-400 uppercase tracking-wider">
-                    <th className="py-2.5 px-3">Parent Name</th>
-                    <th className="py-2.5 px-3">Username</th>
-                    <th className="py-2.5 px-3">Linked Scholar</th>
-                    <th className="py-2.5 px-3">Contact Email</th>
-                    <th className="py-2.5 px-3">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-200/60 font-medium text-slate-700">
-                  <tr>
-                    <td className="py-3 px-3 font-bold text-slate-900">Rajesh Sharma</td>
-                    <td className="py-3 px-3 font-mono text-slate-500">parent1</td>
-                    <td className="py-3 px-3">Aarav Sharma (Grade 10)</td>
-                    <td className="py-3 px-3">rajesh.sharma@example.com</td>
-                    <td className="py-3 px-3"><span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Active</span></td>
-                  </tr>
-                  <tr>
-                    <td className="py-3 px-3 font-bold text-slate-900">Dr. Meera Nair</td>
-                    <td className="py-3 px-3 font-mono text-slate-500">parent2</td>
-                    <td className="py-3 px-3">Priya Nair (Grade 12)</td>
-                    <td className="py-3 px-3">meera.nair@example.com</td>
-                    <td className="py-3 px-3"><span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Active</span></td>
-                  </tr>
-                </tbody>
-              </table>
+        const allParents = (schoolData.parents || []).map((p: any) => {
+          const linkedStudents = (p.student_ids || []).map((sId: string) => {
+            const s = studentMap[sId];
+            return s ? `${s.name} (${s.class_section})` : sId;
+          }).join(', ');
+
+          return {
+            id: p.parent_id,
+            name: p.name,
+            relation: p.relation,
+            category: p.category,
+            phone: p.phone,
+            occupation: p.occupation || 'Private Service',
+            username: `parent_${p.parent_id.toLowerCase()}`,
+            email: `${p.name.toLowerCase().replace(/\s+/g, '')}.${p.parent_id.toLowerCase()}@evergrow.demo`,
+            linkedScholar: linkedStudents || 'Enrolled Scholar',
+            status: 'Active',
+          };
+        });
+
+        const filteredParents = allParents.filter((p: any) =>
+          p.name.toLowerCase().includes(parentSearch.toLowerCase()) ||
+          p.phone.includes(parentSearch) ||
+          p.linkedScholar.toLowerCase().includes(parentSearch.toLowerCase()) ||
+          p.id.toLowerCase().includes(parentSearch.toLowerCase())
+        );
+
+        const totalParentPages = Math.max(1, Math.ceil(filteredParents.length / parentPageSize));
+        const paginatedParents = filteredParents.slice((parentPage - 1) * parentPageSize, parentPage * parentPageSize);
+
+        return (
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-600 text-white flex items-center justify-center shadow-md shadow-emerald-500/25">
+                  <UserPlus className="w-5 h-5" />
+                </div>
+                <div>
+                  <h1 className="text-xl font-black text-slate-800 tracking-tight">Parent Accounts & Portal Access</h1>
+                  <p className="text-xs text-slate-500">200 Verified Guardian Roster Across Classes 10-A, 10-B, and 10-C</p>
+                </div>
+              </div>
+
+              {/* Search Bar */}
+              <div className="flex items-center space-x-2 bg-white/70 px-3.5 py-2 rounded-2xl border border-slate-200/80 shadow-xs w-full sm:w-72">
+                <Search className="w-4 h-4 text-slate-400 shrink-0" />
+                <input
+                  type="text"
+                  placeholder="Search parent, child or phone..."
+                  value={parentSearch}
+                  onChange={(e) => {
+                    setParentSearch(e.target.value);
+                    setParentPage(1);
+                  }}
+                  className="w-full text-xs bg-transparent focus:outline-none text-slate-800 placeholder-slate-400"
+                />
+              </div>
+            </div>
+
+            <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-4">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="border-b border-slate-300/60 text-[10px] font-black text-slate-400 uppercase tracking-wider">
+                      <th className="py-2.5 px-3">Parent ID</th>
+                      <th className="py-2.5 px-3">Guardian Name & Relation</th>
+                      <th className="py-2.5 px-3">Occupation</th>
+                      <th className="py-2.5 px-3">Linked Scholar</th>
+                      <th className="py-2.5 px-3">Phone Number</th>
+                      <th className="py-2.5 px-3">Portal Username</th>
+                      <th className="py-2.5 px-3">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-200/60 font-medium text-slate-700">
+                    {paginatedParents.map((p: any) => (
+                      <tr key={p.id} className="hover:bg-white/40 transition-colors">
+                        <td className="py-3 px-3 font-mono font-bold text-[#0071E3]">{p.id}</td>
+                        <td className="py-3 px-3">
+                          <span className="font-bold text-slate-900">{p.name}</span>
+                          <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-slate-200/80 text-slate-700">
+                            {p.relation}
+                          </span>
+                        </td>
+                        <td className="py-3 px-3 text-slate-600">{p.occupation}</td>
+                        <td className="py-3 px-3 font-semibold text-slate-800">{p.linkedScholar}</td>
+                        <td className="py-3 px-3 font-mono text-slate-600">{p.phone}</td>
+                        <td className="py-3 px-3 font-mono text-slate-500">{p.username}</td>
+                        <td className="py-3 px-3">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                            {p.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Pagination */}
+              <div className="pt-3 border-t border-slate-300/60 flex items-center justify-between text-xs text-slate-500">
+                <span>
+                  Showing <b>{(parentPage - 1) * parentPageSize + 1}</b> to{' '}
+                  <b>{Math.min(parentPage * parentPageSize, filteredParents.length)}</b> of{' '}
+                  <b>{filteredParents.length}</b> parents
+                </span>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => setParentPage((prev) => Math.max(1, prev - 1))}
+                    disabled={parentPage === 1}
+                    className="px-3 py-1 rounded-xl bg-white border border-slate-200 text-slate-700 disabled:opacity-40 text-xs font-semibold"
+                  >
+                    Prev
+                  </button>
+                  <span className="text-xs font-bold text-slate-700">
+                    {parentPage} / {totalParentPages}
+                  </span>
+                  <button
+                    onClick={() => setParentPage((prev) => Math.min(totalParentPages, prev + 1))}
+                    disabled={parentPage === totalParentPages}
+                    className="px-3 py-1 rounded-xl bg-white border border-slate-200 text-slate-700 disabled:opacity-40 text-xs font-semibold"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* ─────────────────────────────────────────────────────────────
           4. HOMEWORK & CIRCULARS
@@ -548,35 +640,6 @@ export const ModuleHubPage: React.FC = () => {
               <div className="text-2xl font-black text-amber-600 mt-1">18</div>
               <span className="text-[10px] text-slate-500">Automated SMS sent</span>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* ─────────────────────────────────────────────────────────────
-          6. HOSTEL MODULE (Can be switched off in Customize)
-          ───────────────────────────────────────────────────────────── */}
-      {moduleKey === 'hostel' && (
-        <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white flex items-center justify-center shadow-md shadow-blue-500/25">
-                <Building2 className="w-5 h-5" />
-              </div>
-              <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Hostel & Boarding Administration</h1>
-                <p className="text-xs text-slate-500">Residential room allotments, warden roll-call, and mess menu (switchable in Customize)</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-800">Residential Wing Overview</span>
-              <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold">120 / 150 Beds Allocated</span>
-            </div>
-            <p className="text-xs text-slate-600">
-              Boys and Girls boarding houses are fully monitored with 24/7 biometric gates and resident nurse staff.
-            </p>
           </div>
         </div>
       )}

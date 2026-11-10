@@ -29,7 +29,6 @@ import {
   UserPlus,
   FileText,
   Library,
-  Building2,
   Package,
   Calendar,
   ShieldAlert,
@@ -124,7 +123,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
         { to: '/admin/rewards', label: 'Rewards', icon: Trophy },
         { to: '/homework', label: 'Homework & Circulars', icon: FileText },
         { to: '/library', label: 'Library', icon: Library },
-        { to: '/hostel', label: 'Hostel', icon: Building2 },
       ],
     },
     {

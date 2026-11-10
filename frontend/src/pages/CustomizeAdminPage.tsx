@@ -39,7 +39,7 @@ const CUSTOMIZE_TABS: CustomizeTab[] = [
   { id: 'branding', label: 'Branding', icon: Palette, description: 'School visual identity, logos, and color palette' },
   { id: 'profile', label: 'School Profile', icon: Building, description: 'Official institution details, affiliation, and address' },
   { id: 'academic', label: 'Academic Setup', icon: GraduationCap, description: 'Term dates, grading scales, and timetable periods' },
-  { id: 'navigation', label: 'Navigation & Modules', icon: LayoutGrid, description: 'Toggle ERP modules visibility (e.g. Hostel, Tuitions)' },
+  { id: 'navigation', label: 'Navigation & Modules', icon: LayoutGrid, description: 'Toggle ERP modules visibility (e.g. Tuitions, Career)' },
   { id: 'finance', label: 'Finance', icon: CreditCard, description: 'Fee heads, currency format, and billing configurations' },
   { id: 'permissions', label: 'Roles & Permissions', icon: Shield, description: 'Access control matrices and administrative privileges' },
   { id: 'communication', label: 'Communication', icon: MessageSquare, description: 'SMS gateway, WhatsApp templates, and email notifications' },
@@ -415,32 +415,13 @@ export const CustomizeAdminPage: React.FC = () => {
             </div>
           )}
 
-          {/* Tab 4: Navigation & Modules (Hostel can be switched off here!) */}
+          {/* Tab 4: Navigation & Modules */}
           {activeTab === 'navigation' && (
             <div className="space-y-4">
               <p className="text-xs text-slate-600 leading-relaxed">
                 Enable or disable campus ERP modules. Toggling an item dynamically updates sidebar availability across portals.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] border border-white/60 flex items-center justify-between">
-                  <div>
-                    <div className="text-xs font-bold text-slate-800">Hostel & Boarding</div>
-                    <div className="text-[10px] text-slate-500">Residential wing operations (Hostel module)</div>
-                  </div>
-                  <button
-                    onClick={() => {
-                      setModules({ ...modules, hostel: !modules.hostel });
-                      toast.showToast(`Hostel module ${!modules.hostel ? 'Enabled' : 'Disabled'}.`, 'info');
-                    }}
-                    className="p-1 text-slate-700 cursor-pointer"
-                  >
-                    {modules.hostel ? (
-                      <ToggleRight className="w-8 h-8 text-blue-600" />
-                    ) : (
-                      <ToggleLeft className="w-8 h-8 text-slate-400" />
-                    )}
-                  </button>
-                </div>
 
                 <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] border border-white/60 flex items-center justify-between">
                   <div>

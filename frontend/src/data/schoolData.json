@@ -1,0 +1,6156 @@
+{
+  "meta": {
+    "school": "Ever Grow Schools (demo)",
+    "lunch_break": "12:00-12:45",
+    "classes": [
+      "10-A",
+      "10-B",
+      "10-C"
+    ],
+    "class_teachers": {
+      "10-A": "T01",
+      "10-B": "T02",
+      "10-C": "T03"
+    },
+    "subjects": [
+      "Tamil",
+      "English",
+      "Maths",
+      "Science",
+      "Social",
+      "PET",
+      "MI"
+    ],
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "periods": [
+      "09:00-09:45",
+      "09:45-10:30",
+      "10:30-11:15",
+      "11:15-12:00",
+      "12:45-13:30",
+      "13:30-14:15",
+      "14:15-15:00",
+      "15:00-15:45"
+    ]
+  },
+  "teachers": [
+    {
+      "teacher_id": "T01",
+      "name": "Ramesh Kumar",
+      "gender": "M",
+      "subject": "Tamil",
+      "qualification": "B.Lit, B.Ed",
+      "phone": "9526018159",
+      "email": "ramesh.kumar@evergrow.demo",
+      "experience_years": 4,
+      "is_parent_in_school": false
+    },
+    {
+      "teacher_id": "T02",
+      "name": "Lakshmi Devi",
+      "gender": "F",
+      "subject": "English",
+      "qualification": "M.A English, B.Ed",
+      "phone": "9830166131",
+      "email": "lakshmi.devi@evergrow.demo",
+      "experience_years": 16,
+      "is_parent_in_school": true
+    },
+    {
+      "teacher_id": "T03",
+      "name": "Senthil Murugan",
+      "gender": "M",
+      "subject": "Maths",
+      "qualification": "M.Sc Maths, B.Ed",
+      "phone": "9091390996",
+      "email": "senthil.murugan@evergrow.demo",
+      "experience_years": 4,
+      "is_parent_in_school": false
+    },
+    {
+      "teacher_id": "T04",
+      "name": "Anitha Rajan",
+      "gender": "F",
+      "subject": "Science",
+      "qualification": "M.Sc Physics, B.Ed",
+      "phone": "9308246281",
+      "email": "anitha.rajan@evergrow.demo",
+      "experience_years": 12,
+      "is_parent_in_school": true
+    },
+    {
+      "teacher_id": "T05",
+      "name": "Vijayalakshmi S",
+      "gender": "F",
+      "subject": "Social",
+      "qualification": "M.A History, B.Ed",
+      "phone": "9821993518",
+      "email": "vijayalakshmi.s@evergrow.demo",
+      "experience_years": 5,
+      "is_parent_in_school": true
+    },
+    {
+      "teacher_id": "T06",
+      "name": "Karthikeyan P",
+      "gender": "M",
+      "subject": "PET",
+      "qualification": "B.P.Ed",
+      "phone": "9909378657",
+      "email": "karthikeyan.p@evergrow.demo",
+      "experience_years": 17,
+      "is_parent_in_school": false
+    },
+    {
+      "teacher_id": "T07",
+      "name": "Meenakshi Sundaram",
+      "gender": "F",
+      "subject": "MI",
+      "qualification": "M.A, B.Ed",
+      "phone": "9543231948",
+      "email": "meenakshi.sundaram@evergrow.demo",
+      "experience_years": 18,
+      "is_parent_in_school": true
+    },
+    {
+      "teacher_id": "T08",
+      "name": "Prakash Raj",
+      "gender": "M",
+      "subject": "Maths",
+      "qualification": "M.Sc Maths, B.Ed",
+      "phone": "9574911862",
+      "email": "prakash.raj@evergrow.demo",
+      "experience_years": 13,
+      "is_parent_in_school": false
+    }
+  ],
+  "students": [
+    {
+      "student_id": "S001",
+      "admission_no": "EGS20260001",
+      "name": "M. Mohan",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 1,
+      "dob": "2010-04-11",
+      "blood_group": "B+",
+      "address": "79, Millerpuram, Thoothukudi",
+      "parent_ids": [
+        "P001",
+        "P002"
+      ],
+      "primary_contact_id": "P001",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S002",
+      "admission_no": "EGS20260002",
+      "name": "A. Bhuvana",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 2,
+      "dob": "2010-07-15",
+      "blood_group": "AB+",
+      "address": "80, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P003"
+      ],
+      "primary_contact_id": "P003",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S003",
+      "admission_no": "EGS20260003",
+      "name": "S. Hari",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 3,
+      "dob": "2010-04-01",
+      "blood_group": "O+",
+      "address": "93, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P004",
+        "P005"
+      ],
+      "primary_contact_id": "P004",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S004",
+      "admission_no": "EGS20260004",
+      "name": "M. Ranjith",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 4,
+      "dob": "2010-03-20",
+      "blood_group": "A+",
+      "address": "38, Thirumal Nagar, Thoothukudi",
+      "parent_ids": [
+        "P006",
+        "P007"
+      ],
+      "primary_contact_id": "P006",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S005",
+      "admission_no": "EGS20260005",
+      "name": "R. Hari",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 5,
+      "dob": "2010-05-02",
+      "blood_group": "A+",
+      "address": "23, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P008"
+      ],
+      "primary_contact_id": "P008",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S006",
+      "admission_no": "EGS20260006",
+      "name": "M. Ishwarya",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 6,
+      "dob": "2010-09-08",
+      "blood_group": "A-",
+      "address": "72, Beach Road, Thoothukudi",
+      "parent_ids": [
+        "P009"
+      ],
+      "primary_contact_id": "P009",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S007",
+      "admission_no": "EGS20260007",
+      "name": "L. Harini",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 7,
+      "dob": "2010-02-25",
+      "blood_group": "B+",
+      "address": "119, Thirumal Nagar, Thoothukudi",
+      "parent_ids": [
+        "P010"
+      ],
+      "primary_contact_id": "P010",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S008",
+      "admission_no": "EGS20260008",
+      "name": "E. Deepika",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 8,
+      "dob": "2010-04-12",
+      "blood_group": "O+",
+      "address": "19, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P011"
+      ],
+      "primary_contact_id": "P011",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S009",
+      "admission_no": "EGS20260009",
+      "name": "S. Barath",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 9,
+      "dob": "2010-03-27",
+      "blood_group": "AB+",
+      "address": "93, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P012",
+        "P013"
+      ],
+      "primary_contact_id": "P012",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S010",
+      "admission_no": "EGS20260010",
+      "name": "K. Divya",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 10,
+      "dob": "2010-06-18",
+      "blood_group": "AB+",
+      "address": "52, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P014",
+        "P015"
+      ],
+      "primary_contact_id": "P014",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S011",
+      "admission_no": "EGS20260011",
+      "name": "M. Gayathri",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 11,
+      "dob": "2010-09-22",
+      "blood_group": "B+",
+      "address": "80, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P016"
+      ],
+      "primary_contact_id": "P016",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S012",
+      "admission_no": "EGS20260012",
+      "name": "S. Ishwarya",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 12,
+      "dob": "2010-09-27",
+      "blood_group": "AB+",
+      "address": "45, Beach Road, Thoothukudi",
+      "parent_ids": [
+        "P017"
+      ],
+      "primary_contact_id": "P017",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S013",
+      "admission_no": "EGS20260013",
+      "name": "M. Gayathri",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 13,
+      "dob": "2010-03-06",
+      "blood_group": "O+",
+      "address": "89, Millerpuram, Thoothukudi",
+      "parent_ids": [
+        "P018",
+        "P019"
+      ],
+      "primary_contact_id": "P018",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S014",
+      "admission_no": "EGS20260014",
+      "name": "U. Swetha",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 14,
+      "dob": "2010-09-21",
+      "blood_group": "B+",
+      "address": "1, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P020"
+      ],
+      "primary_contact_id": "P020",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S015",
+      "admission_no": "EGS20260015",
+      "name": "P. Sanjay",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 15,
+      "dob": "2010-03-22",
+      "blood_group": "A-",
+      "address": "65, Beach Road, Thoothukudi",
+      "parent_ids": [
+        "P021"
+      ],
+      "primary_contact_id": "P021",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S016",
+      "admission_no": "EGS20260016",
+      "name": "V. Sowmiya",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 16,
+      "dob": "2010-02-13",
+      "blood_group": "AB+",
+      "address": "98, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P022",
+        "P023"
+      ],
+      "primary_contact_id": "P022",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S017",
+      "admission_no": "EGS20260017",
+      "name": "N. Lokesh",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 17,
+      "dob": "2010-08-09",
+      "blood_group": "A+",
+      "address": "81, Beach Road, Thoothukudi",
+      "parent_ids": [
+        "P024"
+      ],
+      "primary_contact_id": "P024",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S018",
+      "admission_no": "EGS20260018",
+      "name": "I. Nithya",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 18,
+      "dob": "2010-05-21",
+      "blood_group": "A-",
+      "address": "31, Millerpuram, Thoothukudi",
+      "parent_ids": [
+        "P025"
+      ],
+      "primary_contact_id": "P025",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S019",
+      "admission_no": "EGS20260019",
+      "name": "M. Gayathri",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 19,
+      "dob": "2010-02-18",
+      "blood_group": "B+",
+      "address": "80, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P026"
+      ],
+      "primary_contact_id": "P026",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S020",
+      "admission_no": "EGS20260020",
+      "name": "G. Bhuvana",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 20,
+      "dob": "2010-09-09",
+      "blood_group": "O+",
+      "address": "11, Korampallam, Thoothukudi",
+      "parent_ids": [
+        "P027"
+      ],
+      "primary_contact_id": "P027",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S021",
+      "admission_no": "EGS20260021",
+      "name": "G. Manoj",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 21,
+      "dob": "2010-12-05",
+      "blood_group": "AB+",
+      "address": "78, Thirumal Nagar, Thoothukudi",
+      "parent_ids": [
+        "P028"
+      ],
+      "primary_contact_id": "P028",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S022",
+      "admission_no": "EGS20260022",
+      "name": "K. Meena",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 22,
+      "dob": "2010-01-27",
+      "blood_group": "A-",
+      "address": "49, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P029",
+        "P030"
+      ],
+      "primary_contact_id": "P029",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S023",
+      "admission_no": "EGS20260023",
+      "name": "M. Revathi",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 23,
+      "dob": "2010-03-06",
+      "blood_group": "AB+",
+      "address": "82, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P031",
+        "P032"
+      ],
+      "primary_contact_id": "P031",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S024",
+      "admission_no": "EGS20260024",
+      "name": "E. Lavanya",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 24,
+      "dob": "2010-02-07",
+      "blood_group": "O-",
+      "address": "44, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P033"
+      ],
+      "primary_contact_id": "P033",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S025",
+      "admission_no": "EGS20260025",
+      "name": "D. Kavya",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 25,
+      "dob": "2010-06-09",
+      "blood_group": "O-",
+      "address": "71, Millerpuram, Thoothukudi",
+      "parent_ids": [
+        "P034"
+      ],
+      "primary_contact_id": "P034",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S026",
+      "admission_no": "EGS20260026",
+      "name": "D. Surya",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 26,
+      "dob": "2010-11-17",
+      "blood_group": "O-",
+      "address": "114, Beach Road, Thoothukudi",
+      "parent_ids": [
+        "P035"
+      ],
+      "primary_contact_id": "P035",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S027",
+      "admission_no": "EGS20260027",
+      "name": "M. Surya",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 27,
+      "dob": "2010-03-17",
+      "blood_group": "A-",
+      "address": "12, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P036",
+        "P037"
+      ],
+      "primary_contact_id": "P036",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S028",
+      "admission_no": "EGS20260028",
+      "name": "G. Naveen",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 28,
+      "dob": "2010-10-01",
+      "blood_group": "A+",
+      "address": "106, Korampallam, Thoothukudi",
+      "parent_ids": [
+        "P038",
+        "P039"
+      ],
+      "primary_contact_id": "P038",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S029",
+      "admission_no": "EGS20260029",
+      "name": "A. Ishwarya",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 29,
+      "dob": "2010-01-23",
+      "blood_group": "O+",
+      "address": "59, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P040",
+        "P041"
+      ],
+      "primary_contact_id": "P040",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S030",
+      "admission_no": "EGS20260030",
+      "name": "E. Swetha",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 30,
+      "dob": "2010-05-04",
+      "blood_group": "O-",
+      "address": "47, Ettayapuram Road, Thoothukudi",
+      "parent_ids": [
+        "P042"
+      ],
+      "primary_contact_id": "P042",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S031",
+      "admission_no": "EGS20260031",
+      "name": "B. Priya",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 31,
+      "dob": "2010-12-02",
+      "blood_group": "B+",
+      "address": "79, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P043"
+      ],
+      "primary_contact_id": "P043",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S032",
+      "admission_no": "EGS20260032",
+      "name": "R. Gayathri",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 32,
+      "dob": "2010-03-04",
+      "blood_group": "A+",
+      "address": "58, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P044"
+      ],
+      "primary_contact_id": "P044",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S033",
+      "admission_no": "EGS20260033",
+      "name": "R. Tharun",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 33,
+      "dob": "2010-08-07",
+      "blood_group": "O+",
+      "address": "36, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P045"
+      ],
+      "primary_contact_id": "P045",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S034",
+      "admission_no": "EGS20260034",
+      "name": "M. Keerthana",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 34,
+      "dob": "2010-10-11",
+      "blood_group": "O+",
+      "address": "95, Korampallam, Thoothukudi",
+      "parent_ids": [
+        "P046"
+      ],
+      "primary_contact_id": "P046",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S035",
+      "admission_no": "EGS20260035",
+      "name": "V. Abirami",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 35,
+      "dob": "2010-05-14",
+      "blood_group": "AB+",
+      "address": "43, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P047"
+      ],
+      "primary_contact_id": "P047",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S036",
+      "admission_no": "EGS20260036",
+      "name": "S. Tharun",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 36,
+      "dob": "2010-06-06",
+      "blood_group": "AB+",
+      "address": "119, Korampallam, Thoothukudi",
+      "parent_ids": [
+        "P048",
+        "P049"
+      ],
+      "primary_contact_id": "P048",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S037",
+      "admission_no": "EGS20260037",
+      "name": "P. Gokul",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 37,
+      "dob": "2010-12-09",
+      "blood_group": "B+",
+      "address": "10, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P050",
+        "P051"
+      ],
+      "primary_contact_id": "P050",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S038",
+      "admission_no": "EGS20260038",
+      "name": "K. Vaishnavi",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 38,
+      "dob": "2010-02-21",
+      "blood_group": "AB+",
+      "address": "32, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P052"
+      ],
+      "primary_contact_id": "P052",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S039",
+      "admission_no": "EGS20260039",
+      "name": "B. Vignesh",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 39,
+      "dob": "2010-06-17",
+      "blood_group": "B+",
+      "address": "14, Beach Road, Thoothukudi",
+      "parent_ids": [
+        "P053"
+      ],
+      "primary_contact_id": "P053",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S040",
+      "admission_no": "EGS20260040",
+      "name": "L. Priya",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 40,
+      "dob": "2010-04-09",
+      "blood_group": "A+",
+      "address": "78, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P054",
+        "P055"
+      ],
+      "primary_contact_id": "P054",
+      "family_category": "Parent-Teacher"
+    },
+    {
+      "student_id": "S041",
+      "admission_no": "EGS20260041",
+      "name": "A. Ashwin",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 41,
+      "dob": "2010-05-14",
+      "blood_group": "O+",
+      "address": "105, Beach Road, Thoothukudi",
+      "parent_ids": [
+        "P056",
+        "P057"
+      ],
+      "primary_contact_id": "P056",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S042",
+      "admission_no": "EGS20260042",
+      "name": "L. Lavanya",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 42,
+      "dob": "2010-07-04",
+      "blood_group": "A+",
+      "address": "54, Beach Road, Thoothukudi",
+      "parent_ids": [
+        "P058"
+      ],
+      "primary_contact_id": "P058",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S043",
+      "admission_no": "EGS20260043",
+      "name": "P. Mythili",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 43,
+      "dob": "2010-03-05",
+      "blood_group": "O+",
+      "address": "74, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P059"
+      ],
+      "primary_contact_id": "P059",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S044",
+      "admission_no": "EGS20260044",
+      "name": "J. Vaishnavi",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 44,
+      "dob": "2010-07-03",
+      "blood_group": "A-",
+      "address": "21, Thirumal Nagar, Thoothukudi",
+      "parent_ids": [
+        "P060"
+      ],
+      "primary_contact_id": "P060",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S045",
+      "admission_no": "EGS20260045",
+      "name": "N. Surya",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 45,
+      "dob": "2010-04-24",
+      "blood_group": "B+",
+      "address": "82, Millerpuram, Thoothukudi",
+      "parent_ids": [
+        "P061"
+      ],
+      "primary_contact_id": "P061",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S046",
+      "admission_no": "EGS20260046",
+      "name": "V. Arun",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 46,
+      "dob": "2010-10-16",
+      "blood_group": "AB+",
+      "address": "114, Thirumal Nagar, Thoothukudi",
+      "parent_ids": [
+        "P062",
+        "P063"
+      ],
+      "primary_contact_id": "P062",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S047",
+      "admission_no": "EGS20260047",
+      "name": "N. Sanjay",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 47,
+      "dob": "2010-11-02",
+      "blood_group": "A+",
+      "address": "58, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P064"
+      ],
+      "primary_contact_id": "P064",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S048",
+      "admission_no": "EGS20260048",
+      "name": "L. Sanjay",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 48,
+      "dob": "2010-02-02",
+      "blood_group": "O-",
+      "address": "78, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P054",
+        "P055"
+      ],
+      "primary_contact_id": "P054",
+      "family_category": "Parent-Teacher"
+    },
+    {
+      "student_id": "S049",
+      "admission_no": "EGS20260049",
+      "name": "S. Ishwarya",
+      "gender": "F",
+      "class_section": "10-A",
+      "roll_no": 49,
+      "dob": "2010-04-19",
+      "blood_group": "O+",
+      "address": "84, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P065",
+        "P066"
+      ],
+      "primary_contact_id": "P065",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S050",
+      "admission_no": "EGS20260050",
+      "name": "M. Sathish",
+      "gender": "M",
+      "class_section": "10-A",
+      "roll_no": 50,
+      "dob": "2010-12-26",
+      "blood_group": "O+",
+      "address": "41, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P067",
+        "P068"
+      ],
+      "primary_contact_id": "P067",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S051",
+      "admission_no": "EGS20260051",
+      "name": "M. Vaishnavi",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 1,
+      "dob": "2010-10-22",
+      "blood_group": "O+",
+      "address": "49, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P069"
+      ],
+      "primary_contact_id": "P069",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S052",
+      "admission_no": "EGS20260052",
+      "name": "P. Karthik",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 2,
+      "dob": "2010-01-02",
+      "blood_group": "A+",
+      "address": "96, Beach Road, Thoothukudi",
+      "parent_ids": [
+        "P070"
+      ],
+      "primary_contact_id": "P070",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S053",
+      "admission_no": "EGS20260053",
+      "name": "L. Divya",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 3,
+      "dob": "2010-04-23",
+      "blood_group": "B+",
+      "address": "39, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P071"
+      ],
+      "primary_contact_id": "P071",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S054",
+      "admission_no": "EGS20260054",
+      "name": "J. Mythili",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 4,
+      "dob": "2010-12-16",
+      "blood_group": "B+",
+      "address": "13, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P072"
+      ],
+      "primary_contact_id": "P072",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S055",
+      "admission_no": "EGS20260055",
+      "name": "S. Hari",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 5,
+      "dob": "2010-03-14",
+      "blood_group": "B+",
+      "address": "116, Beach Road, Thoothukudi",
+      "parent_ids": [
+        "P073"
+      ],
+      "primary_contact_id": "P073",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S056",
+      "admission_no": "EGS20260056",
+      "name": "S. Vaishnavi",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 6,
+      "dob": "2010-08-06",
+      "blood_group": "B+",
+      "address": "105, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P074"
+      ],
+      "primary_contact_id": "P074",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S057",
+      "admission_no": "EGS20260057",
+      "name": "M. Sanjay",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 7,
+      "dob": "2010-01-06",
+      "blood_group": "O+",
+      "address": "34, Millerpuram, Thoothukudi",
+      "parent_ids": [
+        "P075"
+      ],
+      "primary_contact_id": "P075",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S058",
+      "admission_no": "EGS20260058",
+      "name": "S. Arun",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 8,
+      "dob": "2010-01-14",
+      "blood_group": "A-",
+      "address": "108, Millerpuram, Thoothukudi",
+      "parent_ids": [
+        "P076"
+      ],
+      "primary_contact_id": "P076",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S059",
+      "admission_no": "EGS20260059",
+      "name": "P. Vignesh",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 9,
+      "dob": "2010-12-02",
+      "blood_group": "A+",
+      "address": "74, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P077",
+        "P078"
+      ],
+      "primary_contact_id": "P077",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S060",
+      "admission_no": "EGS20260060",
+      "name": "K. Anitha",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 10,
+      "dob": "2010-02-26",
+      "blood_group": "A-",
+      "address": "26, Thirumal Nagar, Thoothukudi",
+      "parent_ids": [
+        "P079"
+      ],
+      "primary_contact_id": "P079",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S061",
+      "admission_no": "EGS20260061",
+      "name": "A. Mohan",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 11,
+      "dob": "2010-12-02",
+      "blood_group": "O-",
+      "address": "38, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P080",
+        "P081"
+      ],
+      "primary_contact_id": "P080",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S062",
+      "admission_no": "EGS20260062",
+      "name": "M. Manoj",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 12,
+      "dob": "2010-04-23",
+      "blood_group": "B+",
+      "address": "92, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P082",
+        "P083"
+      ],
+      "primary_contact_id": "P082",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S063",
+      "admission_no": "EGS20260063",
+      "name": "R. Abirami",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 13,
+      "dob": "2010-11-08",
+      "blood_group": "AB+",
+      "address": "22, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P084",
+        "P085"
+      ],
+      "primary_contact_id": "P084",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S064",
+      "admission_no": "EGS20260064",
+      "name": "G. Ashwin",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 14,
+      "dob": "2010-05-19",
+      "blood_group": "B+",
+      "address": "69, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P086"
+      ],
+      "primary_contact_id": "P086",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S065",
+      "admission_no": "EGS20260065",
+      "name": "P. Bala",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 15,
+      "dob": "2010-03-08",
+      "blood_group": "O+",
+      "address": "43, Korampallam, Thoothukudi",
+      "parent_ids": [
+        "P087"
+      ],
+      "primary_contact_id": "P087",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S066",
+      "admission_no": "EGS20260066",
+      "name": "S. Vijay",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 16,
+      "dob": "2010-12-08",
+      "blood_group": "O-",
+      "address": "34, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P088",
+        "P089"
+      ],
+      "primary_contact_id": "P088",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S067",
+      "admission_no": "EGS20260067",
+      "name": "S. Meena",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 17,
+      "dob": "2010-08-14",
+      "blood_group": "O+",
+      "address": "60, Beach Road, Thoothukudi",
+      "parent_ids": [
+        "P090"
+      ],
+      "primary_contact_id": "P090",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S068",
+      "admission_no": "EGS20260068",
+      "name": "T. Yamini",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 18,
+      "dob": "2010-03-21",
+      "blood_group": "O+",
+      "address": "81, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P091"
+      ],
+      "primary_contact_id": "P091",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S069",
+      "admission_no": "EGS20260069",
+      "name": "K. Ashwin",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 19,
+      "dob": "2010-08-17",
+      "blood_group": "A+",
+      "address": "50, Korampallam, Thoothukudi",
+      "parent_ids": [
+        "P092"
+      ],
+      "primary_contact_id": "P092",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S070",
+      "admission_no": "EGS20260070",
+      "name": "P. Abirami",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 20,
+      "dob": "2010-01-01",
+      "blood_group": "A+",
+      "address": "67, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P093"
+      ],
+      "primary_contact_id": "P093",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S071",
+      "admission_no": "EGS20260071",
+      "name": "S. Lavanya",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 21,
+      "dob": "2010-03-25",
+      "blood_group": "A+",
+      "address": "118, Ettayapuram Road, Thoothukudi",
+      "parent_ids": [
+        "P094"
+      ],
+      "primary_contact_id": "P094",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S072",
+      "admission_no": "EGS20260072",
+      "name": "V. Rahul",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 22,
+      "dob": "2010-05-11",
+      "blood_group": "AB+",
+      "address": "61, Thirumal Nagar, Thoothukudi",
+      "parent_ids": [
+        "P095",
+        "P096"
+      ],
+      "primary_contact_id": "P095",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S073",
+      "admission_no": "EGS20260073",
+      "name": "P. Sangeetha",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 23,
+      "dob": "2010-01-22",
+      "blood_group": "A+",
+      "address": "55, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P097"
+      ],
+      "primary_contact_id": "P097",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S074",
+      "admission_no": "EGS20260074",
+      "name": "S. Kishore",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 24,
+      "dob": "2010-12-20",
+      "blood_group": "A+",
+      "address": "10, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P098"
+      ],
+      "primary_contact_id": "P098",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S075",
+      "admission_no": "EGS20260075",
+      "name": "T. Lavanya",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 25,
+      "dob": "2010-09-20",
+      "blood_group": "A-",
+      "address": "26, Korampallam, Thoothukudi",
+      "parent_ids": [
+        "P099",
+        "P100"
+      ],
+      "primary_contact_id": "P099",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S076",
+      "admission_no": "EGS20260076",
+      "name": "I. Kishore",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 26,
+      "dob": "2010-01-22",
+      "blood_group": "A-",
+      "address": "21, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P101"
+      ],
+      "primary_contact_id": "P101",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S077",
+      "admission_no": "EGS20260077",
+      "name": "J. Priya",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 27,
+      "dob": "2010-05-10",
+      "blood_group": "O+",
+      "address": "104, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P102",
+        "P103"
+      ],
+      "primary_contact_id": "P102",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S078",
+      "admission_no": "EGS20260078",
+      "name": "S. Priya",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 28,
+      "dob": "2010-07-24",
+      "blood_group": "O-",
+      "address": "52, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P104"
+      ],
+      "primary_contact_id": "P104",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S079",
+      "admission_no": "EGS20260079",
+      "name": "M. Tamilselvi",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 29,
+      "dob": "2010-03-21",
+      "blood_group": "A-",
+      "address": "70, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P105"
+      ],
+      "primary_contact_id": "P105",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S080",
+      "admission_no": "EGS20260080",
+      "name": "S. Yuvan",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 30,
+      "dob": "2010-11-19",
+      "blood_group": "A+",
+      "address": "28, Beach Road, Thoothukudi",
+      "parent_ids": [
+        "P106",
+        "P107"
+      ],
+      "primary_contact_id": "P106",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S081",
+      "admission_no": "EGS20260081",
+      "name": "M. Divya",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 31,
+      "dob": "2010-07-01",
+      "blood_group": "A+",
+      "address": "73, Thirumal Nagar, Thoothukudi",
+      "parent_ids": [
+        "P108",
+        "P109"
+      ],
+      "primary_contact_id": "P108",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S082",
+      "admission_no": "EGS20260082",
+      "name": "N. Barath",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 32,
+      "dob": "2010-02-10",
+      "blood_group": "A-",
+      "address": "110, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P110"
+      ],
+      "primary_contact_id": "P110",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S083",
+      "admission_no": "EGS20260083",
+      "name": "M. Lavanya",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 33,
+      "dob": "2010-03-26",
+      "blood_group": "A+",
+      "address": "59, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P111",
+        "P112"
+      ],
+      "primary_contact_id": "P111",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S084",
+      "admission_no": "EGS20260084",
+      "name": "J. Tamilselvi",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 34,
+      "dob": "2010-12-01",
+      "blood_group": "B+",
+      "address": "83, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P113"
+      ],
+      "primary_contact_id": "P113",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S085",
+      "admission_no": "EGS20260085",
+      "name": "S. Lavanya",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 35,
+      "dob": "2010-10-27",
+      "blood_group": "A+",
+      "address": "75, Ettayapuram Road, Thoothukudi",
+      "parent_ids": [
+        "P114"
+      ],
+      "primary_contact_id": "P114",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S086",
+      "admission_no": "EGS20260086",
+      "name": "R. Subha",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 36,
+      "dob": "2010-12-08",
+      "blood_group": "O+",
+      "address": "107, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P115"
+      ],
+      "primary_contact_id": "P115",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S087",
+      "admission_no": "EGS20260087",
+      "name": "E. Yuvan",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 37,
+      "dob": "2010-04-07",
+      "blood_group": "B+",
+      "address": "87, Ettayapuram Road, Thoothukudi",
+      "parent_ids": [
+        "P116",
+        "P117"
+      ],
+      "primary_contact_id": "P116",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S088",
+      "admission_no": "EGS20260088",
+      "name": "M. Praveen",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 38,
+      "dob": "2010-06-21",
+      "blood_group": "AB+",
+      "address": "12, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P118"
+      ],
+      "primary_contact_id": "P118",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S089",
+      "admission_no": "EGS20260089",
+      "name": "V. Hari",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 39,
+      "dob": "2010-05-25",
+      "blood_group": "O+",
+      "address": "20, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P119"
+      ],
+      "primary_contact_id": "P119",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S090",
+      "admission_no": "EGS20260090",
+      "name": "R. Revathi",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 40,
+      "dob": "2010-06-28",
+      "blood_group": "A-",
+      "address": "13, Korampallam, Thoothukudi",
+      "parent_ids": [
+        "P120"
+      ],
+      "primary_contact_id": "P120",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S091",
+      "admission_no": "EGS20260091",
+      "name": "K. Lavanya",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 41,
+      "dob": "2010-06-08",
+      "blood_group": "A-",
+      "address": "63, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P121"
+      ],
+      "primary_contact_id": "P121",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S092",
+      "admission_no": "EGS20260092",
+      "name": "S. Bala",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 42,
+      "dob": "2010-05-13",
+      "blood_group": "A+",
+      "address": "23, Beach Road, Thoothukudi",
+      "parent_ids": [
+        "P122",
+        "P123"
+      ],
+      "primary_contact_id": "P122",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S093",
+      "admission_no": "EGS20260093",
+      "name": "P. Bhuvana",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 43,
+      "dob": "2010-03-25",
+      "blood_group": "AB+",
+      "address": "62, Ettayapuram Road, Thoothukudi",
+      "parent_ids": [
+        "P124"
+      ],
+      "primary_contact_id": "P124",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S094",
+      "admission_no": "EGS20260094",
+      "name": "E. Karthik",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 44,
+      "dob": "2010-03-23",
+      "blood_group": "AB+",
+      "address": "119, Ettayapuram Road, Thoothukudi",
+      "parent_ids": [
+        "P125"
+      ],
+      "primary_contact_id": "P125",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S095",
+      "admission_no": "EGS20260095",
+      "name": "S. Deepak",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 45,
+      "dob": "2010-04-18",
+      "blood_group": "AB+",
+      "address": "57, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P126",
+        "P127"
+      ],
+      "primary_contact_id": "P126",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S096",
+      "admission_no": "EGS20260096",
+      "name": "A. Bhuvana",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 46,
+      "dob": "2010-05-05",
+      "blood_group": "A-",
+      "address": "16, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P128",
+        "P129"
+      ],
+      "primary_contact_id": "P128",
+      "family_category": "Parent-Teacher"
+    },
+    {
+      "student_id": "S097",
+      "admission_no": "EGS20260097",
+      "name": "M. Yuvan",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 47,
+      "dob": "2010-03-05",
+      "blood_group": "B+",
+      "address": "57, Thirumal Nagar, Thoothukudi",
+      "parent_ids": [
+        "P130"
+      ],
+      "primary_contact_id": "P130",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S098",
+      "admission_no": "EGS20260098",
+      "name": "S. Hari",
+      "gender": "M",
+      "class_section": "10-B",
+      "roll_no": 48,
+      "dob": "2010-01-03",
+      "blood_group": "A-",
+      "address": "92, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P131"
+      ],
+      "primary_contact_id": "P131",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S099",
+      "admission_no": "EGS20260099",
+      "name": "A. Nithya",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 49,
+      "dob": "2010-05-27",
+      "blood_group": "A-",
+      "address": "16, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P128",
+        "P129"
+      ],
+      "primary_contact_id": "P128",
+      "family_category": "Parent-Teacher"
+    },
+    {
+      "student_id": "S100",
+      "admission_no": "EGS20260100",
+      "name": "R. Divya",
+      "gender": "F",
+      "class_section": "10-B",
+      "roll_no": 50,
+      "dob": "2010-06-17",
+      "blood_group": "AB+",
+      "address": "12, Beach Road, Thoothukudi",
+      "parent_ids": [
+        "P132"
+      ],
+      "primary_contact_id": "P132",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S101",
+      "admission_no": "EGS20260101",
+      "name": "F. Tharun",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 1,
+      "dob": "2010-03-01",
+      "blood_group": "B+",
+      "address": "16, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P133"
+      ],
+      "primary_contact_id": "P133",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S102",
+      "admission_no": "EGS20260102",
+      "name": "K. Yuvan",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 2,
+      "dob": "2010-08-17",
+      "blood_group": "B+",
+      "address": "29, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P134"
+      ],
+      "primary_contact_id": "P134",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S103",
+      "admission_no": "EGS20260103",
+      "name": "V. Abirami",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 3,
+      "dob": "2010-03-18",
+      "blood_group": "O-",
+      "address": "14, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P135"
+      ],
+      "primary_contact_id": "P135",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S104",
+      "admission_no": "EGS20260104",
+      "name": "E. Karthik",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 4,
+      "dob": "2010-06-11",
+      "blood_group": "AB+",
+      "address": "111, Millerpuram, Thoothukudi",
+      "parent_ids": [
+        "P136"
+      ],
+      "primary_contact_id": "P136",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S105",
+      "admission_no": "EGS20260105",
+      "name": "T. Sanjay",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 5,
+      "dob": "2010-11-01",
+      "blood_group": "B+",
+      "address": "108, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P137",
+        "P138"
+      ],
+      "primary_contact_id": "P137",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S106",
+      "admission_no": "EGS20260106",
+      "name": "V. Praveen",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 6,
+      "dob": "2010-09-01",
+      "blood_group": "AB+",
+      "address": "54, Ettayapuram Road, Thoothukudi",
+      "parent_ids": [
+        "P139"
+      ],
+      "primary_contact_id": "P139",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S107",
+      "admission_no": "EGS20260107",
+      "name": "V. Surya",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 7,
+      "dob": "2010-08-04",
+      "blood_group": "O-",
+      "address": "6, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P140",
+        "P141"
+      ],
+      "primary_contact_id": "P140",
+      "family_category": "Parent-Teacher"
+    },
+    {
+      "student_id": "S108",
+      "admission_no": "EGS20260108",
+      "name": "V. Tharun",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 8,
+      "dob": "2010-12-12",
+      "blood_group": "AB+",
+      "address": "114, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P142"
+      ],
+      "primary_contact_id": "P142",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S109",
+      "admission_no": "EGS20260109",
+      "name": "U. Sowmiya",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 9,
+      "dob": "2010-03-28",
+      "blood_group": "B+",
+      "address": "79, Korampallam, Thoothukudi",
+      "parent_ids": [
+        "P143"
+      ],
+      "primary_contact_id": "P143",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S110",
+      "admission_no": "EGS20260110",
+      "name": "P. Priya",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 10,
+      "dob": "2010-09-13",
+      "blood_group": "AB+",
+      "address": "72, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P144"
+      ],
+      "primary_contact_id": "P144",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S111",
+      "admission_no": "EGS20260111",
+      "name": "L. Bhuvana",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 11,
+      "dob": "2010-08-09",
+      "blood_group": "A-",
+      "address": "95, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P145"
+      ],
+      "primary_contact_id": "P145",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S112",
+      "admission_no": "EGS20260112",
+      "name": "N. Ranjith",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 12,
+      "dob": "2010-12-15",
+      "blood_group": "O+",
+      "address": "53, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P146"
+      ],
+      "primary_contact_id": "P146",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S113",
+      "admission_no": "EGS20260113",
+      "name": "M. Harini",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 13,
+      "dob": "2010-03-14",
+      "blood_group": "O-",
+      "address": "38, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P147",
+        "P148"
+      ],
+      "primary_contact_id": "P147",
+      "family_category": "Parent-Teacher"
+    },
+    {
+      "student_id": "S114",
+      "admission_no": "EGS20260114",
+      "name": "G. Mythili",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 14,
+      "dob": "2010-12-22",
+      "blood_group": "AB+",
+      "address": "75, Millerpuram, Thoothukudi",
+      "parent_ids": [
+        "P149",
+        "P150"
+      ],
+      "primary_contact_id": "P149",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S115",
+      "admission_no": "EGS20260115",
+      "name": "M. Revathi",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 15,
+      "dob": "2010-10-05",
+      "blood_group": "B+",
+      "address": "60, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P151"
+      ],
+      "primary_contact_id": "P151",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S116",
+      "admission_no": "EGS20260116",
+      "name": "M. Lavanya",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 16,
+      "dob": "2010-02-21",
+      "blood_group": "O+",
+      "address": "63, Ettayapuram Road, Thoothukudi",
+      "parent_ids": [
+        "P152"
+      ],
+      "primary_contact_id": "P152",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S117",
+      "admission_no": "EGS20260117",
+      "name": "D. Pavithra",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 17,
+      "dob": "2010-12-18",
+      "blood_group": "A+",
+      "address": "106, Thirumal Nagar, Thoothukudi",
+      "parent_ids": [
+        "P153",
+        "P154"
+      ],
+      "primary_contact_id": "P153",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S118",
+      "admission_no": "EGS20260118",
+      "name": "S. Deepika",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 18,
+      "dob": "2010-10-04",
+      "blood_group": "B+",
+      "address": "51, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P155"
+      ],
+      "primary_contact_id": "P155",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S119",
+      "admission_no": "EGS20260119",
+      "name": "K. Rahul",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 19,
+      "dob": "2010-02-28",
+      "blood_group": "O-",
+      "address": "67, Thirumal Nagar, Thoothukudi",
+      "parent_ids": [
+        "P156",
+        "P157"
+      ],
+      "primary_contact_id": "P156",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S120",
+      "admission_no": "EGS20260120",
+      "name": "E. Ranjith",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 20,
+      "dob": "2010-05-14",
+      "blood_group": "O-",
+      "address": "45, Millerpuram, Thoothukudi",
+      "parent_ids": [
+        "P158",
+        "P159"
+      ],
+      "primary_contact_id": "P158",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S121",
+      "admission_no": "EGS20260121",
+      "name": "S. Lavanya",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 21,
+      "dob": "2010-06-13",
+      "blood_group": "B+",
+      "address": "114, Korampallam, Thoothukudi",
+      "parent_ids": [
+        "P160"
+      ],
+      "primary_contact_id": "P160",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S122",
+      "admission_no": "EGS20260122",
+      "name": "C. Karthik",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 22,
+      "dob": "2010-05-22",
+      "blood_group": "A+",
+      "address": "113, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P161",
+        "P162"
+      ],
+      "primary_contact_id": "P161",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S123",
+      "admission_no": "EGS20260123",
+      "name": "S. Sowmiya",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 23,
+      "dob": "2010-04-24",
+      "blood_group": "AB+",
+      "address": "104, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P163"
+      ],
+      "primary_contact_id": "P163",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S124",
+      "admission_no": "EGS20260124",
+      "name": "P. Mythili",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 24,
+      "dob": "2010-02-18",
+      "blood_group": "O+",
+      "address": "81, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P164",
+        "P165"
+      ],
+      "primary_contact_id": "P164",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S125",
+      "admission_no": "EGS20260125",
+      "name": "R. Pavithra",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 25,
+      "dob": "2010-07-10",
+      "blood_group": "O+",
+      "address": "4, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P166",
+        "P167"
+      ],
+      "primary_contact_id": "P166",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S126",
+      "admission_no": "EGS20260126",
+      "name": "V. Vaishnavi",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 26,
+      "dob": "2010-02-06",
+      "blood_group": "O+",
+      "address": "109, Korampallam, Thoothukudi",
+      "parent_ids": [
+        "P168"
+      ],
+      "primary_contact_id": "P168",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S127",
+      "admission_no": "EGS20260127",
+      "name": "J. Manoj",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 27,
+      "dob": "2010-11-21",
+      "blood_group": "B+",
+      "address": "35, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P169"
+      ],
+      "primary_contact_id": "P169",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S128",
+      "admission_no": "EGS20260128",
+      "name": "T. Lokesh",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 28,
+      "dob": "2010-07-24",
+      "blood_group": "O-",
+      "address": "73, Korampallam, Thoothukudi",
+      "parent_ids": [
+        "P170",
+        "P171"
+      ],
+      "primary_contact_id": "P170",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S129",
+      "admission_no": "EGS20260129",
+      "name": "E. Barath",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 29,
+      "dob": "2010-04-02",
+      "blood_group": "A-",
+      "address": "36, Thirumal Nagar, Thoothukudi",
+      "parent_ids": [
+        "P172"
+      ],
+      "primary_contact_id": "P172",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S130",
+      "admission_no": "EGS20260130",
+      "name": "R. Harini",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 30,
+      "dob": "2010-03-05",
+      "blood_group": "A-",
+      "address": "23, Thirumal Nagar, Thoothukudi",
+      "parent_ids": [
+        "P173"
+      ],
+      "primary_contact_id": "P173",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S131",
+      "admission_no": "EGS20260131",
+      "name": "L. Nithya",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 31,
+      "dob": "2010-11-27",
+      "blood_group": "A+",
+      "address": "86, Korampallam, Thoothukudi",
+      "parent_ids": [
+        "P174"
+      ],
+      "primary_contact_id": "P174",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S132",
+      "admission_no": "EGS20260132",
+      "name": "T. Priya",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 32,
+      "dob": "2010-05-10",
+      "blood_group": "B+",
+      "address": "98, Palayamkottai Road, Thoothukudi",
+      "parent_ids": [
+        "P175"
+      ],
+      "primary_contact_id": "P175",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S133",
+      "admission_no": "EGS20260133",
+      "name": "M. Ranjith",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 33,
+      "dob": "2010-08-03",
+      "blood_group": "A-",
+      "address": "90, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P176"
+      ],
+      "primary_contact_id": "P176",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S134",
+      "admission_no": "EGS20260134",
+      "name": "S. Anitha",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 34,
+      "dob": "2010-05-12",
+      "blood_group": "B+",
+      "address": "95, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P177",
+        "P178"
+      ],
+      "primary_contact_id": "P177",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S135",
+      "admission_no": "EGS20260135",
+      "name": "V. Vijay",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 35,
+      "dob": "2010-08-24",
+      "blood_group": "B+",
+      "address": "14, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P179",
+        "P180"
+      ],
+      "primary_contact_id": "P179",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S136",
+      "admission_no": "EGS20260136",
+      "name": "C. Janani",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 36,
+      "dob": "2010-12-12",
+      "blood_group": "A+",
+      "address": "78, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P181"
+      ],
+      "primary_contact_id": "P181",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S137",
+      "admission_no": "EGS20260137",
+      "name": "K. Lokesh",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 37,
+      "dob": "2010-03-13",
+      "blood_group": "O+",
+      "address": "108, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P182"
+      ],
+      "primary_contact_id": "P182",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S138",
+      "admission_no": "EGS20260138",
+      "name": "S. Yuvan",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 38,
+      "dob": "2010-07-12",
+      "blood_group": "AB+",
+      "address": "57, Mela Soorangudi, Thoothukudi",
+      "parent_ids": [
+        "P183",
+        "P184"
+      ],
+      "primary_contact_id": "P183",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S139",
+      "admission_no": "EGS20260139",
+      "name": "J. Dinesh",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 39,
+      "dob": "2010-04-18",
+      "blood_group": "A-",
+      "address": "39, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P185",
+        "P186"
+      ],
+      "primary_contact_id": "P185",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S140",
+      "admission_no": "EGS20260140",
+      "name": "P. Sanjay",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 40,
+      "dob": "2010-10-19",
+      "blood_group": "A+",
+      "address": "29, Tuticorin Road, Thoothukudi",
+      "parent_ids": [
+        "P187"
+      ],
+      "primary_contact_id": "P187",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S141",
+      "admission_no": "EGS20260141",
+      "name": "A. Keerthana",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 41,
+      "dob": "2010-03-12",
+      "blood_group": "O-",
+      "address": "87, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P188"
+      ],
+      "primary_contact_id": "P188",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S142",
+      "admission_no": "EGS20260142",
+      "name": "L. Hari",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 42,
+      "dob": "2010-10-04",
+      "blood_group": "A-",
+      "address": "52, Millerpuram, Thoothukudi",
+      "parent_ids": [
+        "P189"
+      ],
+      "primary_contact_id": "P189",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S143",
+      "admission_no": "EGS20260143",
+      "name": "V. Meena",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 43,
+      "dob": "2010-06-18",
+      "blood_group": "O+",
+      "address": "22, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P190"
+      ],
+      "primary_contact_id": "P190",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S144",
+      "admission_no": "EGS20260144",
+      "name": "C. Gokul",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 44,
+      "dob": "2010-03-05",
+      "blood_group": "O-",
+      "address": "5, Millerpuram, Thoothukudi",
+      "parent_ids": [
+        "P191"
+      ],
+      "primary_contact_id": "P191",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S145",
+      "admission_no": "EGS20260145",
+      "name": "K. Priya",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 45,
+      "dob": "2010-01-03",
+      "blood_group": "B+",
+      "address": "112, Ettayapuram Road, Thoothukudi",
+      "parent_ids": [
+        "P192"
+      ],
+      "primary_contact_id": "P192",
+      "family_category": "Guardian"
+    },
+    {
+      "student_id": "S146",
+      "admission_no": "EGS20260146",
+      "name": "S. Sangeetha",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 46,
+      "dob": "2010-08-13",
+      "blood_group": "O+",
+      "address": "108, Korampallam, Thoothukudi",
+      "parent_ids": [
+        "P193",
+        "P194"
+      ],
+      "primary_contact_id": "P193",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S147",
+      "admission_no": "EGS20260147",
+      "name": "M. Anitha",
+      "gender": "F",
+      "class_section": "10-C",
+      "roll_no": 47,
+      "dob": "2010-12-02",
+      "blood_group": "O-",
+      "address": "1, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P195",
+        "P196"
+      ],
+      "primary_contact_id": "P195",
+      "family_category": "Two Parents"
+    },
+    {
+      "student_id": "S148",
+      "admission_no": "EGS20260148",
+      "name": "G. Tharun",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 48,
+      "dob": "2010-12-13",
+      "blood_group": "O+",
+      "address": "112, Millerpuram, Thoothukudi",
+      "parent_ids": [
+        "P197"
+      ],
+      "primary_contact_id": "P197",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S149",
+      "admission_no": "EGS20260149",
+      "name": "J. Ranjith",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 49,
+      "dob": "2010-07-19",
+      "blood_group": "O+",
+      "address": "91, Bryant Nagar, Thoothukudi",
+      "parent_ids": [
+        "P198"
+      ],
+      "primary_contact_id": "P198",
+      "family_category": "Single Parent"
+    },
+    {
+      "student_id": "S150",
+      "admission_no": "EGS20260150",
+      "name": "R. Dinesh",
+      "gender": "M",
+      "class_section": "10-C",
+      "roll_no": 50,
+      "dob": "2010-05-09",
+      "blood_group": "O-",
+      "address": "76, VOC Nagar, Thoothukudi",
+      "parent_ids": [
+        "P199",
+        "P200"
+      ],
+      "primary_contact_id": "P199",
+      "family_category": "Two Parents"
+    }
+  ],
+  "parents": [
+    {
+      "parent_id": "P001",
+      "name": "Muthu",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9338750047",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S001"
+      ]
+    },
+    {
+      "parent_id": "P002",
+      "name": "Jothi",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9395755131",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S001"
+      ]
+    },
+    {
+      "parent_id": "P003",
+      "name": "Amutha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9116372651",
+      "occupation": "Vendor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S002"
+      ]
+    },
+    {
+      "parent_id": "P004",
+      "name": "Subramanian",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9029729975",
+      "occupation": "Driver",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S003"
+      ]
+    },
+    {
+      "parent_id": "P005",
+      "name": "Parvathi",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9882001826",
+      "occupation": "Business",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S003"
+      ]
+    },
+    {
+      "parent_id": "P006",
+      "name": "Muthu",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9954862057",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S004"
+      ]
+    },
+    {
+      "parent_id": "P007",
+      "name": "Fathima",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9986828288",
+      "occupation": "Fisherman",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S004"
+      ]
+    },
+    {
+      "parent_id": "P008",
+      "name": "Rani",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9058887180",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S005"
+      ]
+    },
+    {
+      "parent_id": "P009",
+      "name": "Mala",
+      "relation": "Grandmother",
+      "category": "Guardian",
+      "phone": "9989834788",
+      "occupation": "Vendor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S006"
+      ]
+    },
+    {
+      "parent_id": "P010",
+      "name": "Latha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9167513613",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S007"
+      ]
+    },
+    {
+      "parent_id": "P011",
+      "name": "Eswari",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9167232686",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S008"
+      ]
+    },
+    {
+      "parent_id": "P012",
+      "name": "Selvam",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9877065894",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S009"
+      ]
+    },
+    {
+      "parent_id": "P013",
+      "name": "Mala",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9113114402",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S009"
+      ]
+    },
+    {
+      "parent_id": "P014",
+      "name": "Kannan",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9975140261",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S010"
+      ]
+    },
+    {
+      "parent_id": "P015",
+      "name": "Pushpa",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9014193141",
+      "occupation": "Bank employee",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S010"
+      ]
+    },
+    {
+      "parent_id": "P016",
+      "name": "Malathi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9240234483",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S011"
+      ]
+    },
+    {
+      "parent_id": "P017",
+      "name": "Selvam",
+      "relation": "Uncle",
+      "category": "Guardian",
+      "phone": "9883873716",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S012"
+      ]
+    },
+    {
+      "parent_id": "P018",
+      "name": "Muthu",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9326502014",
+      "occupation": "Clerk",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S013"
+      ]
+    },
+    {
+      "parent_id": "P019",
+      "name": "Mala",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9201684934",
+      "occupation": "Fisherman",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S013"
+      ]
+    },
+    {
+      "parent_id": "P020",
+      "name": "Uma",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9043520561",
+      "occupation": "Bank employee",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S014"
+      ]
+    },
+    {
+      "parent_id": "P021",
+      "name": "Parvathi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9690604431",
+      "occupation": "Electrician",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S015"
+      ]
+    },
+    {
+      "parent_id": "P022",
+      "name": "Velu",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9249208682",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S016"
+      ]
+    },
+    {
+      "parent_id": "P023",
+      "name": "Nirmala",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9890931002",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S016"
+      ]
+    },
+    {
+      "parent_id": "P024",
+      "name": "Nirmala",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9407188181",
+      "occupation": "Nurse",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S017"
+      ]
+    },
+    {
+      "parent_id": "P025",
+      "name": "Ilango",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9617409319",
+      "occupation": "Driver",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S018"
+      ]
+    },
+    {
+      "parent_id": "P026",
+      "name": "Murugan",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9741374847",
+      "occupation": "Bank employee",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S019"
+      ]
+    },
+    {
+      "parent_id": "P027",
+      "name": "Ganesan",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9874633191",
+      "occupation": "Driver",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S020"
+      ]
+    },
+    {
+      "parent_id": "P028",
+      "name": "Geetha",
+      "relation": "Elder Sister",
+      "category": "Guardian",
+      "phone": "9377602077",
+      "occupation": "Clerk",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S021"
+      ]
+    },
+    {
+      "parent_id": "P029",
+      "name": "Kumar",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9055613044",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S022"
+      ]
+    },
+    {
+      "parent_id": "P030",
+      "name": "Mala",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9166915640",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S022"
+      ]
+    },
+    {
+      "parent_id": "P031",
+      "name": "Muthu",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9685356068",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S023"
+      ]
+    },
+    {
+      "parent_id": "P032",
+      "name": "Vanitha",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9310679247",
+      "occupation": "Fisherman",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S023"
+      ]
+    },
+    {
+      "parent_id": "P033",
+      "name": "Eswari",
+      "relation": "Elder Sister",
+      "category": "Guardian",
+      "phone": "9463478612",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S024"
+      ]
+    },
+    {
+      "parent_id": "P034",
+      "name": "Durai",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9283312581",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S025"
+      ]
+    },
+    {
+      "parent_id": "P035",
+      "name": "Durai",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9836450749",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S026"
+      ]
+    },
+    {
+      "parent_id": "P036",
+      "name": "Muthu",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9676402067",
+      "occupation": "Electrician",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S027"
+      ]
+    },
+    {
+      "parent_id": "P037",
+      "name": "Jothi",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9701687731",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S027"
+      ]
+    },
+    {
+      "parent_id": "P038",
+      "name": "Ganesan",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9002390424",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S028"
+      ]
+    },
+    {
+      "parent_id": "P039",
+      "name": "Rani",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9611148936",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S028"
+      ]
+    },
+    {
+      "parent_id": "P040",
+      "name": "Anbu",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9378383064",
+      "occupation": "Fisherman",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S029"
+      ]
+    },
+    {
+      "parent_id": "P041",
+      "name": "Amutha",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9037614365",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S029"
+      ]
+    },
+    {
+      "parent_id": "P042",
+      "name": "Eswari",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9813734337",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S030"
+      ]
+    },
+    {
+      "parent_id": "P043",
+      "name": "Bhavani",
+      "relation": "Grandmother",
+      "category": "Guardian",
+      "phone": "9092603092",
+      "occupation": "Clerk",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S031"
+      ]
+    },
+    {
+      "parent_id": "P044",
+      "name": "Radha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9532870465",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S032"
+      ]
+    },
+    {
+      "parent_id": "P045",
+      "name": "Rani",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9365461073",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S033"
+      ]
+    },
+    {
+      "parent_id": "P046",
+      "name": "Muthu",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9606071043",
+      "occupation": "Nurse",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S034"
+      ]
+    },
+    {
+      "parent_id": "P047",
+      "name": "Vanitha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9409103177",
+      "occupation": "Vendor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S035"
+      ]
+    },
+    {
+      "parent_id": "P048",
+      "name": "Subramanian",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9429355759",
+      "occupation": "Shop owner",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S036"
+      ]
+    },
+    {
+      "parent_id": "P049",
+      "name": "Lakshmi",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9836236107",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S036"
+      ]
+    },
+    {
+      "parent_id": "P050",
+      "name": "Palani",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9316772326",
+      "occupation": "Bank employee",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S037"
+      ]
+    },
+    {
+      "parent_id": "P051",
+      "name": "Selvi",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9938144494",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S037"
+      ]
+    },
+    {
+      "parent_id": "P052",
+      "name": "Kala",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9935164388",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S038"
+      ]
+    },
+    {
+      "parent_id": "P053",
+      "name": "Balu",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9043103993",
+      "occupation": "Daily wage",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S039"
+      ]
+    },
+    {
+      "parent_id": "P054",
+      "name": "Lakshmi Devi",
+      "relation": "Mother",
+      "category": "Parent-Teacher",
+      "phone": "9830166131",
+      "occupation": "Teacher",
+      "is_teacher": true,
+      "teacher_id": "T02",
+      "student_ids": [
+        "S040",
+        "S048"
+      ]
+    },
+    {
+      "parent_id": "P055",
+      "name": "Senthil",
+      "relation": "Father",
+      "category": "Parent-Teacher",
+      "phone": "9019953055",
+      "occupation": "Driver",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S040",
+        "S048"
+      ]
+    },
+    {
+      "parent_id": "P056",
+      "name": "Anbu",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9529413078",
+      "occupation": "Bank employee",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S041"
+      ]
+    },
+    {
+      "parent_id": "P057",
+      "name": "Latha",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9161682812",
+      "occupation": "Clerk",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S041"
+      ]
+    },
+    {
+      "parent_id": "P058",
+      "name": "Latha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9605366306",
+      "occupation": "Daily wage",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S042"
+      ]
+    },
+    {
+      "parent_id": "P059",
+      "name": "Parvathi",
+      "relation": "Aunt",
+      "category": "Guardian",
+      "phone": "9008261995",
+      "occupation": "Nurse",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S043"
+      ]
+    },
+    {
+      "parent_id": "P060",
+      "name": "Jothi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9734207509",
+      "occupation": "Daily wage",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S044"
+      ]
+    },
+    {
+      "parent_id": "P061",
+      "name": "Nirmala",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9293068265",
+      "occupation": "Shop owner",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S045"
+      ]
+    },
+    {
+      "parent_id": "P062",
+      "name": "Vasanth",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9051697846",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S046"
+      ]
+    },
+    {
+      "parent_id": "P063",
+      "name": "Bhavani",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9936657872",
+      "occupation": "Fisherman",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S046"
+      ]
+    },
+    {
+      "parent_id": "P064",
+      "name": "Nirmala",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9611256517",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S047"
+      ]
+    },
+    {
+      "parent_id": "P065",
+      "name": "Selvam",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9913274231",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S049"
+      ]
+    },
+    {
+      "parent_id": "P066",
+      "name": "Selvi",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9942594724",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S049"
+      ]
+    },
+    {
+      "parent_id": "P067",
+      "name": "Murugan",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9262456241",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S050"
+      ]
+    },
+    {
+      "parent_id": "P068",
+      "name": "Sumathi",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9057889148",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S050"
+      ]
+    },
+    {
+      "parent_id": "P069",
+      "name": "Mala",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9173290484",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S051"
+      ]
+    },
+    {
+      "parent_id": "P070",
+      "name": "Palani",
+      "relation": "Grandfather",
+      "category": "Guardian",
+      "phone": "9668502739",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S052"
+      ]
+    },
+    {
+      "parent_id": "P071",
+      "name": "Latha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9949235972",
+      "occupation": "Driver",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S053"
+      ]
+    },
+    {
+      "parent_id": "P072",
+      "name": "Jothi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9400859979",
+      "occupation": "Daily wage",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S054"
+      ]
+    },
+    {
+      "parent_id": "P073",
+      "name": "Selvam",
+      "relation": "Elder Brother",
+      "category": "Guardian",
+      "phone": "9623201098",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S055"
+      ]
+    },
+    {
+      "parent_id": "P074",
+      "name": "Selvi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9407806671",
+      "occupation": "Nurse",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S056"
+      ]
+    },
+    {
+      "parent_id": "P075",
+      "name": "Mala",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9404868443",
+      "occupation": "Shop owner",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S057"
+      ]
+    },
+    {
+      "parent_id": "P076",
+      "name": "Sumathi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9659368778",
+      "occupation": "Nurse",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S058"
+      ]
+    },
+    {
+      "parent_id": "P077",
+      "name": "Pandian",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9991922001",
+      "occupation": "Shop owner",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S059"
+      ]
+    },
+    {
+      "parent_id": "P078",
+      "name": "Jothi",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9925200020",
+      "occupation": "Nurse",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S059"
+      ]
+    },
+    {
+      "parent_id": "P079",
+      "name": "Kumar",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9333100147",
+      "occupation": "Shop owner",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S060"
+      ]
+    },
+    {
+      "parent_id": "P080",
+      "name": "Anbu",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9405440559",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S061"
+      ]
+    },
+    {
+      "parent_id": "P081",
+      "name": "Latha",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9749060681",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S061"
+      ]
+    },
+    {
+      "parent_id": "P082",
+      "name": "Manikandan",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9260834005",
+      "occupation": "Bank employee",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S062"
+      ]
+    },
+    {
+      "parent_id": "P083",
+      "name": "Kala",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9172795849",
+      "occupation": "Driver",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S062"
+      ]
+    },
+    {
+      "parent_id": "P084",
+      "name": "Raja",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9178155166",
+      "occupation": "Shop owner",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S063"
+      ]
+    },
+    {
+      "parent_id": "P085",
+      "name": "Fathima",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9605344688",
+      "occupation": "Driver",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S063"
+      ]
+    },
+    {
+      "parent_id": "P086",
+      "name": "Geetha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9958278527",
+      "occupation": "Bank employee",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S064"
+      ]
+    },
+    {
+      "parent_id": "P087",
+      "name": "Pushpa",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9344922359",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S065"
+      ]
+    },
+    {
+      "parent_id": "P088",
+      "name": "Subramanian",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9136224464",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S066"
+      ]
+    },
+    {
+      "parent_id": "P089",
+      "name": "Bhavani",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9114367006",
+      "occupation": "Business",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S066"
+      ]
+    },
+    {
+      "parent_id": "P090",
+      "name": "Selvam",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9369963932",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S067"
+      ]
+    },
+    {
+      "parent_id": "P091",
+      "name": "Thangaraj",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9246770968",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S068"
+      ]
+    },
+    {
+      "parent_id": "P092",
+      "name": "Kannan",
+      "relation": "Grandfather",
+      "category": "Guardian",
+      "phone": "9323851978",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S069"
+      ]
+    },
+    {
+      "parent_id": "P093",
+      "name": "Pandian",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9268195044",
+      "occupation": "Clerk",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S070"
+      ]
+    },
+    {
+      "parent_id": "P094",
+      "name": "Sudha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9413468367",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S071"
+      ]
+    },
+    {
+      "parent_id": "P095",
+      "name": "Velu",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9256748275",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S072"
+      ]
+    },
+    {
+      "parent_id": "P096",
+      "name": "Uma",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9464627045",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S072"
+      ]
+    },
+    {
+      "parent_id": "P097",
+      "name": "Parvathi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9460195285",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S073"
+      ]
+    },
+    {
+      "parent_id": "P098",
+      "name": "Sudha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9232752368",
+      "occupation": "Driver",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S074"
+      ]
+    },
+    {
+      "parent_id": "P099",
+      "name": "Thangaraj",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9817181463",
+      "occupation": "Driver",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S075"
+      ]
+    },
+    {
+      "parent_id": "P100",
+      "name": "Sumathi",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9778077273",
+      "occupation": "Bank employee",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S075"
+      ]
+    },
+    {
+      "parent_id": "P101",
+      "name": "Ilango",
+      "relation": "Elder Brother",
+      "category": "Guardian",
+      "phone": "9475661250",
+      "occupation": "Fisherman",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S076"
+      ]
+    },
+    {
+      "parent_id": "P102",
+      "name": "Jeyaraj",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9720362515",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S077"
+      ]
+    },
+    {
+      "parent_id": "P103",
+      "name": "Nirmala",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9788346564",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S077"
+      ]
+    },
+    {
+      "parent_id": "P104",
+      "name": "Sumathi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9715354291",
+      "occupation": "Vendor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S078"
+      ]
+    },
+    {
+      "parent_id": "P105",
+      "name": "Malathi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9003790889",
+      "occupation": "Clerk",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S079"
+      ]
+    },
+    {
+      "parent_id": "P106",
+      "name": "Senthil",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9721206105",
+      "occupation": "Driver",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S080"
+      ]
+    },
+    {
+      "parent_id": "P107",
+      "name": "Amutha",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9484426050",
+      "occupation": "Clerk",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S080"
+      ]
+    },
+    {
+      "parent_id": "P108",
+      "name": "Murugan",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9696710699",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S081"
+      ]
+    },
+    {
+      "parent_id": "P109",
+      "name": "Malathi",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9276811732",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S081"
+      ]
+    },
+    {
+      "parent_id": "P110",
+      "name": "Nirmala",
+      "relation": "Aunt",
+      "category": "Guardian",
+      "phone": "9049372052",
+      "occupation": "Nurse",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S082"
+      ]
+    },
+    {
+      "parent_id": "P111",
+      "name": "Murugan",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9000091644",
+      "occupation": "Electrician",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S083"
+      ]
+    },
+    {
+      "parent_id": "P112",
+      "name": "Chitra",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9279055977",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S083"
+      ]
+    },
+    {
+      "parent_id": "P113",
+      "name": "Jothi",
+      "relation": "Grandmother",
+      "category": "Guardian",
+      "phone": "9749544099",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S084"
+      ]
+    },
+    {
+      "parent_id": "P114",
+      "name": "Senthil",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9693740544",
+      "occupation": "Clerk",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S085"
+      ]
+    },
+    {
+      "parent_id": "P115",
+      "name": "Rani",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9758188763",
+      "occupation": "Vendor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S086"
+      ]
+    },
+    {
+      "parent_id": "P116",
+      "name": "Esakki",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9349067818",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S087"
+      ]
+    },
+    {
+      "parent_id": "P117",
+      "name": "Chitra",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9136984857",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S087"
+      ]
+    },
+    {
+      "parent_id": "P118",
+      "name": "Manikandan",
+      "relation": "Grandfather",
+      "category": "Guardian",
+      "phone": "9956823075",
+      "occupation": "Business",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S088"
+      ]
+    },
+    {
+      "parent_id": "P119",
+      "name": "Vanitha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9890103979",
+      "occupation": "Electrician",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S089"
+      ]
+    },
+    {
+      "parent_id": "P120",
+      "name": "Rajan",
+      "relation": "Elder Brother",
+      "category": "Guardian",
+      "phone": "9405326100",
+      "occupation": "Fisherman",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S090"
+      ]
+    },
+    {
+      "parent_id": "P121",
+      "name": "Kumar",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9145931862",
+      "occupation": "Bank employee",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S091"
+      ]
+    },
+    {
+      "parent_id": "P122",
+      "name": "Saravanan",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9080048701",
+      "occupation": "Driver",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S092"
+      ]
+    },
+    {
+      "parent_id": "P123",
+      "name": "Geetha",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9503499717",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S092"
+      ]
+    },
+    {
+      "parent_id": "P124",
+      "name": "Parvathi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9073023195",
+      "occupation": "Daily wage",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S093"
+      ]
+    },
+    {
+      "parent_id": "P125",
+      "name": "Esakki",
+      "relation": "Uncle",
+      "category": "Guardian",
+      "phone": "9553715253",
+      "occupation": "Nurse",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S094"
+      ]
+    },
+    {
+      "parent_id": "P126",
+      "name": "Saravanan",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9632049452",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S095"
+      ]
+    },
+    {
+      "parent_id": "P127",
+      "name": "Latha",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9715771280",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S095"
+      ]
+    },
+    {
+      "parent_id": "P128",
+      "name": "Anitha Rajan",
+      "relation": "Mother",
+      "category": "Parent-Teacher",
+      "phone": "9308246281",
+      "occupation": "Teacher",
+      "is_teacher": true,
+      "teacher_id": "T04",
+      "student_ids": [
+        "S096",
+        "S099"
+      ]
+    },
+    {
+      "parent_id": "P129",
+      "name": "Balu",
+      "relation": "Father",
+      "category": "Parent-Teacher",
+      "phone": "9643316462",
+      "occupation": "Fisherman",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S096",
+        "S099"
+      ]
+    },
+    {
+      "parent_id": "P130",
+      "name": "Mary",
+      "relation": "Aunt",
+      "category": "Guardian",
+      "phone": "9084256063",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S097"
+      ]
+    },
+    {
+      "parent_id": "P131",
+      "name": "Selvi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9974232939",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S098"
+      ]
+    },
+    {
+      "parent_id": "P132",
+      "name": "Rajan",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9432950259",
+      "occupation": "Electrician",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S100"
+      ]
+    },
+    {
+      "parent_id": "P133",
+      "name": "Fathima",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9690417780",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S101"
+      ]
+    },
+    {
+      "parent_id": "P134",
+      "name": "Kala",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9480013409",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S102"
+      ]
+    },
+    {
+      "parent_id": "P135",
+      "name": "Valli",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9417798411",
+      "occupation": "Shop owner",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S103"
+      ]
+    },
+    {
+      "parent_id": "P136",
+      "name": "Esakki",
+      "relation": "Elder Brother",
+      "category": "Guardian",
+      "phone": "9620669980",
+      "occupation": "Clerk",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S104"
+      ]
+    },
+    {
+      "parent_id": "P137",
+      "name": "Thangaraj",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9956805825",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S105"
+      ]
+    },
+    {
+      "parent_id": "P138",
+      "name": "Latha",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9605182156",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S105"
+      ]
+    },
+    {
+      "parent_id": "P139",
+      "name": "Valli",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9094948091",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S106"
+      ]
+    },
+    {
+      "parent_id": "P140",
+      "name": "Vijayalakshmi S",
+      "relation": "Mother",
+      "category": "Parent-Teacher",
+      "phone": "9821993518",
+      "occupation": "Teacher",
+      "is_teacher": true,
+      "teacher_id": "T05",
+      "student_ids": [
+        "S107"
+      ]
+    },
+    {
+      "parent_id": "P141",
+      "name": "Balu",
+      "relation": "Father",
+      "category": "Parent-Teacher",
+      "phone": "9210984179",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S107"
+      ]
+    },
+    {
+      "parent_id": "P142",
+      "name": "Vanitha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9318479936",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S108"
+      ]
+    },
+    {
+      "parent_id": "P143",
+      "name": "Uma",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9533886960",
+      "occupation": "Daily wage",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S109"
+      ]
+    },
+    {
+      "parent_id": "P144",
+      "name": "Pandian",
+      "relation": "Grandfather",
+      "category": "Guardian",
+      "phone": "9400281957",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S110"
+      ]
+    },
+    {
+      "parent_id": "P145",
+      "name": "Latha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9552399481",
+      "occupation": "Nurse",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S111"
+      ]
+    },
+    {
+      "parent_id": "P146",
+      "name": "Nirmala",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9692649916",
+      "occupation": "Business",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S112"
+      ]
+    },
+    {
+      "parent_id": "P147",
+      "name": "Meenakshi Sundaram",
+      "relation": "Mother",
+      "category": "Parent-Teacher",
+      "phone": "9543231948",
+      "occupation": "Teacher",
+      "is_teacher": true,
+      "teacher_id": "T07",
+      "student_ids": [
+        "S113"
+      ]
+    },
+    {
+      "parent_id": "P148",
+      "name": "Kannan",
+      "relation": "Father",
+      "category": "Parent-Teacher",
+      "phone": "9965076742",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S113"
+      ]
+    },
+    {
+      "parent_id": "P149",
+      "name": "Ganesan",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9593536000",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S114"
+      ]
+    },
+    {
+      "parent_id": "P150",
+      "name": "Mala",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9974848968",
+      "occupation": "Business",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S114"
+      ]
+    },
+    {
+      "parent_id": "P151",
+      "name": "Mary",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9018316586",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S115"
+      ]
+    },
+    {
+      "parent_id": "P152",
+      "name": "Manikandan",
+      "relation": "Elder Brother",
+      "category": "Guardian",
+      "phone": "9581255514",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S116"
+      ]
+    },
+    {
+      "parent_id": "P153",
+      "name": "Durai",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9284838362",
+      "occupation": "Fisherman",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S117"
+      ]
+    },
+    {
+      "parent_id": "P154",
+      "name": "Amutha",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9991590600",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S117"
+      ]
+    },
+    {
+      "parent_id": "P155",
+      "name": "Sumathi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9278948829",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S118"
+      ]
+    },
+    {
+      "parent_id": "P156",
+      "name": "Kumar",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9112877960",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S119"
+      ]
+    },
+    {
+      "parent_id": "P157",
+      "name": "Lakshmi",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9095235420",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S119"
+      ]
+    },
+    {
+      "parent_id": "P158",
+      "name": "Esakki",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9600369070",
+      "occupation": "Electrician",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S120"
+      ]
+    },
+    {
+      "parent_id": "P159",
+      "name": "Thenmozhi",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9333029250",
+      "occupation": "Daily wage",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S120"
+      ]
+    },
+    {
+      "parent_id": "P160",
+      "name": "Senthil",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9936467031",
+      "occupation": "Driver",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S121"
+      ]
+    },
+    {
+      "parent_id": "P161",
+      "name": "Chandran",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9515865611",
+      "occupation": "Clerk",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S122"
+      ]
+    },
+    {
+      "parent_id": "P162",
+      "name": "Rani",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9583637453",
+      "occupation": "Clerk",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S122"
+      ]
+    },
+    {
+      "parent_id": "P163",
+      "name": "Selvi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9348287732",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S123"
+      ]
+    },
+    {
+      "parent_id": "P164",
+      "name": "Pandian",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9783372497",
+      "occupation": "Electrician",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S124"
+      ]
+    },
+    {
+      "parent_id": "P165",
+      "name": "Kala",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9583698321",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S124"
+      ]
+    },
+    {
+      "parent_id": "P166",
+      "name": "Rajan",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9061235311",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S125"
+      ]
+    },
+    {
+      "parent_id": "P167",
+      "name": "Kala",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9584314134",
+      "occupation": "Driver",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S125"
+      ]
+    },
+    {
+      "parent_id": "P168",
+      "name": "Vanitha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9205560736",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S126"
+      ]
+    },
+    {
+      "parent_id": "P169",
+      "name": "Jothi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9092634260",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S127"
+      ]
+    },
+    {
+      "parent_id": "P170",
+      "name": "Thangaraj",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9469501409",
+      "occupation": "Electrician",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S128"
+      ]
+    },
+    {
+      "parent_id": "P171",
+      "name": "Pushpa",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9031053516",
+      "occupation": "Nurse",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S128"
+      ]
+    },
+    {
+      "parent_id": "P172",
+      "name": "Esakki",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9587803682",
+      "occupation": "Bank employee",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S129"
+      ]
+    },
+    {
+      "parent_id": "P173",
+      "name": "Rani",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9430255613",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S130"
+      ]
+    },
+    {
+      "parent_id": "P174",
+      "name": "Lakshmi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9872542299",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S131"
+      ]
+    },
+    {
+      "parent_id": "P175",
+      "name": "Thenmozhi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9763140573",
+      "occupation": "Fisherman",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S132"
+      ]
+    },
+    {
+      "parent_id": "P176",
+      "name": "Mala",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9779542810",
+      "occupation": "Fisherman",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S133"
+      ]
+    },
+    {
+      "parent_id": "P177",
+      "name": "Saravanan",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9767385051",
+      "occupation": "Homemaker",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S134"
+      ]
+    },
+    {
+      "parent_id": "P178",
+      "name": "Malathi",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9494312006",
+      "occupation": "Business",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S134"
+      ]
+    },
+    {
+      "parent_id": "P179",
+      "name": "Velu",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9562553528",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S135"
+      ]
+    },
+    {
+      "parent_id": "P180",
+      "name": "Thenmozhi",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9430019603",
+      "occupation": "Bank employee",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S135"
+      ]
+    },
+    {
+      "parent_id": "P181",
+      "name": "Chitra",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9322761077",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S136"
+      ]
+    },
+    {
+      "parent_id": "P182",
+      "name": "Kala",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9108651702",
+      "occupation": "Daily wage",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S137"
+      ]
+    },
+    {
+      "parent_id": "P183",
+      "name": "Senthil",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9937185876",
+      "occupation": "Mechanic",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S138"
+      ]
+    },
+    {
+      "parent_id": "P184",
+      "name": "Geetha",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9269910594",
+      "occupation": "Electrician",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S138"
+      ]
+    },
+    {
+      "parent_id": "P185",
+      "name": "Jeyaraj",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9033712958",
+      "occupation": "Electrician",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S139"
+      ]
+    },
+    {
+      "parent_id": "P186",
+      "name": "Amutha",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9658397641",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S139"
+      ]
+    },
+    {
+      "parent_id": "P187",
+      "name": "Pushpa",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9473873891",
+      "occupation": "Nurse",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S140"
+      ]
+    },
+    {
+      "parent_id": "P188",
+      "name": "Amutha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9817682397",
+      "occupation": "Vendor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S141"
+      ]
+    },
+    {
+      "parent_id": "P189",
+      "name": "Lakshmi",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9937412619",
+      "occupation": "Business",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S142"
+      ]
+    },
+    {
+      "parent_id": "P190",
+      "name": "Vanitha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9135885709",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S143"
+      ]
+    },
+    {
+      "parent_id": "P191",
+      "name": "Chitra",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9709710711",
+      "occupation": "Vendor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S144"
+      ]
+    },
+    {
+      "parent_id": "P192",
+      "name": "Kannan",
+      "relation": "Grandfather",
+      "category": "Guardian",
+      "phone": "9470052787",
+      "occupation": "Business",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S145"
+      ]
+    },
+    {
+      "parent_id": "P193",
+      "name": "Subramanian",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9763981558",
+      "occupation": "Salt works",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S146"
+      ]
+    },
+    {
+      "parent_id": "P194",
+      "name": "Chitra",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9429903257",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S146"
+      ]
+    },
+    {
+      "parent_id": "P195",
+      "name": "Manikandan",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9530379022",
+      "occupation": "Tailor",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S147"
+      ]
+    },
+    {
+      "parent_id": "P196",
+      "name": "Nirmala",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9641845998",
+      "occupation": "Electrician",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S147"
+      ]
+    },
+    {
+      "parent_id": "P197",
+      "name": "Geetha",
+      "relation": "Mother",
+      "category": "Single Parent",
+      "phone": "9432145583",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S148"
+      ]
+    },
+    {
+      "parent_id": "P198",
+      "name": "Jeyaraj",
+      "relation": "Father",
+      "category": "Single Parent",
+      "phone": "9533522307",
+      "occupation": "Clerk",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S149"
+      ]
+    },
+    {
+      "parent_id": "P199",
+      "name": "Rajan",
+      "relation": "Father",
+      "category": "Two Parents",
+      "phone": "9449851391",
+      "occupation": "Electrician",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S150"
+      ]
+    },
+    {
+      "parent_id": "P200",
+      "name": "Kala",
+      "relation": "Mother",
+      "category": "Two Parents",
+      "phone": "9249575617",
+      "occupation": "Farmer",
+      "is_teacher": false,
+      "teacher_id": null,
+      "student_ids": [
+        "S150"
+      ]
+    }
+  ],
+  "timetable": [
+    {
+      "class_section": "10-A",
+      "day": "Monday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Monday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Monday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "Maths",
+      "teacher_id": "T03"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Monday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Monday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Monday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Monday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Monday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Tuesday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Tuesday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "Maths",
+      "teacher_id": "T03"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Tuesday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Tuesday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Tuesday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Tuesday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Tuesday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Tuesday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Wednesday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "Maths",
+      "teacher_id": "T03"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Wednesday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Wednesday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Wednesday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Wednesday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Wednesday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Wednesday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Wednesday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "Maths",
+      "teacher_id": "T03"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Thursday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Thursday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Thursday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Thursday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Thursday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Thursday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Thursday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "Maths",
+      "teacher_id": "T03"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Thursday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Friday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Friday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Friday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Friday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Friday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Friday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "Maths",
+      "teacher_id": "T03"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Friday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-A",
+      "day": "Friday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Monday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Monday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "Maths",
+      "teacher_id": "T03"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Monday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Monday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Monday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Monday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Monday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Monday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Tuesday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "Maths",
+      "teacher_id": "T03"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Tuesday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Tuesday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Tuesday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Tuesday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Tuesday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Tuesday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Tuesday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "Maths",
+      "teacher_id": "T03"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Wednesday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Wednesday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Wednesday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Wednesday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Wednesday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Wednesday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Wednesday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "Maths",
+      "teacher_id": "T03"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Wednesday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Thursday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Thursday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Thursday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Thursday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Thursday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Thursday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "Maths",
+      "teacher_id": "T03"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Thursday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Thursday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Friday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Friday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Friday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Friday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Friday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "Maths",
+      "teacher_id": "T03"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Friday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Friday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-B",
+      "day": "Friday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Monday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "Maths",
+      "teacher_id": "T08"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Monday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Monday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Monday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Monday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Monday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Monday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Monday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "Maths",
+      "teacher_id": "T08"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Tuesday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Tuesday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Tuesday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Tuesday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Tuesday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Tuesday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Tuesday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "Maths",
+      "teacher_id": "T08"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Tuesday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Wednesday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Wednesday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Wednesday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Wednesday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Wednesday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Wednesday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "Maths",
+      "teacher_id": "T08"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Wednesday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Wednesday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Thursday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Thursday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Thursday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Thursday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Thursday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "Maths",
+      "teacher_id": "T08"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Thursday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Thursday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Thursday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Friday",
+      "period": 1,
+      "time": "09:00-09:45",
+      "subject": "MI",
+      "teacher_id": "T07"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Friday",
+      "period": 2,
+      "time": "09:45-10:30",
+      "subject": "Tamil",
+      "teacher_id": "T01"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Friday",
+      "period": 3,
+      "time": "10:30-11:15",
+      "subject": "English",
+      "teacher_id": "T02"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Friday",
+      "period": 4,
+      "time": "11:15-12:00",
+      "subject": "Maths",
+      "teacher_id": "T08"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Friday",
+      "period": 5,
+      "time": "12:45-13:30",
+      "subject": "Science",
+      "teacher_id": "T04"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Friday",
+      "period": 6,
+      "time": "13:30-14:15",
+      "subject": "Social",
+      "teacher_id": "T05"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Friday",
+      "period": 7,
+      "time": "14:15-15:00",
+      "subject": "PET",
+      "teacher_id": "T06"
+    },
+    {
+      "class_section": "10-C",
+      "day": "Friday",
+      "period": 8,
+      "time": "15:00-15:45",
+      "subject": "MI",
+      "teacher_id": "T07"
+    }
+  ]
+}

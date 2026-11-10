@@ -3,6 +3,7 @@ import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { AmazonPaymentModal } from '../components/AmazonPaymentModal';
+import schoolData from '../data/schoolData.json';
 import {
   DollarSign,
   FileDown,
@@ -69,10 +70,10 @@ export const FeesPage: React.FC = () => {
         .catch((err) => {
           console.warn('Could not fetch family fees, loading fallback:', err);
           const fallbackLiam = {
-            student_id: '1',
-            student_name: 'Liam Smith',
-            admission_number: 'ADM-2026-0001',
-            class_name: 'Grade 1',
+            student_id: 'S001',
+            student_name: 'M. Mohan',
+            admission_number: 'EGS20260001',
+            class_name: 'Grade 10',
             section_name: 'A',
             academic_session: '2026-2027',
             total_annual_fee: 71000.0,
@@ -96,10 +97,10 @@ export const FeesPage: React.FC = () => {
             ],
           };
           const fallbackEmma = {
-            student_id: '2',
-            student_name: 'Emma Smith',
-            admission_number: 'ADM-2026-0002',
-            class_name: 'Grade 1',
+            student_id: 'S002',
+            student_name: 'A. Bhuvana',
+            admission_number: 'EGS20260002',
+            class_name: 'Grade 10',
             section_name: 'A',
             academic_session: '2026-2027',
             total_annual_fee: 71000.0,
@@ -143,10 +144,10 @@ export const FeesPage: React.FC = () => {
         .catch((err) => {
           console.warn('Could not fetch student fees:', err);
           setFeeData({
-            student_id: '1',
-            student_name: 'Liam Smith',
-            admission_number: 'ADM-2026-0001',
-            class_name: 'Grade 1',
+            student_id: 'S001',
+            student_name: 'M. Mohan',
+            admission_number: 'EGS20260001',
+            class_name: 'Grade 10',
             section_name: 'A',
             academic_session: '2026-2027',
             is_all_paid: false,
@@ -1035,16 +1036,16 @@ export const FeesPage: React.FC = () => {
 
       {/* ---------------- STAFF CASHIER VIEW (ADMIN / ACCOUNTANTS) ---------------- */}
       {isStaff && (() => {
-        const defaultStudentsList = [
-          { id: '1', admission_number: 'ADM-2026-0001', full_name: 'Liam Smith', class_room: { name: 'Grade 1' }, section: { name: 'A' }, total_annual_fee: 71000.0, total_paid: 71000.0, status: 'Paid' },
-          { id: '2', admission_number: 'ADM-2026-0002', full_name: 'Emma Smith', class_room: { name: 'Grade 1' }, section: { name: 'A' }, total_annual_fee: 71000.0, total_paid: 71000.0, status: 'Paid' },
-          { id: '3', admission_number: 'ADM-2026-0003', full_name: 'Noah Williams', class_room: { name: 'Grade 1' }, section: { name: 'A' }, total_annual_fee: 71000.0, total_paid: 71000.0, status: 'Paid' },
-          { id: '4', admission_number: 'ADM-2026-0004', full_name: 'Olivia Williams', class_room: { name: 'Grade 1' }, section: { name: 'A' }, total_annual_fee: 71000.0, total_paid: 71000.0, status: 'Paid' },
-          { id: '5', admission_number: 'ADM-2026-0005', full_name: 'James Jones', class_room: { name: 'Grade 1' }, section: { name: 'A' }, total_annual_fee: 71000.0, total_paid: 71000.0, status: 'Paid' },
-          { id: '6', admission_number: 'ADM-2026-0006', full_name: 'Sophia Jones', class_room: { name: 'Grade 1' }, section: { name: 'A' }, total_annual_fee: 71000.0, total_paid: 71000.0, status: 'Paid' },
-          { id: '7', admission_number: 'ADM-2026-0007', full_name: 'Lucas Miller', class_room: { name: 'Grade 1' }, section: { name: 'A' }, total_annual_fee: 71000.0, total_paid: 71000.0, status: 'Paid' },
-          { id: '8', admission_number: 'ADM-2026-0008', full_name: 'Ava Miller', class_room: { name: 'Grade 1' }, section: { name: 'A' }, total_annual_fee: 71000.0, total_paid: 71000.0, status: 'Paid' },
-        ];
+        const defaultStudentsList = (schoolData.students || []).map((s: any) => ({
+          id: s.student_id,
+          admission_number: s.admission_no,
+          full_name: s.name,
+          class_room: { name: 'Grade 10' },
+          section: { name: s.class_section.split('-')[1] || 'A' },
+          total_annual_fee: 71000.0,
+          total_paid: 71000.0,
+          status: 'Paid',
+        }));
         const effectiveStaffStudents = students.length > 0 ? students : defaultStudentsList;
         const totalMoney = effectiveStaffStudents.reduce((acc, s) => acc + (Number(s.total_annual_fee) || 71000), 0);
         const currentPaymentCollected = effectiveStaffStudents.reduce(
