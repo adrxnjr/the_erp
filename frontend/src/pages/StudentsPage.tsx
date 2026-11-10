@@ -76,14 +76,14 @@ export const StudentsPage: React.FC = () => {
         ? stdRes.data
         : stdRes.data?.items || [];
 
-      if (apiItems.length >= authenticDataset.length) {
-        setStudents(apiItems);
-      } else {
-        // Merge authentic dataset with any newly enrolled students
-        const existingAdmissions = new Set(authenticDataset.map((s) => s.admission_number));
-        const customStudents = apiItems.filter((s: any) => !existingAdmissions.has(s.admission_number));
-        setStudents([...authenticDataset, ...customStudents]);
-      }
+      // Keep exactly the 150 students belonging to 10-A, 10-B, and 10-C
+      const existingAdmissions = new Set(authenticDataset.map((s) => s.admission_number));
+      const customStudents = apiItems.filter(
+        (s: any) =>
+          !existingAdmissions.has(s.admission_number) &&
+          ['10-A', '10-B', '10-C'].includes(s.class_section)
+      );
+      setStudents([...authenticDataset, ...customStudents]);
 
       setClasses(Array.isArray(clsRes.data) ? clsRes.data : []);
       setAcademicYears(Array.isArray(yrRes.data) ? yrRes.data : []);
