@@ -22,7 +22,6 @@ import {
   Search,
   Filter,
   Download,
-  Send,
   Phone,
   Mail,
   Users,
@@ -206,13 +205,6 @@ export const ModuleHubPage: React.FC = () => {
                 <p className="text-xs text-slate-500">Send instant campus alerts, SMS circulars, and emergency notices</p>
               </div>
             </div>
-            <button
-              onClick={() => toast.success('Broadcast notification queued to all parents and teachers.')}
-              className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xs shadow-md shadow-blue-500/25 flex items-center space-x-1.5 cursor-pointer"
-            >
-              <Send className="w-3.5 h-3.5" />
-              <span>New Announcement</span>
-            </button>
           </div>
 
           <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-4">
