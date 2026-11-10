@@ -31,6 +31,9 @@ import {
   CreditCard,
   Clock,
   BookOpen,
+  Trash2,
+  X,
+  ShieldCheck,
 } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
@@ -93,6 +96,204 @@ export const ModuleHubPage: React.FC = () => {
     );
     toast.success(`Request ${id} marked as ${action}d.`);
   };
+
+  // Roles & User Account Management State
+  type UserRole =
+    | 'Super Admin'
+    | 'Vice Admin'
+    | 'Principal'
+    | 'Coordinator'
+    | 'Teacher'
+    | 'Parent'
+    | 'Student';
+
+  interface ManagedUser {
+    id: string;
+    username: string;
+    fullName: string;
+    assignedRole: UserRole;
+    portalScope: string;
+    status: 'Active' | 'Suspended';
+    email?: string;
+  }
+
+  const AVAILABLE_ROLES: UserRole[] = [
+    'Super Admin',
+    'Vice Admin',
+    'Principal',
+    'Coordinator',
+    'Teacher',
+    'Parent',
+    'Student',
+  ];
+
+  const ROLE_CONFIG: Record<
+    UserRole,
+    { badgeClass: string; defaultScope: string; accessLevel: string; description: string }
+  > = {
+    'Super Admin': {
+      badgeClass: 'bg-blue-100 text-blue-800 border-blue-200',
+      defaultScope: 'Full Enterprise Access',
+      accessLevel: 'Tier 1 (Master)',
+      description: 'Master enterprise access across financial treasury, branding, and system audit logs',
+    },
+    'Vice Admin': {
+      badgeClass: 'bg-indigo-100 text-indigo-800 border-indigo-200',
+      defaultScope: 'Campus Operations & Staff Governance',
+      accessLevel: 'Tier 2 (Administrative)',
+      description: 'Campus operations, staff administrative approvals, and institutional compliance',
+    },
+    'Principal': {
+      badgeClass: 'bg-purple-100 text-purple-800 border-purple-200',
+      defaultScope: 'Institutional Governance',
+      accessLevel: 'Tier 2 (Executive)',
+      description: 'Academic council governance, examinations certification, and staff appraisals',
+    },
+    'Coordinator': {
+      badgeClass: 'bg-teal-100 text-teal-800 border-teal-200',
+      defaultScope: 'Grades 10–12 Senior Secondary',
+      accessLevel: 'Tier 3 (Wing Lead)',
+      description: 'Wing timetable scheduling, teacher curriculum coverage, and syllabus tracking',
+    },
+    'Teacher': {
+      badgeClass: 'bg-sky-100 text-sky-800 border-sky-200',
+      defaultScope: 'Mathematics & Science Faculty',
+      accessLevel: 'Tier 4 (Faculty)',
+      description: 'Daily classroom attendance, homework publication, exam marks, and merit awards',
+    },
+    'Parent': {
+      badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+      defaultScope: 'Guardian Portal (Aarav & Diya)',
+      accessLevel: 'Tier 5 (Guardian)',
+      description: 'Student fee receipts, live GPS bus tracker, report cards, and leave applications',
+    },
+    'Student': {
+      badgeClass: 'bg-amber-100 text-amber-800 border-amber-200',
+      defaultScope: 'Grade 10-A Student Portal',
+      accessLevel: 'Tier 6 (Student)',
+      description: 'AI homework tutor, timetable calendar, rewards redemption, and exam schedule',
+    },
+  };
+
+  const [managedUsers, setManagedUsers] = useState<ManagedUser[]>(() => {
+    try {
+      const saved = localStorage.getItem('evergrow_roles_users_v2');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return [
+      { id: 'usr-1', username: 'adrin', fullName: 'Adrin Jr.', assignedRole: 'Super Admin', portalScope: 'Full Enterprise Access', status: 'Active', email: 'adrin@evergrow.edu' },
+      { id: 'usr-2', username: 'viceadmin', fullName: 'Sarah Jenkins', assignedRole: 'Vice Admin', portalScope: 'Campus Operations & Staff Governance', status: 'Active', email: 'sarah.jenkins@evergrow.edu' },
+      { id: 'usr-3', username: 'principal', fullName: 'Dr. Arthur Vance', assignedRole: 'Principal', portalScope: 'Institutional Governance', status: 'Active', email: 'principal@evergrow.edu' },
+      { id: 'usr-4', username: 'coordinator1', fullName: 'Dr. Elena Rostova', assignedRole: 'Coordinator', portalScope: 'Grades 10–12 Senior Secondary', status: 'Active', email: 'coordinator@evergrow.edu' },
+      { id: 'usr-5', username: 'staff3', fullName: 'Priya Sharma', assignedRole: 'Teacher', portalScope: 'Mathematics & Science Faculty', status: 'Active', email: 'priya.sharma@evergrow.edu' },
+      { id: 'usr-6', username: 'parent1', fullName: 'Rajesh Sharma', assignedRole: 'Parent', portalScope: 'Guardian Portal (Aarav & Diya)', status: 'Active', email: 'rajesh.sharma@gmail.com' },
+      { id: 'usr-7', username: 'student1', fullName: 'Liam Smith', assignedRole: 'Student', portalScope: 'Grade 10-A Student Portal', status: 'Active', email: 'liam.smith@evergrow.edu' },
+    ];
+  });
+
+  const [roleFilter, setRoleFilter] = useState<string>('All');
+  const [userSearchQuery, setUserSearchQuery] = useState<string>('');
+  const [showAddUserModal, setShowAddUserModal] = useState<boolean>(false);
+  const [newUserForm, setNewUserForm] = useState<{
+    username: string;
+    fullName: string;
+    assignedRole: UserRole;
+    portalScope: string;
+    email: string;
+  }>({
+    username: '',
+    fullName: '',
+    assignedRole: 'Teacher',
+    portalScope: 'Mathematics & Science Faculty',
+    email: '',
+  });
+
+  const handleAssignRole = (userId: string, newRole: UserRole) => {
+    setManagedUsers((prev) => {
+      const updated = prev.map((u) => {
+        if (u.id === userId) {
+          return {
+            ...u,
+            assignedRole: newRole,
+            portalScope: ROLE_CONFIG[newRole]?.defaultScope || u.portalScope,
+          };
+        }
+        return u;
+      });
+      try {
+        localStorage.setItem('evergrow_roles_users_v2', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
+    const target = managedUsers.find((u) => u.id === userId);
+    toast.success(`Role '${newRole}' assigned to ${target?.fullName || 'user'}.`);
+  };
+
+  const handleAddUser = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newUserForm.username.trim() || !newUserForm.fullName.trim()) {
+      toast.error('Username and Full Name are required.');
+      return;
+    }
+    const cleanUsername = newUserForm.username.trim().toLowerCase().replace(/\s+/g, '_');
+    if (managedUsers.some((u) => u.username.toLowerCase() === cleanUsername)) {
+      toast.error(`Username '${cleanUsername}' already exists.`);
+      return;
+    }
+    const newUser: ManagedUser = {
+      id: `usr-${Date.now()}`,
+      username: cleanUsername,
+      fullName: newUserForm.fullName.trim(),
+      assignedRole: newUserForm.assignedRole,
+      portalScope: newUserForm.portalScope.trim() || ROLE_CONFIG[newUserForm.assignedRole].defaultScope,
+      status: 'Active',
+      email: newUserForm.email.trim() || `${cleanUsername}@evergrow.edu`,
+    };
+    setManagedUsers((prev) => {
+      const updated = [newUser, ...prev];
+      try {
+        localStorage.setItem('evergrow_roles_users_v2', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
+    toast.success(`User '${cleanUsername}' added and assigned role '${newUserForm.assignedRole}'.`);
+    setShowAddUserModal(false);
+    setNewUserForm({
+      username: '',
+      fullName: '',
+      assignedRole: 'Teacher',
+      portalScope: 'Mathematics & Science Faculty',
+      email: '',
+    });
+  };
+
+  const handleDeleteUser = (userId: string) => {
+    const target = managedUsers.find((u) => u.id === userId);
+    if (target?.username === 'adrin') {
+      toast.error('The primary Super Admin account cannot be removed.');
+      return;
+    }
+    setManagedUsers((prev) => {
+      const updated = prev.filter((u) => u.id !== userId);
+      try {
+        localStorage.setItem('evergrow_roles_users_v2', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
+    toast.success(`User ${target?.fullName || 'account'} removed.`);
+  };
+
+  const filteredUsers = managedUsers.filter((u) => {
+    const matchesFilter = roleFilter === 'All' || u.assignedRole === roleFilter;
+    const q = userSearchQuery.toLowerCase().trim();
+    const matchesQuery =
+      !q ||
+      u.username.toLowerCase().includes(q) ||
+      u.fullName.toLowerCase().includes(q) ||
+      u.portalScope.toLowerCase().includes(q) ||
+      u.assignedRole.toLowerCase().includes(q);
+    return matchesFilter && matchesQuery;
+  });
 
   return (
     <div className="space-y-6 animate-fadeIn pb-12 select-none">
@@ -637,6 +838,7 @@ export const ModuleHubPage: React.FC = () => {
           ───────────────────────────────────────────────────────────── */}
       {moduleKey === 'roles-users' && (
         <div className="space-y-6">
+          {/* Header Banner */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-blue-500/25">
@@ -644,49 +846,306 @@ export const ModuleHubPage: React.FC = () => {
               </div>
               <div>
                 <h1 className="text-xl font-black text-slate-800 tracking-tight">Roles & User Account Management</h1>
-                <p className="text-xs text-slate-500">Super Admin, Principal, Coordinator, Teacher, Parent, and Student authentication</p>
+                <p className="text-xs text-slate-500">Super Admin, Vice Admin, Principal, Coordinator, Teacher, Parent, and Student authentication</p>
               </div>
+            </div>
+            <button
+              onClick={() => setShowAddUserModal(true)}
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs shadow-md shadow-blue-500/25 flex items-center space-x-1.5 cursor-pointer transition-all active:scale-98"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Assign New User</span>
+            </button>
+          </div>
+
+          {/* Quick Metrics Bar */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] border border-white/60">
+              <span className="text-[10px] font-bold uppercase text-slate-400">Total Accounts</span>
+              <div className="text-2xl font-black text-slate-800 mt-1">{managedUsers.length}</div>
+              <span className="text-[10px] text-slate-500 font-medium">Provisioned Users</span>
+            </div>
+            <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] border border-white/60">
+              <span className="text-[10px] font-bold uppercase text-slate-400">Admin Governance</span>
+              <div className="text-2xl font-black text-blue-600 mt-1">
+                {managedUsers.filter((u) => u.assignedRole === 'Super Admin' || u.assignedRole === 'Vice Admin').length}
+              </div>
+              <span className="text-[10px] text-slate-500 font-medium">Super & Vice Admins</span>
+            </div>
+            <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] border border-white/60">
+              <span className="text-[10px] font-bold uppercase text-slate-400">Academic Wing</span>
+              <div className="text-2xl font-black text-teal-600 mt-1">
+                {managedUsers.filter((u) => u.assignedRole === 'Coordinator' || u.assignedRole === 'Teacher' || u.assignedRole === 'Principal').length}
+              </div>
+              <span className="text-[10px] text-slate-500 font-medium">Faculty & Coordinators</span>
+            </div>
+            <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] border border-white/60">
+              <span className="text-[10px] font-bold uppercase text-slate-400">Campus Community</span>
+              <div className="text-2xl font-black text-emerald-600 mt-1">
+                {managedUsers.filter((u) => u.assignedRole === 'Parent' || u.assignedRole === 'Student').length}
+              </div>
+              <span className="text-[10px] text-slate-500 font-medium">Parents & Students</span>
             </div>
           </div>
 
+          {/* User Table & Controls */}
           <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-4">
-            <div className="overflow-x-auto">
+            {/* Search and Role Filter Chips */}
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+              <div className="relative flex-1 max-w-sm">
+                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={userSearchQuery}
+                  onChange={(e) => setUserSearchQuery(e.target.value)}
+                  placeholder="Search user, name, or scope..."
+                  className="w-full pl-9 pr-4 py-2 text-xs rounded-xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] border border-white/60 focus:outline-none text-slate-800 font-semibold"
+                />
+              </div>
+
+              {/* Filter Pills */}
+              <div className="flex flex-wrap items-center gap-1.5">
+                {['All', ...AVAILABLE_ROLES].map((role) => (
+                  <button
+                    key={role}
+                    type="button"
+                    onClick={() => setRoleFilter(role)}
+                    className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
+                      roleFilter === role
+                        ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25'
+                        : 'bg-[#EBEEF2] text-slate-600 hover:text-slate-900 shadow-[2px_2px_4px_#C8D0DC,-2px_-2px_4px_#FFFFFF]'
+                    }`}
+                  >
+                    {role}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Table */}
+            <div className="overflow-x-auto rounded-2xl bg-white/40 border border-white/70">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-300/60 text-[10px] font-black text-slate-400 uppercase tracking-wider">
-                    <th className="py-2.5 px-3">Username</th>
-                    <th className="py-2.5 px-3">Full Name</th>
-                    <th className="py-2.5 px-3">Assigned Role</th>
-                    <th className="py-2.5 px-3">Portal Scope</th>
-                    <th className="py-2.5 px-3">Status</th>
+                  <tr className="border-b border-slate-300/60 text-[10px] font-black text-slate-400 uppercase tracking-wider bg-slate-100/50">
+                    <th className="py-3 px-3.5">Username</th>
+                    <th className="py-3 px-3.5">Full Name</th>
+                    <th className="py-3 px-3.5">Assigned Role (Live Switch)</th>
+                    <th className="py-3 px-3.5">Portal Scope</th>
+                    <th className="py-3 px-3.5">Status</th>
+                    <th className="py-3 px-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200/60 font-medium text-slate-700">
-                  <tr>
-                    <td className="py-3 px-3 font-mono font-bold text-slate-900">adrin</td>
-                    <td className="py-3 px-3 font-bold text-slate-800">Adrin Jr.</td>
-                    <td className="py-3 px-3"><span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">Super Admin</span></td>
-                    <td className="py-3 px-3">Full Enterprise Access</td>
-                    <td className="py-3 px-3"><span className="text-emerald-600 font-bold">Active</span></td>
-                  </tr>
-                  <tr>
-                    <td className="py-3 px-3 font-mono font-bold text-slate-900">principal</td>
-                    <td className="py-3 px-3 font-bold text-slate-800">Dr. Arthur Vance</td>
-                    <td className="py-3 px-3"><span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800">Principal</span></td>
-                    <td className="py-3 px-3">Institutional Governance</td>
-                    <td className="py-3 px-3"><span className="text-emerald-600 font-bold">Active</span></td>
-                  </tr>
-                  <tr>
-                    <td className="py-3 px-3 font-mono font-bold text-slate-900">coordinator1</td>
-                    <td className="py-3 px-3 font-bold text-slate-800">Dr. Elena Rostova</td>
-                    <td className="py-3 px-3"><span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-teal-100 text-teal-800">Coordinator</span></td>
-                    <td className="py-3 px-3">Grades 10–12 Senior Secondary</td>
-                    <td className="py-3 px-3"><span className="text-emerald-600 font-bold">Active</span></td>
-                  </tr>
+                  {filteredUsers.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} className="py-8 text-center text-slate-400 text-xs">
+                        No user accounts match the selected filter.
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredUsers.map((u) => {
+                      const cfg = ROLE_CONFIG[u.assignedRole] || ROLE_CONFIG['Teacher'];
+                      return (
+                        <tr key={u.id} className="hover:bg-blue-50/30 transition-colors">
+                          <td className="py-3 px-3.5 font-mono font-bold text-slate-900">
+                            {u.username}
+                          </td>
+                          <td className="py-3 px-3.5">
+                            <div className="font-bold text-slate-800">{u.fullName}</div>
+                            {u.email && <div className="text-[10px] text-slate-400 font-mono">{u.email}</div>}
+                          </td>
+                          <td className="py-3 px-3.5">
+                            {/* Interactive Role Switcher Dropdown */}
+                            <div className="inline-flex items-center space-x-1.5">
+                              <select
+                                value={u.assignedRole}
+                                onChange={(e) => handleAssignRole(u.id, e.target.value as UserRole)}
+                                className={`px-2.5 py-1 text-[11px] font-bold rounded-lg border cursor-pointer focus:outline-none transition-all shadow-xs ${cfg.badgeClass}`}
+                                title={`Change role for ${u.fullName}`}
+                              >
+                                {AVAILABLE_ROLES.map((r) => (
+                                  <option key={r} value={r} className="bg-white text-slate-800 font-semibold">
+                                    {r}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </td>
+                          <td className="py-3 px-3.5">
+                            <span className="text-slate-600 text-xs">{u.portalScope}</span>
+                          </td>
+                          <td className="py-3 px-3.5">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+                              {u.status}
+                            </span>
+                          </td>
+                          <td className="py-3 px-3.5 text-right">
+                            {u.username !== 'adrin' ? (
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteUser(u.id)}
+                                title="Remove User"
+                                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            ) : (
+                              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                                Primary Admin
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
                 </tbody>
               </table>
             </div>
           </div>
+
+          {/* Role Access Matrix Guide */}
+          <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-sm font-black text-slate-800 tracking-tight">Institutional Role Definitions & Permissions</h2>
+                <p className="text-xs text-slate-500">Core operational scope enforced across Ever Grow Schools modules</p>
+              </div>
+              <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-200">
+                RBAC Active
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+              {AVAILABLE_ROLES.map((roleName) => {
+                const cfg = ROLE_CONFIG[roleName];
+                return (
+                  <div
+                    key={roleName}
+                    className="p-3.5 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] border border-white/60 space-y-1.5"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${cfg.badgeClass}`}>
+                        {roleName}
+                      </span>
+                      <span className="text-[9px] font-bold text-slate-400 uppercase">{cfg.accessLevel}</span>
+                    </div>
+                    <p className="text-[11px] text-slate-600 leading-snug">{cfg.description}</p>
+                    <div className="text-[10px] text-slate-400 font-medium">
+                      Default Scope: <span className="text-slate-700 font-semibold">{cfg.defaultScope}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Modal: Add & Assign New User */}
+          {showAddUserModal && (
+            <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+              <div className="w-full max-w-md p-6 rounded-3xl bg-[#EBEEF2] shadow-[8px_8px_20px_#A6B4C8,-8px_-8px_20px_#FFFFFF] border border-white/80 space-y-4 animate-fadeIn">
+                <div className="flex items-center justify-between border-b border-slate-300/60 pb-3">
+                  <div className="flex items-center space-x-2">
+                    <UserCog className="w-5 h-5 text-blue-600" />
+                    <h3 className="text-sm font-black text-slate-800">Assign New User Account</h3>
+                  </div>
+                  <button
+                    onClick={() => setShowAddUserModal(false)}
+                    className="p-1 rounded-lg text-slate-400 hover:text-slate-700 cursor-pointer"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <form onSubmit={handleAddUser} className="space-y-3.5">
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Username</label>
+                    <input
+                      type="text"
+                      required
+                      value={newUserForm.username}
+                      onChange={(e) => setNewUserForm({ ...newUserForm, username: e.target.value })}
+                      placeholder="e.g. vice_admin2 or teacher_math"
+                      className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] border border-white/60 focus:outline-none text-slate-800 font-semibold font-mono"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Full Name</label>
+                    <input
+                      type="text"
+                      required
+                      value={newUserForm.fullName}
+                      onChange={(e) => setNewUserForm({ ...newUserForm, fullName: e.target.value })}
+                      placeholder="e.g. Sarah Jenkins or Rajesh Sharma"
+                      className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] border border-white/60 focus:outline-none text-slate-800 font-semibold"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Assigned Role</label>
+                    <select
+                      value={newUserForm.assignedRole}
+                      onChange={(e) => {
+                        const nextRole = e.target.value as UserRole;
+                        setNewUserForm({
+                          ...newUserForm,
+                          assignedRole: nextRole,
+                          portalScope: ROLE_CONFIG[nextRole]?.defaultScope || newUserForm.portalScope,
+                        });
+                      }}
+                      className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] border border-white/60 focus:outline-none text-slate-800 font-bold cursor-pointer"
+                    >
+                      {AVAILABLE_ROLES.map((r) => (
+                        <option key={r} value={r}>
+                          {r}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Portal Scope & Department</label>
+                    <input
+                      type="text"
+                      value={newUserForm.portalScope}
+                      onChange={(e) => setNewUserForm({ ...newUserForm, portalScope: e.target.value })}
+                      placeholder="e.g. Campus Operations, Mathematics Faculty, Guardian Portal"
+                      className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] border border-white/60 focus:outline-none text-slate-800 font-semibold"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Email Address</label>
+                    <input
+                      type="email"
+                      value={newUserForm.email}
+                      onChange={(e) => setNewUserForm({ ...newUserForm, email: e.target.value })}
+                      placeholder="e.g. user@evergrow.edu"
+                      className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] border border-white/60 focus:outline-none text-slate-800 font-semibold"
+                    />
+                  </div>
+
+                  <div className="pt-2 flex items-center justify-end space-x-2">
+                    <button
+                      type="button"
+                      onClick={() => setShowAddUserModal(false)}
+                      className="px-4 py-2 rounded-xl bg-[#EBEEF2] shadow-[2px_2px_5px_#C8D0DC,-2px_-2px_5px_#FFFFFF] text-xs font-bold text-slate-600 hover:text-slate-800 cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-bold shadow-md shadow-blue-500/25 cursor-pointer"
+                    >
+                      Save & Assign Role
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
