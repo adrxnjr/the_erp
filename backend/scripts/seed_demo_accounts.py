@@ -78,6 +78,18 @@ TEACHER_STAFF_DATA = [
 # Additional key administrative accounts
 ADMIN_STAFF_DATA = [
     {
+        "username": "staff",
+        "alt_username": "staff_office",
+        "full_name": "Office Desk Staff",
+        "email": "staff@evergrowschools.edu",
+        "designation": "Office Desk Staff",
+        "department": "Office Administration",
+        "role": "school_admin",
+        "staff_type": "teaching",
+        "employee_id": "EMP-STAFF",
+        "phone": "9811000000",
+    },
+    {
         "username": "principal",
         "alt_username": "staff1",
         "full_name": "Dr. Robert Taylor",
