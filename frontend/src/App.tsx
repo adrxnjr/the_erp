@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { BrandingProvider, useBranding } from './context/BrandingContext';
 import { ToastProvider } from './context/ToastContext';
 import { Layout } from './components/Layout';
 import { LandingPage } from './pages/LandingPage';
@@ -103,7 +104,8 @@ export function App() {
 
   return (
     <AuthProvider>
-      <ToastProvider>
+      <BrandingProvider>
+        <ToastProvider>
         {showWelcome && (
           <WelcomeScreen
             schoolName="Ever Grow Schools"
@@ -266,8 +268,9 @@ export function App() {
         </Suspense>
       </RouterComponent>
       </ErrorBoundary>
-    </ToastProvider>
-  </AuthProvider>
+        </ToastProvider>
+      </BrandingProvider>
+    </AuthProvider>
   );
 }
 

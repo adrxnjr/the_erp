@@ -1,16 +1,17 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useBranding } from '../context/BrandingContext';
 import { LogOut, Shield, School } from 'lucide-react';
-import logoImg from '../assets/logo.png';
 
 export const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
+  const { activeLogo, schoolName } = useBranding();
 
   return (
     <header className="h-16 bg-white/75 backdrop-blur-2xl border-b border-black/[0.06] sticky top-0 z-30 flex items-center justify-between px-6 transition-all">
       <div className="flex items-center space-x-3.5">
         <div className="flex items-center space-x-3">
-          <img src={logoImg} alt="Ever Grow Schools Logo" className="h-12 w-auto max-w-[200px] object-contain drop-shadow-xs" />
+          <img src={activeLogo} alt={`${schoolName} Logo`} className="h-12 w-auto max-w-[200px] object-contain drop-shadow-xs" />
           <div className="flex items-center space-x-2">
             <span className="hidden md:inline-flex items-center px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider bg-blue-500/10 text-[#0071E3] rounded-full border border-blue-500/20">
               <span>

@@ -1,18 +1,62 @@
 import React from 'react';
+import { useBranding } from '../context/BrandingContext';
 import './AnimatedLogo.css';
 
 interface AnimatedLogoProps {
   className?: string;
   subtext?: string;
   idPrefix?: string;
+  title?: string;
 }
 
 export const AnimatedLogo: React.FC<AnimatedLogoProps> = ({
   className = 'w-full max-w-[360px] sm:max-w-[420px]',
   subtext,
   idPrefix = 'logo',
+  title,
 }) => {
+  let brandName = 'Ever Grow Schools';
+  let brandTagline = 'Excellence in Holistic Education';
+  let customLogoUrl: string | null = null;
+  try {
+    const branding = useBranding();
+    brandName = branding.schoolName;
+    brandTagline = branding.tagline;
+    customLogoUrl = branding.customLogoUrl;
+  } catch {}
+
+  const displayTitle = title || brandName || 'Ever Grow International Schools';
+  const displaySubtext = subtext !== undefined ? subtext : brandTagline;
   const p = idPrefix;
+
+  // Dynamically scale font size if school name is longer than usual
+  const fontSize = displayTitle.length > 17
+    ? Math.max(36, Math.round(78 * (17 / displayTitle.length)))
+    : 78;
+
+  if (customLogoUrl) {
+    return (
+      <div className={`flex items-center gap-2.5 p-2 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] border border-white/60 ${className}`}>
+        <div className="w-11 h-11 rounded-xl bg-[#EBEEF2] shadow-[2px_2px_5px_#C8D0DC,-2px_-2px_5px_#FFFFFF] p-1 flex items-center justify-center shrink-0 border border-white/80 overflow-hidden">
+          <img
+            src={customLogoUrl}
+            alt={displayTitle}
+            className="w-full h-full object-contain rounded-lg animate-logo-float"
+          />
+        </div>
+        <div className="min-w-0 text-left overflow-hidden flex-1">
+          <div className="text-xs font-black tracking-tight text-slate-800 truncate leading-tight">
+            {displayTitle}
+          </div>
+          {displaySubtext && (
+            <div className="text-[10px] font-semibold text-slate-400 tracking-tight truncate leading-tight mt-0.5">
+              {displaySubtext}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`animated-logo-container ${className}`}>
@@ -223,9 +267,10 @@ export const AnimatedLogo: React.FC<AnimatedLogoProps> = ({
               textAnchor="middle"
               dominantBaseline="central"
               className="animated-logo-svg-text"
+              style={{ fontSize: `${fontSize}px` }}
               fill="#FFFFFF"
             >
-              Ever Grow Schools
+              {displayTitle}
             </text>
             {subtext && (
               <text

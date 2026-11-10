@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { useAuth } from '../context/AuthContext';
+import { useBranding } from '../context/BrandingContext';
 import { Menu, WifiOff, ShieldCheck, RefreshCw } from 'lucide-react';
-import logoImg from '../assets/logo.png';
 
 export const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
+  const { activeLogo, schoolName } = useBranding();
   const location = useLocation();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
   const [isServerOffline, setIsServerOffline] = useState<boolean>(false);
@@ -82,8 +83,8 @@ export const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) =
             <Menu className="w-5 h-5" />
           </button>
           <Link to="/" className="flex items-center gap-2">
-            <img src={logoImg} alt="Ever Grow Schools Logo" className="h-7 w-auto object-contain" />
-            <span className="font-black text-slate-900 text-sm tracking-tight">Ever Grow</span>
+            <img src={activeLogo} alt={`${schoolName} Logo`} className="h-7 w-auto object-contain" />
+            <span className="font-black text-slate-900 text-sm tracking-tight">{schoolName}</span>
           </Link>
         </div>
 

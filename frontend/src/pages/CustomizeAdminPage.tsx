@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   SlidersHorizontal,
@@ -23,8 +23,10 @@ import {
   ToggleRight,
   Upload,
   Download,
+  RotateCcw,
 } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
+import { useBranding } from '../context/BrandingContext';
 
 interface CustomizeTab {
   id: string;
@@ -82,9 +84,55 @@ export const CustomizeAdminPage: React.FC = () => {
     gatePass: true,
   });
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const {
+    schoolName,
+    tagline,
+    customLogoUrl,
+    activeLogo,
+    updateSchoolName,
+    updateTagline,
+    updateLogo,
+    resetLogo,
+  } = useBranding();
+
+  const handleLogoFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please upload a valid image file (PNG, SVG, JPG, WEBP).');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image size must be less than 5MB.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        updateLogo(reader.result);
+        toast.success('New logo applied immediately across all portals, sidebar, and navbar!');
+      }
+    };
+    reader.onerror = () => {
+      toast.error('Failed to read image file.');
+    };
+    reader.readAsDataURL(file);
+
+    if (e.target) {
+      e.target.value = '';
+    }
+  };
+
+  const handleResetLogo = () => {
+    resetLogo();
+    toast.showToast('Reset to default Ever Grow institutional ribbon logo.', 'info');
+  };
+
   const [branding, setBranding] = useState({
-    schoolName: 'Ever Grow International Schools',
-    tagline: 'Excellence in Holistic Education',
     primaryColor: '#0066FF',
     accentColor: '#C25E2E',
     affiliationNo: 'CBSE Affiliation No: 1930482',
@@ -183,19 +231,23 @@ export const CustomizeAdminPage: React.FC = () => {
                   <label className="text-xs font-bold text-slate-700 block mb-1.5">Institution Name</label>
                   <input
                     type="text"
-                    value={branding.schoolName}
-                    onChange={(e) => setBranding({ ...branding, schoolName: e.target.value })}
+                    value={schoolName}
+                    onChange={(e) => updateSchoolName(e.target.value)}
+                    placeholder="e.g. Ever Grow International Schools"
                     className="w-full px-4 py-2.5 text-xs rounded-xl bg-[#EBEEF2] shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] border border-white/60 focus:outline-none text-slate-800 font-semibold"
                   />
+                  <p className="text-[10px] text-slate-400 mt-1">Updates immediately across sidebar, navbar, and portal headers.</p>
                 </div>
                 <div>
                   <label className="text-xs font-bold text-slate-700 block mb-1.5">Official Motto / Tagline</label>
                   <input
                     type="text"
-                    value={branding.tagline}
-                    onChange={(e) => setBranding({ ...branding, tagline: e.target.value })}
+                    value={tagline}
+                    onChange={(e) => updateTagline(e.target.value)}
+                    placeholder="e.g. Excellence in Holistic Education"
                     className="w-full px-4 py-2.5 text-xs rounded-xl bg-[#EBEEF2] shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] border border-white/60 focus:outline-none text-slate-800 font-semibold"
                   />
+                  <p className="text-[10px] text-slate-400 mt-1">Displayed alongside school branding and official reports.</p>
                 </div>
               </div>
 
@@ -226,16 +278,75 @@ export const CustomizeAdminPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] border border-white/60 space-y-2">
-                <span className="text-xs font-bold text-slate-700">Logo Preview & Asset Sync</span>
-                <p className="text-[11px] text-slate-500">
-                  Current logo deployed across Navbar, PDF Receipts, Student ID Cards, and Social Wall header.
-                </p>
-                <div className="pt-2 flex items-center space-x-3">
-                  <button className="px-3 py-1.5 rounded-lg bg-[#EBEEF2] shadow-[2px_2px_5px_#C8D0DC,-2px_-2px_5px_#FFFFFF] text-xs font-bold text-slate-700 hover:text-blue-600 flex items-center space-x-1.5 border border-white/60 cursor-pointer">
+              <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] border border-white/60 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-xs font-bold text-slate-700 block">Logo Preview & Asset Sync</span>
+                    <p className="text-[11px] text-slate-500">
+                      Current logo deployed across Sidebar, Navbar, PDF Receipts, Student ID Cards, and Social Wall header.
+                    </p>
+                  </div>
+                  {customLogoUrl ? (
+                    <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg bg-blue-100 text-blue-700 border border-blue-200">
+                      Custom Logo Active
+                    </span>
+                  ) : (
+                    <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg bg-slate-200 text-slate-600 border border-slate-300">
+                      Default Ribbon Active
+                    </span>
+                  )}
+                </div>
+
+                {/* Logo Live Preview Thumbnail */}
+                <div className="p-3.5 rounded-xl bg-white/70 border border-white shadow-inner flex flex-col sm:flex-row items-center gap-4">
+                  <div className="w-16 h-16 rounded-xl bg-[#EBEEF2] shadow-[2px_2px_5px_#C8D0DC,-2px_-2px_5px_#FFFFFF] p-1.5 flex items-center justify-center border border-white/80 shrink-0">
+                    <img
+                      src={activeLogo}
+                      alt="Active Logo Preview"
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  </div>
+                  <div className="flex-1 text-center sm:text-left">
+                    <div className="text-xs font-black text-slate-800">{schoolName}</div>
+                    <div className="text-[11px] font-semibold text-slate-500">{tagline}</div>
+                    <p className="text-[10px] text-slate-400 mt-0.5">
+                      {customLogoUrl
+                        ? 'Custom uploaded graphic is dynamically powering the sidebar, navbar, and print documents.'
+                        : 'Default institutional vector artwork is currently rendered.'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Hidden File Input */}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/png,image/svg+xml,image/jpeg,image/webp"
+                  onChange={handleLogoFileUpload}
+                  className="hidden"
+                />
+
+                {/* Action Buttons */}
+                <div className="pt-1 flex flex-wrap items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="px-3.5 py-2 rounded-xl bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center space-x-1.5 border border-white/80 cursor-pointer active:scale-98 transition-all"
+                  >
                     <Upload className="w-3.5 h-3.5" />
                     <span>Upload New SVG/PNG Logo</span>
                   </button>
+
+                  {customLogoUrl && (
+                    <button
+                      type="button"
+                      onClick={handleResetLogo}
+                      className="px-3.5 py-2 rounded-xl bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-xs font-bold text-slate-600 hover:text-rose-600 flex items-center space-x-1.5 border border-white/80 cursor-pointer active:scale-98 transition-all"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Reset to Default Logo</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
