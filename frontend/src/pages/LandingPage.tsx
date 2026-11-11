@@ -190,113 +190,118 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
 
   return (
     <div className="min-h-screen bg-[#F5F6F8] text-slate-800 font-sans selection:bg-slate-300 selection:text-slate-900 w-full max-w-full overflow-x-hidden">
-      {/* 1. STICKY NEUMORPHIC NAVBAR */}
-      <header className="sticky top-0 z-40 bg-[#F5F6F8]/95 backdrop-blur-xl border-b border-white/80 shadow-xs transition-all w-full max-w-full overflow-hidden">
-        <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
-          {/* Logo Brand: Never wraps, unbroken even on small screens */}
-          <a
-            href="#home"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('home');
-            }}
-            className="flex items-center gap-2 sm:gap-2.5 group shrink-0"
-          >
-            <div className="w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#F5F6F8] shadow-[2px_2px_5px_#D4DAE5,-2px_-2px_5px_#FFFFFF] border border-white/80 flex items-center justify-center p-1 sm:p-1.5 transition-transform group-hover:scale-105 shrink-0">
-              <img src={logoImg} alt="Ever Grow Schools Logo" className="w-full h-full object-contain" />
-            </div>
-            <div className="flex items-baseline gap-1 whitespace-nowrap shrink-0">
-              <span className="text-sm xs:text-base sm:text-lg font-black tracking-tight text-blue-600 whitespace-nowrap">
-                Ever Grow
-              </span>
-              <span className="text-sm xs:text-base sm:text-lg font-bold tracking-tight text-[#C25E2E] whitespace-nowrap">
-                Schools
-              </span>
-            </div>
-          </a>
+      {/* 1. HERO SECTION WITH FULL-SCREEN IMAGE & FLOATING OVERLAY NAVBAR */}
+      <section id="home" className="relative w-full h-screen h-[100dvh] min-h-[580px] bg-slate-900 overflow-hidden">
+        {/* Full Screen Hero Background Image */}
+        <img
+          src={heroStudentsImg}
+          alt="Ever Grow School Students"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          loading="eager"
+        />
 
-          {/* Right Navigation & Controls: Strictly 3 Nav Items (Home, About us, Contact) + Login */}
-          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-            {/* Desktop 3 Navigation Links */}
-            <nav className="hidden md:flex items-center gap-6 text-xs font-bold text-slate-600 mr-2">
+        {/* Top Vignette Overlay for Crisp Navbar Contrast */}
+        <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none z-10" />
+
+        {/* Bottom Fade Overlay for Smooth Content Transition */}
+        <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#F5F6F8] via-[#F5F6F8]/75 to-transparent pointer-events-none z-10" />
+
+        {/* FLOATING TOP NAVBAR DIRECTLY OVER HERO IMAGE */}
+        <header className="absolute top-0 inset-x-0 z-30 transition-all w-full max-w-full">
+          <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+            {/* Logo Brand: Glass Backing with Drop Shadow */}
+            <a
+              href="#home"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection('home');
+              }}
+              className="flex items-center gap-2 sm:gap-2.5 group shrink-0"
+            >
+              <div className="w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center p-1 sm:p-1.5 transition-transform group-hover:scale-105 shadow-md shrink-0">
+                <img src={logoImg} alt="Ever Grow Schools Logo" className="w-full h-full object-contain drop-shadow" />
+              </div>
+              <div className="flex items-baseline gap-1 whitespace-nowrap shrink-0">
+                <span className="text-sm xs:text-base sm:text-lg font-black tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] whitespace-nowrap">
+                  Ever Grow
+                </span>
+                <span className="text-sm xs:text-base sm:text-lg font-bold tracking-tight text-amber-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] whitespace-nowrap">
+                  Schools
+                </span>
+              </div>
+            </a>
+
+            {/* Right Navigation & Controls: 3 Nav Items (Home, About us, Contact) + Login */}
+            <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+              {/* Desktop 3 Navigation Links */}
+              <nav className="hidden md:flex items-center gap-1.5 text-xs sm:text-sm font-bold text-white mr-2">
+                <button
+                  onClick={() => scrollToSection('home')}
+                  className="px-3.5 py-1.5 rounded-full hover:bg-white/20 active:bg-white/30 backdrop-blur-xs transition-all cursor-pointer whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+                >
+                  Home
+                </button>
+                <button
+                  onClick={() => scrollToSection('about')}
+                  className="px-3.5 py-1.5 rounded-full hover:bg-white/20 active:bg-white/30 backdrop-blur-xs transition-all cursor-pointer whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+                >
+                  About us
+                </button>
+                <button
+                  onClick={() => scrollToSection('contact')}
+                  className="px-3.5 py-1.5 rounded-full hover:bg-white/20 active:bg-white/30 backdrop-blur-xs transition-all cursor-pointer whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+                >
+                  Contact
+                </button>
+              </nav>
+
+              {/* Login Button */}
+              <button
+                onClick={() => handleOpenLogin('staff')}
+                className="px-4 py-2 sm:px-6 sm:py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white text-xs sm:text-sm font-bold shadow-lg shadow-black/30 hover:shadow-xl active:scale-95 transition-all text-center border border-white/20 cursor-pointer whitespace-nowrap shrink-0 min-h-[40px] flex items-center justify-center"
+              >
+                Login
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Floating Glass Navigation Pills */}
+          <div className="md:hidden px-3.5 pb-2">
+            <div className="bg-black/35 backdrop-blur-md rounded-2xl border border-white/20 grid grid-cols-3 text-center divide-x divide-white/15 shadow-lg">
               <button
                 onClick={() => scrollToSection('home')}
-                className="px-3 py-1.5 rounded-full hover:text-blue-600 hover:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer whitespace-nowrap"
+                className="py-2 px-1 text-xs font-bold text-white/90 hover:text-white active:bg-white/10 tracking-tight transition-colors cursor-pointer min-h-[40px] flex items-center justify-center drop-shadow"
               >
                 Home
               </button>
               <button
                 onClick={() => scrollToSection('about')}
-                className="px-3 py-1.5 rounded-full hover:text-blue-600 hover:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer whitespace-nowrap"
+                className="py-2 px-1 text-xs font-bold text-white/90 hover:text-white active:bg-white/10 tracking-tight transition-colors cursor-pointer min-h-[40px] flex items-center justify-center drop-shadow"
               >
                 About us
               </button>
               <button
                 onClick={() => scrollToSection('contact')}
-                className="px-3 py-1.5 rounded-full hover:text-blue-600 hover:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer whitespace-nowrap"
+                className="py-2 px-1 text-xs font-bold text-white/90 hover:text-white active:bg-white/10 tracking-tight transition-colors cursor-pointer min-h-[40px] flex items-center justify-center drop-shadow"
               >
                 Contact
               </button>
-            </nav>
-
-            {/* Login Button */}
-            <button
-              onClick={() => handleOpenLogin('staff')}
-              className="px-4 py-2 sm:px-6 sm:py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 active:scale-95 transition-all text-center border-none cursor-pointer whitespace-nowrap shrink-0 min-h-[40px] flex items-center justify-center"
-            >
-              Login
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Open Column Headings (Touch-friendly 44px height, openly visible, NO hidden menu) */}
-        <div className="md:hidden border-t border-slate-200/80 bg-[#F5F6F8] grid grid-cols-3 text-center divide-x divide-slate-200/60 shadow-[inset_0_1px_3px_rgba(212,218,229,0.3)]">
-          <button
-            onClick={() => scrollToSection('home')}
-            className="py-2.5 px-1 text-xs font-black text-slate-700 hover:text-blue-600 active:text-blue-600 active:bg-slate-100/60 tracking-tight transition-colors cursor-pointer min-h-[44px] flex items-center justify-center"
-          >
-            Home
-          </button>
-          <button
-            onClick={() => scrollToSection('about')}
-            className="py-2.5 px-1 text-xs font-black text-slate-700 hover:text-blue-600 active:text-blue-600 active:bg-slate-100/60 tracking-tight transition-colors cursor-pointer min-h-[44px] flex items-center justify-center"
-          >
-            About us
-          </button>
-          <button
-            onClick={() => scrollToSection('contact')}
-            className="py-2.5 px-1 text-xs font-black text-slate-700 hover:text-blue-600 active:text-blue-600 active:bg-slate-100/60 tracking-tight transition-colors cursor-pointer min-h-[44px] flex items-center justify-center"
-          >
-            Contact
-          </button>
-        </div>
-      </header>
-
-      {/* 2. SECTION 1: HOME (HERO & CORE PILLARS) */}
-      <section id="home" className="relative w-full bg-[#F5F6F8]">
-        {/* Hero Visual Area: Responsive 45vh to 75vh */}
-        <div className="relative w-full h-[45vh] sm:h-[60vh] md:h-[75vh] min-h-[300px] sm:min-h-[440px] overflow-hidden bg-[#F5F6F8]">
-          <img
-            src={heroStudentsImg}
-            alt="Ever Grow School Students"
-            className="w-full h-full object-cover object-center"
-            loading="eager"
-          />
-
-          {/* Floating Bottom Ticker */}
-          <div className="absolute inset-x-0 bottom-0 pb-3 sm:pb-6 pt-16 bg-gradient-to-t from-[#F5F6F8] via-[#F5F6F8]/85 to-transparent">
-            <div className="max-w-7xl mx-auto px-3 sm:px-4 text-center overflow-x-auto scrollbar-none">
-              <div className="inline-flex items-center gap-2 text-[10.5px] sm:text-xs font-bold text-slate-700 bg-[#F5F6F8]/95 backdrop-blur-md shadow-[inset_2px_2px_5px_#D4DAE5,inset_-2px_-2px_5px_#FFFFFF] px-3.5 py-1.5 rounded-full border border-white/80 whitespace-nowrap">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
-                <span className="text-slate-900 font-extrabold whitespace-nowrap">2,500+ Active Scholars</span>
-                <span className="text-slate-400">•</span>
-                <span className="text-slate-600 whitespace-nowrap">CBSE Affiliation #1930482</span>
-                <span className="text-slate-400 hidden sm:inline">•</span>
-                <span className="text-blue-600 font-bold hidden sm:inline whitespace-nowrap">Admissions Open 2026-27</span>
-              </div>
             </div>
           </div>
+        </header>
+
+        {/* Floating Bottom Ticker Over Hero Image */}
+        <div className="absolute inset-x-0 bottom-4 sm:bottom-6 z-20 text-center px-3 sm:px-4 overflow-x-auto scrollbar-none">
+          <div className="inline-flex items-center gap-2 text-[10.5px] sm:text-xs font-bold text-slate-800 bg-white/90 backdrop-blur-md shadow-lg px-4 py-2 rounded-full border border-white/80 whitespace-nowrap">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+            <span className="text-slate-900 font-extrabold whitespace-nowrap">2,500+ Active Scholars</span>
+            <span className="text-slate-400">•</span>
+            <span className="text-slate-600 whitespace-nowrap">CBSE Affiliation #1930482</span>
+            <span className="text-slate-400 hidden sm:inline">•</span>
+            <span className="text-blue-600 font-bold hidden sm:inline whitespace-nowrap">Admissions Open 2026-27</span>
+          </div>
         </div>
+      </section>
 
         {/* Student Showcase & Core Pillars Area */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
@@ -375,7 +380,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             </div>
           </div>
         </div>
-      </section>
 
       {/* 3. SECTION 2: ABOUT US */}
       <section id="about" className="py-10 sm:py-16 md:py-20 bg-[#F5F6F8] border-t border-slate-200/80">
