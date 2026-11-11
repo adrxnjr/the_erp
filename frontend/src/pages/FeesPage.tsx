@@ -3,6 +3,7 @@ import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { AmazonPaymentModal } from '../components/AmazonPaymentModal';
+import { formatINR } from '../utils/currency';
 import schoolData from '../data/schoolData.json';
 import {
   DollarSign,
@@ -303,11 +304,11 @@ export const FeesPage: React.FC = () => {
                 <>
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200">
                     <Clock className="w-3.5 h-3.5 mr-1 text-amber-600" />
-                    Pending Dues: ${Number(childFee.outstanding_balance).toLocaleString()}.00
+                    Pending Dues: {formatINR(childFee.outstanding_balance)}
                   </span>
                   <button
                     onClick={() => handleOpenAmazonPay(childFee)}
-                    className="px-4 py-2 rounded-xl bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#F0B800] text-slate-950 font-extrabold text-xs shadow-sm flex items-center space-x-1.5 border border-[#FCD200] transition-all transform hover:scale-[1.02]"
+                    className="px-4 py-2 min-h-[44px] rounded-xl bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#F0B800] text-slate-950 font-extrabold text-xs shadow-sm flex items-center space-x-1.5 border border-[#FCD200] transition-all transform hover:scale-[1.02]"
                   >
                     <CreditCard className="w-3.5 h-3.5 text-slate-950" />
                     <span>Pay Fees</span>
@@ -322,7 +323,7 @@ export const FeesPage: React.FC = () => {
                   </span>
                   <button
                     onClick={() => handleResetDemoFees(childFee.student_id)}
-                    className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
+                    className="p-2 min-h-[44px] min-w-[44px] rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors flex items-center justify-center"
                     title="Reset demo dues for testing"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
@@ -336,15 +337,15 @@ export const FeesPage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-5">
             <div className="p-4 rounded-2xl bg-slate-50/80 border border-slate-100 text-center">
               <div className="text-[10px] font-bold uppercase text-slate-400">Total Annual Fee</div>
-              <div className="text-xl font-black text-slate-900 mt-1">
-                ${Number(childFee.total_annual_fee).toLocaleString()}
+              <div className="text-xl font-bold tabular-nums text-slate-900 mt-1">
+                {formatINR(childFee.total_annual_fee)}
               </div>
             </div>
 
             <div className="p-4 rounded-2xl bg-slate-50/80 border border-slate-100 text-center">
               <div className="text-[10px] font-bold uppercase text-slate-400">Total Paid</div>
-              <div className="text-xl font-black text-emerald-600 mt-1">
-                ${Number(childFee.total_paid).toLocaleString()}
+              <div className="text-xl font-bold tabular-nums text-emerald-600 mt-1">
+                {formatINR(childFee.total_paid)}
               </div>
             </div>
 
@@ -356,9 +357,9 @@ export const FeesPage: React.FC = () => {
                 Balance Due
               </div>
               <div
-                className={`text-xl font-black mt-1 ${hasDues ? 'text-[#B12704]' : 'text-emerald-700'}`}
+                className={`text-xl font-bold tabular-nums mt-1 ${hasDues ? 'text-[#B12704]' : 'text-emerald-700'}`}
               >
-                ${Number(childFee.outstanding_balance).toLocaleString()}
+                {formatINR(childFee.outstanding_balance)}
               </div>
               {hasDues && (
                 <span className="text-[9px] font-extrabold text-amber-700 uppercase tracking-tight">
@@ -427,8 +428,8 @@ export const FeesPage: React.FC = () => {
                         )}
                         <span>{item.category}</span>
                       </td>
-                      <td className="py-3.5 px-5 font-mono font-bold text-slate-800">
-                        ${Number(item.amount).toLocaleString()}.00
+                      <td className="py-3.5 px-5 font-bold tabular-nums text-slate-800">
+                        {formatINR(item.amount)}
                       </td>
                       <td className="py-3.5 px-5 text-slate-500 font-mono">{item.due_date}</td>
                       <td className="py-3.5 px-5">
@@ -498,8 +499,8 @@ export const FeesPage: React.FC = () => {
                       <span>{rec.receipt_number}</span>
                     </td>
                     <td className="py-3.5 px-5 font-medium text-slate-800">{rec.remarks}</td>
-                    <td className="py-3.5 px-5 font-mono font-extrabold text-emerald-600">
-                      ${Number(rec.amount).toLocaleString()}.00
+                    <td className="py-3.5 px-5 font-bold tabular-nums text-emerald-600">
+                      {formatINR(rec.amount)}
                     </td>
                     <td className="py-3.5 px-5 font-semibold text-slate-700">
                       <span className="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[10px]">
@@ -635,7 +636,7 @@ export const FeesPage: React.FC = () => {
                       </span>
                       <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight">
                         {familySummary.outstanding_balance > 0
-                          ? `Family Balance Due: $${Number(familySummary.outstanding_balance).toLocaleString()}.00`
+                          ? `Family Balance Due: ${formatINR(familySummary.outstanding_balance)}`
                           : "All Academic Fees Paid in Full!"}
                       </h2>
                       <p className="text-xs md:text-sm text-white/90 leading-relaxed">
@@ -648,7 +649,7 @@ export const FeesPage: React.FC = () => {
                         <div className="pt-2">
                           <button
                             onClick={() => handleOpenAmazonPay(childrenFees[0])}
-                            className="px-6 py-3 rounded-2xl bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#F0B800] text-slate-950 font-black text-sm shadow-md flex items-center space-x-2 border border-[#FCD200] transition-all transform hover:scale-[1.02]"
+                            className="px-6 py-3 min-h-[44px] rounded-2xl bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#F0B800] text-slate-950 font-black text-sm shadow-md flex items-center space-x-2 border border-[#FCD200] transition-all transform hover:scale-[1.02]"
                           >
                             <CreditCard className="w-4 h-4 text-slate-950" />
                             <span>Pay Family Fees with Amazon Pay</span>
@@ -660,48 +661,45 @@ export const FeesPage: React.FC = () => {
 
                     {/* Family Metrics HUD */}
                     <div className="flex flex-wrap items-center gap-3">
-                      <div className="bg-white/15 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/20 text-center min-w-[120px]">
+                      <div className="bg-white/15 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/20 text-center min-w-[120px] flex-1 sm:flex-initial">
                         <div className="text-[10px] font-bold uppercase text-white/70">
                           {selectedChildId === 'all' ? 'Family Annual Fee' : 'Annual Fee'}
                         </div>
-                        <div className="text-xl md:text-2xl font-black text-white mt-0.5">
-                          $
+                        <div className="text-xl md:text-2xl font-bold tabular-nums text-white mt-0.5">
                           {selectedChildId === 'all'
-                            ? Number(familySummary.total_annual_fee).toLocaleString()
-                            : Number(
+                            ? formatINR(familySummary.total_annual_fee)
+                            : formatINR(
                               childrenFees.find((c) => c.student_id === selectedChildId)?.total_annual_fee || 0
-                            ).toLocaleString()}
+                            )}
                         </div>
                       </div>
 
-                      <div className="bg-white/15 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/20 text-center min-w-[120px]">
+                      <div className="bg-white/15 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/20 text-center min-w-[120px] flex-1 sm:flex-initial">
                         <div className="text-[10px] font-bold uppercase text-white/70">
                           {selectedChildId === 'all' ? 'Family Total Paid' : 'Total Paid'}
                         </div>
-                        <div className="text-xl md:text-2xl font-black text-white mt-0.5">
-                          $
+                        <div className="text-xl md:text-2xl font-bold tabular-nums text-white mt-0.5">
                           {selectedChildId === 'all'
-                            ? Number(familySummary.total_paid).toLocaleString()
-                            : Number(
+                            ? formatINR(familySummary.total_paid)
+                            : formatINR(
                               childrenFees.find((c) => c.student_id === selectedChildId)?.total_paid || 0
-                            ).toLocaleString()}
+                            )}
                         </div>
                       </div>
 
                       <div
-                        className={`px-5 py-4 rounded-2xl border shadow-md text-center min-w-[120px] ${familySummary.outstanding_balance > 0
+                        className={`px-5 py-4 rounded-2xl border shadow-md text-center min-w-[120px] flex-1 sm:flex-initial ${familySummary.outstanding_balance > 0
                             ? 'bg-amber-400 text-slate-950 border-amber-300'
                             : 'bg-white/95 text-emerald-800 border-white'
                           }`}
                       >
                         <div className="text-[10px] font-bold uppercase">Balance Due</div>
-                        <div className="text-xl md:text-2xl font-black mt-0.5">
-                          $
+                        <div className="text-xl md:text-2xl font-bold tabular-nums mt-0.5">
                           {selectedChildId === 'all'
-                            ? Number(familySummary.outstanding_balance).toLocaleString()
-                            : Number(
+                            ? formatINR(familySummary.outstanding_balance)
+                            : formatINR(
                               childrenFees.find((c) => c.student_id === selectedChildId)?.outstanding_balance || 0
-                            ).toLocaleString()}
+                            )}
                         </div>
                         <span className="text-[9px] font-extrabold uppercase">
                           {familySummary.outstanding_balance > 0 ? 'Pending' : 'All Paid'}
@@ -757,7 +755,7 @@ export const FeesPage: React.FC = () => {
                         Academic Action Required • Pending Dues
                       </span>
                       <h2 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900">
-                        Balance Due: ${Number(feeData.outstanding_balance).toLocaleString()}.00
+                        Balance Due: {formatINR(feeData.outstanding_balance)}
                       </h2>
                       <p className="text-xs md:text-sm text-slate-600 leading-relaxed">
                         You have scheduled curricular charges pending clearance for the 2026–2027 academic session.
@@ -767,7 +765,7 @@ export const FeesPage: React.FC = () => {
                       <div className="pt-2 flex flex-wrap items-center gap-3">
                         <button
                           onClick={() => handleOpenAmazonPay(feeData)}
-                          className="px-6 py-3 rounded-2xl bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#F0B800] text-slate-950 font-black text-sm shadow-md flex items-center space-x-2 border border-[#FCD200] transition-all transform hover:scale-[1.02]"
+                          className="px-6 py-3 min-h-[44px] rounded-2xl bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#F0B800] text-slate-950 font-black text-sm shadow-md flex items-center space-x-2 border border-[#FCD200] transition-all transform hover:scale-[1.02]"
                         >
                           <CreditCard className="w-4 h-4 text-slate-950" />
                           <span>Pay Fees with Amazon Pay</span>
@@ -776,7 +774,7 @@ export const FeesPage: React.FC = () => {
 
                         <button
                           onClick={() => handleResetDemoFees()}
-                          className="px-4 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold flex items-center space-x-1.5 transition-colors border border-slate-200"
+                          className="px-4 py-3 min-h-[44px] rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold flex items-center space-x-1.5 transition-colors border border-slate-200"
                           title="Reset demo dues"
                         >
                           <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
@@ -787,24 +785,24 @@ export const FeesPage: React.FC = () => {
 
                     {/* Dues Metrics HUD */}
                     <div className="flex flex-wrap items-center gap-3">
-                      <div className="bg-slate-50 border border-slate-200/80 px-5 py-4 rounded-2xl text-center min-w-[120px]">
+                      <div className="bg-slate-50 border border-slate-200/80 px-5 py-4 rounded-2xl text-center min-w-[120px] flex-1 sm:flex-initial">
                         <div className="text-[10px] font-bold uppercase text-slate-400">Total Annual Fee</div>
-                        <div className="text-xl md:text-2xl font-black text-slate-900 mt-0.5">
-                          ${Number(feeData.total_annual_fee).toLocaleString()}
+                        <div className="text-xl md:text-2xl font-bold tabular-nums text-slate-900 mt-0.5">
+                          {formatINR(feeData.total_annual_fee)}
                         </div>
                       </div>
 
-                      <div className="bg-slate-50 border border-slate-200/80 px-5 py-4 rounded-2xl text-center min-w-[120px]">
+                      <div className="bg-slate-50 border border-slate-200/80 px-5 py-4 rounded-2xl text-center min-w-[120px] flex-1 sm:flex-initial">
                         <div className="text-[10px] font-bold uppercase text-slate-400">Total Paid</div>
-                        <div className="text-xl md:text-2xl font-black text-emerald-600 mt-0.5">
-                          ${Number(feeData.total_paid).toLocaleString()}
+                        <div className="text-xl md:text-2xl font-bold tabular-nums text-emerald-600 mt-0.5">
+                          {formatINR(feeData.total_paid)}
                         </div>
                       </div>
 
-                      <div className="bg-amber-50 text-amber-900 px-5 py-4 rounded-2xl border border-amber-300 shadow-xs text-center min-w-[120px]">
+                      <div className="bg-amber-50 text-amber-900 px-5 py-4 rounded-2xl border border-amber-300 shadow-xs text-center min-w-[120px] flex-1 sm:flex-initial">
                         <div className="text-[10px] font-extrabold uppercase text-amber-800">Balance Due</div>
-                        <div className="text-xl md:text-2xl font-black mt-0.5 text-[#B12704]">
-                          ${Number(feeData.outstanding_balance).toLocaleString()}
+                        <div className="text-xl md:text-2xl font-bold tabular-nums mt-0.5 text-[#B12704]">
+                          {formatINR(feeData.outstanding_balance)}
                         </div>
                         <span className="text-[9px] font-black text-amber-700 uppercase">
                           Action Required
@@ -830,7 +828,7 @@ export const FeesPage: React.FC = () => {
                       <div className="pt-2">
                         <button
                           onClick={() => handleResetDemoFees()}
-                          className="px-4 py-2 rounded-xl bg-white/20 hover:bg-white/30 text-white text-xs font-semibold flex items-center space-x-1.5 transition-colors border border-white/20"
+                          className="px-4 py-2 min-h-[44px] rounded-xl bg-white/20 hover:bg-white/30 text-white text-xs font-semibold flex items-center space-x-1.5 transition-colors border border-white/20"
                         >
                           <RotateCcw className="w-3.5 h-3.5" />
                           <span>Reset Demo Dues (Test Amazon Payment Gateway)</span>
@@ -840,23 +838,23 @@ export const FeesPage: React.FC = () => {
 
                     {/* All Paid Metrics HUD */}
                     <div className="flex flex-wrap items-center gap-3">
-                      <div className="bg-white/15 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/20 text-center min-w-[120px]">
+                      <div className="bg-white/15 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/20 text-center min-w-[120px] flex-1 sm:flex-initial">
                         <div className="text-[10px] font-bold uppercase text-white/70">Total Annual Fee</div>
-                        <div className="text-xl md:text-2xl font-black text-white mt-0.5">
-                          ${Number(feeData.total_annual_fee).toLocaleString()}
+                        <div className="text-xl md:text-2xl font-bold tabular-nums text-white mt-0.5">
+                          {formatINR(feeData.total_annual_fee)}
                         </div>
                       </div>
 
-                      <div className="bg-white/15 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/20 text-center min-w-[120px]">
+                      <div className="bg-white/15 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/20 text-center min-w-[120px] flex-1 sm:flex-initial">
                         <div className="text-[10px] font-bold uppercase text-white/70">Total Paid</div>
-                        <div className="text-xl md:text-2xl font-black text-white mt-0.5">
-                          ${Number(feeData.total_paid).toLocaleString()}
+                        <div className="text-xl md:text-2xl font-bold tabular-nums text-white mt-0.5">
+                          {formatINR(feeData.total_paid)}
                         </div>
                       </div>
 
-                      <div className="bg-white/95 px-5 py-4 rounded-2xl border border-white shadow-md text-center min-w-[120px]">
+                      <div className="bg-white/95 px-5 py-4 rounded-2xl border border-white shadow-md text-center min-w-[120px] flex-1 sm:flex-initial">
                         <div className="text-[10px] font-bold uppercase text-emerald-800">Balance Due</div>
-                        <div className="text-xl md:text-2xl font-black text-emerald-600 mt-0.5">$0.00</div>
+                        <div className="text-xl md:text-2xl font-bold tabular-nums text-emerald-600 mt-0.5">{formatINR(0)}</div>
                         <span className="text-[9px] font-extrabold text-emerald-700 uppercase">All Paid</span>
                       </div>
                     </div>
@@ -885,10 +883,10 @@ export const FeesPage: React.FC = () => {
                     {feeData.outstanding_balance > 0 && (
                       <button
                         onClick={() => handleOpenAmazonPay(feeData)}
-                        className="px-4 py-2 rounded-xl bg-[#FFD814] hover:bg-[#F7CA00] text-slate-950 font-extrabold text-xs border border-[#FCD200] shadow-sm flex items-center space-x-1.5 transition-transform hover:scale-102"
+                        className="px-4 py-2 min-h-[44px] rounded-xl bg-[#FFD814] hover:bg-[#F7CA00] text-slate-950 font-extrabold text-xs border border-[#FCD200] shadow-sm flex items-center space-x-1.5 transition-transform hover:scale-102"
                       >
                         <CreditCard className="w-3.5 h-3.5 text-slate-950" />
-                        <span>Pay Outstanding Fees (${Number(feeData.outstanding_balance).toLocaleString()}.00)</span>
+                        <span>Pay Outstanding Fees ({formatINR(feeData.outstanding_balance)})</span>
                       </button>
                     )}
                   </div>
@@ -922,8 +920,8 @@ export const FeesPage: React.FC = () => {
                               )}
                               <span>{item.category}</span>
                             </td>
-                            <td className="py-3.5 px-5 font-mono font-bold text-slate-800">
-                              ${Number(item.amount).toLocaleString()}.00
+                            <td className="py-3.5 px-5 font-bold tabular-nums text-slate-800">
+                              {formatINR(item.amount)}
                             </td>
                             <td className="py-3.5 px-5 text-slate-500 font-mono">{item.due_date}</td>
                             <td className="py-3.5 px-5">
@@ -995,8 +993,8 @@ export const FeesPage: React.FC = () => {
                             <span>{rec.receipt_number}</span>
                           </td>
                           <td className="py-3.5 px-5 font-medium text-slate-800">{rec.remarks}</td>
-                          <td className="py-3.5 px-5 font-mono font-extrabold text-emerald-600">
-                            ${Number(rec.amount).toLocaleString()}.00
+                          <td className="py-3.5 px-5 font-bold tabular-nums text-emerald-600">
+                            {formatINR(rec.amount)}
                           </td>
                           <td className="py-3.5 px-5 font-semibold text-slate-700">
                             <span className="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[10px]">
@@ -1066,7 +1064,7 @@ export const FeesPage: React.FC = () => {
                       Payment Completed: {recentReceipt.receipt_number}
                     </div>
                     <div className="text-xs text-[#34C759] font-medium mt-0.5">
-                      Amount Paid: ${recentReceipt.total_amount}
+                      Amount Paid: {formatINR(recentReceipt.total_amount)}
                     </div>
                   </div>
                 </div>
@@ -1091,8 +1089,8 @@ export const FeesPage: React.FC = () => {
                     <CheckCircle2 className="w-4 h-4" />
                   </span>
                 </div>
-                <div className="text-2xl font-black text-emerald-600 mt-2">
-                  ${currentPaymentCollected.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                <div className="text-2xl font-bold tabular-nums text-emerald-600 mt-2">
+                  {formatINR(currentPaymentCollected)}
                 </div>
                 <div className="flex items-center space-x-1.5 text-[11px] text-slate-500 mt-1 font-semibold">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
@@ -1109,8 +1107,8 @@ export const FeesPage: React.FC = () => {
                     <DollarSign className="w-4 h-4" />
                   </span>
                 </div>
-                <div className="text-2xl font-black text-slate-800 mt-2">
-                  ${totalMoney.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                <div className="text-2xl font-bold tabular-nums text-slate-800 mt-2">
+                  {formatINR(totalMoney)}
                 </div>
                 <div className="text-[11px] text-slate-500 mt-1 font-semibold">
                   Total tuition billed across {effectiveStaffStudents.length} enrolled students
@@ -1131,7 +1129,7 @@ export const FeesPage: React.FC = () => {
                 </div>
                 <div className="flex items-center space-x-1.5 text-[11px] text-slate-500 mt-1 font-semibold">
                   <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse"></span>
-                  <span>{effectiveStaffStudents.length} of {effectiveStaffStudents.length} Ledgers Settled • $0.00 Dues</span>
+                  <span>{effectiveStaffStudents.length} of {effectiveStaffStudents.length} Ledgers Settled • ₹0.00 Dues</span>
                 </div>
               </div>
             </div>
@@ -1177,11 +1175,11 @@ export const FeesPage: React.FC = () => {
                           <td className="py-3.5 px-5 text-slate-600 font-semibold">
                             {st.class_room?.name || 'Grade 1'} - {st.section?.name || 'A'}
                           </td>
-                          <td className="py-3.5 px-5 font-bold text-slate-800">
-                            ${studentTotalFee.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          <td className="py-3.5 px-5 font-bold tabular-nums text-slate-800">
+                            {formatINR(studentTotalFee)}
                           </td>
-                          <td className="py-3.5 px-5 font-bold text-emerald-600">
-                            ${studentCollected.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          <td className="py-3.5 px-5 font-bold tabular-nums text-emerald-600">
+                            {formatINR(studentCollected)}
                           </td>
                           <td className="py-3.5 px-5">
                             <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
@@ -1232,7 +1230,7 @@ export const FeesPage: React.FC = () => {
 
             <form onSubmit={handleProcessPayment} className="space-y-3.5 pt-2">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Amount ($)</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Amount (₹)</label>
                 <input
                   type="number"
                   step="0.01"

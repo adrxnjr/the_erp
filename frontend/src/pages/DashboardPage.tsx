@@ -357,7 +357,7 @@ export const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-5">
           <Link to="/attendance" className="ios-card rounded-[22px] p-5 hover:shadow-md transition-all">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-[#86868B]">Attendance Rate</span>
@@ -1101,7 +1101,7 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* 4 Macro Institutional Headcount & Telemetry Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-5">
           {/* Total Students */}
           <div className="bg-white rounded-[24px] p-6 border border-black/[0.06] shadow-sm">
             <div className="flex items-center justify-between">
@@ -1509,7 +1509,7 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* 4 Academic Summary Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-5">
           <div className="ios-card rounded-[22px] p-6">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-[#86868B]">Academic Wings</span>
@@ -1889,7 +1889,7 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* 4 Office Desk Summary Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-5">
           <div className="ios-card rounded-[22px] p-6">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-[#86868B]">Daily Collections</span>
@@ -2245,7 +2245,7 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* 4 Primary Operational Metric Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-5">
           {/* Total Students Headcount */}
           <div className="bg-white rounded-[24px] p-6 border border-black/[0.06] shadow-sm">
             <div className="flex items-center justify-between">
@@ -2527,7 +2527,7 @@ export const DashboardPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-5">
         <Link to="/academic" className="ios-card rounded-[22px] p-5 hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-[#86868B]">Class Teacher</span>

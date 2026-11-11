@@ -423,19 +423,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
 
   return (
     <aside
-      className={`fixed inset-y-0 left-0 z-50 md:sticky md:top-0 w-64 md:w-60 bg-[#F5F6F8] text-slate-700 flex flex-col shrink-0 h-screen h-[100dvh] max-h-[100dvh] border-r border-white/80 shadow-[4px_0_16px_rgba(212,218,229,0.35)] select-none transition-transform duration-300 ease-in-out ${
-        mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+      className={`fixed inset-y-0 left-0 z-50 lg:sticky lg:top-0 w-64 lg:w-60 bg-[#F5F6F8] text-slate-700 flex flex-col shrink-0 h-screen h-[100dvh] max-h-[100dvh] border-r border-white/80 shadow-[4px_0_16px_rgba(212,218,229,0.35)] select-none transition-transform duration-300 ease-in-out ${
+        mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       }`}
     >
       {/* Brand Header with mobile close button */}
       <div className="w-full px-2 pt-2.5 pb-2 bg-[#F5F6F8] flex items-center justify-between relative shrink-0 z-20">
-        <AnimatedLogo className="w-full" idPrefix="sidebar-logo" />
+        <div className="w-full max-w-[140px]">
+          <AnimatedLogo className="w-full max-w-[140px]" idPrefix="sidebar-logo" />
+        </div>
         <button
           onClick={onCloseMobile}
           aria-label="Close navigation drawer"
-          className="md:hidden absolute right-3 p-1.5 rounded-xl bg-[#F5F6F8] hover:bg-slate-100 text-slate-500 hover:text-slate-800 border border-white/80 shadow-[2px_2px_5px_#D4DAE5,-2px_-2px_5px_#FFFFFF] cursor-pointer"
+          className="lg:hidden absolute right-3 w-11 h-11 rounded-xl bg-[#F5F6F8] hover:bg-slate-100 text-slate-500 hover:text-slate-800 border border-white/80 shadow-[2px_2px_5px_#D4DAE5,-2px_-2px_5px_#FFFFFF] cursor-pointer flex items-center justify-center"
         >
-          <X className="w-4 h-4" />
+          <X className="w-5 h-5" />
         </button>
         {/* Seamless blend fade beneath logo: only visible when scrolled */}
         <div
@@ -483,7 +485,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
                       end={item.to === '/'}
                       onClick={onCloseMobile}
                       className={({ isActive }) =>
-                        `flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-all duration-150 ${
+                        `flex items-center justify-between px-3 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm transition-all duration-150 ${
                           isActive || isCurrentActive
                             ? 'bg-[#F5F6F8] text-[#0066FF] font-bold shadow-[inset_2px_2px_5px_#D4DAE5,inset_-2px_-2px_5px_#FFFFFF] border border-white/60'
                             : 'text-slate-600 hover:text-slate-900 hover:bg-[#F5F6F8] hover:shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] hover:border-white/70 active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] border border-transparent font-medium'
@@ -527,7 +529,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
                       end={item.to === '/'}
                       onClick={onCloseMobile}
                       className={({ isActive }) =>
-                        `flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-all duration-150 ${
+                        `flex items-center justify-between px-3 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm transition-all duration-150 ${
                           isActive || isCurrentActive
                             ? 'bg-[#F5F6F8] text-[#0066FF] font-bold shadow-[inset_2px_2px_5px_#D4DAE5,inset_-2px_-2px_5px_#FFFFFF] border border-white/60'
                             : 'text-slate-600 hover:text-slate-900 hover:bg-[#F5F6F8] hover:shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] hover:border-white/70 active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] border border-transparent font-medium'
@@ -565,7 +567,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
                     end={item.to === '/'}
                     onClick={onCloseMobile}
                     className={({ isActive }) =>
-                      `flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-all duration-150 ${
+                      `flex items-center justify-between px-3 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm transition-all duration-150 ${
                         isActive
                           ? 'bg-[#F5F6F8] text-[#0066FF] font-bold shadow-[inset_2px_2px_5px_#D4DAE5,inset_-2px_-2px_5px_#FFFFFF] border border-white/60'
                           : 'text-slate-600 hover:text-slate-900 hover:bg-[#F5F6F8] hover:shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] hover:border-white/70 active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] border border-transparent font-medium'

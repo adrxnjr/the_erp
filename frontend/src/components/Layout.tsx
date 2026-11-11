@@ -82,44 +82,48 @@ export const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) =
         </aside>
       )}
 
-      {/* Mobile Top Navigation Bar (< 768px) */}
-      <header className="md:hidden sticky top-0 z-40 bg-[#F5F6F8]/90 backdrop-blur-md border-b border-white/80 px-3.5 py-2.5 flex items-center justify-between shadow-xs max-w-full overflow-hidden">
+      {/* Mobile Top Navigation Bar (< 1024px) */}
+      <header className="lg:hidden sticky top-0 z-40 bg-[#F5F6F8]/95 backdrop-blur-md border-b border-white/80 px-3.5 py-2.5 flex items-center justify-between shadow-xs max-w-full overflow-hidden">
         <div className="flex items-center gap-2.5 min-w-0">
           <button
             onClick={() => setMobileDrawerOpen(true)}
             aria-label="Open navigation menu"
-            className="p-2 rounded-2xl bg-[#F5F6F8] text-slate-700 hover:text-blue-600 border border-white/80 shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] transition shrink-0"
+            className="p-2 rounded-2xl bg-[#F5F6F8] text-slate-700 hover:text-blue-600 border border-white/80 shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] transition shrink-0 cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
           >
             <Menu className="w-5 h-5" />
           </button>
           <Link to="/" className="flex items-center gap-2 min-w-0">
-            <img src={activeLogo} alt={`${schoolName} Logo`} className="h-7 w-auto object-contain shrink-0" />
+            <img src={activeLogo} alt={`${schoolName} Logo`} className="h-7 max-w-[140px] w-auto object-contain shrink-0" />
             <span className="font-black text-slate-900 text-sm tracking-tight truncate">{schoolName}</span>
           </Link>
         </div>
 
         {user && (
           <div className="flex items-center gap-2 shrink-0">
-            <div className="w-8 h-8 rounded-full bg-blue-100 border border-blue-300 text-blue-700 flex items-center justify-center font-bold text-xs shadow-inner">
-              {user.full_name.charAt(0).toUpperCase()}
-            </div>
+            <button
+              onClick={() => setMobileDrawerOpen(true)}
+              className="w-8 h-8 rounded-full bg-blue-100 border border-blue-300 text-blue-700 flex items-center justify-center font-bold text-xs shadow-inner cursor-pointer"
+              title="Open Profile Menu"
+            >
+              {user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
+            </button>
           </div>
         )}
       </header>
 
-      {/* Mobile Drawer Backdrop */}
+      {/* Mobile Drawer Backdrop (< 1024px) */}
       {mobileDrawerOpen && (
         <div
           onClick={() => setMobileDrawerOpen(false)}
           aria-hidden="true"
-          className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 md:hidden animate-fadeIn"
+          className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 lg:hidden animate-fadeIn"
         />
       )}
 
       {/* Main Layout Container */}
       <div className="flex-1 flex w-full max-w-full min-w-0">
         <Sidebar mobileOpen={mobileDrawerOpen} onCloseMobile={() => setMobileDrawerOpen(false)} />
-        <main className="flex-1 min-w-0 px-3 py-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full min-h-[calc(100vh-60px)] md:min-h-screen overflow-x-hidden">
+        <main className="flex-1 min-w-0 px-3.5 sm:px-6 md:px-8 py-3.5 sm:py-6 max-w-7xl mx-auto w-full min-h-[calc(100vh-60px)] lg:min-h-screen overflow-x-hidden">
           {children || <Outlet />}
         </main>
       </div>

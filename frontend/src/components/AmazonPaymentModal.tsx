@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api/client';
 import { useToast } from '../context/ToastContext';
+import { formatINR } from '../utils/currency';
 import {
   CreditCard,
   ShieldCheck,
@@ -172,14 +173,14 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
 
     if (code === 'MERIT2026') {
       setAppliedPromo({ code, discount: 1000.0, label: 'Academic Merit Scholarship Voucher' });
-      toast.success('Promo code MERIT2026 applied! $1,000 scholarship concession credited.');
+      toast.success(`Promo code MERIT2026 applied! ${formatINR(1000)} scholarship concession credited.`);
     } else if (code === 'SIBLING10') {
       const discount = Math.round(baseSubtotal * 0.1);
       setAppliedPromo({ code, discount, label: '10% Sibling Institutional Concession' });
-      toast.success(`Promo code SIBLING10 applied! $${discount.toLocaleString()} sibling discount credited.`);
+      toast.success(`Promo code SIBLING10 applied! ${formatINR(discount)} sibling discount credited.`);
     } else if (code === 'EARLYBIRD') {
       setAppliedPromo({ code, discount: 500.0, label: 'Early Settlement Incentive Waiver' });
-      toast.success('Promo code EARLYBIRD applied! $500 early payment discount credited.');
+      toast.success(`Promo code EARLYBIRD applied! ${formatINR(500)} early payment discount credited.`);
     } else {
       toast.error('Invalid or expired voucher code. Try MERIT2026, SIBLING10, or EARLYBIRD.');
     }
@@ -282,40 +283,43 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md overflow-y-auto animate-fade-in">
-      <div className="bg-[#F8FAFC] border border-slate-200/80 rounded-[32px] w-full max-w-5xl shadow-2xl overflow-hidden my-6 max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-sm sm:backdrop-blur-md overflow-hidden animate-fade-in">
+      <div className="bg-[#F8FAFC] border-t sm:border border-slate-200/80 rounded-t-[28px] sm:rounded-[32px] w-full max-w-5xl shadow-2xl overflow-hidden max-h-[92dvh] sm:max-h-[92vh] flex flex-col relative">
         {/* Amazon-style Brand Header */}
-        <div className="bg-white border-b border-slate-200/80 px-6 py-4 flex items-center justify-between sticky top-0 z-20">
-          <div className="flex items-center space-x-3">
-            <div className="flex items-center space-x-1.5 px-3 py-1 rounded-xl bg-amber-50 border border-amber-200/80 text-amber-900 font-bold text-sm tracking-tight">
-              <span className="font-black text-amber-600 tracking-tighter">amazon</span>
-              <span className="font-extrabold text-slate-800">pay</span>
-              <span className="text-[10px] text-slate-400 mx-1">|</span>
-              <span className="text-xs text-slate-600 font-semibold">Institutional Gateway</span>
+        <div className="bg-white border-b border-slate-200/80 px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-20 shrink-0">
+          <div className="w-10 h-1 bg-slate-300 rounded-full mx-auto mb-2.5 sm:hidden" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <div className="flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3 py-1 rounded-xl bg-amber-50 border border-amber-200/80 text-amber-900 font-bold text-xs sm:text-sm tracking-tight">
+                <span className="font-black text-amber-600 tracking-tighter">amazon</span>
+                <span className="font-extrabold text-slate-800">pay</span>
+                <span className="text-[10px] text-slate-400 mx-1">|</span>
+                <span className="text-[11px] sm:text-xs text-slate-600 font-semibold truncate max-w-[120px] sm:max-w-none">Institutional Gateway</span>
+              </div>
+              <div className="hidden sm:flex items-center space-x-1 text-xs text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 font-semibold">
+                <Lock className="w-3 h-3 text-emerald-600" />
+                <span>256-Bit Bank Grade SSL</span>
+              </div>
             </div>
-            <div className="hidden sm:flex items-center space-x-1 text-xs text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 font-semibold">
-              <Lock className="w-3 h-3 text-emerald-600" />
-              <span>256-Bit Bank Grade SSL</span>
-            </div>
-          </div>
 
-          <div className="flex items-center space-x-3">
-            <div className="text-right hidden md:block">
-              <div className="text-xs font-bold text-slate-800">{student.student_name}</div>
-              <div className="text-[11px] text-slate-400 font-mono">Adm: {student.admission_number}</div>
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <div className="text-right hidden md:block">
+                <div className="text-xs font-bold text-slate-800">{student.student_name}</div>
+                <div className="text-[11px] text-slate-400 font-mono">Adm: {student.admission_number}</div>
+              </div>
+              <button
+                onClick={onClose}
+                className="w-11 h-11 sm:w-9 sm:h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors"
+                aria-label="Close Payment Gateway"
+              >
+                <X className="w-5 h-5 sm:w-4 sm:h-4" />
+              </button>
             </div>
-            <button
-              onClick={onClose}
-              className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors"
-              aria-label="Close Payment Gateway"
-            >
-              <X className="w-4 h-4" />
-            </button>
           </div>
         </div>
 
         {/* Modal Body */}
-        <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
+        <div className="flex-1 overflow-y-auto px-4 py-4 sm:p-6 md:p-8 space-y-5 pb-28 sm:pb-6">
           {/* PROCESSING STATE OVERLAY */}
           {isProcessing && (
             <div className="bg-white rounded-3xl p-12 text-center shadow-lg border border-slate-100 space-y-6 my-8">
@@ -350,8 +354,8 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
                 </h2>
                 <p className="text-sm text-slate-500 max-w-lg">
                   Thank you! Your payment of{' '}
-                  <strong className="text-slate-900 font-mono font-bold">
-                    ${Number(paymentCompletedReceipt.amount).toLocaleString()}.00
+                  <strong className="text-slate-900 font-bold tabular-nums">
+                    {formatINR(paymentCompletedReceipt.amount)}
                   </strong>{' '}
                   has been recorded on the institutional ledger and official receipt is ready.
                 </p>
@@ -512,8 +516,8 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
                           </div>
 
                           <div className="text-right">
-                            <div className="text-sm font-mono font-extrabold text-slate-900">
-                              ${Number(item.amount).toLocaleString()}.00
+                            <div className="text-sm font-bold tabular-nums text-slate-900">
+                              {formatINR(item.amount)}
                             </div>
                             <span className="text-[10px] text-slate-400 font-semibold">
                               {isAlreadyPaid ? 'Paid in Full' : 'Pending Clearance'}
@@ -525,14 +529,14 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
                   </div>
 
                   {/* Custom Amount option */}
-                  <div className="pt-2 flex items-center space-x-3 text-xs">
+                  <div className="pt-2 flex flex-wrap items-center gap-2 sm:gap-3 text-xs">
                     <button
                       type="button"
                       onClick={() => {
                         setIsCustomAmountActive(!isCustomAmountActive);
                         if (!isCustomAmountActive) setSelectedItems([]);
                       }}
-                      className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
+                      className={`px-3 py-2 rounded-lg border text-xs font-semibold transition-colors min-h-[40px] flex items-center ${
                         isCustomAmountActive
                           ? 'bg-amber-600 text-white border-amber-600'
                           : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
@@ -541,14 +545,14 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
                       Pay Custom Partial Installment
                     </button>
                     {isCustomAmountActive && (
-                      <div className="flex items-center space-x-2">
-                        <span className="text-slate-400 font-bold">$</span>
+                      <div className="flex items-center space-x-1.5">
+                        <span className="text-slate-500 font-bold text-sm">₹</span>
                         <input
                           type="number"
                           value={customAmount}
                           onChange={(e) => setCustomAmount(e.target.value)}
                           placeholder="e.g. 5000"
-                          className="px-3 py-1.5 rounded-lg border border-slate-300 w-32 font-mono text-xs focus:ring-2 focus:ring-amber-500 outline-none"
+                          className="px-3 py-1.5 rounded-lg border border-slate-300 w-32 font-medium tabular-nums text-sm focus:ring-2 focus:ring-amber-500 outline-none"
                         />
                       </div>
                     )}
@@ -874,8 +878,8 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
                                 </div>
                                 <p className="text-[11px] text-slate-500">
                                   Amount:{' '}
-                                  <strong className="text-slate-900 font-mono font-bold">
-                                    ${finalPayableTotal.toLocaleString()}.00
+                                  <strong className="text-slate-900 font-bold tabular-nums">
+                                    {formatINR(finalPayableTotal)}
                                   </strong>
                                 </p>
                                 <div className="flex items-center justify-center sm:justify-start space-x-1.5 text-[10px] text-amber-700 font-mono bg-amber-50 px-2 py-1 rounded-lg border border-amber-200">
@@ -895,7 +899,7 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
                               <label className="text-[11px] font-bold text-slate-700 block">
                                 Enter your UPI ID / Virtual Payment Address
                               </label>
-                              <div className="flex space-x-2">
+                              <div className="flex items-center gap-2 w-full">
                                 <input
                                   type="text"
                                   value={upiId}
@@ -904,12 +908,12 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
                                     setVpaVerified(false);
                                   }}
                                   placeholder="e.g. parent@okhdfcbank"
-                                  className="flex-1 px-3.5 py-2 rounded-xl border border-slate-300 font-mono text-xs focus:ring-2 focus:ring-amber-500 outline-none"
+                                  className="flex-1 min-w-0 px-3.5 h-11 rounded-xl border border-slate-300 font-mono text-sm focus:ring-2 focus:ring-amber-500 outline-none"
                                 />
                                 <button
                                   type="button"
                                   onClick={handleVerifyVpa}
-                                  className="px-4 py-2 bg-[#0071E3] text-white rounded-xl text-xs font-bold hover:bg-[#0077ED] transition-colors shadow-xs"
+                                  className="shrink-0 px-4 h-11 bg-[#0071E3] text-white rounded-xl text-xs sm:text-sm font-bold hover:bg-[#0077ED] transition-colors shadow-xs flex items-center justify-center min-w-[72px]"
                                 >
                                   {vpaVerified ? 'Verified' : 'Verify'}
                                 </button>
@@ -1029,8 +1033,8 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
                                   }`}
                                 >
                                   <div className="font-bold text-xs">{emi.label}</div>
-                                  <div className="text-sm font-mono font-black mt-1">
-                                    ${monthlyCost.toLocaleString()}/mo
+                                  <div className="text-sm font-bold tabular-nums mt-1">
+                                    {formatINR(monthlyCost)}/mo
                                   </div>
                                   <div
                                     className={`text-[9px] mt-0.5 ${
@@ -1050,24 +1054,24 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
                 </div>
 
                 {/* 4. Amazon Promo & Voucher Box */}
-                <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm space-y-3">
+                <div className="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-sm space-y-3">
                   <div className="flex items-center space-x-2 text-xs font-bold text-slate-900">
                     <Tag className="w-4 h-4 text-amber-600" />
                     <span>Apply Institutional Voucher or Gift Code</span>
                   </div>
 
-                  <div className="flex space-x-2">
+                  <div className="flex items-center gap-2 w-full">
                     <input
                       type="text"
                       value={promoInput}
                       onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
-                      placeholder="Enter promo code (e.g. MERIT2026, SIBLING10, EARLYBIRD)"
-                      className="flex-1 px-3.5 py-2 rounded-xl border border-slate-300 font-mono text-xs focus:ring-2 focus:ring-amber-500 outline-none uppercase"
+                      placeholder="ENTER PROMO CODE (E.G. MERIT2026)"
+                      className="flex-1 min-w-0 px-3.5 h-11 rounded-xl border border-slate-300 font-mono text-sm focus:ring-2 focus:ring-amber-500 outline-none uppercase"
                     />
                     <button
                       type="button"
                       onClick={handleApplyPromo}
-                      className="px-5 py-2 bg-[#0071E3] text-white rounded-xl text-xs font-bold hover:bg-[#0077ED] transition-colors shadow-xs"
+                      className="shrink-0 px-4 sm:px-5 h-11 bg-[#0071E3] text-white rounded-xl text-xs sm:text-sm font-bold hover:bg-[#0077ED] transition-colors shadow-xs flex items-center justify-center min-w-[72px]"
                     >
                       Apply
                     </button>
@@ -1081,8 +1085,8 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
                           <strong className="font-mono font-bold">{appliedPromo.code}</strong>: {appliedPromo.label}
                         </div>
                       </div>
-                      <span className="font-mono font-black text-emerald-700">
-                        -${appliedPromo.discount.toLocaleString()}.00
+                      <span className="font-bold tabular-nums text-emerald-700">
+                        -{formatINR(appliedPromo.discount)}
                       </span>
                     </div>
                   )}
@@ -1091,60 +1095,60 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
 
               {/* RIGHT COLUMN: Sticky Order Summary (Amazon Style) (4 cols) */}
               <div className="lg:col-span-4 space-y-5">
-                <div className="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-md space-y-5 sticky top-24">
-                  {/* Primary Amber CTA Button (Amazon Style) */}
+                <div className="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-6 shadow-md space-y-4 sm:space-y-5 lg:sticky lg:top-6">
+                  {/* Primary Amber CTA Button (Desktop View) */}
                   <button
                     type="button"
                     onClick={handleExecutePayment}
                     disabled={finalPayableTotal <= 0}
-                    className="w-full py-3.5 px-4 rounded-2xl bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#F0B800] text-slate-950 font-extrabold text-sm shadow-md transition-all flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed border border-[#FCD200]"
+                    className="hidden sm:flex w-full h-12 px-4 rounded-2xl bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#F0B800] text-slate-950 font-extrabold text-sm shadow-md transition-all items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed border border-[#FCD200]"
                   >
                     <span>Place Your Order and Pay</span>
                     <ArrowRight className="w-4 h-4 text-slate-950" />
                   </button>
 
-                  <div className="text-[11px] text-slate-400 text-center leading-relaxed">
+                  <div className="hidden sm:block text-[11px] text-slate-400 text-center leading-relaxed">
                     By placing your order, you agree to Ever Grow Schools institutional fee billing policies and terms.
                   </div>
 
-                  <div className="border-t border-slate-100 pt-4 space-y-3 text-xs">
-                    <h4 className="font-black text-slate-900 uppercase tracking-wider text-[11px]">
+                  <div className="border-t border-slate-100 pt-4 space-y-3 text-sm">
+                    <h4 className="font-black text-slate-900 uppercase tracking-wider text-xs">
                       Fee Order Summary
                     </h4>
 
                     <div className="flex justify-between text-slate-600">
                       <span>Items Selected:</span>
-                      <span className="font-mono font-semibold">
+                      <span className="font-medium text-slate-800">
                         {isCustomAmountActive ? 'Custom Amount' : `${selectedItems.length} fee heads`}
                       </span>
                     </div>
 
                     <div className="flex justify-between text-slate-600">
                       <span>Fee Subtotal:</span>
-                      <span className="font-mono font-bold text-slate-900">
-                        ${baseSubtotal.toLocaleString()}.00
+                      <span className="font-bold tabular-nums text-slate-900">
+                        {formatINR(baseSubtotal)}
                       </span>
                     </div>
 
                     <div className="flex justify-between text-slate-600">
                       <span>School Platform Fee:</span>
-                      <span className="font-mono font-semibold text-emerald-600">FREE ($0.00)</span>
+                      <span className="font-semibold text-emerald-600">FREE (₹0.00)</span>
                     </div>
 
                     {appliedPromo && (
                       <div className="flex justify-between text-emerald-700 font-semibold">
                         <span>Voucher Concession:</span>
-                        <span className="font-mono font-bold">
-                          -${discountAmount.toLocaleString()}.00
+                        <span className="font-bold tabular-nums">
+                          -{formatINR(discountAmount)}
                         </span>
                       </div>
                     )}
 
                     <div className="border-t border-slate-200 pt-3 flex justify-between items-baseline">
-                      <span className="text-sm font-extrabold text-slate-900">Order Total:</span>
+                      <span className="text-base font-extrabold text-slate-900">Order Total:</span>
                       <div className="text-right">
-                        <span className="text-2xl font-black font-mono text-[#B12704]">
-                          ${finalPayableTotal.toLocaleString()}.00
+                        <span className="text-2xl font-bold font-sans tabular-nums text-[#B12704]">
+                          {formatINR(finalPayableTotal)}
                         </span>
                         <span className="block text-[10px] text-slate-400 font-sans">
                           Tax compliant receipt included
@@ -1154,12 +1158,12 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
                   </div>
 
                   {/* Trust & Guarantee Box */}
-                  <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 space-y-2 text-[11px] text-slate-600">
+                  <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 space-y-2 text-xs text-slate-600">
                     <div className="flex items-center space-x-1.5 font-bold text-slate-800">
                       <ShieldCheck className="w-4 h-4 text-emerald-600" />
                       <span>100% Institutional Guarantee</span>
                     </div>
-                    <p className="leading-relaxed text-slate-500">
+                    <p className="leading-relaxed text-slate-500 text-[11px]">
                       Instant official PDF tax receipt generated immediately upon payment. Verified by Ever Grow Schools
                       Treasury.
                     </p>
@@ -1169,6 +1173,32 @@ export const AmazonPaymentModal: React.FC<AmazonPaymentModalProps> = ({
             </div>
           )}
         </div>
+
+        {/* Mobile Sticky Bottom Pay Bar */}
+        {!isProcessing && !paymentCompletedReceipt && (
+          <div className="sm:hidden shrink-0 bg-white border-t border-slate-200 px-4 py-3 pb-[max(12px,env(safe-area-inset-bottom))] shadow-[0_-6px_20px_rgba(0,0,0,0.08)]">
+            <div className="flex items-center justify-between mb-2">
+              <div>
+                <span className="text-[11px] text-slate-400 uppercase font-bold tracking-wider block">Order Total</span>
+                <span className="text-xl font-bold font-sans tabular-nums text-[#B12704]">
+                  {formatINR(finalPayableTotal)}
+                </span>
+              </div>
+              <span className="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                Tax Compliant
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={handleExecutePayment}
+              disabled={finalPayableTotal <= 0}
+              className="w-full h-12 rounded-xl bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#F0B800] text-slate-950 font-extrabold text-sm shadow-md transition-all flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed border border-[#FCD200]"
+            >
+              <span>Place Your Order and Pay</span>
+              <ArrowRight className="w-4 h-4 text-slate-950" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
