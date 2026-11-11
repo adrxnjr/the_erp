@@ -329,11 +329,11 @@ export const DashboardPage: React.FC = () => {
               Welcome back, {stats?.full_name || user.full_name}
             </h1>
           </div>
-          <div className="relative z-10 flex items-center space-x-3">
+          <div className="relative z-10 flex items-center space-x-3 w-full sm:w-auto">
             <button
               onClick={() => handleDownloadIdCard(stats?.id, stats?.admission_number)}
               disabled={downloadingId === stats?.id}
-              className="ios-gloss-btn px-4 py-2.5 text-xs font-bold space-x-2 flex items-center shadow-md hover:shadow-lg disabled:opacity-50"
+              className="ios-gloss-btn px-4 py-2.5 text-xs font-bold space-x-2 flex items-center justify-center shadow-md hover:shadow-lg disabled:opacity-50 w-full sm:w-auto"
             >
               {downloadingId === stats?.id ? (
                 <>
@@ -825,15 +825,9 @@ export const DashboardPage: React.FC = () => {
         )}
         <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden">
           <div className="relative z-10 max-w-xl min-w-0">
-            <span className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 text-xs font-semibold rounded-full uppercase tracking-wider whitespace-nowrap shrink-0">
-              Parent Guardian Portal
-            </span>
-            <h1 className="text-3xl font-extrabold mt-3 tracking-tight text-[#1D1D1F]">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
               Welcome back, {user?.full_name || 'Guardian'}!
             </h1>
-            <p className="text-slate-600 text-sm mt-1">
-              Monitor your children's live attendance, grades, class timetable, and fee receipts.
-            </p>
           </div>
         </div>
 
@@ -1063,17 +1057,17 @@ export const DashboardPage: React.FC = () => {
             </h1>
           </div>
 
-          <div className="flex items-center gap-3 relative z-10">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 relative z-10 w-full md:w-auto">
             <Link
               to="/treasury"
-              className="ios-gloss-btn-emerald px-4 py-2.5 rounded-2xl text-xs font-bold shadow-md inline-flex items-center gap-2"
+              className="flex-1 sm:flex-none justify-center ios-gloss-btn-emerald px-4 py-2.5 rounded-2xl text-xs font-bold shadow-md inline-flex items-center gap-2"
             >
               <Landmark className="w-4 h-4" />
               <span>Treasury</span>
             </Link>
             <Link
               to="/staff-attendance"
-              className="ios-gloss-btn px-4 py-2.5 rounded-2xl text-xs font-semibold shadow-md inline-flex items-center gap-2"
+              className="flex-1 sm:flex-none justify-center ios-gloss-btn px-4 py-2.5 rounded-2xl text-xs font-semibold shadow-md inline-flex items-center gap-2"
             >
               <UserCheck className="w-4 h-4" />
               <span>Staff Attendance</span>
@@ -1459,17 +1453,17 @@ export const DashboardPage: React.FC = () => {
             </h1>
           </div>
 
-          <div className="flex items-center gap-3 relative z-10">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 relative z-10 w-full md:w-auto">
             <Link
               to="/academic"
-              className="ios-gloss-btn px-4 py-2.5 rounded-2xl text-xs font-semibold shadow-md inline-flex items-center gap-2"
+              className="flex-1 sm:flex-none justify-center ios-gloss-btn px-4 py-2.5 rounded-2xl text-xs font-semibold shadow-md inline-flex items-center gap-2"
             >
               <BookOpen className="w-4 h-4" />
               <span>Manage Syllabi</span>
             </Link>
             <Link
               to="/examinations"
-              className="ios-gloss-btn-secondary px-4 py-2.5 rounded-2xl text-xs font-semibold inline-flex items-center gap-2"
+              className="flex-1 sm:flex-none justify-center ios-gloss-btn-secondary px-4 py-2.5 rounded-2xl text-xs font-semibold inline-flex items-center gap-2"
             >
               <GraduationCap className="w-4 h-4 text-[#0071E3]" />
               <span>Examinations</span>
@@ -1818,31 +1812,19 @@ export const DashboardPage: React.FC = () => {
       <div className="space-y-8 animate-fadeIn max-w-7xl mx-auto pb-12">
         {/* Office Desk Hero Header */}
         <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden">
-          <div className="relative z-10 space-y-2 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 text-[11px] sm:text-xs font-semibold rounded-full uppercase tracking-wider whitespace-nowrap shrink-0 shadow-2xs">
-                <ShieldCheck className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                <span>Campus Office Desk • Central Operations</span>
-              </span>
-              <span className="inline-flex items-center px-3 py-1 bg-emerald-500/15 text-[#34C759] border border-emerald-500/30 text-[11px] sm:text-xs font-semibold rounded-full whitespace-nowrap shrink-0">
-                Session 2026-2027
-              </span>
-            </div>
+          <div className="relative z-10 min-w-0">
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
               School Office Administration
             </h1>
-            <p className="text-slate-600 text-xs md:text-sm max-w-2xl">
-              Front office command desk for counter fee collections, bonafide & transfer certificates, student admissions, attendance, and campus supplies.
-            </p>
           </div>
 
-          <div className="flex items-center gap-3 relative z-10">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 relative z-10 w-full md:w-auto">
             <button
               onClick={() => {
                 setCertGenerated(false);
                 setShowCertModal(true);
               }}
-              className="ios-gloss-btn px-4 py-2.5 rounded-2xl text-xs font-semibold shadow-md inline-flex items-center gap-2 cursor-pointer"
+              className="ios-gloss-btn px-4 py-2.5 rounded-2xl text-xs font-semibold shadow-md inline-flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto"
             >
               <FileCheck className="w-4 h-4" />
               <span>+ Issue Bonafide / TC</span>
@@ -2183,17 +2165,17 @@ export const DashboardPage: React.FC = () => {
             </h1>
           </div>
 
-          <div className="flex items-center gap-3 relative z-10">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 relative z-10 w-full md:w-auto">
             <Link
               to="/staff-attendance"
-              className="ios-gloss-btn px-4 py-2.5 rounded-2xl text-xs font-semibold shadow-md inline-flex items-center gap-2"
+              className="flex-1 sm:flex-none justify-center ios-gloss-btn px-4 py-2.5 rounded-2xl text-xs font-semibold shadow-md inline-flex items-center gap-2"
             >
               <UserCheck className="w-4 h-4" />
               <span>Staff Attendance</span>
             </Link>
             <Link
               to="/reports"
-              className="ios-gloss-btn-secondary px-4 py-2.5 rounded-2xl text-xs font-semibold inline-flex items-center gap-2"
+              className="flex-1 sm:flex-none justify-center ios-gloss-btn-secondary px-4 py-2.5 rounded-2xl text-xs font-semibold inline-flex items-center gap-2"
             >
               <FileSpreadsheet className="w-4 h-4 text-[#0071E3]" />
               <span>Export Reports</span>

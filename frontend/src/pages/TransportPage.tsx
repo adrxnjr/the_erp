@@ -517,18 +517,11 @@ export const TransportPage: React.FC = () => {
                 LIVE RADAR
               </span>
             </div>
-            <p className="text-xs md:text-sm text-slate-500 font-medium mt-0.5">
-              {isStudent
-                ? 'Live real-time tracker, moving speed, driver contact, and arrival time'
-                : isParent
-                ? 'Real-time GPS tracker and arrival telemetry for your child'
-                : 'Live fleet radar, real-time geofenced stops, and child arrival telemetry'}
-            </p>
           </div>
         </div>
 
         {/* Tab switchers */}
-        <div className="w-full md:w-auto max-w-full flex items-center space-x-1.5 bg-slate-100/80 p-1.5 rounded-2xl border border-black/[0.04] self-start md:self-auto overflow-x-auto scrollbar-none shrink-0">
+        <div className="w-full md:w-auto max-w-full flex items-center space-x-1.5 bg-slate-100/80 p-1.5 rounded-2xl border border-black/[0.04] self-start md:self-auto overflow-x-auto tab-scroll-container scrollbar-none shrink-0 flex-nowrap">
           {/* Main Tracker Button: Labeled strictly "My Bus" in student portal, "My Child Bus" in parent portal */}
           <button
             onClick={() => {

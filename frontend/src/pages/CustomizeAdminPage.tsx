@@ -166,17 +166,14 @@ export const CustomizeAdminPage: React.FC = () => {
               <h1 className="text-xl sm:text-2xl font-black text-slate-800 tracking-tight">
                 Institutional Customization & Governance
               </h1>
-              <p className="text-xs text-slate-500">
-                Super Admin Master Control Panel • Centralized Configuration for Ever Grow Schools
-              </p>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 w-full sm:w-auto">
           <button
             onClick={() => handleSave(currentTabObj.label)}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs shadow-md shadow-blue-500/25 flex items-center space-x-1.5 transition-all cursor-pointer"
+            className="w-full sm:w-auto justify-center px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs shadow-md shadow-blue-500/25 flex items-center space-x-1.5 transition-all cursor-pointer"
           >
             <Save className="w-4 h-4" />
             <span>Save Changes</span>
@@ -188,10 +185,10 @@ export const CustomizeAdminPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Left Sub-Tabs Navigation */}
         <div className="lg:col-span-1 space-y-1.5 p-3 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60">
-          <div className="px-3 py-2 text-[10px] font-black uppercase text-slate-400 tracking-wider">
+          <div className="hidden lg:block px-3 py-2 text-[10px] font-black uppercase text-slate-400 tracking-wider">
             Customization Modules
           </div>
-          <div className="space-y-1 max-h-[640px] overflow-y-auto pr-1">
+          <div className="flex lg:flex-col overflow-x-auto lg:overflow-y-auto tab-scroll-container scrollbar-none gap-1 max-h-[640px] pr-1">
             {CUSTOMIZE_TABS.map((tab) => {
               const TabIcon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -199,7 +196,7 @@ export const CustomizeAdminPage: React.FC = () => {
                 <button
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id)}
-                  className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-2xl text-left text-xs transition-all cursor-pointer border ${
+                  className={`flex items-center space-x-2.5 px-3 py-2 lg:py-2.5 rounded-2xl text-left text-xs transition-all cursor-pointer border shrink-0 whitespace-nowrap lg:whitespace-normal ${
                     isActive
                       ? 'bg-[#EBEEF2] text-blue-600 font-bold shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] border-white/60'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-[#EBEEF2] hover:shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] border-transparent font-semibold'

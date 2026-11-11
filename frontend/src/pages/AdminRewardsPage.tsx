@@ -408,21 +408,18 @@ export const AdminRewardsPage: React.FC = () => {
             <Trophy className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-2xl font-black text-slate-800 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-800 tracking-tight">
               Rewards & Recognition Administration
             </h1>
-            <p className="text-sm font-medium text-slate-500">
-              Manage student merit points, criteria badges, store inventory, and redemptions.
-            </p>
           </div>
         </div>
       </div>
 
       {/* Tabs Navigation */}
-      <div className="flex flex-wrap items-center gap-2 bg-[#E9EEF5] p-1.5 rounded-2xl shadow-[inset_3px_3px_6px_#C5D0E0,inset_-3px_-3px_6px_#FFFFFF] border border-white/60 w-fit">
+      <div className="flex items-center gap-2 bg-[#E9EEF5] p-1.5 rounded-2xl shadow-[inset_3px_3px_6px_#C5D0E0,inset_-3px_-3px_6px_#FFFFFF] border border-white/60 max-w-full overflow-x-auto tab-scroll-container scrollbar-none flex-nowrap">
         <button
           onClick={() => setActiveTab('overview')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 ${activeTab === 'overview'
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 shrink-0 whitespace-nowrap ${activeTab === 'overview'
             ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
             : 'text-slate-500 hover:text-slate-800'
             }`}
@@ -433,7 +430,7 @@ export const AdminRewardsPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('award')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 ${activeTab === 'award'
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 shrink-0 whitespace-nowrap ${activeTab === 'award'
             ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
             : 'text-slate-500 hover:text-slate-800'
             }`}
@@ -444,7 +441,7 @@ export const AdminRewardsPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('redemptions')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 relative ${activeTab === 'redemptions'
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 relative shrink-0 whitespace-nowrap ${activeTab === 'redemptions'
             ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
             : 'text-slate-500 hover:text-slate-800'
             }`}
@@ -460,7 +457,7 @@ export const AdminRewardsPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('store')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 ${activeTab === 'store'
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 shrink-0 whitespace-nowrap ${activeTab === 'store'
             ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
             : 'text-slate-500 hover:text-slate-800'
             }`}
@@ -471,7 +468,7 @@ export const AdminRewardsPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('badges')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 ${activeTab === 'badges'
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 shrink-0 whitespace-nowrap ${activeTab === 'badges'
             ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
             : 'text-slate-500 hover:text-slate-800'
             }`}

@@ -413,10 +413,10 @@ export const ExaminationsPage: React.FC = () => {
 
         {/* Staff Actions */}
         {isStaff && (
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 w-full sm:w-auto">
             <button
               onClick={handlePublishResults}
-              className="ios-gloss-btn px-4 py-2 text-xs font-semibold space-x-1.5 flex items-center shadow-md"
+              className="w-full sm:w-auto justify-center ios-gloss-btn px-4 py-2 text-xs font-semibold space-x-1.5 flex items-center shadow-md"
             >
               <Send className="w-3.5 h-3.5 text-white" />
               <span>Publish Results & Rankings</span>
@@ -1038,10 +1038,10 @@ export const ExaminationsPage: React.FC = () => {
 
           {/* Mode Tabs */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-black/[0.06] pb-3">
-            <div className="bg-white/80 backdrop-blur-xl border border-black/[0.06] rounded-2xl p-1.5 flex items-center space-x-1.5 shadow-xs">
+            <div className="bg-white/80 backdrop-blur-xl border border-black/[0.06] rounded-2xl p-1.5 flex items-center space-x-1.5 shadow-xs max-w-full overflow-x-auto tab-scroll-container scrollbar-none flex-nowrap">
               <button
                 onClick={() => setStaffViewMode('grading')}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 shrink-0 whitespace-nowrap ${
                   staffViewMode === 'grading'
                     ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm shadow-blue-500/25'
                     : 'text-slate-600 hover:text-slate-900 bg-slate-100/60'
@@ -1053,7 +1053,7 @@ export const ExaminationsPage: React.FC = () => {
 
               <button
                 onClick={() => setStaffViewMode('roster')}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 shrink-0 whitespace-nowrap ${
                   staffViewMode === 'roster'
                     ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm shadow-blue-500/25'
                     : 'text-slate-600 hover:text-slate-900 bg-slate-100/60'

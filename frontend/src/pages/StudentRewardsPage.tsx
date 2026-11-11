@@ -379,10 +379,10 @@ export const StudentRewardsPage: React.FC = () => {
       )}
 
       {/* Neumorphic Navigation Tabs */}
-      <div className="flex items-center gap-3 bg-[#E9EEF5] p-1.5 rounded-2xl shadow-[inset_3px_3px_6px_#C5D0E0,inset_-3px_-3px_6px_#FFFFFF] border border-white/60 w-fit">
+      <div className="flex items-center gap-2 bg-[#E9EEF5] p-1.5 rounded-2xl shadow-[inset_3px_3px_6px_#C5D0E0,inset_-3px_-3px_6px_#FFFFFF] border border-white/60 max-w-full overflow-x-auto tab-scroll-container scrollbar-none flex-nowrap">
         <button
           onClick={() => setActiveTab('dashboard')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 shrink-0 whitespace-nowrap ${
             activeTab === 'dashboard'
               ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
               : 'text-slate-500 hover:text-slate-800'
@@ -394,7 +394,7 @@ export const StudentRewardsPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('leaderboard')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 shrink-0 whitespace-nowrap ${
             activeTab === 'leaderboard'
               ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
               : 'text-slate-500 hover:text-slate-800'
@@ -406,7 +406,7 @@ export const StudentRewardsPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('store')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 shrink-0 whitespace-nowrap ${
             activeTab === 'store'
               ? 'bg-[#E9EEF5] text-blue-600 shadow-[4px_4px_8px_#C5D0E0,-4px_-4px_8px_#FFFFFF] border border-white/80'
               : 'text-slate-500 hover:text-slate-800'

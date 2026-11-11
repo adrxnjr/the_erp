@@ -560,7 +560,7 @@ export const FeesPage: React.FC = () => {
               setSelectedStudent(null);
               setIsPayModalOpen(true);
             }}
-            className="ios-gloss-btn px-5 py-2.5 text-xs font-semibold space-x-2"
+            className="ios-gloss-btn px-5 py-2.5 text-xs font-semibold space-x-2 w-full sm:w-auto justify-center"
           >
             <DollarSign className="w-4 h-4 text-emerald-500" />
             <span>Record Cashier Fee Payment</span>
@@ -580,10 +580,10 @@ export const FeesPage: React.FC = () => {
             <div className="space-y-6">
               {/* Children Selector Pill Tab */}
               {childrenFees.length > 1 && (
-                <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-xl border border-black/[0.06] p-1.5 rounded-2xl w-fit shadow-xs">
+                <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-xl border border-black/[0.06] p-1.5 rounded-2xl max-w-full overflow-x-auto tab-scroll-container scrollbar-none shadow-xs">
                   <button
                     onClick={() => setSelectedChildId('all')}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${selectedChildId === 'all'
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 shrink-0 whitespace-nowrap ${selectedChildId === 'all'
                         ? 'bg-[#0071E3] text-white shadow-sm'
                         : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                       }`}
@@ -596,7 +596,7 @@ export const FeesPage: React.FC = () => {
                     <button
                       key={child.student_id || child.admission_number}
                       onClick={() => setSelectedChildId(child.student_id)}
-                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${selectedChildId === child.student_id
+                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 shrink-0 whitespace-nowrap ${selectedChildId === child.student_id
                           ? 'bg-[#0071E3] text-white shadow-sm'
                           : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                         }`}
@@ -857,7 +857,7 @@ export const FeesPage: React.FC = () => {
                     <h3 className="font-bold text-slate-900 text-base">Academic Session Fee Schedule</h3>
                     <p className="text-xs text-slate-500">2026–2027 Curriculum & Facility Charges</p>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-bold border ${feeData.outstanding_balance <= 0
                           ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
@@ -871,7 +871,7 @@ export const FeesPage: React.FC = () => {
                     {feeData.outstanding_balance > 0 && (
                       <button
                         onClick={() => handleOpenAmazonPay(feeData)}
-                        className="px-4 py-2 min-h-[44px] rounded-xl bg-[#FFD814] hover:bg-[#F7CA00] text-slate-950 font-extrabold text-xs border border-[#FCD200] shadow-sm flex items-center space-x-1.5 transition-transform hover:scale-102"
+                        className="px-4 py-2 min-h-[44px] rounded-xl bg-[#FFD814] hover:bg-[#F7CA00] text-slate-950 font-extrabold text-xs border border-[#FCD200] shadow-sm flex items-center justify-center space-x-1.5 transition-transform hover:scale-102 w-full sm:w-auto"
                       >
                         <CreditCard className="w-3.5 h-3.5 text-slate-950" />
                         <span>Pay Outstanding Fees ({formatINR(feeData.outstanding_balance)})</span>

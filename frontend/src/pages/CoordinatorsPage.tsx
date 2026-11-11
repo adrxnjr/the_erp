@@ -248,17 +248,14 @@ export const CoordinatorsPage: React.FC = () => {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight">
             Coordinators
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Manage coordinators, wing leadership, and grade allocations.
-          </p>
         </div>
 
         <button
           onClick={handleOpenAdd}
-          className="neu-btn-primary px-4 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 shadow-md active:scale-95 transition-all shrink-0"
+          className="neu-btn-primary px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 shadow-md active:scale-95 transition-all w-full sm:w-auto shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>Add Coordinator</span>

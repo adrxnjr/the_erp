@@ -385,32 +385,24 @@ export const SocialWallPage: React.FC = () => {
       )}
 
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="space-y-2 max-w-2xl">
-          <div className="flex items-center space-x-2">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 border border-blue-200">
-              Campus Community Feed
-            </span>
-            {isAdmin && pendingPosts.length > 0 && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300 animate-pulse">
-                {pendingPosts.length} Pending Review
-              </span>
-            )}
-          </div>
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
+      <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[24px] p-5 sm:p-6 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="min-w-0 flex items-center gap-3">
+          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#1D1D1F]">
             School Internal Social Wall
           </h1>
-          <p className="text-xs md:text-sm text-slate-600">
-            Real-time campus announcements, academic accolades, event updates, and inter-class celebrations.
-          </p>
+          {isAdmin && pendingPosts.length > 0 && (
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300 animate-pulse shrink-0">
+              {pendingPosts.length} Pending
+            </span>
+          )}
         </div>
 
         {/* Tab Switcher (Feed vs Pending Approval for Admin) */}
         {isAdmin && (
-          <div className="flex-shrink-0 bg-white/80 backdrop-blur p-1 rounded-2xl border border-blue-200 shadow-sm flex space-x-1">
+          <div className="flex-shrink-0 bg-white/80 backdrop-blur p-1 rounded-2xl border border-blue-200 shadow-sm flex space-x-1 w-full sm:w-auto justify-center">
             <button
               onClick={() => setActiveTab('feed')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition-all text-center ${
                 activeTab === 'feed'
                   ? 'bg-blue-600 text-white shadow-sm'
                   : 'text-slate-600 hover:text-slate-900'
@@ -420,7 +412,7 @@ export const SocialWallPage: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab('pending')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 ${
+              className={`flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center space-x-1.5 ${
                 activeTab === 'pending'
                   ? 'bg-blue-600 text-white shadow-sm'
                   : 'text-slate-600 hover:text-slate-900'
@@ -428,7 +420,7 @@ export const SocialWallPage: React.FC = () => {
             >
               <span>Pending Approval</span>
               {pendingPosts.length > 0 && (
-                <span className="w-5 h-5 rounded-full bg-amber-500 text-white text-[10px] font-black flex items-center justify-center">
+                <span className="w-4 h-4 rounded-full bg-amber-500 text-white text-[9px] font-black flex items-center justify-center">
                   {pendingPosts.length}
                 </span>
               )}
@@ -527,39 +519,39 @@ export const SocialWallPage: React.FC = () => {
             <>
               {/* Post Creation Box (Staff/Admin Only) */}
               {isStaffOrAdmin && (
-                <div className="ios-card rounded-[26px] p-5 space-y-3.5 border border-slate-200/90 shadow-sm">
+                <div className="ios-card rounded-[22px] p-4 sm:p-5 space-y-3 border border-slate-200/90 shadow-sm">
                   <div className="flex items-center space-x-3">
-                    <div className="w-9 h-9 rounded-2xl bg-blue-50 text-[#0071E3] flex items-center justify-center font-bold text-xs border border-blue-200">
+                    <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#0071E3] flex items-center justify-center font-bold text-xs border border-blue-200 shrink-0">
                       {user?.full_name?.charAt(0) || 'U'}
                     </div>
                     <button
                       onClick={() => setIsCreateModalOpen(true)}
-                      className="w-full text-left px-4 py-2.5 rounded-2xl bg-slate-50 hover:bg-slate-100 text-xs text-slate-500 border border-slate-200/80 transition-all focus:outline-none"
+                      className="w-full text-left px-3.5 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-xs text-slate-500 border border-slate-200/80 transition-all focus:outline-none truncate"
                     >
-                      Share an announcement, event, or student achievement with the school...
+                      Share an announcement or update...
                     </button>
                   </div>
 
-                  <div className="pt-2 border-t border-black/[0.04] flex items-center justify-between text-xs">
-                    <div className="flex items-center space-x-2">
+                  <div className="pt-2.5 border-t border-black/[0.04] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
+                    <div className="flex items-center gap-1 overflow-x-auto scrollbar-none pb-0.5">
                       <button
                         onClick={() => {
                           setPostForm((prev) => ({ ...prev, post_type: 'PHOTO_GALLERY' }));
                           setIsCreateModalOpen(true);
                         }}
-                        className="px-3 py-1.5 rounded-xl hover:bg-slate-100 text-slate-600 font-semibold flex items-center space-x-1.5 transition-all"
+                        className="px-2.5 py-1.5 rounded-lg hover:bg-slate-100 text-slate-600 font-semibold flex items-center space-x-1.5 transition-all shrink-0 text-xs"
                       >
-                        <ImageIcon className="w-4 h-4 text-emerald-600" />
-                        <span>Add Photo</span>
+                        <ImageIcon className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                        <span>Photo</span>
                       </button>
                       <button
                         onClick={() => {
                           setPostForm((prev) => ({ ...prev, post_type: 'ACHIEVEMENT' }));
                           setIsCreateModalOpen(true);
                         }}
-                        className="px-3 py-1.5 rounded-xl hover:bg-slate-100 text-slate-600 font-semibold flex items-center space-x-1.5 transition-all"
+                        className="px-2.5 py-1.5 rounded-lg hover:bg-slate-100 text-slate-600 font-semibold flex items-center space-x-1.5 transition-all shrink-0 text-xs"
                       >
-                        <Trophy className="w-4 h-4 text-amber-500" />
+                        <Trophy className="w-3.5 h-3.5 text-amber-500 shrink-0" />
                         <span>Achievement</span>
                       </button>
                       <button
@@ -567,16 +559,16 @@ export const SocialWallPage: React.FC = () => {
                           setPostForm((prev) => ({ ...prev, post_type: 'EVENT' }));
                           setIsCreateModalOpen(true);
                         }}
-                        className="px-3 py-1.5 rounded-xl hover:bg-slate-100 text-slate-600 font-semibold flex items-center space-x-1.5 transition-all"
+                        className="px-2.5 py-1.5 rounded-lg hover:bg-slate-100 text-slate-600 font-semibold flex items-center space-x-1.5 transition-all shrink-0 text-xs"
                       >
-                        <Calendar className="w-4 h-4 text-purple-600" />
+                        <Calendar className="w-3.5 h-3.5 text-purple-600 shrink-0" />
                         <span>Event</span>
                       </button>
                     </div>
 
                     <button
                       onClick={() => setIsCreateModalOpen(true)}
-                      className="ios-gloss-btn px-4 py-1.5 text-xs font-bold space-x-1 flex items-center shadow-xs"
+                      className="ios-gloss-btn px-4 py-2 text-xs font-bold space-x-1 flex items-center justify-center shadow-xs w-full sm:w-auto shrink-0"
                     >
                       <span>Create Post</span>
                       <ChevronRight className="w-3.5 h-3.5" />
@@ -586,7 +578,7 @@ export const SocialWallPage: React.FC = () => {
               )}
 
               {/* Filter Bar */}
-              <div className="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs font-bold scrollbar-none">
+              <div className="flex items-center space-x-2 overflow-x-auto pb-1.5 text-xs font-bold scrollbar-none tab-scroll-container">
                 {[
                   { id: 'all', label: 'All Feed' },
                   { id: 'announcements', label: 'Announcements' },
@@ -597,7 +589,7 @@ export const SocialWallPage: React.FC = () => {
                   <button
                     key={f.id}
                     onClick={() => setFilterType(f.id)}
-                    className={`px-3.5 py-1.5 rounded-xl whitespace-nowrap transition-all ${
+                    className={`px-3.5 py-1.5 rounded-xl whitespace-nowrap shrink-0 transition-all ${
                       filterType === f.id
                         ? 'bg-[#0071E3] text-white shadow-xs'
                         : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200/80'

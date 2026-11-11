@@ -154,11 +154,11 @@ export const StaffAttendancePage: React.FC = () => {
           </h1>
         </div>
 
-        <div className="flex items-center space-x-3 relative z-10">
+        <div className="flex items-center space-x-3 relative z-10 w-full sm:w-auto">
           <button
             onClick={fetchStaffAttendance}
             disabled={loading}
-            className="ios-gloss-btn px-5 py-2.5 text-xs font-semibold space-x-2"
+            className="w-full sm:w-auto justify-center ios-gloss-btn px-5 py-2.5 text-xs font-semibold space-x-2"
           >
             <RefreshCw className={`w-3.5 h-3.5 text-white ${loading ? 'animate-spin' : ''}`} />
             <span>Sync Live Register</span>

@@ -142,14 +142,13 @@ export const ReportsPage: React.FC = () => {
   return (
     <div className="space-y-8 animate-fadeIn pb-12">
       {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-5 sm:p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60">
         <div className="flex items-center space-x-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#0071E3] to-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/25 shrink-0">
-            <FileSpreadsheet className="w-6 h-6" />
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-[#0071E3] to-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/25 shrink-0">
+            <FileSpreadsheet className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div>
-            <h1 className="text-xl font-black text-slate-800 tracking-tight">Reports & Analytics Exports</h1>
-            <p className="text-xs text-slate-500">Generate formal Microsoft Excel (.xlsx) workbooks and compliance dossiers for statutory audits</p>
+            <h1 className="text-lg sm:text-xl font-black text-slate-800 tracking-tight">Reports & Analytics Exports</h1>
           </div>
         </div>
         <div className="flex items-center space-x-2">

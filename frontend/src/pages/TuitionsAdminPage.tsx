@@ -353,21 +353,18 @@ export const TuitionsAdminPage: React.FC = () => {
               <GraduationCap className="w-5 h-5" />
             </div>
             <div>
-              <h1 className="text-2xl font-extrabold text-[#1D1D1F] tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-extrabold text-[#1D1D1F] tracking-tight">
                 Tuition Centers & Partner Academies
               </h1>
-              <p className="text-xs text-[#86868B]">
-                Curate verified coaching institutions, subject batches, and process student inquiries.
-              </p>
             </div>
           </div>
         </div>
 
         {/* Tab Switcher */}
-        <div className="bg-slate-100 p-1 rounded-2xl flex items-center space-x-1 border border-slate-200/80">
+        <div className="bg-slate-100 p-1 rounded-2xl flex items-center space-x-1 border border-slate-200/80 max-w-full overflow-x-auto tab-scroll-container scrollbar-none flex-nowrap">
           <button
             onClick={() => setActiveTab('centers')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'centers'
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 whitespace-nowrap ${activeTab === 'centers'
               ? 'bg-white text-blue-700 shadow-sm'
               : 'text-slate-600 hover:text-slate-900'
               }`}
@@ -376,7 +373,7 @@ export const TuitionsAdminPage: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveTab('add')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'add'
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 whitespace-nowrap ${activeTab === 'add'
               ? 'bg-white text-blue-700 shadow-sm'
               : 'text-slate-600 hover:text-slate-900'
               }`}
@@ -385,7 +382,7 @@ export const TuitionsAdminPage: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveTab('enquiries')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'enquiries'
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 whitespace-nowrap ${activeTab === 'enquiries'
               ? 'bg-white text-blue-700 shadow-sm'
               : 'text-slate-600 hover:text-slate-900'
               }`}

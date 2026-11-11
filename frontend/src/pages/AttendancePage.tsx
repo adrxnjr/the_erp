@@ -638,11 +638,11 @@ export const AttendancePage: React.FC = () => {
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
           <button
             onClick={handleSendAbsenteeSms}
             disabled={sendingSms}
-            className="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-semibold rounded-full flex items-center space-x-2 transition-colors shadow-2xs"
+            className="flex-1 sm:flex-none justify-center px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-semibold rounded-full flex items-center space-x-2 transition-colors shadow-2xs"
           >
             <Send className="w-3.5 h-3.5 text-rose-600" />
             <span>{sendingSms ? 'Sending SMS...' : 'Notify Absentees (1 Today)'}</span>
@@ -652,7 +652,7 @@ export const AttendancePage: React.FC = () => {
             <button
               onClick={handleSaveAttendance}
               disabled={loading || isLocked}
-              className="ios-gloss-btn px-5 py-2 text-xs font-semibold space-x-2 disabled:opacity-50"
+              className="flex-1 sm:flex-none justify-center ios-gloss-btn px-5 py-2 text-xs font-semibold space-x-2 disabled:opacity-50"
             >
               <Save className="w-4 h-4 text-white" />
               <span>Save Roll-Call</span>

@@ -222,14 +222,14 @@ export const StudentsPage: React.FC = () => {
         <div>
           <h1 className="text-2xl font-bold text-[#1D1D1F] tracking-tight">Student Directory</h1>
         </div>
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
           <button
             onClick={() => {
               setBulkClassId('');
               setBulkSectionId('');
               setIsBulkModalOpen(true);
             }}
-            className="px-4 py-2.5 rounded-[14px] bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-semibold space-x-2 flex items-center shadow-sm transition-all"
+            className="flex-1 sm:flex-none justify-center px-4 py-2.5 rounded-[14px] bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-semibold space-x-2 flex items-center shadow-sm transition-all"
           >
             <FileDown className="w-4 h-4 text-[#0071E3]" />
             <span>Bulk Export IDs</span>
@@ -242,7 +242,7 @@ export const StudentsPage: React.FC = () => {
               }));
               setIsModalOpen(true);
             }}
-            className="ios-gloss-btn px-5 py-2.5 text-xs font-semibold space-x-2"
+            className="flex-1 sm:flex-none justify-center ios-gloss-btn px-5 py-2.5 text-xs font-semibold space-x-2"
           >
             <UserPlus className="w-4 h-4 text-white" />
             <span>Enroll Student</span>
@@ -253,7 +253,7 @@ export const StudentsPage: React.FC = () => {
       {/* Filter and Search Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
         {/* Class Filter Tabs */}
-        <div className="flex items-center space-x-1.5 p-1 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] w-fit">
+        <div className="flex items-center space-x-1.5 p-1 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] max-w-full overflow-x-auto tab-scroll-container scrollbar-none">
           {[
             { id: 'ALL', label: 'All Students', count: studentList.length },
             { id: '10-A', label: 'Class 10-A', count: studentList.filter((s) => s.class_section === '10-A').length || 50 },
@@ -266,7 +266,7 @@ export const StudentsPage: React.FC = () => {
                 setSelectedClassFilter(tab.id);
                 setCurrentPage(1);
               }}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 shrink-0 whitespace-nowrap ${
                 selectedClassFilter === tab.id
                   ? 'bg-[#0071E3] text-white shadow-sm'
                   : 'text-slate-600 hover:text-slate-900'

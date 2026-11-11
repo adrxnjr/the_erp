@@ -713,8 +713,8 @@ export const AcademicPage: React.FC = () => {
         </div>
 
         {/* Wing Filter Tabs */}
-        <div className="bg-white/80 backdrop-blur-xl border border-black/[0.06] rounded-2xl p-1.5 flex flex-wrap items-center gap-2 shadow-xs">
-          <span className="text-xs font-bold text-slate-400 uppercase px-3">Filter Wing:</span>
+        <div className="bg-white/80 backdrop-blur-xl border border-black/[0.06] rounded-2xl p-1.5 flex items-center gap-2 shadow-xs max-w-full overflow-x-auto tab-scroll-container scrollbar-none flex-nowrap">
+          <span className="text-xs font-bold text-slate-400 uppercase px-3 shrink-0">Filter Wing:</span>
           {[
             { id: 'all', label: `All Wings (${syllabi.length})` },
             { id: 'primary', label: 'Primary Wing (Grades 1-5)' },
@@ -724,7 +724,7 @@ export const AcademicPage: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setSelectedWing(tab.id)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 whitespace-nowrap ${
                 selectedWing === tab.id
                   ? 'bg-gradient-to-r from-[#0071E3] to-blue-600 text-white shadow-sm shadow-blue-500/25'
                   : 'text-slate-600 hover:text-slate-900 bg-slate-100/60'

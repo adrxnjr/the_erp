@@ -583,13 +583,21 @@ body {
     border-radius: 12px !important;
   }
 
-  /* Buttons: height 44px minimum, font 14px, radius 12px */
-  button,
+  /* Primary action buttons: min 44px touch target on mobile */
   .btn,
-  [role="button"] {
+  .ios-gloss-btn,
+  .ios-gloss-btn-secondary,
+  .ios-gloss-btn-emerald,
+  .neu-btn-primary,
+  .neu-btn-secondary,
+  button[type="submit"] {
     min-height: 44px;
     font-size: 14px;
     border-radius: 12px;
+  }
+
+  button,
+  [role="button"] {
     touch-action: manipulation;
   }
 

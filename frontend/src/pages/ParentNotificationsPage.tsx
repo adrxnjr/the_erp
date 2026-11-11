@@ -143,13 +143,10 @@ export const ParentNotificationsPage: React.FC = () => {
             <Bell className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-xl font-black text-slate-800 tracking-tight">Notifications & Alerts</h1>
-            <p className="text-xs text-slate-500">
-              Stay updated with your child's attendance, grades, fees, and school announcements.
-            </p>
+            <h1 className="text-lg sm:text-xl font-black text-slate-800 tracking-tight">Notifications & Alerts</h1>
           </div>
         </div>
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
           {unreadCount > 0 && (
             <span className="px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold border border-rose-200">
               {unreadCount} Unread
@@ -157,7 +154,7 @@ export const ParentNotificationsPage: React.FC = () => {
           )}
           <button
             onClick={markAllRead}
-            className="px-4 py-2 bg-[#E9EEF5] hover:bg-[#DCE3EF] text-slate-700 text-xs font-semibold rounded-full transition-colors shadow-[2px_2px_5px_#C8D0DC,-2px_-2px_5px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#C8D0DC] cursor-pointer border-none"
+            className="flex-1 sm:flex-none justify-center px-4 py-2 bg-[#E9EEF5] hover:bg-[#DCE3EF] text-slate-700 text-xs font-semibold rounded-full transition-colors shadow-[2px_2px_5px_#C8D0DC,-2px_-2px_5px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#C8D0DC] cursor-pointer border-none"
           >
             Mark All Read
           </button>
