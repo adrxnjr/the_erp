@@ -607,19 +607,6 @@ export const LoginPage: React.FC = () => {
                 </div>
               </button>
 
-              {/* Vice Admin */}
-              <button
-                type="button"
-                disabled={loading}
-                onClick={() => handleQuickDemoLogin('viceadmin', '123', 'staff')}
-                className="p-2.5 rounded-2xl bg-[#F5F6F8] shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] border border-white/80 text-left transition-all flex items-center space-x-2 cursor-pointer min-h-[48px]"
-              >
-                <div className="w-2.5 h-2.5 rounded-full bg-sky-600 shrink-0"></div>
-                <div className="min-w-0 truncate">
-                  <strong className="text-slate-800 block text-xs font-bold leading-tight truncate">Vice Admin</strong>
-                  <span className="text-[11px] text-slate-500 font-mono truncate">viceadmin / 123</span>
-                </div>
-              </button>
 
               {/* Student */}
               <button
