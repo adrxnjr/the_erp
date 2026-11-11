@@ -132,9 +132,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 25);
+      const heroEl = document.getElementById('home');
+      if (heroEl) {
+        const heroBottom = heroEl.getBoundingClientRect().bottom;
+        // Header turns white once the bottom of the hero image reaches the top navbar (56px)
+        setIsScrolled(heroBottom <= 56);
+      } else {
+        setIsScrolled(window.scrollY > 80);
+      }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -202,32 +210,32 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
 
   return (
     <div className="min-h-screen bg-[#F5F6F8] text-slate-800 font-sans selection:bg-slate-300 selection:text-slate-900 w-full max-w-full overflow-x-hidden">
-      {/* 1. HERO SECTION WITH FULL-SCREEN IMAGE & FLOATING OVERLAY NAVBAR */}
-      <section id="home" className="relative w-full h-screen h-[100dvh] min-h-[520px] bg-slate-900 overflow-hidden">
-        {/* Full Screen Hero Background Image - Positioned to show upper corridor and children in lower-mid view */}
+      {/* 1. HERO SECTION: LANDSCAPE RATIO ON MOBILE (NO ZOOM / CROPPING), FULL-SCREEN ON DESKTOP */}
+      <section id="home" className="relative w-full aspect-[16/9] sm:aspect-auto sm:h-screen sm:min-h-[580px] bg-slate-900 overflow-hidden">
+        {/* Full Landscape Hero Background Image - Natural 16:9 proportion with zero zoom on phone */}
         <img
           src={heroStudentsImg}
           alt="Ever Grow School Students"
-          className="absolute inset-0 w-full h-full object-cover object-[50%_18%] sm:object-center"
+          className="w-full h-full object-cover sm:object-center"
           loading="eager"
         />
 
-        {/* Top Vignette Overlay for Crisp Navbar Contrast */}
-        <div className="absolute inset-x-0 top-0 h-28 sm:h-36 bg-gradient-to-b from-black/60 via-black/20 to-transparent pointer-events-none z-10" />
+        {/* Top Vignette Overlay: Light & transparent so ceiling/corridor remains visible */}
+        <div className="absolute inset-x-0 top-0 h-16 sm:h-28 bg-gradient-to-b from-black/50 via-black/15 to-transparent pointer-events-none z-10" />
 
-        {/* Bottom Fade Overlay for Smooth Content Transition */}
-        <div className="absolute inset-x-0 bottom-0 h-32 sm:h-44 bg-gradient-to-t from-[#F5F6F8] via-[#F5F6F8]/60 to-transparent pointer-events-none z-10" />
+        {/* Bottom Fade Overlay for Smooth Content Transition (Desktop only) */}
+        <div className="hidden sm:block sm:absolute sm:inset-x-0 sm:bottom-0 sm:h-44 sm:bg-gradient-to-t sm:from-[#F5F6F8] sm:via-[#F5F6F8]/60 sm:to-transparent pointer-events-none sm:z-10" />
 
-        {/* FLOATING & STICKY ON SCROLL NAVBAR OVER HERO IMAGE */}
+        {/* FLOATING & STICKY ON SCROLL NAVBAR: INVISIBLE OVER IMAGE, PURE WHITE WHEN SCROLLED PAST */}
         <header
           className={`fixed top-0 inset-x-0 z-40 transition-all duration-300 w-full max-w-full ${
             isScrolled
-              ? 'bg-slate-900/90 backdrop-blur-md shadow-lg border-b border-white/10 py-2 sm:py-2.5'
-              : 'bg-transparent py-3 sm:py-4'
+              ? 'bg-white/95 backdrop-blur-md shadow-xs border-b border-slate-200/80 py-2 sm:py-2.5'
+              : 'bg-transparent border-b border-transparent shadow-none py-2.5 sm:py-3.5'
           }`}
         >
           <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 flex items-center justify-between">
-            {/* Logo Brand: Glass Backing with Drop Shadow */}
+            {/* Logo Brand: Glass backing over image, clean grey backing over white */}
             <a
               href="#home"
               onClick={(e) => {
@@ -237,14 +245,32 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               }}
               className="flex items-center gap-2 sm:gap-2.5 group shrink-0"
             >
-              <div className="w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center p-1 sm:p-1.5 transition-transform group-hover:scale-105 shadow-md shrink-0">
+              <div
+                className={`w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl flex items-center justify-center p-1 sm:p-1.5 transition-all group-hover:scale-105 shrink-0 ${
+                  isScrolled
+                    ? 'bg-slate-100 border border-slate-200 shadow-2xs'
+                    : 'bg-white/20 backdrop-blur-md border border-white/40 shadow-md'
+                }`}
+              >
                 <img src={logoImg} alt="Ever Grow Schools Logo" className="w-full h-full object-contain drop-shadow" />
               </div>
               <div className="flex items-baseline gap-1 whitespace-nowrap shrink-0">
-                <span className="text-sm xs:text-base sm:text-lg font-black tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] whitespace-nowrap">
+                <span
+                  className={`text-sm xs:text-base sm:text-lg font-black tracking-tight transition-colors whitespace-nowrap ${
+                    isScrolled
+                      ? 'text-blue-600'
+                      : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]'
+                  }`}
+                >
                   Ever Grow
                 </span>
-                <span className="text-sm xs:text-base sm:text-lg font-bold tracking-tight text-amber-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] whitespace-nowrap">
+                <span
+                  className={`text-sm xs:text-base sm:text-lg font-bold tracking-tight transition-colors whitespace-nowrap ${
+                    isScrolled
+                      ? 'text-[#C25E2E]'
+                      : 'text-amber-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]'
+                  }`}
+                >
                   Schools
                 </span>
               </div>
@@ -253,22 +279,34 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
             {/* Right Navigation & Controls */}
             <div className="flex items-center gap-2 sm:gap-4 shrink-0">
               {/* Desktop 3 Navigation Links */}
-              <nav className="hidden md:flex items-center gap-1.5 text-xs sm:text-sm font-bold text-white mr-2">
+              <nav className="hidden md:flex items-center gap-1.5 text-xs sm:text-sm font-bold mr-2">
                 <button
                   onClick={() => scrollToSection('home')}
-                  className="px-3.5 py-1.5 rounded-full hover:bg-white/20 active:bg-white/30 backdrop-blur-xs transition-all cursor-pointer whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+                  className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer whitespace-nowrap ${
+                    isScrolled
+                      ? 'text-slate-700 hover:text-blue-600 hover:bg-slate-100'
+                      : 'text-white hover:bg-white/20 active:bg-white/30 backdrop-blur-xs drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]'
+                  }`}
                 >
                   Home
                 </button>
                 <button
                   onClick={() => scrollToSection('about')}
-                  className="px-3.5 py-1.5 rounded-full hover:bg-white/20 active:bg-white/30 backdrop-blur-xs transition-all cursor-pointer whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+                  className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer whitespace-nowrap ${
+                    isScrolled
+                      ? 'text-slate-700 hover:text-blue-600 hover:bg-slate-100'
+                      : 'text-white hover:bg-white/20 active:bg-white/30 backdrop-blur-xs drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]'
+                  }`}
                 >
                   About us
                 </button>
                 <button
                   onClick={() => scrollToSection('contact')}
-                  className="px-3.5 py-1.5 rounded-full hover:bg-white/20 active:bg-white/30 backdrop-blur-xs transition-all cursor-pointer whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+                  className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer whitespace-nowrap ${
+                    isScrolled
+                      ? 'text-slate-700 hover:text-blue-600 hover:bg-slate-100'
+                      : 'text-white hover:bg-white/20 active:bg-white/30 backdrop-blur-xs drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]'
+                  }`}
                 >
                   Contact
                 </button>
@@ -277,7 +315,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
               {/* Login Button */}
               <button
                 onClick={() => handleOpenLogin('staff')}
-                className="px-3.5 py-1.5 sm:px-6 sm:py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white text-xs sm:text-sm font-bold shadow-lg shadow-black/30 hover:shadow-xl active:scale-95 transition-all text-center border border-white/20 cursor-pointer whitespace-nowrap shrink-0 min-h-[38px] sm:min-h-[44px] flex items-center justify-center"
+                className="px-3.5 py-1.5 sm:px-6 sm:py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white text-xs sm:text-sm font-bold shadow-md shadow-blue-500/20 hover:shadow-lg active:scale-95 transition-all text-center border border-white/20 cursor-pointer whitespace-nowrap shrink-0 min-h-[38px] sm:min-h-[44px] flex items-center justify-center"
               >
                 Login
               </button>
@@ -287,55 +325,77 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 aria-label="Toggle navigation menu"
-                className="md:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center hover:bg-white/30 active:scale-95 transition-all shadow-md cursor-pointer shrink-0"
+                className={`md:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center active:scale-95 transition-all shadow-xs cursor-pointer shrink-0 ${
+                  isScrolled
+                    ? 'bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200'
+                    : 'bg-black/20 backdrop-blur-md border border-white/30 text-white hover:bg-black/30'
+                }`}
               >
-                {mobileMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
           </div>
 
-          {/* Mobile Slide-down Glass Navigation Menu */}
+          {/* Mobile Slide-down Navigation Menu */}
           {mobileMenuOpen && (
             <div className="md:hidden mt-2 px-3.5 pb-2">
-              <div className="bg-slate-900/95 backdrop-blur-xl rounded-2xl border border-white/20 p-2.5 shadow-2xl space-y-1">
+              <div
+                className={`rounded-2xl p-2.5 shadow-2xl border space-y-1 backdrop-blur-xl ${
+                  isScrolled
+                    ? 'bg-white/95 border-slate-200/90 text-slate-800'
+                    : 'bg-slate-900/95 border-white/20 text-white'
+                }`}
+              >
                 <button
                   onClick={() => {
                     scrollToSection('home');
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold text-white hover:bg-white/15 active:bg-white/25 transition-colors flex items-center justify-between cursor-pointer"
+                  className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-colors flex items-center justify-between cursor-pointer ${
+                    isScrolled
+                      ? 'text-slate-800 hover:bg-slate-100 active:bg-slate-200'
+                      : 'text-white hover:bg-white/15 active:bg-white/25'
+                  }`}
                 >
                   <span>Home</span>
-                  <span className="text-[10px] uppercase font-semibold text-white/50">Top</span>
+                  <span className={`text-[10px] uppercase font-semibold ${isScrolled ? 'text-slate-400' : 'text-white/50'}`}>Top</span>
                 </button>
                 <button
                   onClick={() => {
                     scrollToSection('about');
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold text-white hover:bg-white/15 active:bg-white/25 transition-colors flex items-center justify-between cursor-pointer"
+                  className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-colors flex items-center justify-between cursor-pointer ${
+                    isScrolled
+                      ? 'text-slate-800 hover:bg-slate-100 active:bg-slate-200'
+                      : 'text-white hover:bg-white/15 active:bg-white/25'
+                  }`}
                 >
                   <span>About Us</span>
-                  <span className="text-[10px] uppercase font-semibold text-white/50">Story & Pillars</span>
+                  <span className={`text-[10px] uppercase font-semibold ${isScrolled ? 'text-slate-400' : 'text-white/50'}`}>Story & Pillars</span>
                 </button>
                 <button
                   onClick={() => {
                     scrollToSection('contact');
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold text-white hover:bg-white/15 active:bg-white/25 transition-colors flex items-center justify-between cursor-pointer"
+                  className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-colors flex items-center justify-between cursor-pointer ${
+                    isScrolled
+                      ? 'text-slate-800 hover:bg-slate-100 active:bg-slate-200'
+                      : 'text-white hover:bg-white/15 active:bg-white/25'
+                  }`}
                 >
                   <span>Contact & Admissions</span>
-                  <span className="text-[10px] uppercase font-semibold text-white/50">Enquire</span>
+                  <span className={`text-[10px] uppercase font-semibold ${isScrolled ? 'text-slate-400' : 'text-white/50'}`}>Enquire</span>
                 </button>
               </div>
             </div>
           )}
         </header>
 
-        {/* Floating Bottom Ticker Over Hero Image */}
-        <div className="absolute inset-x-0 bottom-3 sm:bottom-6 z-20 text-center px-3 sm:px-4 overflow-x-auto scrollbar-none">
-          <div className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-bold text-slate-800 bg-white/90 backdrop-blur-md shadow-lg px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-white/80 whitespace-nowrap">
+        {/* Floating Bottom Ticker Over Hero Image on Desktop */}
+        <div className="hidden sm:block absolute inset-x-0 bottom-6 z-20 text-center px-4 overflow-x-auto scrollbar-none">
+          <div className="inline-flex items-center gap-2 text-xs font-bold text-slate-800 bg-white/90 backdrop-blur-md shadow-lg px-4 py-2 rounded-full border border-white/80 whitespace-nowrap">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
             <span className="text-slate-900 font-extrabold whitespace-nowrap">2,500+ Active Scholars</span>
             <span className="text-slate-400">•</span>
@@ -345,6 +405,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
           </div>
         </div>
       </section>
+
+      {/* Ribbon Ticker for Mobile right below the Landscape Hero Image */}
+      <div className="sm:hidden text-center px-3 py-2 bg-[#F5F6F8] border-b border-slate-200/80 overflow-x-auto scrollbar-none">
+        <div className="inline-flex items-center gap-2 text-[10.5px] font-bold text-slate-800 bg-white shadow-2xs px-3.5 py-1.5 rounded-full border border-slate-200/80 whitespace-nowrap">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+          <span className="text-slate-900 font-extrabold whitespace-nowrap">2,500+ Active Scholars</span>
+          <span className="text-slate-400">•</span>
+          <span className="text-slate-600 whitespace-nowrap">CBSE #1930482</span>
+        </div>
+      </div>
 
         {/* Student Showcase & Core Pillars Area */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
