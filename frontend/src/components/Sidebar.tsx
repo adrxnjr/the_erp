@@ -427,19 +427,28 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
       }`}
     >
       {/* Brand Header with mobile close button */}
-      <div className="w-full px-2 py-2 border-b border-white/60 flex items-center justify-between overflow-hidden relative shrink-0">
+      <div className="w-full px-2 pt-2.5 pb-2 bg-[#E9EEF5] flex items-center justify-between relative shrink-0 z-20">
         <AnimatedLogo className="w-full" idPrefix="sidebar-logo" />
         <button
           onClick={onCloseMobile}
           aria-label="Close navigation drawer"
-          className="md:hidden absolute right-3 p-1.5 rounded-xl bg-white/70 hover:bg-white text-slate-500 hover:text-slate-800 border border-slate-200/80 shadow-xs"
+          className="md:hidden absolute right-3 p-1.5 rounded-xl bg-white/70 hover:bg-white text-slate-500 hover:text-slate-800 border border-slate-200/80 shadow-xs cursor-pointer"
         >
           <X className="w-4 h-4" />
         </button>
+        {/* Seamless blend fade gradient beneath logo (no harsh white split line) */}
+        <div className="pointer-events-none absolute left-0 right-0 -bottom-8 h-8 bg-gradient-to-b from-[#E9EEF5] via-[#E9EEF5]/85 to-transparent z-20" />
       </div>
 
-      {/* Navigation Container with smooth custom scrollbar */}
-      <nav className="flex-1 px-2.5 space-y-3 overflow-y-auto py-2.5 scrollbar-thin scrollbar-thumb-slate-300">
+      {/* Navigation Container with smooth custom scrollbar & blend fade */}
+      <div className="relative flex-1 min-h-0 flex flex-col overflow-hidden">
+        <nav
+          className="flex-1 px-2.5 space-y-3 overflow-y-auto pt-2.5 pb-4 scrollbar-thin scrollbar-thumb-slate-300"
+          style={{
+            maskImage: 'linear-gradient(to bottom, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%)',
+          }}
+        >
         {isSuperAdmin ? (
           // ─── SUPER ADMIN GROUPED SECTIONS ───
           superAdminSections.map((section) => (
@@ -566,11 +575,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
             </div>
           </>
         )}
-      </nav>
+        </nav>
+        {/* Seamless blend fade gradient above footer */}
+        <div className="pointer-events-none absolute left-0 right-0 bottom-0 h-6 bg-gradient-to-t from-[#E9EEF5] via-[#E9EEF5]/85 to-transparent z-20" />
+      </div>
 
       {/* FOOTER: Logged-in user card (name, role, logout) */}
       {user && (
-        <div className="p-2 border-t border-white/70 bg-[#E9EEF5] shrink-0">
+        <div className="p-2 bg-[#E9EEF5] shrink-0 relative z-20">
           <div className="flex items-center justify-between p-1.5 rounded-xl bg-[#E9EEF5] shadow-[inset_2px_2px_5px_#C5D0E0,inset_-2px_-2px_5px_#FFFFFF] border border-white/40">
             <div className="flex items-center space-x-2 min-w-0">
               <div className="w-7 h-7 rounded-full bg-[#E9EEF5] shadow-[2px_2px_5px_#C5D0E0,-2px_-2px_5px_#FFFFFF] flex items-center justify-center text-[#0066FF] font-bold text-xs border border-white/80 shrink-0">
