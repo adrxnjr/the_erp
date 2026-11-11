@@ -641,29 +641,6 @@ export const ModuleHubPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] border border-white/60">
-              <div className="text-[11px] font-bold text-slate-400 uppercase">Total Broadcasts</div>
-              <div className="text-2xl font-black text-slate-800 mt-1">52 Alerts</div>
-              <div className="text-[11px] text-emerald-600 font-semibold mt-0.5">Across Academic Year 2026-27</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] border border-white/60">
-              <div className="text-[11px] font-bold text-slate-400 uppercase">SMS Delivery Success</div>
-              <div className="text-2xl font-black text-blue-600 mt-1">99.4%</div>
-              <div className="text-[11px] text-slate-500 font-semibold mt-0.5">4,120 Messages Delivered</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] border border-white/60">
-              <div className="text-[11px] font-bold text-slate-400 uppercase">WhatsApp Read Rate</div>
-              <div className="text-2xl font-black text-emerald-600 mt-1">94.8%</div>
-              <div className="text-[11px] text-slate-500 font-semibold mt-0.5">Verified Parent Handsets</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] border border-white/60">
-              <div className="text-[11px] font-bold text-slate-400 uppercase">Emergency Siren</div>
-              <div className="text-2xl font-black text-slate-800 mt-1">Standby</div>
-              <div className="text-[11px] text-slate-400 font-semibold mt-0.5">Zero Active Disasters</div>
-            </div>
-          </div>
-
           <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-300/60 pb-3">
               <div className="flex items-center space-x-2">
