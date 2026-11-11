@@ -427,7 +427,7 @@ export const LoginPage: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-3">
             <div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 z-10">
                   <User className="w-4 h-4" />
                 </div>
                 <input
@@ -442,14 +442,14 @@ export const LoginPage: React.FC = () => {
                       ? 'Admission number or username'
                       : 'Parent phone or username'
                   }
-                  className="w-full pl-10 pr-4 py-3 bg-[#F5F6F8] rounded-2xl text-sm sm:text-base text-slate-800 placeholder-slate-400 shadow-[inset_3px_3px_6px_#D4DAE5,inset_-3px_-3px_6px_#FFFFFF] border border-white/70 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all font-medium min-h-[46px]"
+                  className="w-full pl-11 pr-4 py-3 bg-[#F5F6F8] rounded-2xl text-sm sm:text-base text-slate-800 placeholder-slate-400 shadow-[inset_3px_3px_6px_#D4DAE5,inset_-3px_-3px_6px_#FFFFFF] border border-white/70 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all font-medium min-h-[46px]"
                 />
               </div>
             </div>
 
             <div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 z-10">
                   <KeyRound className="w-4 h-4" />
                 </div>
                 <input
@@ -458,12 +458,12 @@ export const LoginPage: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full pl-10 pr-10 py-3 bg-[#F5F6F8] rounded-2xl text-sm sm:text-base text-slate-800 placeholder-slate-400 shadow-[inset_3px_3px_6px_#D4DAE5,inset_-3px_-3px_6px_#FFFFFF] border border-white/70 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all font-mono min-h-[46px]"
+                  className="w-full pl-11 pr-11 py-3 bg-[#F5F6F8] rounded-2xl text-sm sm:text-base text-slate-800 placeholder-slate-400 shadow-[inset_3px_3px_6px_#D4DAE5,inset_-3px_-3px_6px_#FFFFFF] border border-white/70 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all font-mono min-h-[46px]"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer min-h-[44px]"
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer min-h-[44px] z-10"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
