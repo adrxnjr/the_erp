@@ -222,7 +222,7 @@ export const StudentsPage: React.FC = () => {
         <div>
           <h1 className="text-2xl font-bold text-[#1D1D1F] tracking-tight">Student Directory</h1>
           <p className="text-sm text-[#86868B]">
-            Ever Grow Schools • 150 Registered Students Across 10-A, 10-B, and 10-C
+            150 enrolled scholars • Classes 10-A, 10-B, and 10-C
           </p>
         </div>
         <div className="flex items-center space-x-3">

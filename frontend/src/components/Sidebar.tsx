@@ -444,7 +444,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
           // ─── SUPER ADMIN GROUPED SECTIONS ───
           superAdminSections.map((section) => (
             <div key={section.title} className="space-y-1">
-              <div className="pt-2 pb-1 px-2.5 text-[10px] font-black uppercase tracking-wider text-slate-400">
+              <div className="pt-2 pb-1 px-2.5 text-[11px] font-bold uppercase tracking-wider text-slate-500">
                 {section.title}
               </div>
               <div className="space-y-0.5">
@@ -488,7 +488,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
           // ─── STAFF OFFICE DESK GROUPED SECTIONS (11 Core Office Works) ───
           staffSections.map((section) => (
             <div key={section.title} className="space-y-1">
-              <div className="pt-2 pb-1 px-2.5 text-[10px] font-black uppercase tracking-wider text-slate-400">
+              <div className="pt-2 pb-1 px-2.5 text-[11px] font-bold uppercase tracking-wider text-slate-500">
                 {section.title}
               </div>
               <div className="space-y-0.5">
@@ -518,7 +518,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
                         <span className="truncate tracking-tight">{item.label}</span>
                       </div>
                       {item.badge && item.badge > 0 ? (
-                        <span className="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-amber-500 text-white shadow-xs shrink-0">
+                        <span className="px-1.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500 text-white shadow-xs shrink-0">
                           {item.badge}
                         </span>
                       ) : null}
@@ -531,7 +531,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
         ) : (
           // ─── TEACHER, PRINCIPAL, COORDINATOR, STUDENT, PARENT (UNCHANGED) ───
           <>
-            <div className="px-3.5 pt-1 pb-0.5 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+            <div className="px-3.5 pt-1 pb-0.5 text-xs font-bold uppercase tracking-wider text-slate-500">
               {menuHeading}
             </div>
             <div className="space-y-1">
@@ -556,7 +556,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
                       <span className="truncate tracking-tight">{item.label}</span>
                     </div>
                     {item.badge && item.badge > 0 ? (
-                      <span className="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-500 text-white shadow-xs shrink-0">
+                      <span className="ml-1.5 px-2 py-0.5 rounded-full text-xs font-bold bg-amber-500 text-white shadow-xs shrink-0">
                         {item.badge}
                       </span>
                     ) : null}
@@ -584,7 +584,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
                     ? 'Elena Rostova'
                     : user.full_name}
                 </div>
-                <div className="text-[10px] text-slate-500 flex items-center space-x-1 mt-0.5">
+                <div className="text-xs text-slate-500 flex items-center space-x-1 mt-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
                   <span className="truncate font-semibold capitalize">
                     {isSuperAdmin

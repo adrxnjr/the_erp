@@ -45,7 +45,6 @@ import {
   GraduationCap,
   Bus,
   Trophy,
-  Sparkles,
   BookOpen,
   Compass,
   ChevronRight,
@@ -479,7 +478,7 @@ export const ModuleHubPage: React.FC = () => {
     visitors: { enabled: true, title: 'Campus Gate Passes & Visitors', category: 'Campus Security', description: 'Live RFID check-in badges for visiting parents, supply vendor gate passes, and vehicle parking security logs.', usage: 'Used by Campus Security to log all campus visitors, verify parent identity, and issue authorized visitor badges.', route: '/visitors', icon: ShieldCheck },
     tuitions: { enabled: true, title: 'Partner Tuitions & Academies', category: 'Academics', description: 'Curated directory of verified after-school coaching institutions, subject batches, and academic inquiries.', usage: 'Used by Parents and Students to find accredited tutoring centers for Olympiad and Board examination prep.', route: '/tuitions', icon: BookOpen },
     library: { enabled: true, title: 'Library & Digital Catalog', category: 'Resources', description: 'Barcode book circulation management for 12,450+ physical volumes and 1,800+ downloadable digital ePubs.', usage: 'Used by Students and Faculty to search catalog, borrow books, read ePubs, and track return deadlines.', route: '/library', icon: Library },
-    socialWall: { enabled: true, title: 'Campus Social Wall & Circulars', category: 'Community', description: 'Official campus noticeboard for sports meet highlights, science fair photos, and urgent administrative circulars.', usage: 'Used by the Correspondent and Principal to broadcast achievements, achievements, and circulars to school community.', route: '/social', icon: Sparkles },
+    socialWall: { enabled: true, title: 'Campus Social Wall & Circulars', category: 'Community', description: 'Official campus noticeboard for sports highlights, event photos, and urgent administrative circulars.', usage: 'Used by leadership to broadcast announcements and circulars.', route: '/social', icon: Trophy },
     payroll: { enabled: true, title: 'Faculty Payroll & Compensation', category: 'Finance', description: 'Monthly salary disbursement processing for 60 professors and 20 staff, PF deductions, and bank transfer batches.', usage: 'Used by the Correspondent and Treasury to authorize the ₹38,50,000 monthly payroll and generate salary slips.', route: '/payroll', icon: Receipt },
     career: { enabled: true, title: 'AI Career Guidance & RIASEC Test', category: 'Student Counseling', description: 'Psychometric career mapping, college degree eligibility analyzer, and competitive entrance exam roadmaps.', usage: 'Used by Senior Secondary Students (Grades 10–12) to discover personalized career roadmaps and university paths.', route: '/career', icon: Compass },
   });
@@ -509,8 +508,8 @@ export const ModuleHubPage: React.FC = () => {
                 <Bell className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Broadcast Alerts & Campus Notifications</h1>
-                <p className="text-xs text-slate-500">Dispatch instant SMS circulars, WhatsApp broadcasts, and emergency notifications to parents & faculty</p>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Broadcast Alerts & Notifications</h1>
+                <p className="text-xs text-slate-500">Instant SMS, WhatsApp broadcasts, and emergency notifications</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -716,8 +715,8 @@ export const ModuleHubPage: React.FC = () => {
                 <Package className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Inventory, Procurement & Asset Management</h1>
-                <p className="text-xs text-slate-500">Institutional stores: Uniform kits, CBSE textbooks, science laboratories, smart classroom technology, and sports assets</p>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Inventory & Asset Management</h1>
+                <p className="text-xs text-slate-500">Uniforms, textbooks, lab equipment, and school assets</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -926,8 +925,8 @@ export const ModuleHubPage: React.FC = () => {
                 <FileText className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Homework Assignments & Institutional Circulars</h1>
-                <p className="text-xs text-slate-500">Curriculum problem sets, chapter assignments, and official school circulars released by Correspondent & Principal</p>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Homework & Circulars</h1>
+                <p className="text-xs text-slate-500">Homework assignments, syllabus problem sets, and school circulars</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -1184,8 +1183,8 @@ export const ModuleHubPage: React.FC = () => {
                 <Receipt className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Counter Billings, Invoices & Fee Collection</h1>
-                <p className="text-xs text-slate-500">School accounts desk: Term tuition billing, electronic bank receipts, cash vouchers, and GST clearance statements</p>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Counter Billings & Fee Receipts</h1>
+                <p className="text-xs text-slate-500">Tuition billing, electronic bank receipts, and cash vouchers</p>
               </div>
             </div>
             <button
@@ -1282,8 +1281,8 @@ export const ModuleHubPage: React.FC = () => {
                 <Award className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Institutional Scholarships & Merit Waivers</h1>
-                <p className="text-xs text-slate-500">Board merit scholarships, state sports concessions, sibling waivers, and need-based financial aid sanctioned by Correspondent</p>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Scholarships & Merit Waivers</h1>
+                <p className="text-xs text-slate-500">Board merit scholarships, sports concessions, and fee waivers</p>
               </div>
             </div>
             <button
@@ -1383,7 +1382,7 @@ export const ModuleHubPage: React.FC = () => {
               </div>
               <div>
                 <h1 className="text-xl font-black text-slate-800 tracking-tight">Executive Approvals & Sanctions Desk</h1>
-                <p className="text-xs text-slate-500">Official sign-off workflow: Staff leaves, fee concessions, department purchase vouchers, and Transfer Certificates</p>
+                <p className="text-xs text-slate-500">Staff leaves, fee concessions, purchase vouchers, and Transfer Certificates</p>
               </div>
             </div>
             <span className="text-xs font-bold text-blue-700 bg-blue-100 px-3 py-1 rounded-full border border-blue-200">
@@ -1496,8 +1495,8 @@ export const ModuleHubPage: React.FC = () => {
                   <UserPlus className="w-6 h-6" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-black text-slate-800 tracking-tight">Parent Accounts & Student Guardians Roster</h1>
-                  <p className="text-xs text-slate-500">Verified guardian profiles, emergency contact records, linked wards, and direct SMS dialer</p>
+                  <h1 className="text-xl font-black text-slate-800 tracking-tight">Parent Accounts & Guardians</h1>
+                  <p className="text-xs text-slate-500">Guardian profiles, contact records, and linked students</p>
                 </div>
               </div>
               <div className="text-xs font-bold text-slate-600 bg-white px-3 py-1.5 rounded-xl border border-slate-200">
@@ -1564,8 +1563,8 @@ export const ModuleHubPage: React.FC = () => {
                 <Library className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Campus Library & Digital Learning Repository</h1>
-                <p className="text-xs text-slate-500">12,450+ titles: NCERT textbooks, reference literature, scientific periodicals, and electronic eBooks</p>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Library & Learning Repository</h1>
+                <p className="text-xs text-slate-500">12,450+ physical volumes, reference literature, and eBooks</p>
               </div>
             </div>
             <button
@@ -1739,8 +1738,8 @@ export const ModuleHubPage: React.FC = () => {
                 <Receipt className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Faculty Payroll & Compensation Disbursement</h1>
-                <p className="text-xs text-slate-500">Monthly salary processing, PF contributions, professional tax deductions, and bank transfer batches</p>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Faculty Payroll & Compensation</h1>
+                <p className="text-xs text-slate-500">Monthly salary processing, PF contributions, and bank transfer batches</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -1861,8 +1860,8 @@ export const ModuleHubPage: React.FC = () => {
                 <Calendar className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Institutional Events & Academic Calendar</h1>
-                <p className="text-xs text-slate-500">Board exams, annual sports meet, science olympiad, parent conferences, and term holidays</p>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Events & Academic Calendar</h1>
+                <p className="text-xs text-slate-500">Board exams, sports meet, science fair, and term holidays</p>
               </div>
             </div>
             <button
@@ -1965,8 +1964,8 @@ export const ModuleHubPage: React.FC = () => {
                 <ShieldAlert className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Visitors & Campus Gate Pass Security Desk</h1>
-                <p className="text-xs text-slate-500">Real-time gate check-ins, parent visitor badges, vendor supply permits, and vehicle security logs</p>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Visitors & Gate Pass Security</h1>
+                <p className="text-xs text-slate-500">Gate check-ins, visitor badges, and security logs</p>
               </div>
             </div>
             <button
@@ -2074,8 +2073,8 @@ export const ModuleHubPage: React.FC = () => {
                 <LifeBuoy className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Helpdesk, Grievances & Parent Support</h1>
-                <p className="text-xs text-slate-500">Service desk tickets: Transport queries, student portal logins, fee adjustments, and campus maintenance</p>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Helpdesk & Grievance Support</h1>
+                <p className="text-xs text-slate-500">Service tickets: Transport, login assistance, and facility maintenance</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -2189,8 +2188,8 @@ export const ModuleHubPage: React.FC = () => {
                 <BarChart3 className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Executive Analytics & Institutional Intelligence</h1>
-                <p className="text-xs text-slate-500">Board pass rate projections, student retention curves, fee collection velocity, and academic risk alerts</p>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Executive Analytics & Intelligence</h1>
+                <p className="text-xs text-slate-500">Board pass projections, fee velocity, and performance alerts</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -2367,8 +2366,8 @@ export const ModuleHubPage: React.FC = () => {
                 <UserCog className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Roles, Permissions & User Access Management</h1>
-                <p className="text-xs text-slate-500">Multi-portal RBAC governance: Super Admin (Correspondent), Staff Office Desk, Principal, Faculty, Guardians & Students</p>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Roles & User Access Management</h1>
+                <p className="text-xs text-slate-500">RBAC governance: Correspondent, Office Desk, Faculty, Parents & Students</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -2690,8 +2689,8 @@ export const ModuleHubPage: React.FC = () => {
                 <Workflow className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight">Enterprise API Gateways & Integrations</h1>
-                <p className="text-xs text-slate-500">Connected campus telemetry, WhatsApp Business API, Razorpay gateway, and cloud backups</p>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Enterprise Integrations & Gateways</h1>
+                <p className="text-xs text-slate-500">Connected telemetry, WhatsApp API, payment gateway, and backups</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">

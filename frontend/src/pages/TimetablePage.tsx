@@ -321,12 +321,12 @@ export const TimetablePage: React.FC = () => {
                     ? "My Children's Class Timetable"
                     : 'Master Class Schedule & Timetable'}
                 </h1>
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
                   Class {selectedClass}
                 </span>
               </div>
               <p className="text-xs md:text-sm text-[#86868B] mt-0.5">
-                Ever Grow Schools (demo) • 8 Periods Daily • Lunch Break 12:00 – 12:45
+                8 periods daily • Lunch break 12:00 – 12:45
               </p>
             </div>
           </div>

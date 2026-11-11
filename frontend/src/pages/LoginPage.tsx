@@ -190,8 +190,7 @@ export const LoginPage: React.FC = () => {
               Empowering Future Leaders with Smart Governance
             </h1>
             <p className="text-base sm:text-lg xl:text-xl text-slate-600 leading-relaxed font-normal max-w-xl">
-              Welcome to the official Ever Grow Schools management portal. Access academic records,
-              grading, attendance registers, and school communications.
+              Official Ever Grow Schools portal. Academic records, grading, and school administration.
             </p>
           </div>
         </div>
@@ -325,7 +324,7 @@ export const LoginPage: React.FC = () => {
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="w-3.5 h-3.5 rounded text-slate-600 focus:ring-0 border-slate-300"
                 />
-                <span className="text-[11px] font-medium text-slate-500">Keep me signed in</span>
+                <span className="text-xs font-medium text-slate-600">Keep me signed in</span>
               </label>
 
               <div className="flex items-center space-x-2">
@@ -335,12 +334,12 @@ export const LoginPage: React.FC = () => {
                     e.preventDefault();
                     setError('To reset your credentials, please contact the campus IT Helpdesk or Administrator.');
                   }}
-                  className="text-[11px] text-slate-500 hover:text-slate-800 font-medium"
+                  className="text-xs text-slate-500 hover:text-slate-800 font-medium"
                 >
                   Forgot password?
                 </a>
                 <span className="text-slate-300">•</span>
-                <div className="flex items-center space-x-1 text-[10px] text-slate-400">
+                <div className="flex items-center space-x-1 text-xs text-slate-400">
                   <Lock className="w-3 h-3 text-emerald-600" />
                   <span>SSL</span>
                 </div>
@@ -375,10 +374,10 @@ export const LoginPage: React.FC = () => {
 
           {/* Quick Demo Logins Badges - Styled as Soft Neumorphic Cards */}
           <div className="pt-2 border-t border-slate-300/50 space-y-2">
-            <div className="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider px-1">
+            <div className="text-xs font-bold uppercase text-slate-500 tracking-wider px-1">
               Quick Demo Logins (One-Click Testing):
             </div>
-            <div className="grid grid-cols-2 gap-2 text-[11px]">
+            <div className="grid grid-cols-2 gap-2 text-xs">
               <button
                 type="button"
                 disabled={loading}
@@ -387,8 +386,8 @@ export const LoginPage: React.FC = () => {
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-blue-600 shrink-0"></div>
                 <div className="truncate">
-                  <strong className="text-slate-800 block leading-tight text-[11px]">Correspondent</strong>
-                  <span className="text-[10px] text-slate-500 font-mono">adrin / 123</span>
+                  <strong className="text-slate-800 block leading-tight text-xs font-bold">Correspondent</strong>
+                  <span className="text-xs text-slate-500 font-mono">adrin / 123</span>
                 </div>
               </button>
 
@@ -400,8 +399,8 @@ export const LoginPage: React.FC = () => {
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-cyan-600 shrink-0"></div>
                 <div className="truncate">
-                  <strong className="text-slate-800 block leading-tight text-[11px]">Staff</strong>
-                  <span className="text-[10px] text-slate-500 font-mono">staff / 123</span>
+                  <strong className="text-slate-800 block leading-tight text-xs font-bold">Staff</strong>
+                  <span className="text-xs text-slate-500 font-mono">staff / 123</span>
                 </div>
               </button>
 
@@ -413,8 +412,8 @@ export const LoginPage: React.FC = () => {
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-purple-600 shrink-0"></div>
                 <div className="truncate">
-                  <strong className="text-slate-800 block leading-tight text-[11px]">Principal</strong>
-                  <span className="text-[10px] text-slate-500 font-mono">principal / 123</span>
+                  <strong className="text-slate-800 block leading-tight text-xs font-bold">Principal</strong>
+                  <span className="text-xs text-slate-500 font-mono">principal / 123</span>
                 </div>
               </button>
 
@@ -426,8 +425,8 @@ export const LoginPage: React.FC = () => {
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-teal-600 shrink-0"></div>
                 <div className="truncate">
-                  <strong className="text-slate-800 block leading-tight text-[11px]">Coordinator</strong>
-                  <span className="text-[10px] text-slate-500 font-mono">coordinator1 / 123</span>
+                  <strong className="text-slate-800 block leading-tight text-xs font-bold">Coordinator</strong>
+                  <span className="text-xs text-slate-500 font-mono">coordinator1 / 123</span>
                 </div>
               </button>
 
@@ -439,8 +438,8 @@ export const LoginPage: React.FC = () => {
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-indigo-600 shrink-0"></div>
                 <div className="truncate">
-                  <strong className="text-slate-800 block leading-tight text-[11px]">Teacher</strong>
-                  <span className="text-[10px] text-slate-500 font-mono">teacher1 / 123</span>
+                  <strong className="text-slate-800 block leading-tight text-xs font-bold">Teacher</strong>
+                  <span className="text-xs text-slate-500 font-mono">teacher1 / 123</span>
                 </div>
               </button>
 
@@ -452,8 +451,8 @@ export const LoginPage: React.FC = () => {
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0"></div>
                 <div className="truncate">
-                  <strong className="text-slate-800 block leading-tight text-[11px]">Parent</strong>
-                  <span className="text-[10px] text-slate-500 font-mono">parent1 / 123</span>
+                  <strong className="text-slate-800 block leading-tight text-xs font-bold">Parent</strong>
+                  <span className="text-xs text-slate-500 font-mono">parent1 / 123</span>
                 </div>
               </button>
 
@@ -465,8 +464,8 @@ export const LoginPage: React.FC = () => {
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-amber-600 shrink-0"></div>
                 <div className="truncate">
-                  <strong className="text-slate-800 block leading-tight text-[11px]">Student</strong>
-                  <span className="text-[10px] text-slate-500 font-mono">student1 / 123</span>
+                  <strong className="text-slate-800 block leading-tight text-xs font-bold">Student</strong>
+                  <span className="text-xs text-slate-500 font-mono">student1 / 123</span>
                 </div>
               </button>
             </div>

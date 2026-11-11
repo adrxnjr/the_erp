@@ -38,7 +38,6 @@ import {
   X,
   FileText,
   UserPlus,
-  Sparkles,
   ShieldAlert,
 } from 'lucide-react';
 
@@ -2078,7 +2077,7 @@ export const DashboardPage: React.FC = () => {
                       onClick={handleIssueCertificate}
                       className="ios-gloss-btn px-5 py-2 rounded-xl font-semibold inline-flex items-center gap-1.5 cursor-pointer"
                     >
-                      <Sparkles className="w-4 h-4 text-white" />
+                      <Award className="w-4 h-4 text-white" />
                       <span>Generate & Sign Certificate</span>
                     </button>
                   </div>
@@ -2834,7 +2833,7 @@ export const DashboardPage: React.FC = () => {
           <div className="flex items-center justify-between pb-2 border-b border-black/[0.05]">
             <div className="flex items-center space-x-3">
               <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-                <Sparkles className="w-5 h-5" />
+                <Trophy className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="text-sm font-bold text-[#1D1D1F]">Academic Milestones</h3>
