@@ -158,6 +158,10 @@ export const LoginPage: React.FC = () => {
         password: passToLogin,
       });
 
+      if (!res.data || typeof res.data !== 'object' || !res.data.access_token) {
+        throw new Error('Invalid backend login payload or static CDN fallback');
+      }
+
       const { access_token, refresh_token, user_id, full_name, roles } = res.data;
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('refresh_token', refresh_token);

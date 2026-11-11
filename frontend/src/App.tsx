@@ -149,7 +149,7 @@ export function App() {
                 </ProtectedRoute>
               }
             >
-              <Route path="/dashboard" element={<Navigate to="/" replace />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/social-wall" element={<SocialWallPage />} />
               
               {/* Staff-Only Protected Routes */}

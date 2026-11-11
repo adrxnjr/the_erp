@@ -77,6 +77,19 @@ const processQueue = (error: any, token: string | null = null) => {
 
 api.interceptors.response.use(
   (response) => {
+    // Check if static SPA host (e.g. Firebase Hosting) returned index.html for an API request
+    const contentType = (response.headers?.['content-type'] || '') as string;
+    const isHtmlResponse =
+      (typeof contentType === 'string' && contentType.includes('text/html')) ||
+      (typeof response.data === 'string' && response.data.trim().toLowerCase().startsWith('<!doctype'));
+
+    if (isHtmlResponse) {
+      const error: any = new Error('Static host HTML fallback received for API endpoint');
+      error.response = { status: 404, data: { detail: 'API endpoint not available on static host' } };
+      error.isStaticFallback = true;
+      return Promise.reject(error);
+    }
+
     // Dispatch server reachable notification
     if (typeof window !== 'undefined') {
       window.dispatchEvent(
