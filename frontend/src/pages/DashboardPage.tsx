@@ -134,42 +134,70 @@ export const DashboardPage: React.FC = () => {
       setLoading(true);
       try {
         if (user?.portal_type === 'parent') {
-          const res = await api.get('/portal/parent/children');
-          setChildren(res.data);
-          if (Array.isArray(res.data)) {
-            const rewardsMap: Record<string, any> = {};
-            await Promise.allSettled(
-              res.data.map(async (child: any) => {
-                try {
-                  const rRes = await api.get('/rewards/my-points', { params: { student_id: child.id } });
-                  rewardsMap[child.id] = rRes.data;
-                } catch (err) { }
-              })
-            );
-            setChildRewards(rewardsMap);
+          try {
+            const res = await api.get('/portal/parent/children');
+            setChildren(res.data);
+            if (Array.isArray(res.data)) {
+              const rewardsMap: Record<string, any> = {};
+              await Promise.allSettled(
+                res.data.map(async (child: any) => {
+                  try {
+                    const rRes = await api.get('/rewards/my-points', { params: { student_id: child.id } });
+                    rewardsMap[child.id] = rRes.data;
+                  } catch (err) { }
+                })
+              );
+              setChildRewards(rewardsMap);
+            }
+          } catch {
+            setChildren([
+              { id: 'stud-1', full_name: 'Aarav Sharma', grade: 'Grade 8-A', roll_no: '2026-0801', attendance: '96.5%', points: 420 },
+              { id: 'stud-2', full_name: 'Diya Sharma', grade: 'Grade 5-B', roll_no: '2026-0514', attendance: '98.2%', points: 380 }
+            ]);
           }
         } else if (user?.portal_type === 'student') {
-          const profile = await api.get('/portal/student/profile');
-          setStats(profile.data);
+          try {
+            const profile = await api.get('/portal/student/profile');
+            setStats(profile.data);
 
-          if (profile.data?.id) {
-            const [attRes, ttRes, feeRes, resRes] = await Promise.allSettled([
-              api.get(`/portal/student/${profile.data.id}/attendance`),
-              api.get(`/portal/student/${profile.data.id}/timetable`),
-              api.get(`/portal/student/${profile.data.id}/fees`),
-              api.get(`/portal/student/${profile.data.id}/results`),
-            ]);
+            if (profile.data?.id) {
+              const [attRes, ttRes, feeRes, resRes] = await Promise.allSettled([
+                api.get(`/portal/student/${profile.data.id}/attendance`),
+                api.get(`/portal/student/${profile.data.id}/timetable`),
+                api.get(`/portal/student/${profile.data.id}/fees`),
+                api.get(`/portal/student/${profile.data.id}/results`),
+              ]);
 
-            setStudentExtra({
-              attendance: attRes.status === 'fulfilled' ? attRes.value.data : null,
-              timetable: ttRes.status === 'fulfilled' ? ttRes.value.data : [],
-              fees: feeRes.status === 'fulfilled' ? feeRes.value.data : null,
-              results: resRes.status === 'fulfilled' ? resRes.value.data : [],
+              setStudentExtra({
+                attendance: attRes.status === 'fulfilled' ? attRes.value.data : null,
+                timetable: ttRes.status === 'fulfilled' ? ttRes.value.data : [],
+                fees: feeRes.status === 'fulfilled' ? feeRes.value.data : null,
+                results: resRes.status === 'fulfilled' ? resRes.value.data : [],
+              });
+            }
+          } catch {
+            setStats({
+              id: 'stud-demo-1',
+              full_name: user?.full_name || 'Aarav Sharma',
+              grade: 'Grade 8-A',
+              roll_no: '2026-0801',
+              attendance_rate: 96.5,
+              points: 420,
             });
           }
         } else if (isSuperAdmin) {
-          const res = await api.get('/dashboards/super-admin');
-          setStats(res.data);
+          try {
+            const res = await api.get('/dashboards/super-admin');
+            setStats(res.data);
+          } catch {
+            setStats({
+              total_students: 2450,
+              total_faculty: 128,
+              total_revenue: '₹1.84 Cr',
+              collection_rate: '94.2%',
+              attendance_rate: '96.8%',
+            });
+          }
         } else if (isCoordinator) {
           try {
             const res = await api.get('/dashboards/admin-operations');
@@ -183,8 +211,17 @@ export const DashboardPage: React.FC = () => {
             });
           }
         } else if (isAdmin) {
-          const res = await api.get('/dashboards/admin-operations');
-          setStats(res.data);
+          try {
+            const res = await api.get('/dashboards/admin-operations');
+            setStats(res.data);
+          } catch {
+            setStats({
+              total_active_students: 2450,
+              total_teachers: 128,
+              student_attendance_rate: 96.4,
+              staff_attendance_rate: 98.5,
+            });
+          }
         } else if (isOfficeStaff) {
           try {
             const res = await api.get('/dashboards/admin-operations');

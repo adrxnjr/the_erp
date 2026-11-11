@@ -3,7 +3,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { useAuth } from '../context/AuthContext';
 import { useBranding } from '../context/BrandingContext';
-import { Menu, WifiOff, ShieldCheck, RefreshCw } from 'lucide-react';
+import { Menu, WifiOff, ShieldCheck, RefreshCw, X } from 'lucide-react';
 
 export const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
@@ -11,6 +11,7 @@ export const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) =
   const location = useLocation();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
   const [isServerOffline, setIsServerOffline] = useState<boolean>(false);
+  const [bannerDismissed, setBannerDismissed] = useState<boolean>(false);
   const [offlineMessage, setOfflineMessage] = useState<string>('Server is currently unreachable. Reconnecting to Ever Grow campus network...');
 
   // Auto-close drawer on route change
@@ -51,24 +52,33 @@ export const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) =
   return (
     <div className="min-h-screen min-h-dvh bg-[#F5F6F8] flex flex-col antialiased selection:bg-[#0066FF] selection:text-white w-full max-w-full overflow-x-hidden">
       {/* Sticky Server-Down / Offline Banner */}
-      {isServerOffline && (
+      {isServerOffline && !bannerDismissed && (
         <aside
           role="alert"
           aria-live="polite"
-          className="sticky top-0 z-[60] w-full bg-rose-600 text-white px-4 py-2.5 text-xs font-bold flex items-center justify-between gap-3 shadow-lg animate-fadeIn"
+          className="sticky top-0 z-[60] w-full bg-rose-600 text-white px-3 sm:px-4 py-2 text-xs font-bold flex items-center justify-between gap-2 shadow-lg animate-fadeIn"
         >
-          <div className="flex items-center gap-2.5 mx-auto">
-            <WifiOff className="w-4 h-4 shrink-0 animate-pulse" />
-            <span>{offlineMessage}</span>
+          <div className="flex items-center gap-2 min-w-0">
+            <WifiOff className="w-4 h-4 shrink-0 animate-pulse text-rose-200" />
+            <span className="truncate">{offlineMessage}</span>
           </div>
-          <button
-            onClick={() => window.location.reload()}
-            aria-label="Retry connection"
-            className="px-3 py-1 bg-white/20 hover:bg-white/30 rounded-lg text-white text-xs font-semibold flex items-center gap-1.5 transition shrink-0"
-          >
-            <RefreshCw className="w-3 h-3" />
-            <span>Retry</span>
-          </button>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => window.location.reload()}
+              aria-label="Retry connection"
+              className="px-2.5 py-1 bg-white/20 hover:bg-white/30 rounded-lg text-white text-[11px] font-semibold flex items-center gap-1 transition"
+            >
+              <RefreshCw className="w-3 h-3" />
+              <span>Retry</span>
+            </button>
+            <button
+              onClick={() => setBannerDismissed(true)}
+              aria-label="Dismiss offline banner"
+              className="p-1 hover:bg-white/20 rounded-lg text-white/90 hover:text-white transition"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
         </aside>
       )}
 
