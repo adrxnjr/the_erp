@@ -833,24 +833,24 @@ export const TransportPage: React.FC = () => {
 
                 {/* ---------------- INTERACTIVE VECTOR MAP CANVAS (FOOD DELIVERY RADAR) ---------------- */}
                 <div className="space-y-3">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                     <div>
-                      <h3 className="text-sm font-bold text-slate-900 flex items-center space-x-2">
+                      <h3 className="text-sm font-bold text-slate-900 flex flex-wrap items-center gap-1.5">
                         <span>Live Vector GPS Map Tracker</span>
                         <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700">
                           Food Delivery Radar Mode
                         </span>
                       </h3>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-xs text-slate-500 mt-0.5">
                         Smooth real-time vehicle kinematics, telemetry pings, and geofence tracking
                       </p>
                     </div>
 
                     {/* Interactive Simulation Controls */}
-                    <div className="flex items-center space-x-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <button
                         onClick={() => setIsSimulating(!isSimulating)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition-all shadow-xs ${
+                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition-all shadow-xs cursor-pointer ${
                           isSimulating
                             ? 'bg-amber-100 text-amber-900 border border-amber-300'
                             : 'bg-emerald-600 text-white hover:bg-emerald-700'
@@ -876,7 +876,7 @@ export const TransportPage: React.FC = () => {
                           <button
                             key={mult}
                             onClick={() => setSimMultiplier(mult)}
-                            className={`px-2 py-1 rounded-lg transition-colors ${
+                            className={`px-2 py-1 rounded-lg transition-colors cursor-pointer ${
                               simMultiplier === mult ? 'bg-white shadow-xs text-blue-600' : 'text-slate-500'
                             }`}
                           >
@@ -892,7 +892,7 @@ export const TransportPage: React.FC = () => {
                           showToast('Bus telemetry recentered to 1.8km checkpoint');
                         }}
                         title="Reset simulation to initial position"
-                        className="p-1.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-600 transition-colors"
+                        className="p-1.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-600 transition-colors cursor-pointer"
                       >
                         <RefreshCw className="w-4 h-4" />
                       </button>
@@ -900,7 +900,7 @@ export const TransportPage: React.FC = () => {
                   </div>
 
                   {/* Visual Map Canvas Container */}
-                  <div className="w-full h-[400px] bg-gradient-to-br from-[#F8FAFC] via-[#F1F5F9] to-[#EAEFF5] rounded-[28px] relative border border-blue-200/70 p-6 overflow-hidden shadow-[inset_0_2px_10px_rgba(0,0,0,0.03)] select-none">
+                  <div className="w-full h-[280px] xs:h-[320px] sm:h-[400px] bg-gradient-to-br from-[#F8FAFC] via-[#F1F5F9] to-[#EAEFF5] rounded-3xl relative border border-blue-200/70 p-3 sm:p-6 overflow-hidden shadow-[inset_0_2px_10px_rgba(0,0,0,0.03)] select-none">
                     {/* Blueprint Street Grid Overlay */}
                     <div
                       className="absolute inset-0 opacity-30 pointer-events-none"
@@ -918,26 +918,24 @@ export const TransportPage: React.FC = () => {
                     </div>
 
                     {/* Street Name Labels */}
-                    <div className="absolute top-6 left-12 text-[10px] font-bold font-mono tracking-wider text-slate-400/80 uppercase pointer-events-none">
+                    <div className="absolute top-4 left-4 text-[9px] sm:text-[10px] font-bold font-mono tracking-wider text-slate-400/80 uppercase pointer-events-none truncate max-w-[40%]">
                       Central Transit Corridor
                     </div>
-                    <div className="absolute bottom-16 left-1/4 text-[10px] font-bold font-mono tracking-wider text-slate-400/80 uppercase pointer-events-none">
-                      Indira Nagar 100ft Ring Road
-                    </div>
-                    <div className="absolute top-12 right-24 text-[10px] font-bold font-mono tracking-wider text-slate-400/80 uppercase pointer-events-none">
-                      Ever Grow Campus Boulevard
+                    <div className="absolute top-4 right-28 sm:right-36 text-[9px] sm:text-[10px] font-bold font-mono tracking-wider text-slate-400/80 uppercase pointer-events-none truncate max-w-[40%]">
+                      Ever Grow Boulevard
                     </div>
 
                     {/* Top Radar Status Pill */}
-                    <div className="absolute top-4 right-4 z-20 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-black/[0.08] text-slate-700 text-xs flex items-center space-x-2 font-mono shadow-sm">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                      <span>GPS RADAR ACTIVE</span>
+                    <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 bg-white/95 backdrop-blur-md px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full border border-black/[0.08] text-slate-700 text-[10px] sm:text-xs flex items-center space-x-1.5 font-mono shadow-xs">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping shrink-0"></span>
+                      <span className="hidden xs:inline">GPS RADAR ACTIVE</span>
+                      <span className="xs:hidden">RADAR</span>
                       <span className="text-slate-300">|</span>
                       <span className="text-blue-600 font-bold">{liveSpeed} km/h</span>
                     </div>
 
                     {/* Vector Route Path SVG */}
-                    <svg className="w-full h-full absolute inset-0 pointer-events-none" viewBox="0 0 800 360">
+                    <svg className="w-full h-full absolute inset-0 pointer-events-none" viewBox="0 0 800 360" preserveAspectRatio="none">
                       <defs>
                         <linearGradient id="activeRouteGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                           <stop offset="0%" stopColor="#10B981" />
@@ -973,62 +971,59 @@ export const TransportPage: React.FC = () => {
                       />
                     </svg>
 
-                    {/* Stop 1 Marker: City Central Depot */}
+                    {/* Stop 1 Marker: City Central Depot (10% x, 75% y) */}
                     <div
-                      className="absolute z-10 flex flex-col items-center"
-                      style={{ left: '70px', top: '235px' }}
+                      className="absolute z-10 flex flex-col items-center -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                      style={{ left: '10%', top: '75%' }}
                     >
-                      <div className="w-9 h-9 rounded-2xl bg-white border-2 border-emerald-500 flex items-center justify-center text-emerald-600 font-bold text-xs shadow-md">
+                      <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-white border-2 border-emerald-500 flex items-center justify-center text-emerald-600 font-bold text-[10px] sm:text-xs shadow-md">
                         1
                       </div>
-                      <span className="text-[10px] font-bold text-slate-800 mt-1 bg-white/95 px-2 py-0.5 rounded-md border border-slate-200 shadow-xs">
-                        City Central Depot
+                      <span className="text-[9px] sm:text-[10px] font-bold text-slate-800 mt-1 bg-white/95 px-1.5 py-0.5 rounded-md border border-slate-200 shadow-xs whitespace-nowrap hidden xs:inline">
+                        Depot
                       </span>
                     </div>
 
-                    {/* Stop 2 Marker: Indiranagar Metro (Student Stop - Prominent Badge) */}
+                    {/* Stop 2 Marker: Indiranagar Metro (Student Stop - 70% x, 47.2% y) */}
                     <div
-                      className="absolute z-20 flex flex-col items-center -translate-x-1/2"
-                      style={{ left: '560px', top: '130px' }}
+                      className="absolute z-20 flex flex-col items-center -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                      style={{ left: '70%', top: '47.2%' }}
                     >
                       <div className="relative">
-                        <span className="absolute -inset-2 rounded-full bg-blue-500/20 animate-ping"></span>
-                        <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 border-2 border-white flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/30">
-                          <MapPin className="w-6 h-6 text-white" />
+                        <span className="absolute -inset-1.5 rounded-full bg-blue-500/20 animate-ping"></span>
+                        <div className="relative w-8 h-8 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 border-2 border-white flex items-center justify-center text-white font-bold shadow-md shadow-blue-500/30">
+                          <MapPin className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                         </div>
                       </div>
-                      <div className="mt-1.5 flex flex-col items-center bg-white/95 backdrop-blur-md px-3 py-1 rounded-xl border border-blue-200 shadow-md">
-                        <span className="text-[11px] font-extrabold text-blue-700 flex items-center space-x-1">
-                          <span>{isStudent ? 'My Assigned Stop' : "Child's Stop"}</span>
+                      <div className="mt-1 flex flex-col items-center bg-white/95 backdrop-blur-md px-2 py-0.5 sm:px-3 sm:py-1 rounded-xl border border-blue-200 shadow-sm whitespace-nowrap">
+                        <span className="text-[9px] sm:text-[11px] font-extrabold text-blue-700">
+                          {isStudent ? 'My Stop' : "Child's Stop"}
                         </span>
-                        <span className="text-[10px] font-semibold text-slate-800">
+                        <span className="text-[8.5px] sm:text-[10px] font-semibold text-slate-800 truncate max-w-[110px] sm:max-w-none">
                           {busData.student_stop_name}
-                        </span>
-                        <span className="text-[9px] text-slate-500 font-mono font-medium">
-                          Stop #2 • {busData.planned_stop_time}
                         </span>
                       </div>
                     </div>
 
-                    {/* Stop 3 Marker: School Campus Gate */}
+                    {/* Stop 3 Marker: School Campus Gate (92.5% x, 27.8% y) */}
                     <div
-                      className="absolute z-10 flex flex-col items-center -translate-x-1/2"
-                      style={{ left: '740px', top: '60px' }}
+                      className="absolute z-10 flex flex-col items-center -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                      style={{ left: '92.5%', top: '27.8%' }}
                     >
-                      <div className="w-10 h-10 rounded-2xl bg-white border-2 border-amber-500 flex items-center justify-center text-amber-600 font-bold text-xs shadow-md">
-                        <Building className="w-5 h-5 text-amber-600" />
+                      <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white border-2 border-amber-500 flex items-center justify-center text-amber-600 font-bold text-xs shadow-md">
+                        <Building className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-amber-600" />
                       </div>
-                      <span className="text-[10px] font-bold text-slate-800 mt-1 bg-white/95 px-2 py-0.5 rounded-md border border-slate-200 shadow-xs">
-                        Ever Grow Campus
+                      <span className="text-[9px] sm:text-[10px] font-bold text-slate-800 mt-1 bg-white/95 px-1.5 py-0.5 rounded-md border border-slate-200 shadow-xs whitespace-nowrap hidden xs:inline">
+                        Campus
                       </span>
                     </div>
 
-                    {/* LIVE ANIMATED BUS MARKER (Food Delivery Moving Vehicle Icon) */}
+                    {/* LIVE ANIMATED BUS MARKER (Normalized Percentage Position) */}
                     <div
                       className="absolute z-30 transition-all duration-700 ease-out flex flex-col items-center pointer-events-auto cursor-pointer"
                       style={{
-                        left: `${busPoint.x}px`,
-                        top: `${busPoint.y}px`,
+                        left: `${Math.max(8, Math.min(92, (busPoint.x / 800) * 100))}%`,
+                        top: `${Math.max(12, Math.min(88, (busPoint.y / 360) * 100))}%`,
                         transform: 'translate(-50%, -50%)',
                       }}
                       onClick={() =>
@@ -1036,59 +1031,70 @@ export const TransportPage: React.FC = () => {
                       }
                     >
                       {/* Floating Live Velocity Bubble */}
-                      <div className="mb-1.5 bg-white/95 text-slate-800 px-2.5 py-0.5 rounded-full text-[10px] font-bold shadow-md flex items-center space-x-1 border border-slate-200/80 whitespace-nowrap">
+                      <div className="mb-1 bg-white/95 text-slate-800 px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold shadow-md flex items-center space-x-1 border border-slate-200/80 whitespace-nowrap">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                         <span>{liveSpeed} km/h</span>
                       </div>
 
-                      {/* Moving Vehicle Vehicle Icon with Radar Wave */}
+                      {/* Moving Vehicle Icon with Radar Wave */}
                       <div className="relative">
-                        <span className="absolute -inset-3 rounded-full bg-amber-400/40 animate-ping"></span>
+                        <span className="absolute -inset-2 rounded-full bg-amber-400/40 animate-ping"></span>
                         <div
-                          className="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 via-amber-400 to-yellow-300 border-2 border-white flex items-center justify-center text-slate-900 font-bold shadow-xl shadow-amber-500/35 transition-transform"
+                          className="relative w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-amber-500 via-amber-400 to-yellow-300 border-2 border-white flex items-center justify-center text-slate-900 font-bold shadow-md shadow-amber-500/35 transition-transform"
                           style={{
                             transform: `rotate(${Math.min(25, Math.max(-25, busPoint.angle))}deg)`,
                           }}
                         >
-                          <Bus className="w-6 h-6" />
+                          <Bus className="w-4 h-4 sm:w-6 sm:h-6" />
                         </div>
                       </div>
 
                       {/* Vehicle Plate Tag */}
-                      <span className="mt-1 bg-white/95 text-slate-900 text-[10px] font-mono font-bold px-2 py-0.5 rounded-md border border-amber-300 shadow-xs">
+                      <span className="mt-0.5 bg-white/95 text-slate-900 text-[8.5px] sm:text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-md border border-amber-300 shadow-xs whitespace-nowrap">
                         {busData.vehicle_registration}
                       </span>
                     </div>
+                  </div>
 
-                    {/* Bottom HUD Telemetry Strip */}
-                    <div className="absolute bottom-4 left-4 right-4 z-20 bg-white/95 backdrop-blur-xl rounded-2xl border border-black/[0.06] p-3.5 shadow-sm grid grid-cols-2 md:grid-cols-4 gap-3 text-slate-800 text-xs">
-                      <div>
-                        <div className="text-[10px] uppercase font-bold text-slate-400">Current Velocity</div>
-                        <div className="text-sm font-black text-emerald-600 mt-0.5 flex items-center space-x-1">
-                          <Gauge className="w-3.5 h-3.5" />
-                          <span>{liveSpeed} km/h</span>
-                        </div>
+                  {/* Clean Dedicated Telemetry HUD Cards (Zero Overlapping, Perfect Mobile Layout) */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 text-slate-800 text-xs pt-1">
+                    <div className="bg-[#F5F6F8] rounded-2xl p-3 border border-white/80 shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] min-w-0">
+                      <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider truncate">
+                        Current Velocity
                       </div>
-                      <div>
-                        <div className="text-[10px] uppercase font-bold text-slate-400">Distance to Stop</div>
-                        <div className="text-sm font-black text-blue-600 mt-0.5 flex items-center space-x-1">
-                          <Navigation className="w-3.5 h-3.5" />
-                          <span>{currentDistKm} km</span>
-                        </div>
+                      <div className="text-xs sm:text-sm font-black text-emerald-600 mt-1 flex items-center space-x-1.5 truncate">
+                        <Gauge className="w-3.5 h-3.5 shrink-0" />
+                        <span className="truncate">{liveSpeed} km/h</span>
                       </div>
-                      <div>
-                        <div className="text-[10px] uppercase font-bold text-slate-400">Estimated Arrival</div>
-                        <div className="text-sm font-black text-slate-900 mt-0.5 flex items-center space-x-1">
-                          <Clock className="w-3.5 h-3.5 text-slate-500" />
-                          <span>{currentEtaMins} mins</span>
-                        </div>
+                    </div>
+
+                    <div className="bg-[#F5F6F8] rounded-2xl p-3 border border-white/80 shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] min-w-0">
+                      <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider truncate">
+                        Distance to Stop
                       </div>
-                      <div>
-                        <div className="text-[10px] uppercase font-bold text-slate-400">Telemetry Hardware</div>
-                        <div className="text-sm font-bold text-slate-800 mt-0.5 flex items-center space-x-1.5">
-                          <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                          <span>GPS-98214 Online</span>
-                        </div>
+                      <div className="text-xs sm:text-sm font-black text-blue-600 mt-1 flex items-center space-x-1.5 truncate">
+                        <Navigation className="w-3.5 h-3.5 shrink-0" />
+                        <span className="truncate">{currentDistKm} km</span>
+                      </div>
+                    </div>
+
+                    <div className="bg-[#F5F6F8] rounded-2xl p-3 border border-white/80 shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] min-w-0">
+                      <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider truncate">
+                        Estimated Arrival
+                      </div>
+                      <div className="text-xs sm:text-sm font-black text-slate-900 mt-1 flex items-center space-x-1.5 truncate">
+                        <Clock className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                        <span className="truncate">{currentEtaMins} mins</span>
+                      </div>
+                    </div>
+
+                    <div className="bg-[#F5F6F8] rounded-2xl p-3 border border-white/80 shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] min-w-0">
+                      <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider truncate">
+                        Telemetry Hardware
+                      </div>
+                      <div className="text-xs sm:text-sm font-bold text-slate-800 mt-1 flex items-center space-x-1.5 truncate">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+                        <span className="truncate font-mono">GPS-98214</span>
                       </div>
                     </div>
                   </div>
@@ -1097,11 +1103,11 @@ export const TransportPage: React.FC = () => {
                 {/* ---------------- BUS DRIVER & VEHICLE DETAILS (FOOD DELIVERY DRIVER CARD) ---------------- */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                   {/* Driver Profile Card */}
-                  <div className="bg-gradient-to-br from-slate-50/90 to-blue-50/40 rounded-3xl p-6 border border-slate-200/80 space-y-4">
+                  <div className="bg-gradient-to-br from-slate-50/90 to-blue-50/40 rounded-3xl p-4 sm:p-6 border border-slate-200/80 space-y-4">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3.5">
-                        <div className="relative">
-                          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-700 text-white flex items-center justify-center font-bold text-xl shadow-md">
+                      <div className="flex items-center space-x-3 sm:space-x-3.5 min-w-0">
+                        <div className="relative shrink-0">
+                          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-700 text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-md">
                             {busData.driver_name
                               ? busData.driver_name
                                   .split(' ')
@@ -1117,15 +1123,15 @@ export const TransportPage: React.FC = () => {
                           </span>
                         </div>
 
-                        <div>
-                          <div className="flex items-center space-x-2">
-                            <h4 className="text-base font-bold text-slate-900">{busData.driver_name}</h4>
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700">
+                        <div className="min-w-0">
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <h4 className="text-sm sm:text-base font-bold text-slate-900 truncate">{busData.driver_name}</h4>
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700 whitespace-nowrap">
                               Verified Captain
                             </span>
                           </div>
-                          <p className="text-xs text-slate-500 mt-0.5">
-                            <b>4.9 Rating</b> • 8+ Years Safe Driving • License: {busData.driver_license}
+                          <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 truncate">
+                            <b>4.9 Rating</b> • 8+ Years • {busData.driver_license}
                           </p>
                         </div>
                       </div>

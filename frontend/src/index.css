@@ -495,9 +495,42 @@ tbody tr:hover {
 }
 
 /* Mobile Responsiveness & Touch Helpers */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .overflow-x-auto,
 .overflow-y-auto {
   -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure wide data tables remain beautifully proportioned with smooth horizontal swipe */
+.overflow-x-auto > table {
+  min-width: 600px;
+}
+
+@media (max-width: 768px) {
+  /* Prevent iOS Safari / Android auto-zoom on form inputs */
+  input[type="text"]:not([type="checkbox"]):not([type="radio"]),
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="date"],
+  select,
+  textarea {
+    font-size: 16px !important;
+    min-height: 44px !important;
+  }
+
+  /* Safe touch targets */
+  button,
+  a {
+    touch-action: manipulation;
+  }
 }
 
 .scrollbar-none::-webkit-scrollbar {
