@@ -18,7 +18,6 @@ import {
   Trophy,
   Send,
   Clock,
-  ArrowRight,
 } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 import heroStudentsImg from '../assets/hero-students.jpg';
@@ -299,36 +298,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
           </div>
         </div>
 
-        {/* Hero Headline & Intro Box */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <div className="text-center max-w-3xl mx-auto space-y-4">
-            <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-              Inspiring Excellence in Every Child
-            </h1>
-            <p className="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
-              Ever Grow Schools delivers holistic education blending rigorous academic foundation, hands-on STEM & AI innovation labs, world-class athletic facilities, and value-based personal mentorship.
-            </p>
-
-            {/* Quick Action Buttons: Mobile full-width stack with 44px touch targets */}
-            <div className="pt-2 flex flex-col xs:flex-row items-stretch xs:items-center justify-center gap-3 w-full max-w-md mx-auto sm:max-w-none">
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="w-full xs:w-auto px-6 py-3 rounded-full bg-[#0071E3] hover:bg-blue-600 text-white text-xs sm:text-sm font-bold shadow-md shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-98 min-h-[44px]"
-              >
-                <span>Contact Campus & Apply</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => scrollToSection('about')}
-                className="w-full xs:w-auto px-6 py-3 rounded-full bg-[#F5F6F8] hover:bg-white text-slate-700 text-xs sm:text-sm font-bold shadow-[3px_3px_6px_#D4DAE5,-3px_-3px_6px_#FFFFFF] border border-white/80 cursor-pointer transition-all active:scale-98 min-h-[44px]"
-              >
-                About Our School
-              </button>
-            </div>
-          </div>
-
+        {/* Student Showcase & Core Pillars Area */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           {/* Continuous Student Showcase Ticker with touch-swipe snap */}
-          <div className="mt-8 pt-6 border-t border-slate-200/80">
+          <div className="pt-2">
             <div className="flex items-center justify-between mb-3 px-1">
               <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
                 Student Achievements & Scholar Spotlights
