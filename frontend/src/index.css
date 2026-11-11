@@ -619,9 +619,10 @@ body {
     padding: 12px 14px !important;
   }
 
-  /* Cleaner subtle shadows on mobile */
-  [class*="shadow-"] {
-    box-shadow: 3px 3px 8px #D4DAE5, -3px -3px 8px #FFFFFF !important;
+  /* Cleaner subtle shadows on mobile for cards only */
+  .ios-card,
+  .neu-card {
+    box-shadow: 3px 3px 10px #D4DAE5, -3px -3px 10px #FFFFFF !important;
   }
 
   /* Horizontal scroll tabs with scroll-snap */
