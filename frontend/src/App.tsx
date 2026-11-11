@@ -60,7 +60,7 @@ const RootHandler: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#E9EEF5]">
+      <div className="flex items-center justify-center min-h-screen bg-white">
         <div className="w-8 h-8 border-3 border-[#0071E3] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -82,7 +82,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#E9EEF5]">
+      <div className="flex items-center justify-center min-h-screen bg-white">
         <div className="w-8 h-8 border-3 border-[#0071E3] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );

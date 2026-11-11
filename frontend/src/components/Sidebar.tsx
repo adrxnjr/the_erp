@@ -423,23 +423,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
 
   return (
     <aside
-      className={`fixed inset-y-0 left-0 z-50 md:sticky md:top-0 w-64 md:w-60 bg-[#E9EEF5] text-slate-700 flex flex-col shrink-0 h-screen border-r border-white/80 shadow-[6px_0_18px_#C5D0E0] select-none transition-transform duration-300 ease-in-out ${
+      className={`fixed inset-y-0 left-0 z-50 md:sticky md:top-0 w-64 md:w-60 bg-white text-slate-700 flex flex-col shrink-0 h-screen border-r border-slate-200/80 shadow-xs select-none transition-transform duration-300 ease-in-out ${
         mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
       }`}
     >
       {/* Brand Header with mobile close button */}
-      <div className="w-full px-2 pt-2.5 pb-2 bg-[#E9EEF5] flex items-center justify-between relative shrink-0 z-20">
+      <div className="w-full px-2 pt-2.5 pb-2 bg-white flex items-center justify-between relative shrink-0 z-20">
         <AnimatedLogo className="w-full" idPrefix="sidebar-logo" />
         <button
           onClick={onCloseMobile}
           aria-label="Close navigation drawer"
-          className="md:hidden absolute right-3 p-1.5 rounded-xl bg-white/70 hover:bg-white text-slate-500 hover:text-slate-800 border border-slate-200/80 shadow-xs cursor-pointer"
+          className="md:hidden absolute right-3 p-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 border border-slate-200 shadow-xs cursor-pointer"
         >
           <X className="w-4 h-4" />
         </button>
         {/* Seamless blend fade beneath logo: only visible when scrolled */}
         <div
-          className={`pointer-events-none absolute left-0 right-0 -bottom-6 h-6 bg-gradient-to-b from-[#E9EEF5] to-transparent z-20 transition-opacity duration-200 ${
+          className={`pointer-events-none absolute left-0 right-0 -bottom-6 h-6 bg-gradient-to-b from-white to-transparent z-20 transition-opacity duration-200 ${
             isScrolled ? 'opacity-100' : 'opacity-0'
           }`}
         />
@@ -449,7 +449,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
       <div className="relative flex-1 min-h-0 flex flex-col overflow-hidden">
         <nav
           onScroll={(e) => setIsScrolled(e.currentTarget.scrollTop > 4)}
-          className="flex-1 px-2.5 space-y-3 overflow-y-auto pt-2 pb-4 scrollbar-thin scrollbar-thumb-slate-300"
+          className="flex-1 px-2.5 space-y-3 overflow-y-auto pt-2 pb-4 scrollbar-thin scrollbar-thumb-slate-200"
           style={
             isScrolled
               ? {
@@ -485,8 +485,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
                       className={({ isActive }) =>
                         `flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-all duration-150 ${
                           isActive || isCurrentActive
-                            ? 'bg-[#E9EEF5] text-[#0066FF] shadow-[inset_2px_2px_5px_#C5D0E0,inset_-2px_-2px_5px_#FFFFFF] font-bold border border-white/60'
-                            : 'text-slate-600 hover:text-slate-900 hover:bg-[#E9EEF5] hover:shadow-[2px_2px_5px_#C5D0E0,-2px_-2px_5px_#FFFFFF] border border-transparent font-medium active:scale-[0.98]'
+                            ? 'bg-blue-50 text-[#0066FF] font-bold border border-blue-200/80 shadow-xs'
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-transparent font-medium active:scale-[0.98]'
                         }`
                       }
                     >
@@ -529,8 +529,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
                       className={({ isActive }) =>
                         `flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-all duration-150 ${
                           isActive || isCurrentActive
-                            ? 'bg-[#E9EEF5] text-[#0066FF] shadow-[inset_2px_2px_5px_#C5D0E0,inset_-2px_-2px_5px_#FFFFFF] font-bold border border-white/60'
-                            : 'text-slate-600 hover:text-slate-900 hover:bg-[#E9EEF5] hover:shadow-[2px_2px_5px_#C5D0E0,-2px_-2px_5px_#FFFFFF] border border-transparent font-medium active:scale-[0.98]'
+                            ? 'bg-blue-50 text-[#0066FF] font-bold border border-blue-200/80 shadow-xs'
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-transparent font-medium active:scale-[0.98]'
                         }`
                       }
                     >
@@ -565,10 +565,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
                     end={item.to === '/'}
                     onClick={onCloseMobile}
                     className={({ isActive }) =>
-                      `flex items-center justify-between px-3 py-2.5 rounded-2xl text-sm transition-all duration-200 ${
+                      `flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-all duration-150 ${
                         isActive
-                          ? 'bg-[#E9EEF5] text-[#0066FF] shadow-[inset_3px_3px_6px_#C5D0E0,inset_-3px_-3px_6px_#FFFFFF] font-bold border border-white/60'
-                          : 'text-slate-600 hover:text-slate-900 hover:bg-[#E9EEF5] hover:shadow-[3px_3px_7px_#C5D0E0,-3px_-3px_7px_#FFFFFF] border border-transparent font-semibold active:scale-[0.98]'
+                          ? 'bg-blue-50 text-[#0066FF] font-bold border border-blue-200/80 shadow-xs'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-transparent font-medium active:scale-[0.98]'
                       }`
                     }
                   >
@@ -589,15 +589,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
         )}
         </nav>
         {/* Seamless blend fade gradient above footer */}
-        <div className="pointer-events-none absolute left-0 right-0 bottom-0 h-6 bg-gradient-to-t from-[#E9EEF5] via-[#E9EEF5]/85 to-transparent z-20" />
+        <div className="pointer-events-none absolute left-0 right-0 bottom-0 h-6 bg-gradient-to-t from-white via-white/85 to-transparent z-20" />
       </div>
 
       {/* FOOTER: Logged-in user card (name, role, logout) */}
       {user && (
-        <div className="p-2 bg-[#E9EEF5] shrink-0 relative z-20">
-          <div className="flex items-center justify-between p-1.5 rounded-xl bg-[#E9EEF5] shadow-[inset_2px_2px_5px_#C5D0E0,inset_-2px_-2px_5px_#FFFFFF] border border-white/40">
+        <div className="p-2 bg-white shrink-0 relative z-20 border-t border-slate-100">
+          <div className="flex items-center justify-between p-1.5 rounded-xl bg-slate-50 border border-slate-200">
             <div className="flex items-center space-x-2 min-w-0">
-              <div className="w-7 h-7 rounded-full bg-[#E9EEF5] shadow-[2px_2px_5px_#C5D0E0,-2px_-2px_5px_#FFFFFF] flex items-center justify-center text-[#0066FF] font-bold text-xs border border-white/80 shrink-0">
+              <div className="w-7 h-7 rounded-full bg-white shadow-xs flex items-center justify-center text-[#0066FF] font-bold text-xs border border-slate-200 shrink-0">
                 {user.username === 'staff' ? 'E' : (user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U')}
               </div>
               <div className="min-w-0">
@@ -627,7 +627,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
             <button
               onClick={logout}
               title="Sign Out"
-              className="p-1 text-slate-400 hover:text-rose-600 bg-[#E9EEF5] shadow-[2px_2px_4px_#C5D0E0,-2px_-2px_4px_#FFFFFF] hover:shadow-[inset_2px_2px_4px_#C5D0E0] rounded-lg transition-all border border-white/50 active:scale-95 shrink-0 ml-1 cursor-pointer"
+              className="p-1 text-slate-400 hover:text-rose-600 bg-white shadow-xs rounded-lg transition-all border border-slate-200 active:scale-95 shrink-0 ml-1 cursor-pointer"
             >
               <LogOut className="w-3.5 h-3.5" />
             </button>

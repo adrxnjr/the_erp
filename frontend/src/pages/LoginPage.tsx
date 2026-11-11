@@ -157,20 +157,19 @@ export const LoginPage: React.FC = () => {
   }
 
   return (
-    <div className="h-screen max-h-screen w-full flex flex-col lg:flex-row bg-[#EBEEF2] overflow-y-auto lg:overflow-hidden select-none">
+    <div className="h-screen max-h-screen w-full flex flex-col lg:flex-row bg-white overflow-y-auto lg:overflow-hidden select-none">
       {/* ─────────────────────────────────────────────────────────────
           LEFT SIDE: BRAND ARTWORK & INSTITUTIONAL DESIGN PANEL
           ───────────────────────────────────────────────────────────── */}
-      <div className="w-full lg:w-1/2 xl:w-[48%] h-full max-h-screen relative flex flex-col justify-between p-5 lg:p-7 xl:p-9 overflow-hidden bg-[#EBEEF2]">
-        {/* Soft Ambient Light Reflective Highlights for Neumorphic Balance */}
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/40 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-slate-200/40 rounded-full blur-3xl pointer-events-none" />
+      <div className="w-full lg:w-1/2 xl:w-[48%] h-full max-h-screen relative flex flex-col justify-between p-5 lg:p-7 xl:p-9 overflow-hidden bg-white">
+        {/* Soft Ambient Subtle Highlight */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-50/40 rounded-full blur-3xl pointer-events-none" />
 
         {/* Top Header: Quick Return Link */}
         <div className="relative z-10 flex items-center justify-between">
           <Link
             to="/"
-            className="inline-flex items-center space-x-2 text-xs font-bold text-slate-600 hover:text-slate-900 transition-all py-2 px-4 rounded-full bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] hover:shadow-[4px_4px_9px_#C0CAD8,-4px_-4px_9px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]"
+            className="inline-flex items-center space-x-2 text-xs font-bold text-slate-600 hover:text-slate-900 transition-all py-2 px-4 rounded-full bg-white border border-slate-200 shadow-xs hover:bg-slate-50 active:scale-95"
           >
             <ArrowLeft className="w-3.5 h-3.5 text-[#0071E3]" />
             <span>Return to School Website</span>
@@ -197,20 +196,20 @@ export const LoginPage: React.FC = () => {
       </div>
 
       {/* ─────────────────────────────────────────────────────────────
-          RIGHT SIDE: NEUMORPHIC PILL FORM (EXACT MATCH TO REFERENCE DESIGN)
+          RIGHT SIDE: MODERN PILL FORM
           ───────────────────────────────────────────────────────────── */}
-      <div className="w-full lg:w-1/2 xl:w-[52%] h-full max-h-screen flex flex-col justify-between p-5 lg:p-7 xl:p-9 bg-[#EBEEF2] overflow-hidden">
-        {/* Main Form Body - Neumorphic Pill Design */}
+      <div className="w-full lg:w-1/2 xl:w-[52%] h-full max-h-screen flex flex-col justify-between p-5 lg:p-7 xl:p-9 bg-white border-t lg:border-t-0 lg:border-l border-slate-200/80 overflow-hidden">
+        {/* Main Form Body - Pill Design */}
         <div className="w-full max-w-sm xl:max-w-md mx-auto my-auto space-y-4 xl:space-y-4.5">
           {/* Heading */}
           <div className="text-center pb-0.5">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-600 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-700 tracking-tight">
               Login
             </h2>
           </div>
 
-          {/* Neumorphic Segmented Portal Switcher */}
-          <div className="grid grid-cols-3 gap-1.5 p-1.5 bg-[#EBEEF2] rounded-full shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF]">
+          {/* Segmented Portal Switcher */}
+          <div className="grid grid-cols-3 gap-1.5 p-1.5 bg-slate-100 rounded-full border border-slate-200">
             <button
               type="button"
               onClick={() => {
@@ -219,8 +218,8 @@ export const LoginPage: React.FC = () => {
               }}
               className={`py-2 text-xs font-bold rounded-full transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
                 portalType === 'staff'
-                  ? 'bg-[#EBEEF2] text-slate-800 shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF]'
-                  : 'text-slate-500 hover:text-slate-800'
+                  ? 'bg-white text-slate-900 shadow-sm border border-slate-200/80 font-bold'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <Briefcase className="w-3.5 h-3.5 text-blue-600 shrink-0" />
@@ -235,8 +234,8 @@ export const LoginPage: React.FC = () => {
               }}
               className={`py-2 text-xs font-bold rounded-full transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
                 portalType === 'student'
-                  ? 'bg-[#EBEEF2] text-slate-800 shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF]'
-                  : 'text-slate-500 hover:text-slate-800'
+                  ? 'bg-white text-slate-900 shadow-sm border border-slate-200/80 font-bold'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <GraduationCap className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
@@ -251,8 +250,8 @@ export const LoginPage: React.FC = () => {
               }}
               className={`py-2 text-xs font-bold rounded-full transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
                 portalType === 'parent'
-                  ? 'bg-[#EBEEF2] text-slate-800 shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF]'
-                  : 'text-slate-500 hover:text-slate-800'
+                  ? 'bg-white text-slate-900 shadow-sm border border-slate-200/80 font-bold'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <Users className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
@@ -287,7 +286,7 @@ export const LoginPage: React.FC = () => {
                       ? 'Admission number or username'
                       : 'Parent phone or username'
                   }
-                  className="w-full pl-11 pr-5 py-3 bg-[#EBEEF2] rounded-full text-xs sm:text-sm text-slate-700 placeholder-slate-400 shadow-[inset_4px_4px_8px_#C8D0DC,inset_-4px_-4px_8px_#FFFFFF] focus:outline-none focus:ring-1 focus:ring-blue-400/50 transition-all font-medium border-none"
+                  className="w-full pl-11 pr-5 py-3 bg-white rounded-full text-xs sm:text-sm text-slate-800 placeholder-slate-400 border border-slate-300 shadow-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
                 />
               </div>
             </div>
@@ -303,7 +302,7 @@ export const LoginPage: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full pl-11 pr-11 py-3 bg-[#EBEEF2] rounded-full text-xs sm:text-sm text-slate-700 placeholder-slate-400 shadow-[inset_4px_4px_8px_#C8D0DC,inset_-4px_-4px_8px_#FFFFFF] focus:outline-none focus:ring-1 focus:ring-blue-400/50 transition-all font-mono border-none"
+                  className="w-full pl-11 pr-11 py-3 bg-white rounded-full text-xs sm:text-sm text-slate-800 placeholder-slate-400 border border-slate-300 shadow-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-mono"
                 />
                 <button
                   type="button"
@@ -322,7 +321,7 @@ export const LoginPage: React.FC = () => {
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-3.5 h-3.5 rounded text-slate-600 focus:ring-0 border-slate-300"
+                  className="w-3.5 h-3.5 rounded text-blue-600 focus:ring-0 border-slate-300"
                 />
                 <span className="text-xs font-medium text-slate-600">Keep me signed in</span>
               </label>
@@ -346,15 +345,15 @@ export const LoginPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Neumorphic Pill Submit Button (Matching Reference Image) */}
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 sm:py-3.5 px-6 rounded-full bg-[#EBEEF2] text-slate-600 hover:text-slate-900 font-bold text-sm tracking-wide shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[6px_6px_14px_#C0CAD8,-6px_-6px_14px_#FFFFFF] active:shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] transition-all flex items-center justify-center space-x-2 disabled:opacity-60 cursor-pointer border-none"
+              className="w-full py-3 sm:py-3.5 px-6 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm tracking-wide shadow-sm hover:shadow active:scale-[0.99] transition-all flex items-center justify-center space-x-2 disabled:opacity-60 cursor-pointer"
             >
               {loading ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-slate-500 border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                   <span>Authenticating...</span>
                 </>
               ) : (
@@ -366,14 +365,14 @@ export const LoginPage: React.FC = () => {
                       ? 'Sign In to Student Portal'
                       : 'Sign In to Parent Portal'}
                   </span>
-                  <ArrowRight className="w-4 h-4 text-slate-500" />
+                  <ArrowRight className="w-4 h-4 text-white/80" />
                 </>
               )}
             </button>
           </form>
 
-          {/* Quick Demo Logins Badges - Styled as Soft Neumorphic Cards */}
-          <div className="pt-2 border-t border-slate-300/50 space-y-2">
+          {/* Quick Demo Logins Badges */}
+          <div className="pt-2 border-t border-slate-200 space-y-2">
             <div className="text-xs font-bold uppercase text-slate-500 tracking-wider px-1">
               Quick Demo Logins (One-Click Testing):
             </div>
@@ -382,7 +381,7 @@ export const LoginPage: React.FC = () => {
                 type="button"
                 disabled={loading}
                 onClick={() => handleQuickDemoLogin('adrin', '123', 'staff')}
-                className="p-2 xl:p-2.5 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] hover:shadow-[4px_4px_9px_#C0CAD8,-4px_-4px_9px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-left transition-all flex items-center space-x-2 cursor-pointer border-none"
+                className="p-2 xl:p-2.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 shadow-xs hover:shadow-sm active:scale-[0.98] text-left transition-all flex items-center space-x-2.5 cursor-pointer"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-blue-600 shrink-0"></div>
                 <div className="truncate">
@@ -395,7 +394,7 @@ export const LoginPage: React.FC = () => {
                 type="button"
                 disabled={loading}
                 onClick={() => handleQuickDemoLogin('staff', '123', 'staff')}
-                className="p-2 xl:p-2.5 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] hover:shadow-[4px_4px_9px_#C0CAD8,-4px_-4px_9px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-left transition-all flex items-center space-x-2 cursor-pointer border-none"
+                className="p-2 xl:p-2.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 shadow-xs hover:shadow-sm active:scale-[0.98] text-left transition-all flex items-center space-x-2.5 cursor-pointer"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-cyan-600 shrink-0"></div>
                 <div className="truncate">
@@ -408,7 +407,7 @@ export const LoginPage: React.FC = () => {
                 type="button"
                 disabled={loading}
                 onClick={() => handleQuickDemoLogin('principal', '123', 'staff')}
-                className="p-2 xl:p-2.5 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] hover:shadow-[4px_4px_9px_#C0CAD8,-4px_-4px_9px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-left transition-all flex items-center space-x-2 cursor-pointer border-none"
+                className="p-2 xl:p-2.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 shadow-xs hover:shadow-sm active:scale-[0.98] text-left transition-all flex items-center space-x-2.5 cursor-pointer"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-purple-600 shrink-0"></div>
                 <div className="truncate">
@@ -421,7 +420,7 @@ export const LoginPage: React.FC = () => {
                 type="button"
                 disabled={loading}
                 onClick={() => handleQuickDemoLogin('viceadmin', '123', 'staff')}
-                className="p-2 xl:p-2.5 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] hover:shadow-[4px_4px_9px_#C0CAD8,-4px_-4px_9px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-left transition-all flex items-center space-x-2 cursor-pointer border-none"
+                className="p-2 xl:p-2.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 shadow-xs hover:shadow-sm active:scale-[0.98] text-left transition-all flex items-center space-x-2.5 cursor-pointer"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-sky-600 shrink-0"></div>
                 <div className="truncate">
@@ -434,7 +433,7 @@ export const LoginPage: React.FC = () => {
                 type="button"
                 disabled={loading}
                 onClick={() => handleQuickDemoLogin('coordinator1', '123', 'staff')}
-                className="p-2 xl:p-2.5 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] hover:shadow-[4px_4px_9px_#C0CAD8,-4px_-4px_9px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-left transition-all flex items-center space-x-2 cursor-pointer border-none"
+                className="p-2 xl:p-2.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 shadow-xs hover:shadow-sm active:scale-[0.98] text-left transition-all flex items-center space-x-2.5 cursor-pointer"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-teal-600 shrink-0"></div>
                 <div className="truncate">
@@ -447,7 +446,7 @@ export const LoginPage: React.FC = () => {
                 type="button"
                 disabled={loading}
                 onClick={() => handleQuickDemoLogin('teacher1', '123', 'staff')}
-                className="p-2 xl:p-2.5 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] hover:shadow-[4px_4px_9px_#C0CAD8,-4px_-4px_9px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-left transition-all flex items-center space-x-2 cursor-pointer border-none"
+                className="p-2 xl:p-2.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 shadow-xs hover:shadow-sm active:scale-[0.98] text-left transition-all flex items-center space-x-2.5 cursor-pointer"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-indigo-600 shrink-0"></div>
                 <div className="truncate">
@@ -460,7 +459,7 @@ export const LoginPage: React.FC = () => {
                 type="button"
                 disabled={loading}
                 onClick={() => handleQuickDemoLogin('parent1', '123', 'parent')}
-                className="p-2 xl:p-2.5 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] hover:shadow-[4px_4px_9px_#C0CAD8,-4px_-4px_9px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-left transition-all flex items-center space-x-2 cursor-pointer border-none"
+                className="p-2 xl:p-2.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 shadow-xs hover:shadow-sm active:scale-[0.98] text-left transition-all flex items-center space-x-2.5 cursor-pointer"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0"></div>
                 <div className="truncate">
@@ -473,7 +472,7 @@ export const LoginPage: React.FC = () => {
                 type="button"
                 disabled={loading}
                 onClick={() => handleQuickDemoLogin('student1', '123', 'student')}
-                className="p-2 xl:p-2.5 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] hover:shadow-[4px_4px_9px_#C0CAD8,-4px_-4px_9px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-left transition-all flex items-center space-x-2 cursor-pointer border-none"
+                className="p-2 xl:p-2.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 shadow-xs hover:shadow-sm active:scale-[0.98] text-left transition-all flex items-center space-x-2.5 cursor-pointer"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-amber-600 shrink-0"></div>
                 <div className="truncate">

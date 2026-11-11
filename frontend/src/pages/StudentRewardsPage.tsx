@@ -327,7 +327,7 @@ export const StudentRewardsPage: React.FC = () => {
   const currentLevelInfo = levelThemes[summary?.current_level || 'BRONZE'];
 
   return (
-    <div className="min-h-screen bg-[#E9EEF5] text-slate-700 p-6 space-y-6">
+    <div className="min-h-screen bg-transparent text-slate-700 p-6 space-y-6">
       {/* Top Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>

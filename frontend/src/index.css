@@ -9,9 +9,9 @@
 
 @layer base {
   :root {
-    --neu-bg: #E9EEF5;
-    --neu-surface: #E9EEF5;
-    --neu-dark: #C5D0E0;
+    --neu-bg: #FFFFFF;
+    --neu-surface: #FFFFFF;
+    --neu-dark: #E2E8F0;
     --neu-light: #FFFFFF;
     --neu-primary: #0066FF;
     --neu-primary-dark: #0052CC;
@@ -34,7 +34,7 @@
   }
 
   body {
-    background-color: #E9EEF5;
+    background-color: #FFFFFF;
     color: #1E293B;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -57,73 +57,74 @@
 }
 
 /* =========================================================================
-   PROFESSIONAL NEUMORPHIC (SOFT UI) DESIGN SYSTEM
+   CLEAN MODERN WHITE DESIGN SYSTEM (APPLE & MODERN SAAS PALETTE)
    ========================================================================= */
 
-/* Neumorphic Extruded Panels / Cards */
+/* Clean White Extruded Panels / Cards */
 .neu-flat,
 .ios-card {
-  background: #E9EEF5;
+  background: #FFFFFF;
   border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 8px 8px 20px #C5D0E0, -8px -8px 20px #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .neu-card-interactive,
 .ios-card-interactive {
-  background: #E9EEF5;
+  background: #FFFFFF;
   border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 8px 8px 20px #C5D0E0, -8px -8px 20px #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .neu-card-interactive:hover,
 .ios-card-interactive:hover {
   transform: translateY(-2px);
-  box-shadow: 12px 12px 26px #BAC6D8, -12px -12px 26px #FFFFFF;
-  border-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
+  border-color: #CBD5E1;
 }
 
 .neu-card-interactive:active,
 .ios-card-interactive:active {
   transform: translateY(0);
-  box-shadow: inset 4px 4px 8px #C5D0E0, inset -4px -4px 8px #FFFFFF;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.04);
 }
 
-/* Neumorphic Inset / Sunken Wells (for inputs, tracks, wells) */
+/* Inset / Sunken Wells (for tracks, search inputs, wells) */
 .neu-inset,
 .neu-pressed {
-  background: #E9EEF5;
+  background: #F8FAFC;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: inset 3px 3px 6px #C5D0E0, inset -3px -3px 6px #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.04);
 }
 
-/* Neumorphic Form Input */
+/* Form Input */
 .neu-input {
-  background: #E9EEF5;
+  background: #FFFFFF;
   color: #1E293B;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: inset 3px 3px 6px #C5D0E0, inset -3px -3px 6px #FFFFFF;
+  border: 1px solid #CBD5E1;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
   transition: all 0.2s ease;
 }
 
 .neu-input:focus {
   outline: none;
-  box-shadow: inset 4px 4px 8px #BAC6D8, inset -4px -4px 8px #FFFFFF, 0 0 0 2px rgba(0, 102, 255, 0.35);
+  border-color: #0066FF;
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15);
 }
 
-/* Neumorphic Tactile Buttons */
+/* Tactile Buttons */
 .neu-btn {
-  background: #E9EEF5;
+  background: #FFFFFF;
   color: #1E293B;
   font-weight: 600;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 5px 5px 12px #C5D0E0, -5px -5px 12px #FFFFFF;
+  border: 1px solid #CBD5E1;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
@@ -133,15 +134,16 @@
 
 .neu-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 7px 7px 16px #BAC6D8, -7px -7px 16px #FFFFFF;
+  background: #F8FAFC;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
 }
 
 .neu-btn:active {
   transform: translateY(0);
-  box-shadow: inset 3px 3px 6px #C5D0E0, inset -3px -3px 6px #FFFFFF;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
 }
 
-/* Neumorphic Primary (Vibrant Blue Accent) Button */
+/* Primary (Vibrant Blue Accent) Button */
 .neu-btn-primary,
 .ios-gloss-btn {
   background: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
@@ -149,7 +151,7 @@
   font-weight: 600;
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 6px 6px 16px rgba(0, 82, 204, 0.38), -4px -4px 12px #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.28);
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
@@ -160,25 +162,25 @@
 .neu-btn-primary:hover,
 .ios-gloss-btn:hover {
   background: linear-gradient(135deg, #0070FF 0%, #005CE6 100%);
-  box-shadow: 8px 8px 20px rgba(0, 82, 204, 0.48), -5px -5px 14px #FFFFFF;
+  box-shadow: 0 6px 16px rgba(0, 102, 255, 0.38);
   transform: translateY(-1px);
 }
 
 .neu-btn-primary:active,
 .ios-gloss-btn:active {
   transform: translateY(0);
-  box-shadow: inset 3px 3px 6px rgba(0, 40, 100, 0.5), -2px -2px 6px #FFFFFF;
+  box-shadow: inset 0 2px 4px rgba(0, 40, 100, 0.4);
 }
 
-/* Neumorphic Secondary Soft Button */
+/* Secondary Soft Button */
 .neu-btn-secondary,
 .ios-gloss-btn-secondary {
-  background: #E9EEF5;
+  background: #F8FAFC;
   color: #334155;
   font-weight: 600;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 5px 5px 12px #C5D0E0, -5px -5px 12px #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
@@ -189,24 +191,24 @@
 .neu-btn-secondary:hover,
 .ios-gloss-btn-secondary:hover {
   transform: translateY(-1px);
-  box-shadow: 7px 7px 16px #BAC6D8, -7px -7px 16px #FFFFFF;
+  background: #F1F5F9;
   color: #0F172A;
 }
 
 .neu-btn-secondary:active,
 .ios-gloss-btn-secondary:active {
   transform: translateY(0);
-  box-shadow: inset 3px 3px 6px #C5D0E0, inset -3px -3px 6px #FFFFFF;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
 }
 
-/* Emerald Accent Neumorphic Button */
+/* Emerald Accent Button */
 .ios-gloss-btn-emerald {
   background: linear-gradient(135deg, #10B981 0%, #059669 100%);
   color: #FFFFFF;
   font-weight: 600;
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 6px 6px 16px rgba(5, 150, 105, 0.35), -4px -4px 12px #FFFFFF;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.28);
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
@@ -215,21 +217,16 @@
 
 .ios-gloss-btn-emerald:hover {
   transform: translateY(-1px);
-  box-shadow: 8px 8px 20px rgba(5, 150, 105, 0.45), -5px -5px 14px #FFFFFF;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.38);
 }
 
-.ios-gloss-btn-emerald:active {
-  transform: translateY(0);
-  box-shadow: inset 3px 3px 6px rgba(4, 120, 87, 0.5), -2px -2px 6px #FFFFFF;
-}
-
-/* Neumorphic Modal Dialog */
+/* Modal Dialog */
 .neu-modal,
 .ios-modal {
-  background: #E9EEF5;
+  background: #FFFFFF;
   border-radius: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 16px 16px 40px #BAC6D8, -16px -16px 40px #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12);
   animation: neuModalIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -245,7 +242,7 @@
 }
 
 /* =========================================================================
-   GLOBAL NEUMORPHIC APPLICATION ENHANCEMENTS ACROSS ALL PAGES
+   GLOBAL CLEAN WHITE APPLICATION ENHANCEMENTS ACROSS ALL PAGES
    ========================================================================= */
 
 /* All Cards, Panels, and Container Surfaces */
@@ -260,9 +257,29 @@
 .bg-white.rounded-3xl.border,
 .bg-slate-50.rounded-2xl,
 .bg-slate-50.rounded-xl.border {
-  background-color: #E9EEF5 !important;
-  border-color: rgba(255, 255, 255, 0.8) !important;
-  box-shadow: 8px 8px 20px #C5D0E0, -8px -8px 20px #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03) !important;
+}
+
+/* Neutralize legacy hardcoded blue-tint classes */
+[class*="bg-[#EBEEF2]"],
+[class*="bg-[#E9EEF5]"] {
+  background-color: #FFFFFF !important;
+}
+
+[class*="shadow-"][class*="#C8D0DC"],
+[class*="shadow-"][class*="#C5D0E0"],
+[class*="shadow-"][class*="#BAC6D8"] {
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03) !important;
+  border-color: #E2E8F0 !important;
+}
+
+[class*="shadow-[inset"][class*="#C8D0DC"],
+[class*="shadow-[inset"][class*="#C5D0E0"] {
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.04) !important;
+  background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
 }
 
 /* Form Inputs, Select Dropdowns, Textareas Across All Pages */
@@ -274,13 +291,13 @@ input[type="tel"],
 input[type="date"],
 select,
 textarea {
-  background-color: #E9EEF5 !important;
+  background-color: #FFFFFF !important;
   color: #1E293B !important;
-  border-color: rgba(255, 255, 255, 0.6) !important;
-  box-shadow: inset 3px 3px 6px #C5D0E0, inset -3px -3px 6px #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04) !important;
 }
 
-/* Styled Native Select Dropdowns Following Ever Grow Soft UI Theme */
+/* Styled Native Select Dropdowns Following Clean UI Theme */
 select {
   appearance: none !important;
   -webkit-appearance: none !important;
@@ -290,7 +307,7 @@ select {
   background-position: right 0.85rem center !important;
   background-size: 1rem 1rem !important;
   padding-right: 2.5rem !important;
-  border-radius: 16px !important;
+  border-radius: 14px !important;
   cursor: pointer !important;
 }
 
@@ -310,18 +327,19 @@ input[type="date"]:focus,
 select:focus,
 textarea:focus {
   outline: none !important;
-  box-shadow: inset 3px 3px 7px #BAC6D8, inset -3px -3px 7px #FFFFFF, 0 0 0 2px rgba(0, 102, 255, 0.35) !important;
+  border-color: #0066FF !important;
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15) !important;
 }
 
-/* Neumorphic Tables */
+/* Tables */
 table {
-  background-color: #E9EEF5 !important;
+  background-color: #FFFFFF !important;
 }
 
 thead th {
-  background-color: #E9EEF5 !important;
+  background-color: #F8FAFC !important;
   color: #475569 !important;
-  border-bottom: 1px solid rgba(197, 208, 224, 0.5) !important;
+  border-bottom: 1px solid #E2E8F0 !important;
 }
 
 tbody tr {
@@ -329,29 +347,29 @@ tbody tr {
 }
 
 tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.45) !important;
+  background-color: #F8FAFC !important;
 }
 
-/* Neumorphic Pearl Canvas (maps, telemetry, charts) */
+/* Light Canvas (maps, telemetry, charts) */
 .ios-light-canvas {
-  background: #E9EEF5;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: inset 4px 4px 8px #C5D0E0, inset -4px -4px 8px #FFFFFF;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.04);
   border-radius: 20px;
 }
 
-/* Neumorphic Custom Scrollbars */
+/* Clean Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #E9EEF5;
+  background: #FFFFFF;
 }
 ::-webkit-scrollbar-thumb {
-  background: #BAC6D8;
+  background: #CBD5E1;
   border-radius: 9999px;
-  border: 2px solid #E9EEF5;
+  border: 2px solid #FFFFFF;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94A3B8;
