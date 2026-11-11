@@ -105,13 +105,6 @@ export const ModuleHubPage: React.FC = () => {
   // =========================================================================
   // 1. NOTIFICATIONS MODULE STATE & ACTIONS
   // =========================================================================
-  const [broadcastChannel, setBroadcastChannel] = useState<'whatsapp' | 'sms' | 'portal' | 'emergency'>('whatsapp');
-  const [broadcastAudience, setBroadcastAudience] = useState<string>('All Parents');
-  const [broadcastCategory, setBroadcastCategory] = useState<string>('Academic Notice');
-  const [broadcastPriority, setBroadcastPriority] = useState<'Normal' | 'High' | 'Urgent'>('Normal');
-  const [broadcastTitle, setBroadcastTitle] = useState('');
-  const [broadcastMessage, setBroadcastMessage] = useState('');
-
   const [broadcastsList, setBroadcastsList] = useState([
     {
       id: 'BC-2026-101',
@@ -162,32 +155,6 @@ export const ModuleHubPage: React.FC = () => {
       status: 'Delivered 99.6%',
     },
   ]);
-
-  const handleSendBroadcast = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!broadcastTitle.trim() || !broadcastMessage.trim()) {
-      toast.error('Please enter both title and message for the broadcast.');
-      return;
-    }
-
-    const newBroadcast = {
-      id: `BC-2026-${Date.now().toString().slice(-3)}`,
-      title: broadcastTitle.trim(),
-      message: broadcastMessage.trim(),
-      category: broadcastCategory,
-      channel: broadcastChannel === 'whatsapp' ? 'WhatsApp Broadcast' : broadcastChannel === 'sms' ? 'SMS Gateway' : broadcastChannel === 'emergency' ? 'Emergency Siren + SMS' : 'In-App Alert',
-      audience: broadcastAudience,
-      priority: broadcastPriority,
-      date: 'Just now',
-      deliveredCount: '150 / 150',
-      status: 'Delivered 100%',
-    };
-
-    setBroadcastsList([newBroadcast, ...broadcastsList]);
-    setBroadcastTitle('');
-    setBroadcastMessage('');
-    toast.success(`Broadcast '${newBroadcast.title}' dispatched to ${broadcastAudience} via ${newBroadcast.channel}!`);
-  };
 
   // =========================================================================
   // 2. INVENTORY & PURCHASES MODULE STATE
@@ -653,15 +620,6 @@ export const ModuleHubPage: React.FC = () => {
                   <div className="space-y-1">
                     <div className="flex items-center space-x-2">
                       <span className="text-xs font-black text-slate-800">{bc.title}</span>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                        bc.priority === 'Urgent'
-                          ? 'bg-rose-100 text-rose-700 border border-rose-200'
-                          : bc.priority === 'High'
-                          ? 'bg-amber-100 text-amber-700 border border-amber-200'
-                          : 'bg-slate-100 text-slate-600'
-                      }`}>
-                        {bc.priority}
-                      </span>
                       <span className="text-[10px] font-semibold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200">
                         {bc.category}
                       </span>
