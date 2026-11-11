@@ -18,7 +18,6 @@ import {
   Trophy,
   Send,
   Clock,
-  Sparkles,
   ArrowRight,
 } from 'lucide-react';
 import logoImg from '../assets/logo.png';
@@ -302,10 +301,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
         {/* Hero Headline & Intro Box */}
         <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-8 sm:py-12">
           <div className="text-center max-w-3xl mx-auto space-y-4">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 border border-blue-200 shadow-2xs whitespace-nowrap">
-              <Sparkles className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-              <span>Nurturing Inquisitive Minds & Leaders</span>
-            </div>
             <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
               Inspiring Excellence in Every Child
             </h1>
