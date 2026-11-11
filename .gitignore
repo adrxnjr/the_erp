@@ -45,6 +45,7 @@ htmlcov/
 uploads/
 reports/
 firebase-debug.log*
+.firebase/
 backend/uploads/*
 !backend/uploads/.gitkeep
 backend/reports/*

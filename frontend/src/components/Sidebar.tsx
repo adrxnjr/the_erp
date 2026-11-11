@@ -423,11 +423,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
 
   return (
     <aside
-<<<<<<< HEAD
-      className={`fixed inset-y-0 left-0 z-50 md:sticky md:top-0 w-64 md:w-60 bg-[#F5F6F8] text-slate-700 flex flex-col shrink-0 h-screen border-r border-white/80 shadow-[4px_0_16px_rgba(212,218,229,0.35)] select-none transition-transform duration-300 ease-in-out ${
-=======
-      className={`fixed inset-y-0 left-0 z-50 md:sticky md:top-0 w-64 md:w-60 bg-[#E9EEF5] text-slate-700 flex flex-col shrink-0 h-screen h-[100dvh] max-h-[100dvh] border-r border-white/80 shadow-[6px_0_18px_#C5D0E0] select-none transition-transform duration-300 ease-in-out ${
->>>>>>> d560d95 (Mobile responsievness fixed)
+      className={`fixed inset-y-0 left-0 z-50 md:sticky md:top-0 w-64 md:w-60 bg-[#F5F6F8] text-slate-700 flex flex-col shrink-0 h-screen h-[100dvh] max-h-[100dvh] border-r border-white/80 shadow-[4px_0_16px_rgba(212,218,229,0.35)] select-none transition-transform duration-300 ease-in-out ${
         mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
       }`}
     >

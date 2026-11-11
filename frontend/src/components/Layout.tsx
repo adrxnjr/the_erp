@@ -49,11 +49,7 @@ export const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) =
   }, []);
 
   return (
-<<<<<<< HEAD
-    <div className="min-h-screen bg-[#F5F6F8] flex flex-col antialiased selection:bg-[#0066FF] selection:text-white">
-=======
-    <div className="min-h-screen min-h-dvh bg-[#E9EEF5] flex flex-col antialiased selection:bg-[#0066FF] selection:text-white w-full max-w-full overflow-x-hidden">
->>>>>>> d560d95 (Mobile responsievness fixed)
+    <div className="min-h-screen min-h-dvh bg-[#F5F6F8] flex flex-col antialiased selection:bg-[#0066FF] selection:text-white w-full max-w-full overflow-x-hidden">
       {/* Sticky Server-Down / Offline Banner */}
       {isServerOffline && (
         <aside
@@ -77,21 +73,12 @@ export const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) =
       )}
 
       {/* Mobile Top Navigation Bar (< 768px) */}
-<<<<<<< HEAD
-      <header className="md:hidden sticky top-0 z-40 bg-[#F5F6F8]/95 backdrop-blur-md border-b border-white/80 px-4 py-3 flex items-center justify-between shadow-xs">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setMobileDrawerOpen(true)}
-            aria-label="Open navigation menu"
-            className="p-2 rounded-2xl bg-[#F5F6F8] text-slate-700 hover:text-blue-600 border border-white/80 shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] transition"
-=======
-      <header className="md:hidden sticky top-0 z-40 bg-[#E9EEF5]/90 backdrop-blur-md border-b border-white/80 px-3.5 py-2.5 flex items-center justify-between shadow-[0_2px_10px_#C5D0E0] max-w-full overflow-hidden">
+      <header className="md:hidden sticky top-0 z-40 bg-[#F5F6F8]/90 backdrop-blur-md border-b border-white/80 px-3.5 py-2.5 flex items-center justify-between shadow-xs max-w-full overflow-hidden">
         <div className="flex items-center gap-2.5 min-w-0">
           <button
             onClick={() => setMobileDrawerOpen(true)}
             aria-label="Open navigation menu"
-            className="p-2 rounded-2xl bg-[#E9EEF5] text-slate-700 hover:text-blue-600 shadow-[3px_3px_6px_#C5D0E0,-3px_-3px_6px_#FFFFFF] active:scale-95 transition shrink-0"
->>>>>>> d560d95 (Mobile responsievness fixed)
+            className="p-2 rounded-2xl bg-[#F5F6F8] text-slate-700 hover:text-blue-600 border border-white/80 shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] transition shrink-0"
           >
             <Menu className="w-5 h-5" />
           </button>

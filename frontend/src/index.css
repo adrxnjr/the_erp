@@ -41,16 +41,12 @@
   }
 
   body {
-<<<<<<< HEAD
-    background-color: #F5F6F8;
-=======
     width: 100%;
     max-width: 100vw;
     min-height: 100vh;
     min-height: 100dvh;
     overflow-x: hidden;
-    background-color: #E9EEF5;
->>>>>>> d560d95 (Mobile responsievness fixed)
+    background-color: #F5F6F8;
     color: #1E293B;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -59,7 +55,14 @@
     selection-color: #ffffff;
   }
 
-<<<<<<< HEAD
+  #root {
+    width: 100%;
+    max-width: 100vw;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
   /* Legible Micro-Text Guarantee: Elevate unreadable micro-fonts to crisp, readable sizing */
   [class*="text-[8px]"],
   [class*="text-[9px]"] {
@@ -70,14 +73,6 @@
   [class*="text-[10px]"] {
     font-size: 11.5px !important;
     line-height: 1.4 !important;
-=======
-  #root {
-    width: 100%;
-    max-width: 100vw;
-    min-height: 100vh;
-    min-height: 100dvh;
-    overflow-x: hidden;
->>>>>>> d560d95 (Mobile responsievness fixed)
   }
 }
 
