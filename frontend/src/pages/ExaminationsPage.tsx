@@ -407,13 +407,6 @@ export const ExaminationsPage: React.FC = () => {
                   ? 'Report Cards'
                   : 'Examinations & Student Report Cards'}
               </h1>
-              <p className="text-xs md:text-sm text-[#86868B]">
-                {isStudent
-                  ? 'Term results and official report cards.'
-                  : isParent
-                  ? 'Term results and verified official report cards for your children.'
-                  : 'Grade subject marks, generate student report cards, and publish academic records.'}
-              </p>
             </div>
           </div>
         </div>

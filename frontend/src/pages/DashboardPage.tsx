@@ -324,17 +324,10 @@ export const DashboardPage: React.FC = () => {
           </div>
         )}
         <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="relative z-10 max-w-2xl space-y-2 min-w-0">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 border border-blue-200 whitespace-nowrap shrink-0">
-              Student Self-Service Portal
-            </span>
+          <div className="relative z-10 min-w-0">
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
-              Welcome back, {stats?.full_name || user.full_name}!
+              Welcome back, {stats?.full_name || user.full_name}
             </h1>
-            <p className="text-xs md:text-sm text-slate-600">
-              Enrolled in <span className="font-semibold text-slate-800">{stats?.class_name || 'Class 10-A'}</span> | Admission No:{' '}
-              <span className="font-mono font-medium text-slate-800">{stats?.admission_number || 'ADM-2026-0001'}</span>
-            </p>
           </div>
           <div className="relative z-10 flex items-center space-x-3">
             <button
@@ -345,12 +338,12 @@ export const DashboardPage: React.FC = () => {
               {downloadingId === stats?.id ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin text-white" />
-                  <span>Generating Card...</span>
+                  <span>Generating...</span>
                 </>
               ) : (
                 <>
                   <Download className="w-4 h-4 text-white" />
-                  <span>Download My ID Card</span>
+                  <span>Download ID Card</span>
                 </>
               )}
             </button>
@@ -1064,22 +1057,10 @@ export const DashboardPage: React.FC = () => {
         )}
         {/* Super Admin Executive Hero Banner */}
         <div className="bg-gradient-to-r from-purple-50/90 via-indigo-50/80 to-blue-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 border border-purple-200/80 shadow-[0_8px_32px_rgba(88,86,214,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden">
-          <div className="relative z-10 space-y-2 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-100 text-purple-700 border border-purple-200 text-[11px] sm:text-xs font-semibold rounded-full uppercase tracking-wider whitespace-nowrap shrink-0 shadow-2xs">
-                <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
-                <span>Super Admin Board Trustee</span>
-              </span>
-              <span className="inline-flex items-center px-3 py-1 bg-emerald-500/15 text-[#34C759] border border-emerald-500/30 text-[11px] sm:text-xs font-semibold rounded-full whitespace-nowrap shrink-0">
-                {stats?.active_academic_year || 'Academic Session 2026-2027'}
-              </span>
-            </div>
+          <div className="relative z-10 min-w-0">
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
               Governance & Operations
             </h1>
-            <p className="text-slate-600 text-xs md:text-sm max-w-2xl">
-              Supervisory overview of students, staff, and institutional finances.
-            </p>
           </div>
 
           <div className="flex items-center gap-3 relative z-10">
@@ -1088,7 +1069,7 @@ export const DashboardPage: React.FC = () => {
               className="ios-gloss-btn-emerald px-4 py-2.5 rounded-2xl text-xs font-bold shadow-md inline-flex items-center gap-2"
             >
               <Landmark className="w-4 h-4" />
-              <span>Treasury & Loans</span>
+              <span>Treasury</span>
             </Link>
             <Link
               to="/staff-attendance"
@@ -1472,22 +1453,10 @@ export const DashboardPage: React.FC = () => {
       <div className="space-y-8 animate-fadeIn max-w-7xl mx-auto pb-12">
         {/* Coordinator Hero Header */}
         <div className="bg-gradient-to-r from-teal-50/90 via-sky-50/80 to-blue-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 border border-teal-200/80 shadow-[0_8px_32px_rgba(13,148,136,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden">
-          <div className="relative z-10 space-y-2 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-teal-100 text-teal-800 border border-teal-200 text-[11px] sm:text-xs font-semibold rounded-full uppercase tracking-wider whitespace-nowrap shrink-0 shadow-2xs">
-                <ShieldCheck className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-                <span>Academic Wing Governance • Coordinator Hub</span>
-              </span>
-              <span className="inline-flex items-center px-3 py-1 bg-blue-500/15 text-[#0071E3] border border-blue-500/30 text-[11px] sm:text-xs font-semibold rounded-full whitespace-nowrap shrink-0">
-                Session 2026-2027
-              </span>
-            </div>
+          <div className="relative z-10 min-w-0">
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
-              Academic Coordination & Curriculum Council
+              Academic Council
             </h1>
-            <p className="text-slate-600 text-xs md:text-sm max-w-2xl">
-              Supervising academic standards, curriculum syllabus units, faculty teaching schedules, and semester examinations across Primary, Middle, and Senior Secondary wings.
-            </p>
           </div>
 
           <div className="flex items-center gap-3 relative z-10">
@@ -2208,22 +2177,10 @@ export const DashboardPage: React.FC = () => {
         )}
         {/* Admin Executive Header */}
         <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden">
-          <div className="relative z-10 space-y-2 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 text-[11px] sm:text-xs font-semibold rounded-full uppercase tracking-wider whitespace-nowrap shrink-0 shadow-2xs">
-                <ShieldCheck className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                <span>Campus Administration & Principal Desk</span>
-              </span>
-              <span className="inline-flex items-center px-3 py-1 bg-emerald-500/15 text-[#34C759] border border-emerald-500/30 text-[11px] sm:text-xs font-semibold rounded-full whitespace-nowrap shrink-0">
-                {stats?.active_academic_year || 'Academic Session 2026-2027'}
-              </span>
-            </div>
+          <div className="relative z-10 min-w-0">
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
               Campus Operations
             </h1>
-            <p className="text-slate-600 text-xs md:text-sm max-w-2xl">
-              Daily summary of students, faculty, and academic programs.
-            </p>
           </div>
 
           <div className="flex items-center gap-3 relative z-10">
@@ -2504,16 +2461,10 @@ export const DashboardPage: React.FC = () => {
   return (
     <div className="space-y-7 animate-fadeIn max-w-6xl mx-auto pb-12">
       <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 shadow-[0_8px_32px_rgba(0,113,227,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 border border-blue-200/80 relative overflow-hidden">
-        <div className="relative z-10 space-y-2 min-w-0">
-          <span className="inline-flex items-center px-3 py-1 bg-blue-100/80 text-blue-700 border border-blue-200 text-[11px] sm:text-xs font-semibold rounded-full uppercase tracking-wider whitespace-nowrap shrink-0">
-            Faculty Teaching Hub
-          </span>
-          <h1 className="text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
-            Welcome, {user?.full_name || 'Faculty Member'}!
+        <div className="relative z-10 min-w-0">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
+            Faculty Desk
           </h1>
-          <p className="text-slate-600 text-sm">
-            Manage your daily class attendance roll-call, teaching schedule, and student examination marks entry.
-          </p>
         </div>
 
         <div className="flex items-center space-x-3 relative z-10">
@@ -2522,7 +2473,7 @@ export const DashboardPage: React.FC = () => {
             className="ios-gloss-btn px-5 py-2.5 text-xs font-semibold shadow-md flex items-center space-x-2"
           >
             <CalendarCheck className="w-4 h-4" />
-            <span>Conduct Roll-Call</span>
+            <span>Roll-Call</span>
           </Link>
         </div>
       </div>

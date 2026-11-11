@@ -71,6 +71,13 @@ export const TimetablePage: React.FC = () => {
   const [selectedClass, setSelectedClass] = useState<string>('10-A');
   const [studentClassName, setStudentClassName] = useState<string>('10-A');
 
+  // Selected Day (0 = Mon, 1 = Tue, 2 = Wed, 3 = Thu, 4 = Fri)
+  const [selectedDayIndex, setSelectedDayIndex] = useState<number>(() => {
+    const d = new Date().getDay();
+    return d >= 1 && d <= 5 ? d - 1 : 0;
+  });
+  const [viewMode, setViewMode] = useState<'day' | 'week'>('day');
+
   // Parent Multi-Child State
   const [children, setChildren] = useState<ChildItem[]>([]);
   const [selectedChildId, setSelectedChildId] = useState<string>('');
@@ -304,59 +311,46 @@ export const TimetablePage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 pb-12 animate-fadeIn">
+    <div className="space-y-5 pb-12 animate-fadeIn">
       {/* Top Header Card */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center space-x-3">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0071E3] to-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
-              <Clock className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <h1 className="text-2xl font-bold text-[#1D1D1F] tracking-tight">
-                  {isStudent
-                    ? `Class ${selectedClass} Weekly Timetable`
-                    : isParent
-                    ? "My Children's Class Timetable"
-                    : 'Master Class Schedule & Timetable'}
-                </h1>
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
-                  Class {selectedClass}
-                </span>
-              </div>
-              <p className="text-xs md:text-sm text-[#86868B] mt-0.5">
-                8 periods daily • Lunch break 12:00 – 12:45
-              </p>
-            </div>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#0071E3] to-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 shrink-0">
+            <Clock className="w-5 h-5" />
+          </div>
+          <div>
+            <h1 className="text-xl sm:text-2xl font-bold text-[#1D1D1F] tracking-tight">
+              {isStudent || isParent
+                ? `10-A Academic Schedule`
+                : `Class ${selectedClass} Timetable`}
+            </h1>
           </div>
         </div>
 
         {/* Action Controls & Dropdowns */}
-        <div className="flex items-center space-x-3">
-          {/* Class Switcher Pill Buttons */}
-          <div className="flex items-center space-x-1.5 p-1 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
-            {['10-A', '10-B', '10-C'].map((cls) => (
-              <button
-                key={cls}
-                onClick={() => setSelectedClass(cls)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                  selectedClass === cls
-                    ? 'bg-[#0071E3] text-white shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                {cls}
-              </button>
-            ))}
-          </div>
+        <div className="flex flex-wrap items-center gap-2.5">
+          {/* Class Switcher: Staff & Coordinator ONLY (Hidden in Student & Parent) */}
+          {isStaff && (
+            <div className="flex items-center space-x-1 p-1 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
+              {['10-A', '10-B', '10-C'].map((cls) => (
+                <button
+                  key={cls}
+                  onClick={() => setSelectedClass(cls)}
+                  className={`px-3 py-1.5 min-h-[36px] rounded-xl text-xs font-bold transition-all ${
+                    selectedClass === cls
+                      ? 'bg-[#0071E3] text-white shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  {cls}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* PARENT DROPDOWN */}
           {isParent && children.length > 0 && (
             <div className="flex items-center space-x-2">
-              <span className="text-xs font-bold text-slate-500 uppercase hidden md:inline-block">
-                Select Child:
-              </span>
               <CustomDropdown
                 options={parentChildOptions}
                 value={selectedChildId}
@@ -369,13 +363,13 @@ export const TimetablePage: React.FC = () => {
 
           {/* STAFF / ADMIN DROPDOWN */}
           {isStaff && (
-            <div className="flex items-center space-x-2">
+            <div className="hidden md:flex items-center space-x-2">
               <CustomDropdown
                 options={staffClassOptions}
                 value={selectedClass}
                 onChange={(val) => setSelectedClass(val)}
                 placeholder="Select Class..."
-                buttonClassName="rounded-2xl min-w-[210px]"
+                buttonClassName="rounded-2xl min-w-[180px]"
               />
             </div>
           )}
@@ -391,223 +385,331 @@ export const TimetablePage: React.FC = () => {
         </div>
       </div>
 
-      {/* CLASS LEAD & TIMING BANNER */}
-      <div className="p-5 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center space-x-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0071E3] to-blue-600 flex items-center justify-center text-white font-black text-lg shadow-md shadow-blue-500/20">
+      {/* CLASS LEAD INFO BANNER (Minimal & Clean) */}
+      <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0071E3] to-blue-600 flex items-center justify-center text-white font-black text-sm shadow-sm shrink-0">
               {selectedClass}
             </div>
             <div>
-              <div className="flex items-center space-x-2">
-                <h3 className="text-base font-bold text-slate-900">
-                  Class {selectedClass} Academic Schedule
-                </h3>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-blue-50 text-blue-700 border border-blue-200">
-                  Active Term
-                </span>
-              </div>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500 mt-1">
-                <span className="flex items-center space-x-1">
-                  <GraduationCap className="w-3.5 h-3.5 text-[#0071E3]" />
-                  <span className="font-semibold text-slate-700">Class Teacher:</span>
-                  <span>
-                    {activeClassTeacher?.name || 'Assigned Lead'} ({activeClassTeacherId})
-                  </span>
-                </span>
+              <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                Class {selectedClass} Academic Schedule
+              </h3>
+              <div className="flex flex-wrap items-center gap-x-2 text-xs text-slate-600 mt-0.5">
+                <span>Teacher: {activeClassTeacher?.name || 'Assigned Lead'}</span>
                 <span>•</span>
-                <span className="flex items-center space-x-1">
-                  <MapPin className="w-3 h-3 text-slate-400" />
-                  <span>Room: {selectedClass}</span>
-                </span>
-                <span>•</span>
-                <span className="flex items-center space-x-1">
-                  <Coffee className="w-3 h-3 text-amber-500" />
-                  <span>Lunch Break: 12:00 – 12:45</span>
-                </span>
+                <span>Room {selectedClass}</span>
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div className="flex items-center space-x-2">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-emerald-600" />
-              100% Conflict-Free Roster
-            </span>
+      {/* DAY SELECTOR & VIEW MODE TOGGLE */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        {/* Choose a Day Buttons */}
+        <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] overflow-x-auto max-w-full">
+          {days.map((day, idx) => (
+            <button
+              key={day}
+              onClick={() => {
+                setSelectedDayIndex(idx);
+                setViewMode('day');
+              }}
+              className={`px-3.5 sm:px-5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all min-h-[40px] shrink-0 ${
+                viewMode === 'day' && selectedDayIndex === idx
+                  ? 'bg-[#0071E3] text-white shadow-md'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              {day}
+            </button>
+          ))}
+        </div>
+
+        {/* View Mode Toggle */}
+        <div className="flex items-center gap-1 p-1 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] shrink-0">
+          <button
+            onClick={() => setViewMode('day')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              viewMode === 'day' ? 'bg-white text-[#0071E3] shadow-xs' : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            Day View
+          </button>
+          <button
+            onClick={() => setViewMode('week')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              viewMode === 'week' ? 'bg-white text-[#0071E3] shadow-xs' : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            Full Week
+          </button>
+        </div>
+      </div>
+
+      {/* DAY-BASED VIEW (Chronological Cards) */}
+      {viewMode === 'day' && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between px-1">
+            <h2 className="text-base font-bold text-slate-800">
+              {days[selectedDayIndex]} Schedule
+            </h2>
+            <span className="text-xs font-semibold text-slate-500">8 Periods</span>
+          </div>
+
+          {/* Morning Sessions */}
+          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3">
+            {[1, 2, 3, 4].map((pNum) => {
+              const p = periods[pNum - 1];
+              const slot = getSlot(selectedDayIndex, pNum);
+              const style = getSubjectStyle(slot.subject_name);
+
+              return (
+                <div
+                  key={pNum}
+                  className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 flex flex-col justify-between space-y-3"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                      Period {pNum}
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-500">
+                      {p?.start_time} – {p?.end_time}
+                    </span>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between gap-1">
+                      <span className={`font-bold text-base flex items-center space-x-1.5 ${style.text}`}>
+                        {style.icon}
+                        <span>{slot.subject_name}</span>
+                      </span>
+                      <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-md ${style.badge}`}>
+                        {slot.subject_code}
+                      </span>
+                    </div>
+
+                    <div className="mt-2 text-xs text-slate-600 flex items-center space-x-1">
+                      <User className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <span className="truncate">{slot.teacher_name}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Lunch Break Banner */}
+          <div className="py-2.5 px-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 text-amber-900 flex items-center justify-between text-xs font-bold">
+            <div className="flex items-center space-x-2">
+              <Coffee className="w-4 h-4 text-amber-600" />
+              <span>Lunch Break</span>
+            </div>
+            <span className="font-mono text-[11px] text-amber-800">12:00 – 12:45</span>
+          </div>
+
+          {/* Afternoon Sessions */}
+          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3">
+            {[5, 6, 7, 8].map((pNum) => {
+              const p = periods[pNum - 1];
+              const slot = getSlot(selectedDayIndex, pNum);
+              const style = getSubjectStyle(slot.subject_name);
+
+              return (
+                <div
+                  key={pNum}
+                  className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 flex flex-col justify-between space-y-3"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                      Period {pNum}
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-500">
+                      {p?.start_time} – {p?.end_time}
+                    </span>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between gap-1">
+                      <span className={`font-bold text-base flex items-center space-x-1.5 ${style.text}`}>
+                        {style.icon}
+                        <span>{slot.subject_name}</span>
+                      </span>
+                      <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-md ${style.badge}`}>
+                        {slot.subject_code}
+                      </span>
+                    </div>
+
+                    <div className="mt-2 text-xs text-slate-600 flex items-center space-x-1">
+                      <User className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <span className="truncate">{slot.teacher_name}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
-      </div>
+      )}
 
-      {/* TIMETABLE GRID - Light Themed Neumorphic Container */}
-      <div className="p-4 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-center text-sm border-collapse">
-            <thead>
-              <tr className="border-b border-slate-300/60 text-slate-500 text-[11px] uppercase font-bold">
-                <th className="px-4 py-3.5 text-left min-w-[120px] bg-slate-200/40 rounded-tl-2xl">
-                  <div className="flex items-center space-x-1.5 text-slate-700">
-                    <Calendar className="w-3.5 h-3.5 text-[#0071E3]" />
-                    <span>Day / Period</span>
-                  </div>
-                </th>
-                {periods.slice(0, 4).map((p) => (
-                  <th key={p.id} className="px-3 py-3 min-w-[155px]">
-                    <div className="text-slate-800 font-bold text-xs">{p.name}</div>
-                    <div className="text-[10px] text-slate-500 font-mono mt-0.5 font-normal">
-                      {p.start_time} – {p.end_time}
+      {/* FULL WEEK VIEW (Full Grid) */}
+      {viewMode === 'week' && (
+        <div className="p-4 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-center text-sm border-collapse">
+              <thead>
+                <tr className="border-b border-slate-300/60 text-slate-500 text-[11px] uppercase font-bold">
+                  <th className="px-4 py-3.5 text-left min-w-[120px] bg-slate-200/40 rounded-tl-2xl">
+                    <div className="flex items-center space-x-1.5 text-slate-700">
+                      <Calendar className="w-3.5 h-3.5 text-[#0071E3]" />
+                      <span>Day / Period</span>
                     </div>
                   </th>
-                ))}
+                  {periods.slice(0, 4).map((p) => (
+                    <th key={p.id} className="px-3 py-3 min-w-[155px]">
+                      <div className="text-slate-800 font-bold text-xs">{p.name}</div>
+                      <div className="text-[10px] text-slate-500 font-mono mt-0.5 font-normal">
+                        {p.start_time} – {p.end_time}
+                      </div>
+                    </th>
+                  ))}
 
-                {/* Lunch Break Header Column */}
-                <th className="px-3 py-3 min-w-[110px] bg-amber-50/60 border-x border-amber-200/60">
-                  <div className="text-amber-800 font-bold text-xs flex items-center justify-center space-x-1">
-                    <Coffee className="w-3.5 h-3.5 text-amber-600" />
-                    <span>Lunch</span>
-                  </div>
-                  <div className="text-[10px] text-amber-700 font-mono mt-0.5">
-                    12:00 – 12:45
-                  </div>
-                </th>
-
-                {periods.slice(4, 8).map((p, idx) => (
-                  <th
-                    key={p.id}
-                    className={`px-3 py-3 min-w-[155px] ${idx === 3 ? 'rounded-tr-2xl' : ''}`}
-                  >
-                    <div className="text-slate-800 font-bold text-xs">{p.name}</div>
-                    <div className="text-[10px] text-slate-500 font-mono mt-0.5 font-normal">
-                      {p.start_time} – {p.end_time}
+                  {/* Lunch Break Header Column */}
+                  <th className="px-3 py-3 min-w-[110px] bg-amber-50/60 border-x border-amber-200/60">
+                    <div className="text-amber-800 font-bold text-xs flex items-center justify-center space-x-1">
+                      <Coffee className="w-3.5 h-3.5 text-amber-600" />
+                      <span>Lunch</span>
+                    </div>
+                    <div className="text-[10px] text-amber-700 font-mono mt-0.5">
+                      12:00 – 12:45
                     </div>
                   </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200/60 font-medium">
-              {days.map((day, dayIdx) => (
-                <tr key={day} className="hover:bg-white/40 transition-colors">
-                  {/* Day Column */}
-                  <td className="px-4 py-3.5 font-bold text-slate-800 bg-slate-200/30 text-left">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-[#0071E3]" />
-                      <span>{day}</span>
-                    </div>
-                  </td>
 
-                  {/* Morning Periods: 1 to 4 */}
-                  {[1, 2, 3, 4].map((pNum) => {
-                    const slot = getSlot(dayIdx, pNum);
-                    const style = getSubjectStyle(slot.subject_name);
-
-                    return (
-                      <td key={pNum} className="px-2 py-2.5 align-top">
-                        <div
-                          className={`p-2.5 rounded-2xl border text-left transition-all duration-150 ${style.bg} ${style.border}`}
-                        >
-                          <div className="flex items-center justify-between gap-1 mb-1">
-                            <span className={`font-bold text-xs flex items-center space-x-1.5 ${style.text}`}>
-                              {style.icon}
-                              <span className="truncate">{slot.subject_name}</span>
-                            </span>
-                            <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded ${style.badge}`}>
-                              {slot.subject_code}
-                            </span>
-                          </div>
-
-                          <div className="space-y-0.5 text-[11px] text-slate-600">
-                            {slot.teacher_name && (
-                              <div className="flex items-center space-x-1 truncate font-medium text-slate-700">
-                                <User className="w-3 h-3 text-slate-400 shrink-0" />
-                                <span className="truncate">{slot.teacher_name}</span>
-                              </div>
-                            )}
-                            <div className="flex items-center space-x-1 text-slate-400 font-mono text-[9px]">
-                              <span>{slot.teacher_id ? `(${slot.teacher_id})` : ''}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                    );
-                  })}
-
-                  {/* Lunch Break Cell */}
-                  <td className="px-2 py-2.5 align-middle bg-amber-50/40 border-x border-amber-200/40">
-                    <div className="text-[10px] font-bold uppercase text-amber-700 tracking-wider text-center py-2">
-                      Break
-                    </div>
-                  </td>
-
-                  {/* Afternoon Periods: 5 to 8 */}
-                  {[5, 6, 7, 8].map((pNum) => {
-                    const slot = getSlot(dayIdx, pNum);
-                    const style = getSubjectStyle(slot.subject_name);
-
-                    return (
-                      <td key={pNum} className="px-2 py-2.5 align-top">
-                        <div
-                          className={`p-2.5 rounded-2xl border text-left transition-all duration-150 ${style.bg} ${style.border}`}
-                        >
-                          <div className="flex items-center justify-between gap-1 mb-1">
-                            <span className={`font-bold text-xs flex items-center space-x-1.5 ${style.text}`}>
-                              {style.icon}
-                              <span className="truncate">{slot.subject_name}</span>
-                            </span>
-                            <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded ${style.badge}`}>
-                              {slot.subject_code}
-                            </span>
-                          </div>
-
-                          <div className="space-y-0.5 text-[11px] text-slate-600">
-                            {slot.teacher_name && (
-                              <div className="flex items-center space-x-1 truncate font-medium text-slate-700">
-                                <User className="w-3 h-3 text-slate-400 shrink-0" />
-                                <span className="truncate">{slot.teacher_name}</span>
-                              </div>
-                            )}
-                            <div className="flex items-center space-x-1 text-slate-400 font-mono text-[9px]">
-                              <span>{slot.teacher_id ? `(${slot.teacher_id})` : ''}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                    );
-                  })}
+                  {periods.slice(4, 8).map((p, idx) => (
+                    <th
+                      key={p.id}
+                      className={`px-3 py-3 min-w-[155px] ${idx === 3 ? 'rounded-tr-2xl' : ''}`}
+                    >
+                      <div className="text-slate-800 font-bold text-xs">{p.name}</div>
+                      <div className="text-[10px] text-slate-500 font-mono mt-0.5 font-normal">
+                        {p.start_time} – {p.end_time}
+                      </div>
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-200/60 font-medium">
+                {days.map((day, dayIdx) => (
+                  <tr key={day} className="hover:bg-white/40 transition-colors">
+                    {/* Day Column */}
+                    <td className="px-4 py-3.5 font-bold text-slate-800 bg-slate-200/30 text-left">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 rounded-full bg-[#0071E3]" />
+                        <span>{day}</span>
+                      </div>
+                    </td>
+
+                    {/* Morning Periods: 1 to 4 */}
+                    {[1, 2, 3, 4].map((pNum) => {
+                      const slot = getSlot(dayIdx, pNum);
+                      const style = getSubjectStyle(slot.subject_name);
+
+                      return (
+                        <td key={pNum} className="px-2 py-2.5 align-top">
+                          <div
+                            className={`p-2.5 rounded-2xl border text-left transition-all duration-150 ${style.bg} ${style.border}`}
+                          >
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className={`font-bold text-xs flex items-center space-x-1.5 ${style.text}`}>
+                                {style.icon}
+                                <span className="truncate">{slot.subject_name}</span>
+                              </span>
+                              <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded ${style.badge}`}>
+                                {slot.subject_code}
+                              </span>
+                            </div>
+
+                            <div className="space-y-0.5 text-[11px] text-slate-600">
+                              {slot.teacher_name && (
+                                <div className="flex items-center space-x-1 truncate font-medium text-slate-700">
+                                  <User className="w-3 h-3 text-slate-400 shrink-0" />
+                                  <span className="truncate">{slot.teacher_name}</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                      );
+                    })}
+
+                    {/* Lunch Break Cell */}
+                    <td className="px-2 py-2.5 align-middle bg-amber-50/40 border-x border-amber-200/40">
+                      <div className="text-[10px] font-bold uppercase text-amber-700 tracking-wider text-center py-2">
+                        Break
+                      </div>
+                    </td>
+
+                    {/* Afternoon Periods: 5 to 8 */}
+                    {[5, 6, 7, 8].map((pNum) => {
+                      const slot = getSlot(dayIdx, pNum);
+                      const style = getSubjectStyle(slot.subject_name);
+
+                      return (
+                        <td key={pNum} className="px-2 py-2.5 align-top">
+                          <div
+                            className={`p-2.5 rounded-2xl border text-left transition-all duration-150 ${style.bg} ${style.border}`}
+                          >
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className={`font-bold text-xs flex items-center space-x-1.5 ${style.text}`}>
+                                {style.icon}
+                                <span className="truncate">{slot.subject_name}</span>
+                              </span>
+                              <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded ${style.badge}`}>
+                                {slot.subject_code}
+                              </span>
+                            </div>
+
+                            <div className="space-y-0.5 text-[11px] text-slate-600">
+                              {slot.teacher_name && (
+                                <div className="flex items-center space-x-1 truncate font-medium text-slate-700">
+                                  <User className="w-3 h-3 text-slate-400 shrink-0" />
+                                  <span className="truncate">{slot.teacher_name}</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Schedule Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-4 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 flex items-center space-x-3.5">
-          <div className="w-10 h-10 rounded-2xl bg-blue-100 text-[#0071E3] flex items-center justify-center shrink-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 flex items-center space-x-3.5">
+          <div className="w-10 h-10 rounded-xl bg-blue-100 text-[#0071E3] flex items-center justify-center shrink-0">
             <BookOpen className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-[10px] font-bold uppercase text-slate-400">Weekly Total Periods</div>
-            <div className="text-base font-extrabold text-slate-900 mt-0.5">40 Academic Periods</div>
+            <div className="text-[11px] font-bold uppercase text-slate-400">Total Periods</div>
+            <div className="text-base font-bold text-slate-900 mt-0.5">40 Academic Periods / Week</div>
           </div>
         </div>
 
-        <div className="p-4 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 flex items-center space-x-3.5">
-          <div className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
-            <CheckCircle2 className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="text-[10px] font-bold uppercase text-slate-400">Scheduling Verification</div>
-            <div className="text-base font-extrabold text-emerald-700 mt-0.5">100% Conflict-Free</div>
-          </div>
-        </div>
-
-        <div className="p-4 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 flex items-center space-x-3.5">
-          <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
+        <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 flex items-center space-x-3.5">
+          <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
             <Clock className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-[10px] font-bold uppercase text-slate-400">Bell Schedule Timing</div>
-            <div className="text-base font-extrabold text-slate-900 mt-0.5">09:00 AM – 03:45 PM</div>
+            <div className="text-[11px] font-bold uppercase text-slate-400">Daily Timing</div>
+            <div className="text-base font-bold text-slate-900 mt-0.5">09:00 AM – 03:45 PM</div>
           </div>
         </div>
       </div>

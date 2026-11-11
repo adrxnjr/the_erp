@@ -835,15 +835,9 @@ export const TransportPage: React.FC = () => {
                 <div className="space-y-3">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                     <div>
-                      <h3 className="text-sm font-bold text-slate-900 flex flex-wrap items-center gap-1.5">
-                        <span>Live Vector GPS Map Tracker</span>
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700">
-                          Food Delivery Radar Mode
-                        </span>
+                      <h3 className="text-sm font-bold text-slate-900">
+                        Live GPS Fleet Tracker
                       </h3>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        Smooth real-time vehicle kinematics, telemetry pings, and geofence tracking
-                      </p>
                     </div>
 
                     {/* Interactive Simulation Controls */}

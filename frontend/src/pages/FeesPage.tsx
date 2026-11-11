@@ -639,11 +639,6 @@ export const FeesPage: React.FC = () => {
                           ? `Family Balance Due: ${formatINR(familySummary.outstanding_balance)}`
                           : "All Academic Fees Paid in Full!"}
                       </h2>
-                      <p className="text-xs md:text-sm text-white/90 leading-relaxed">
-                        {familySummary.outstanding_balance > 0
-                          ? `Scheduled term charges are pending clearance for ${childrenFees.map((c) => c.student_name).join(' & ')}. Pay securely via the Amazon payment gateway.`
-                          : `Tuition and campus fee statements for both ${childrenFees.map((c) => c.student_name).join(' & ')} are fully settled for this academic session.`}
-                      </p>
 
                       {familySummary.outstanding_balance > 0 && (
                         <div className="pt-2">
@@ -757,10 +752,6 @@ export const FeesPage: React.FC = () => {
                       <h2 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900">
                         Balance Due: {formatINR(feeData.outstanding_balance)}
                       </h2>
-                      <p className="text-xs md:text-sm text-slate-600 leading-relaxed">
-                        You have scheduled curricular charges pending clearance for the 2026–2027 academic session.
-                        Complete your payment seamlessly through the institutional Amazon Pay portal.
-                      </p>
 
                       <div className="pt-2 flex flex-wrap items-center gap-3">
                         <button
@@ -822,9 +813,6 @@ export const FeesPage: React.FC = () => {
                       <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight">
                         All Academic Fees Paid in Full!
                       </h2>
-                      <p className="text-xs md:text-sm text-white/90 leading-relaxed">
-                        All tuition and campus fee invoices for this academic year are fully settled.
-                      </p>
                       <div className="pt-2">
                         <button
                           onClick={() => handleResetDemoFees()}

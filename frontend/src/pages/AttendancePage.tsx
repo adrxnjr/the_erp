@@ -460,17 +460,11 @@ export const AttendancePage: React.FC = () => {
         )}
 
         {/* Top Header Card */}
-        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden">
-          <div className="relative z-10 max-w-xl space-y-2">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 border border-blue-200">
-              {isStudent ? 'Student Self-Service Portal' : 'Parent Guardian Overview'}
-            </span>
+        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-5 sm:p-6 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden">
+          <div className="relative z-10 min-w-0">
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
               {isStudent ? 'Attendance Summary' : `Attendance: ${parentChildren.find(c => c.id === selectedChildId)?.full_name || 'Child'}`}
             </h1>
-            <p className="text-xs md:text-sm text-slate-600">
-              Track daily attendance and term status.
-            </p>
           </div>
         </div>
 
@@ -638,24 +632,9 @@ export const AttendancePage: React.FC = () => {
       {/* Top Header Row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <h1 className="text-xl sm:text-2xl font-bold text-[#1D1D1F] tracking-tight whitespace-nowrap">
-              Campus Attendance Overview
-            </h1>
-            {isTeacher && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200 whitespace-nowrap shrink-0">
-                Class Mentor Mode
-              </span>
-            )}
-            {isAdmin && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap shrink-0">
-                Institutional Executive Oversight
-              </span>
-            )}
-          </div>
-          <p className="text-sm text-[#86868B] mt-0.5">
-            Real-time daily campus muster roll, section aggregates, and automated parent guardian absentee dispatch.
-          </p>
+          <h1 className="text-xl sm:text-2xl font-bold text-[#1D1D1F] tracking-tight whitespace-nowrap">
+            Campus Attendance
+          </h1>
         </div>
 
         {/* Action Controls */}

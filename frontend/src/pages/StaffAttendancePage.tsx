@@ -148,23 +148,10 @@ export const StaffAttendancePage: React.FC = () => {
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Top Banner - Apple iOS Light Glass */}
       <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden">
-        <div className="relative z-10 space-y-2 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 text-[11px] sm:text-xs font-semibold rounded-full uppercase tracking-wider whitespace-nowrap shrink-0">
-              <ShieldCheck className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-              <span>Campus Faculty & Employee Oversight</span>
-            </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] sm:text-xs font-semibold rounded-full whitespace-nowrap shrink-0">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Live Daily Register</span>
-            </span>
-          </div>
+        <div className="relative z-10 min-w-0">
           <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
-            Staff & Faculty Attendance Roster
+            Staff Attendance
           </h1>
-          <p className="text-slate-600 text-xs md:text-sm max-w-xl">
-            Super Admin & School Administrator oversight for teaching faculty, office administration, and campus support staff.
-          </p>
         </div>
 
         <div className="flex items-center space-x-3 relative z-10">
@@ -184,25 +171,21 @@ export const StaffAttendancePage: React.FC = () => {
         <div className="ios-card rounded-[22px] p-5">
           <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Total Staff Roster</div>
           <div className="text-3xl font-black text-slate-900 mt-2 tracking-tight">{summary.total_staff}</div>
-          <div className="text-xs text-slate-500 mt-1">Teaching & Non-Teaching</div>
         </div>
 
         <div className="ios-card rounded-[22px] p-5">
           <div className="text-[11px] font-semibold uppercase tracking-wider text-emerald-600">Present On Campus</div>
           <div className="text-3xl font-black text-emerald-600 mt-2 tracking-tight">{summary.present_today}</div>
-          <div className="text-xs text-emerald-700 mt-1 font-medium">Verified Morning Check-in</div>
         </div>
 
         <div className="ios-card rounded-[22px] p-5">
           <div className="text-[11px] font-semibold uppercase tracking-wider text-amber-600">Approved Leave</div>
           <div className="text-3xl font-black text-amber-600 mt-2 tracking-tight">{summary.on_leave_today}</div>
-          <div className="text-xs text-amber-700 mt-1 font-medium">Principal Authorized</div>
         </div>
 
         <div className="ios-card rounded-[22px] p-5">
           <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Unexcused Absence</div>
           <div className="text-3xl font-black text-slate-700 mt-2 tracking-tight">{summary.absent_today}</div>
-          <div className="text-xs text-slate-500 mt-1">0 Flagged Today</div>
         </div>
       </div>
 
@@ -240,12 +223,9 @@ export const StaffAttendancePage: React.FC = () => {
         <div className="p-5 border-b border-black/[0.05] flex items-center justify-between">
           <div>
             <h2 className="text-base font-bold text-slate-900">Faculty & Staff Attendance Register</h2>
-            <p className="text-xs text-slate-500">
-              Click status pill to toggle between Present, Approved Leave, and Late
-            </p>
           </div>
           <span className="text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-200 px-3 py-1 rounded-full">
-            {filteredStaff.length} Employees Found
+            {filteredStaff.length} Staff
           </span>
         </div>
 

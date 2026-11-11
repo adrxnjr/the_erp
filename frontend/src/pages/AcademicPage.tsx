@@ -518,9 +518,6 @@ export const AcademicPage: React.FC = () => {
       {/* Page Header */}
       <div>
         <h1 className="text-2xl font-bold text-[#1D1D1F] tracking-tight">Academic Structure & Courses</h1>
-        <p className="text-sm text-[#86868B] mt-0.5">
-          Manage academic sessions, grade levels, sections, curriculum subjects, and coordinator-governed syllabi.
-        </p>
       </div>
 
       {statusMessage && (

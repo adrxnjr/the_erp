@@ -3,10 +3,10 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { useAuth } from '../context/AuthContext';
 import { useBranding } from '../context/BrandingContext';
-import { Menu, WifiOff, ShieldCheck, RefreshCw, X } from 'lucide-react';
+import { Menu, WifiOff, ShieldCheck, RefreshCw, X, LogOut } from 'lucide-react';
 
 export const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { activeLogo, schoolName } = useBranding();
   const location = useLocation();
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
@@ -82,35 +82,6 @@ export const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) =
         </aside>
       )}
 
-      {/* Mobile Top Navigation Bar (< 1024px) */}
-      <header className="lg:hidden sticky top-0 z-40 bg-[#F5F6F8]/95 backdrop-blur-md border-b border-white/80 px-3.5 py-2.5 flex items-center justify-between shadow-xs max-w-full overflow-hidden">
-        <div className="flex items-center gap-2.5 min-w-0">
-          <button
-            onClick={() => setMobileDrawerOpen(true)}
-            aria-label="Open navigation menu"
-            className="p-2 rounded-2xl bg-[#F5F6F8] text-slate-700 hover:text-blue-600 border border-white/80 shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] transition shrink-0 cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
-          <Link to="/" className="flex items-center gap-2 min-w-0">
-            <img src={activeLogo} alt={`${schoolName} Logo`} className="h-7 max-w-[140px] w-auto object-contain shrink-0" />
-            <span className="font-black text-slate-900 text-sm tracking-tight truncate">{schoolName}</span>
-          </Link>
-        </div>
-
-        {user && (
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              onClick={() => setMobileDrawerOpen(true)}
-              className="w-8 h-8 rounded-full bg-blue-100 border border-blue-300 text-blue-700 flex items-center justify-center font-bold text-xs shadow-inner cursor-pointer"
-              title="Open Profile Menu"
-            >
-              {user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
-            </button>
-          </div>
-        )}
-      </header>
-
       {/* Mobile Drawer Backdrop (< 1024px) */}
       {mobileDrawerOpen && (
         <div
@@ -121,8 +92,44 @@ export const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) =
       )}
 
       {/* Main Layout Container */}
-      <div className="flex-1 flex w-full max-w-full min-w-0 lg:pl-60">
+      <div className="flex-1 flex flex-col w-full max-w-full min-w-0 lg:pl-60">
         <Sidebar mobileOpen={mobileDrawerOpen} onCloseMobile={() => setMobileDrawerOpen(false)} />
+
+        {/* Sticky Top Header on scroll (Mobile & Desktop) */}
+        <header className="sticky top-0 z-40 bg-[#F5F6F8]/95 backdrop-blur-md border-b border-white/80 px-3.5 sm:px-6 py-2.5 flex items-center justify-between shadow-xs w-full shrink-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <button
+              onClick={() => setMobileDrawerOpen(true)}
+              aria-label="Open navigation menu"
+              className="lg:hidden p-2 rounded-2xl bg-[#F5F6F8] text-slate-700 hover:text-blue-600 border border-white/80 shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] transition shrink-0 cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <Link to="/" className="flex items-center gap-2 min-w-0">
+              <img src={activeLogo} alt={`${schoolName} Logo`} className="h-8 max-w-[130px] w-auto object-contain shrink-0" />
+              <span className="font-black text-slate-900 text-sm tracking-tight truncate">{schoolName}</span>
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            {user && (
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#F5F6F8] border border-white/80 shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] text-xs font-semibold text-slate-700">
+                <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span className="truncate max-w-[150px]">{user.full_name || user.username}</span>
+              </div>
+            )}
+            <button
+              onClick={logout}
+              aria-label="Log Out"
+              title="Log Out"
+              className="px-3 py-2 min-h-[40px] rounded-xl bg-[#F5F6F8] hover:bg-rose-50 text-slate-700 hover:text-rose-600 border border-white/80 shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] transition flex items-center gap-1.5 text-xs font-bold cursor-pointer"
+            >
+              <LogOut className="w-4 h-4 text-rose-500" />
+              <span className="hidden xs:inline">Log Out</span>
+            </button>
+          </div>
+        </header>
+
         <main className="flex-1 min-w-0 px-3.5 sm:px-6 md:px-8 py-3.5 sm:py-6 max-w-7xl mx-auto w-full min-h-[calc(100vh-60px)] lg:min-h-screen overflow-x-hidden">
           {children || <Outlet />}
         </main>
