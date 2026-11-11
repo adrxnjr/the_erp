@@ -64,15 +64,63 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
   const { user, logout } = useAuth();
   const location = useLocation();
   const [pendingSocialCount, setPendingSocialCount] = useState<number>(0);
+  const [parentUnreadCount, setParentUnreadCount] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem('evergrow_parent_unread_count');
+      if (saved !== null) return parseInt(saved, 10);
+      const notifs = JSON.parse(localStorage.getItem('evergrow_parent_notifications') || '[]');
+      if (Array.isArray(notifs) && notifs.length > 0) {
+        return notifs.filter((n: any) => !n.read).length;
+      }
+    } catch (e) {}
+    return 1;
+  });
+
+  useEffect(() => {
+    const handleUnread = (e: any) => {
+      if (e?.detail !== undefined) {
+        const count = typeof e.detail === 'number' ? e.detail : (e.detail?.unread ?? 1);
+        setParentUnreadCount(count);
+      } else {
+        try {
+          const saved = localStorage.getItem('evergrow_parent_unread_count');
+          setParentUnreadCount(saved !== null ? parseInt(saved, 10) : 0);
+        } catch (e) {}
+      }
+    };
+    window.addEventListener('evergrow:notification-sent', handleUnread);
+    window.addEventListener('evergrow:parent-unread-count', handleUnread);
+    window.addEventListener('storage', handleUnread);
+    return () => {
+      window.removeEventListener('evergrow:notification-sent', handleUnread);
+      window.removeEventListener('evergrow:parent-unread-count', handleUnread);
+      window.removeEventListener('storage', handleUnread);
+    };
+  }, []);
 
   const isStudent = user?.portal_type === 'student';
   const isParent = user?.portal_type === 'parent';
   const isSuperAdmin =
     user?.roles?.includes('super_admin') || user?.username === 'adrin';
-  
-  // Dedicated Office Staff check: only staff/accountant/office_staff, keeping teachers separate
+
+  // Dedicated Academic Coordinator check (must precede isOfficeStaff to prevent overlap)
+  const isCoordinator =
+    !isSuperAdmin &&
+    (user?.roles?.includes('coordinator') ||
+      user?.username === 'coordinator1' ||
+      user?.username === 'coord1' ||
+      user?.username?.startsWith('coord'));
+
+  const isAdmin =
+    !isSuperAdmin &&
+    !isCoordinator &&
+    (user?.roles?.includes('principal') || user?.roles?.includes('admin'));
+
+  // Dedicated Office Staff check: only staff/accountant/office_staff, strictly excluding coordinators, teachers, principals
   const isOfficeStaff =
     !isSuperAdmin &&
+    !isCoordinator &&
+    !isAdmin &&
     (user?.username === 'staff' ||
       user?.roles?.includes('office_staff') ||
       user?.roles?.includes('accountant') ||
@@ -80,19 +128,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
         !user?.roles?.includes('teacher') &&
         user?.username !== 'adrin' &&
         !user?.roles?.includes('principal') &&
-        !user?.username?.startsWith('staff3')));
-
-  const isAdmin =
-    !isSuperAdmin &&
-    !isOfficeStaff &&
-    (user?.roles?.includes('principal') || user?.roles?.includes('admin'));
-
-  const isCoordinator =
-    !isSuperAdmin &&
-    !isOfficeStaff &&
-    (user?.roles?.includes('coordinator') ||
-      user?.username === 'coordinator1' ||
-      user?.username === 'coord1');
+        !user?.roles?.includes('coordinator') &&
+        !user?.username?.startsWith('staff3') &&
+        !user?.username?.startsWith('teacher') &&
+        !user?.username?.startsWith('coord')));
 
   // Teacher remains untouched
   const isTeacher =
@@ -169,7 +208,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
       items: [
         { to: '/admin/customize', label: 'Customize ERP', icon: SlidersHorizontal },
         { to: '/admin/roles-users', label: 'Roles & User Access', icon: UserCog },
-        { to: '/admin/integrations', label: 'API Integrations', icon: Workflow },
         { to: '/admin/settings', label: 'Institutional Settings', icon: Settings },
       ],
     },
@@ -227,20 +265,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
     { to: '/enquiry', label: 'Enquiries', icon: HelpCircle },
   ];
 
-  // 4. Coordinator Navigation (Unchanged)
+  // 4. Coordinator Navigation (Academic Wing Governance — Strictly No Office Counter, No Treasury, No Enquiries, No Visitors)
   const coordinatorNavItems: NavItem[] = [
-    { to: '/', label: 'Dashboard', icon: LayoutDashboard },
-    { to: '/coordinators', label: 'Coordinators', icon: Layers },
+    { to: '/', label: 'Coordinator Hub', icon: LayoutDashboard },
+    { to: '/coordinators', label: 'Coordinators Council', icon: Layers },
     { to: '/social-wall', label: 'School Wall', icon: Megaphone, badge: pendingSocialCount },
-    { to: '/staff-attendance', label: 'Staff', icon: UserCheck },
-    { to: '/students', label: 'Students', icon: Users },
-    { to: '/academic', label: 'Academics', icon: BookOpen },
-    { to: '/attendance', label: 'Attendance', icon: CalendarCheck },
-    { to: '/timetable', label: 'Timetable', icon: Clock },
-    { to: '/examinations', label: 'Examinations', icon: GraduationCap },
+    { to: '/academic', label: 'Academic Syllabi', icon: BookOpen },
+    { to: '/staff-attendance', label: 'Faculty Roster', icon: UserCheck },
+    { to: '/students', label: 'Student Directory', icon: Users },
+    { to: '/attendance', label: 'Attendance Insights', icon: CalendarCheck },
+    { to: '/timetable', label: 'Timetable & Classes', icon: Clock },
+    { to: '/examinations', label: 'Examinations & Grading', icon: GraduationCap },
+    { to: '/homework', label: 'Homework & Circulars', icon: FileText },
   ];
 
-  // 5. Teacher Navigation (Kept as it is)
+  // 5. Teacher Navigation (Rewards removed - Gamified Rewards & Honors reserved for students)
   const teacherNavItems: NavItem[] = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/social-wall', label: 'School Wall', icon: Megaphone, badge: pendingSocialCount },
@@ -248,7 +287,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
     { to: '/attendance', label: 'Attendance', icon: CalendarCheck },
     { to: '/timetable', label: 'Timetable', icon: Clock },
     { to: '/examinations', label: 'Examinations', icon: GraduationCap },
-    { to: '/rewards', label: 'Rewards', icon: Trophy },
     { to: '/transport', label: 'Transport', icon: Bus },
   ];
 
@@ -265,10 +303,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
     { to: '/career', label: 'Artificial Intelligence', icon: Brain },
   ];
 
-  // 7. Parent Navigation (Unchanged)
+  // 7. Parent Navigation
   const parentNavItems: NavItem[] = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/social-wall', label: 'School Wall', icon: Megaphone },
+    {
+      to: '/notifications',
+      label: 'Notifications',
+      icon: Bell,
+      badge: parentUnreadCount > 0 ? parentUnreadCount : undefined,
+    },
     { to: '/attendance', label: 'Attendance', icon: CalendarCheck },
     { to: '/timetable', label: 'Timetable', icon: Clock },
     { to: '/examinations', label: 'Report Cards', icon: GraduationCap },
@@ -282,8 +326,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
 
   if (isAdmin) {
     standardItems = adminNavItems;
+    menuHeading = 'Administration';
   } else if (isCoordinator) {
     standardItems = coordinatorNavItems;
+    menuHeading = 'Academic Wing Council';
   } else if (isStudent) {
     standardItems = studentNavItems;
   } else if (isParent) {
@@ -444,14 +490,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
           <div className="flex items-center justify-between p-1.5 rounded-xl bg-[#E9EEF5] shadow-[inset_2px_2px_5px_#C5D0E0,inset_-2px_-2px_5px_#FFFFFF] border border-white/40">
             <div className="flex items-center space-x-2 min-w-0">
               <div className="w-7 h-7 rounded-full bg-[#E9EEF5] shadow-[2px_2px_5px_#C5D0E0,-2px_-2px_5px_#FFFFFF] flex items-center justify-center text-[#0066FF] font-bold text-xs border border-white/80 shrink-0">
-                {user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
+                {user.username === 'staff' ? 'E' : (user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U')}
               </div>
               <div className="min-w-0">
                 <div className="text-xs font-semibold text-slate-800 truncate leading-tight">
                   {user.username === 'adrin'
                     ? 'Adrin (Correspondent)'
                     : user.username === 'staff'
-                    ? 'Staff (Office Desk)'
+                    ? 'Elena Rostova'
                     : user.full_name}
                 </div>
                 <div className="text-[10px] text-slate-500 flex items-center space-x-1 mt-0.5">
@@ -459,8 +505,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
                   <span className="truncate font-semibold capitalize">
                     {isSuperAdmin
                       ? 'Correspondent'
+                      : isCoordinator
+                      ? 'Academic Coordinator'
+                      : isTeacher || user?.roles?.includes('teacher') || user?.username?.startsWith('teacher') || user?.full_name?.includes('Michael Chang')
+                      ? 'Teacher'
                       : isOfficeStaff
-                      ? 'Staff Office Desk'
+                      ? 'Staff'
                       : user.portal_type || user.roles[0] || 'Active'}
                   </span>
                 </div>

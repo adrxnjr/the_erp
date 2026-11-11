@@ -23,6 +23,10 @@ import {
   Loader2,
   ChevronRight,
   ExternalLink,
+  ShieldCheck,
+  Award,
+  Sparkles,
+  BookOpen,
 } from 'lucide-react';
 
 
@@ -507,6 +511,175 @@ export const TuitionsAdminPage: React.FC = () => {
                   )}
                 </tbody>
               </table>
+            </div>
+          </div>
+
+          {/* 4 Tuition Intelligence Metric Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+            <div className="ios-card rounded-[22px] p-5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Certified Centers</span>
+                <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#0071E3] flex items-center justify-center">
+                  <Building2 className="w-5 h-5" />
+                </div>
+              </div>
+              <div className="mt-3 flex items-baseline space-x-2">
+                <span className="text-2xl font-black text-slate-800">3 Academies</span>
+              </div>
+              <p className="mt-1 text-xs text-blue-600 font-semibold">Whitefield • Koramangala • Indiranagar</p>
+            </div>
+
+            <div className="ios-card rounded-[22px] p-5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Empanelled Mentors</span>
+                <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
+                  <Users className="w-5 h-5" />
+                </div>
+              </div>
+              <div className="mt-3 flex items-baseline space-x-2">
+                <span className="text-2xl font-black text-slate-800">12 Faculty</span>
+              </div>
+              <p className="mt-1 text-xs text-teal-600 font-semibold">M.Sc., B.Ed. & Ph.D. Verified</p>
+            </div>
+
+            <div className="ios-card rounded-[22px] p-5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Active Batches</span>
+                <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+              </div>
+              <div className="mt-3 flex items-baseline space-x-2">
+                <span className="text-2xl font-black text-slate-800">9 Batches</span>
+              </div>
+              <p className="mt-1 text-xs text-purple-600 font-semibold">CBSE Prep • Olympiad • NEET/JEE</p>
+            </div>
+
+            <div className="ios-card rounded-[22px] p-5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Score Gain Impact</span>
+                <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+              </div>
+              <div className="mt-3 flex items-baseline space-x-2">
+                <span className="text-2xl font-black text-emerald-600">+18.4%</span>
+              </div>
+              <p className="mt-1 text-xs text-emerald-600 font-semibold">Average Mock Test Improvement</p>
+            </div>
+          </div>
+
+          {/* Active Coaching Batches & Timings Schedule Matrix */}
+          <div className="ios-card rounded-[22px] p-6 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+              <div>
+                <h3 className="text-base font-bold text-[#1D1D1F]">Partner Academy Coaching Schedules & Batches</h3>
+                <p className="text-xs text-[#86868B]">Verified batch timings, monthly fee schedules, and student enrollment caps across partner branches</p>
+              </div>
+              <span className="text-xs font-semibold text-[#0071E3] bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+                School Exclusive 20% Fee Waiver
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {[
+                {
+                  academy: 'Pioneer Academic Excellence Center',
+                  location: 'Whitefield',
+                  batch: 'Class 10 CBSE Board Prep (Math & Science)',
+                  schedule: 'Mon, Wed, Fri • 05:30 PM - 07:00 PM',
+                  enrolled: '18 / 20 Enrolled',
+                  fee: '₹2,500 / month',
+                  mentor: 'Prof. K. Venkatesh (M.Sc., B.Ed.)',
+                  badge: 'CBSE Special',
+                  badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
+                },
+                {
+                  academy: 'Quantum Scholars Learning Hub',
+                  location: 'Koramangala',
+                  batch: 'NEET & JEE Foundation Science Concepts',
+                  schedule: 'Mon to Thu • 05:00 PM - 06:30 PM',
+                  enrolled: '22 / 25 Enrolled',
+                  fee: '₹3,500 / month',
+                  mentor: 'Dr. S. Radhakrishnan (Ph.D.)',
+                  badge: 'Olympiad & Pre-Med',
+                  badgeColor: 'bg-purple-50 text-purple-700 border-purple-200',
+                },
+                {
+                  academy: 'Apex Science & Math Academy',
+                  location: 'Indiranagar',
+                  batch: 'Middle School Math Drill & Aptitude (Grades 6-8)',
+                  schedule: 'Tue, Thu, Sat • 05:00 PM - 06:30 PM',
+                  enrolled: '19 / 20 Enrolled',
+                  fee: '₹2,200 / month',
+                  mentor: 'Mrs. Malathi Raman (M.Phil.)',
+                  badge: 'Foundations',
+                  badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+                },
+              ].map((b, idx) => (
+                <div key={idx} className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex flex-col justify-between space-y-3">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${b.badgeColor}`}>
+                        {b.badge}
+                      </span>
+                      <span className="text-[11px] font-bold text-slate-500 font-mono">{b.location}</span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xs text-slate-900 leading-snug">{b.batch}</h4>
+                      <p className="text-[11px] text-slate-500 mt-0.5">{b.academy}</p>
+                    </div>
+                    <div className="text-xs text-slate-700 space-y-1 pt-1 border-t border-slate-100">
+                      <div className="flex items-center space-x-1.5 text-slate-600">
+                        <Clock className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <span className="text-[11px]">{b.schedule}</span>
+                      </div>
+                      <div className="flex items-center space-x-1.5 text-slate-600">
+                        <Users className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                        <span className="text-[11px] font-semibold">{b.mentor}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                    <div>
+                      <span className="text-xs font-black text-slate-900">{b.fee}</span>
+                      <span className="text-[10px] text-slate-400 block font-medium">{b.enrolled}</span>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">
+                      Seats Open
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Institutional Quality & Compliance Standards */}
+          <div className="ios-card rounded-[22px] p-6 space-y-3">
+            <h3 className="text-sm font-bold text-[#1D1D1F]">Institutional Quality & Governance Compliance</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start space-x-2.5">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <div>
+                  <div className="font-bold text-slate-800">Background Verified Tutors</div>
+                  <div className="text-[11px] text-slate-500 mt-0.5">100% of academy instructors undergo identity verification and academic credential vetting.</div>
+                </div>
+              </div>
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start space-x-2.5">
+                <Award className="w-4 h-4 text-[#0071E3] shrink-0 mt-0.5" />
+                <div>
+                  <div className="font-bold text-slate-800">Pre-Negotiated 20% Subsidy</div>
+                  <div className="text-[11px] text-slate-500 mt-0.5">Ever Grow students receive an automatic 20% institutional discount on standard academy rates.</div>
+                </div>
+              </div>
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start space-x-2.5">
+                <Calendar className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />
+                <div>
+                  <div className="font-bold text-slate-800">Direct ERP Attendance Feed</div>
+                  <div className="text-[11px] text-slate-500 mt-0.5">Coaching session attendance syncs weekly to the parent portal so guardians can monitor after-school study.</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

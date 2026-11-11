@@ -5,13 +5,13 @@ from typing import Any, Dict, List
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from app.models.academic import AcademicYear, ClassRoom, Section
+from app.models.academic import AcademicYear, ClassRoom, Section, Subject
 from app.models.attendance import StudentAttendance
 from app.models.audit import AuditLog
 from app.models.finance import Payment, StudentFee
 from app.models.staff import Staff, StaffAssignment
 from app.models.student import Student
-from app.models.timetable import TimetableEntry
+from app.models.timetable import TimetableEntry, Period
 from app.models.user import User
 
 
@@ -64,18 +64,19 @@ class DashboardService:
             tts = list(
                 db.execute(
                     select(TimetableEntry).where(
-                        TimetableEntry.teacher_id == staff.id,
+                        TimetableEntry.teacher_staff_id == staff.id,
                         TimetableEntry.day_of_week == today_day,
-                        TimetableEntry.is_active == True,
                     )
                 ).scalars().all()
             )
             for t in tts:
+                period_obj = db.get(Period, t.period_id) if t.period_id else None
+                subject_obj = db.get(Subject, t.subject_id) if t.subject_id else None
                 timetable.append({
-                    "period": t.period.name if t.period else "Period",
-                    "subject": t.subject.name if t.subject else "Subject",
-                    "start_time": str(t.period.start_time) if t.period else "",
-                    "end_time": str(t.period.end_time) if t.period else "",
+                    "period": period_obj.name if period_obj else "Period",
+                    "subject": subject_obj.name if subject_obj else "Subject",
+                    "start_time": str(period_obj.start_time) if period_obj else "",
+                    "end_time": str(period_obj.end_time) if period_obj else "",
                     "room": t.room_number,
                 })
 

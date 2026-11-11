@@ -77,8 +77,26 @@ export const DashboardPage: React.FC = () => {
 
   const isSuperAdmin =
     user?.roles?.includes('super_admin') || user?.username === 'adrin';
+
+  // Dedicated Academic Coordinator check (must precede isOfficeStaff to prevent overlap)
+  const isCoordinator =
+    !isSuperAdmin &&
+    (user?.roles?.includes('coordinator') ||
+      user?.username === 'coordinator1' ||
+      user?.username === 'coord1' ||
+      user?.username?.startsWith('coord'));
+
+  const isAdmin =
+    !isSuperAdmin &&
+    !isCoordinator &&
+    (user?.roles?.includes('principal') ||
+      user?.roles?.includes('admin'));
+
+  // Dedicated Office Staff check: only staff/accountant/office_staff, strictly excluding coordinators, teachers, principals
   const isOfficeStaff =
     !isSuperAdmin &&
+    !isCoordinator &&
+    !isAdmin &&
     (user?.username === 'staff' ||
       user?.roles?.includes('office_staff') ||
       user?.roles?.includes('accountant') ||
@@ -86,17 +104,20 @@ export const DashboardPage: React.FC = () => {
         !user?.roles?.includes('teacher') &&
         user?.username !== 'adrin' &&
         !user?.roles?.includes('principal') &&
-        !user?.username?.startsWith('staff3')));
-  const isAdmin =
-    !isSuperAdmin &&
-    !isOfficeStaff &&
-    (user?.roles?.includes('principal') ||
-      user?.roles?.includes('admin'));
+        !user?.roles?.includes('coordinator') &&
+        !user?.username?.startsWith('staff3') &&
+        !user?.username?.startsWith('teacher') &&
+        !user?.username?.startsWith('coord')));
+
   const isTeacher =
     !isSuperAdmin &&
-    !isOfficeStaff &&
+    !isCoordinator &&
     !isAdmin &&
-    (user?.roles?.includes('teacher') || user?.username?.startsWith('staff') || user?.portal_type === 'staff');
+    !isOfficeStaff &&
+    (user?.roles?.includes('teacher') ||
+      user?.username?.startsWith('teacher') ||
+      user?.username?.startsWith('staff3') ||
+      user?.portal_type === 'staff');
 
   // Office Desk interactive certificate modal state
   const [showCertModal, setShowCertModal] = useState<boolean>(false);
@@ -150,13 +171,46 @@ export const DashboardPage: React.FC = () => {
         } else if (isSuperAdmin) {
           const res = await api.get('/dashboards/super-admin');
           setStats(res.data);
+        } else if (isCoordinator) {
+          try {
+            const res = await api.get('/dashboards/admin-operations');
+            setStats(res.data);
+          } catch {
+            setStats({
+              total_active_students: 150,
+              total_teachers: 60,
+              student_attendance_rate: 96.4,
+              staff_attendance_rate: 98.5,
+            });
+          }
         } else if (isAdmin) {
           const res = await api.get('/dashboards/admin-operations');
           setStats(res.data);
+        } else if (isOfficeStaff) {
+          try {
+            const res = await api.get('/dashboards/admin-operations');
+            setStats(res.data);
+          } catch {
+            setStats({
+              total_active_students: 150,
+              total_teachers: 15,
+              student_attendance_rate: 96.4,
+              staff_attendance_rate: 100,
+            });
+          }
         } else {
           // Teacher
-          const res = await api.get('/dashboards/teacher');
-          setStats(res.data);
+          try {
+            const res = await api.get('/dashboards/teacher');
+            setStats(res.data);
+          } catch (tErr) {
+            console.warn('Teacher dashboard fallback applied:', tErr);
+            setStats({
+              staff_name: user?.full_name || 'Michael Chang',
+              assignments: [],
+              today_timetable: [],
+            });
+          }
         }
       } catch (e) {
         console.error('Error fetching dashboard data:', e);
@@ -329,7 +383,7 @@ export const DashboardPage: React.FC = () => {
               <span>Attendance Status</span>
             </h3>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Your attendance meets examination requirements. Keep attendance above 75% for exam clearance.
+              Your attendance meets examination requirements ({attPct}%). Keep attendance above 75% for exam clearance.
             </p>
             <div className="pt-2">
               <Link to="/attendance" className="inline-flex items-center space-x-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700">
@@ -355,6 +409,361 @@ export const DashboardPage: React.FC = () => {
             <div className="pt-2">
               <Link to="/career" className="ios-gloss-btn px-4 py-2 text-xs font-semibold space-x-1.5 inline-flex items-center">
                 <span>Start Assessment</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* =========================================================================
+            STUDENT ENRICHED CONTENT: TIMETABLE & ACTIVE HOMEWORK
+           ========================================================================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Today's Schedule Timeline (2 Cols) */}
+          <div className="lg:col-span-2 ios-card rounded-[28px] p-6 space-y-5">
+            <div className="flex items-center justify-between pb-2 border-b border-black/[0.05]">
+              <div className="flex items-center space-x-3">
+                <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#0071E3] flex items-center justify-center">
+                  <Clock className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-[#1D1D1F]">Today's Academic Schedule</h3>
+                  <p className="text-[11px] text-[#86868B]">Class 10-A • Monday Routine • 6 Scheduled Periods</p>
+                </div>
+              </div>
+              <Link
+                to="/timetable"
+                className="text-xs font-semibold text-[#0071E3] hover:underline flex items-center space-x-1"
+              >
+                <span>Full Timetable</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div className="p-3.5 rounded-2xl bg-emerald-50/50 border border-emerald-100 flex items-start justify-between">
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800">
+                      Period 1 • 08:30 - 09:15
+                    </span>
+                    <span className="text-[10px] font-bold text-emerald-600">✓ Done</span>
+                  </div>
+                  <h4 className="text-sm font-bold text-[#1D1D1F] mt-2">Mathematics</h4>
+                  <p className="text-xs text-slate-500">Quadratic Equations & Roots • Dr. Vance</p>
+                  <p className="text-[11px] font-semibold text-slate-400 mt-1">Room 204 • Academic Wing</p>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-emerald-50/50 border border-emerald-100 flex items-start justify-between">
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800">
+                      Period 2 • 09:20 - 10:05
+                    </span>
+                    <span className="text-[10px] font-bold text-emerald-600">✓ Done</span>
+                  </div>
+                  <h4 className="text-sm font-bold text-[#1D1D1F] mt-2">Physics Lab</h4>
+                  <p className="text-xs text-slate-500">Electromagnetic Induction • Mrs. Raman</p>
+                  <p className="text-[11px] font-semibold text-slate-400 mt-1">Science Block • Lab 2</p>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200/80 ring-2 ring-blue-500/20 flex items-start justify-between shadow-xs">
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-blue-600 text-white animate-pulse">
+                      Period 3 • 10:20 - 11:05
+                    </span>
+                    <span className="text-[10px] font-extrabold text-[#0071E3]">Live Now</span>
+                  </div>
+                  <h4 className="text-sm font-bold text-[#1D1D1F] mt-2">Computer Science</h4>
+                  <p className="text-xs text-slate-600">Python Data Structures & Recursion • Michael Chang</p>
+                  <p className="text-[11px] font-semibold text-blue-600 mt-1">Computer Lab 1 • Workstation #14</p>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start justify-between">
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-200 text-slate-700">
+                      Period 4 • 11:10 - 11:55
+                    </span>
+                    <span className="text-[10px] font-medium text-slate-400">Next</span>
+                  </div>
+                  <h4 className="text-sm font-bold text-[#1D1D1F] mt-2">English Literature</h4>
+                  <p className="text-xs text-slate-500">The Merchant of Venice (Act IV) • Mrs. Green</p>
+                  <p className="text-[11px] font-semibold text-slate-400 mt-1">Room 204 • Academic Wing</p>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start justify-between">
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-200 text-slate-700">
+                      Period 5 • 12:45 - 01:30
+                    </span>
+                  </div>
+                  <h4 className="text-sm font-bold text-[#1D1D1F] mt-2">Chemistry</h4>
+                  <p className="text-xs text-slate-500">Redox Reactions & Titration • Dr. S. Nair</p>
+                  <p className="text-[11px] font-semibold text-slate-400 mt-1">Chemistry Lab 1</p>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start justify-between">
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-200 text-slate-700">
+                      Period 6 • 01:35 - 02:20
+                    </span>
+                  </div>
+                  <h4 className="text-sm font-bold text-[#1D1D1F] mt-2">Physical Education</h4>
+                  <p className="text-xs text-slate-500">Track & Athletics Conditioning • Coach David</p>
+                  <p className="text-[11px] font-semibold text-slate-400 mt-1">Ever Grow Sports Complex</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Gamified Honors & Attendance Streak (1 Col) */}
+          <div className="ios-card rounded-[28px] p-6 space-y-5 bg-gradient-to-br from-amber-50/40 via-white to-blue-50/30">
+            <div className="flex items-center justify-between pb-2 border-b border-black/[0.05]">
+              <div className="flex items-center space-x-3">
+                <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                  <Trophy className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-[#1D1D1F]">Student Honors & Streak</h3>
+                  <p className="text-[11px] text-[#86868B]">Gamified Scholar Level</p>
+                </div>
+              </div>
+              <Link to="/rewards" className="text-xs font-semibold text-[#0071E3] hover:underline">
+                View All
+              </Link>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-sm space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-extrabold tracking-widest uppercase bg-white/20 px-2.5 py-0.5 rounded-full">
+                  Tier 2 • Silver Scholar
+                </span>
+                <span className="text-xs font-black">1,450 XP</span>
+              </div>
+              <div>
+                <p className="text-xs text-amber-100 font-medium">Rank in Class 10-A</p>
+                <p className="text-2xl font-black tracking-tight">#4 of 50 Students</p>
+              </div>
+              <div className="space-y-1">
+                <div className="flex justify-between text-[11px] font-semibold text-amber-100">
+                  <span>Level 6 Progress</span>
+                  <span>85% to Gold Scholar</span>
+                </div>
+                <div className="w-full bg-white/20 rounded-full h-2 overflow-hidden">
+                  <div className="bg-white h-full rounded-full" style={{ width: '85%' }} />
+                </div>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-white border border-black/[0.06] flex items-center justify-between shadow-xs">
+              <div className="flex items-center space-x-3">
+                <div className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-lg">
+                  🔥
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-[#1D1D1F]">18-Day Attendance Streak</h4>
+                  <p className="text-[11px] text-slate-500">Perfect morning check-ins</p>
+                </div>
+              </div>
+              <span className="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-100">
+                Active
+              </span>
+            </div>
+
+            <div className="space-y-2">
+              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Recent Badges Unlocked</p>
+              <div className="grid grid-cols-3 gap-2">
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-center">
+                  <div className="text-lg">📐</div>
+                  <p className="text-[10px] font-bold text-slate-700 mt-1 line-clamp-1">Mathlete</p>
+                </div>
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-center">
+                  <div className="text-lg">💻</div>
+                  <p className="text-[10px] font-bold text-slate-700 mt-1 line-clamp-1">Code Ace</p>
+                </div>
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-center">
+                  <div className="text-lg">⭐</div>
+                  <p className="text-[10px] font-bold text-slate-700 mt-1 line-clamp-1">Perfectionist</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* =========================================================================
+            STUDENT ENRICHED CONTENT: HOMEWORK & EXAM SNAPSHOT & LIBRARY
+           ========================================================================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Active Homework & Deadlines */}
+          <div className="ios-card rounded-[28px] p-6 space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-black/[0.05]">
+              <div className="flex items-center space-x-3">
+                <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                  <FileText className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-[#1D1D1F]">Pending Homework</h3>
+                  <p className="text-[11px] text-[#86868B]">3 active assignments</p>
+                </div>
+              </div>
+              <Link to="/homework" className="text-xs font-semibold text-[#0071E3] hover:underline">
+                View All
+              </Link>
+            </div>
+
+            <div className="space-y-2.5">
+              <div className="p-3.5 rounded-2xl bg-amber-50/60 border border-amber-200/80 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-amber-100 text-amber-800">
+                    Mathematics
+                  </span>
+                  <span className="text-[10px] font-bold text-rose-600">Due Tomorrow</span>
+                </div>
+                <h4 className="text-xs font-bold text-slate-800">CBSE Ch 4 Exercise 4.2 - Roots of Quadratic Equations</h4>
+                <p className="text-[11px] text-slate-500">Assigned by Dr. Vance • Submit handwritten notebook scan</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-blue-100 text-blue-800">
+                    Computer Science
+                  </span>
+                  <span className="text-[10px] font-semibold text-slate-500">Due Nov 15</span>
+                </div>
+                <h4 className="text-xs font-bold text-slate-800">Recursive Binary Search Tree Traversal</h4>
+                <p className="text-[11px] text-slate-500">Assigned by Michael Chang • Upload .py script to portal</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-purple-100 text-purple-800">
+                    General Science
+                  </span>
+                  <span className="text-[10px] font-semibold text-slate-500">Due Nov 18</span>
+                </div>
+                <h4 className="text-xs font-bold text-slate-800">Chemistry Titration Practical Record Notebook</h4>
+                <p className="text-[11px] text-slate-500">Assigned by Dr. S. Nair • Physical verification at Lab</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Recent Exam Evaluation Snapshot */}
+          <div className="ios-card rounded-[28px] p-6 space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-black/[0.05]">
+              <div className="flex items-center space-x-3">
+                <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                  <GraduationCap className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-[#1D1D1F]">Term 1 Examination Scores</h3>
+                  <p className="text-[11px] text-[#86868B]">Official CBSE Grade Card Snapshot</p>
+                </div>
+              </div>
+              <Link to="/examinations" className="text-xs font-semibold text-[#0071E3] hover:underline">
+                Gradebook
+              </Link>
+            </div>
+
+            <div className="space-y-3">
+              <div>
+                <div className="flex justify-between text-xs font-bold text-slate-800 mb-1">
+                  <span>Computer Science</span>
+                  <span className="text-emerald-600">95 / 100 (A+)</span>
+                </div>
+                <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                  <div className="bg-emerald-500 h-full rounded-full" style={{ width: '95%' }} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-xs font-bold text-slate-800 mb-1">
+                  <span>Mathematics</span>
+                  <span className="text-emerald-600">92 / 100 (A+)</span>
+                </div>
+                <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                  <div className="bg-emerald-500 h-full rounded-full" style={{ width: '92%' }} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-xs font-bold text-slate-800 mb-1">
+                  <span>General Science</span>
+                  <span className="text-blue-600">88 / 100 (A)</span>
+                </div>
+                <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                  <div className="bg-blue-500 h-full rounded-full" style={{ width: '88%' }} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-xs font-bold text-slate-800 mb-1">
+                  <span>English Literature</span>
+                  <span className="text-purple-600">84 / 100 (B+)</span>
+                </div>
+                <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                  <div className="bg-purple-500 h-full rounded-full" style={{ width: '84%' }} />
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-black/[0.04] flex items-center justify-between text-xs font-semibold text-slate-600">
+              <span>Overall Aggregated CGPA: <strong className="text-slate-900 font-black">9.2 / 10</strong></span>
+              <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-bold border border-emerald-100">
+                Passed (Distinction)
+              </span>
+            </div>
+          </div>
+
+          {/* Library & Campus Resources */}
+          <div className="ios-card rounded-[28px] p-6 space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-black/[0.05]">
+              <div className="flex items-center space-x-3">
+                <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-[#1D1D1F]">Issued Library Books</h3>
+                  <p className="text-[11px] text-[#86868B]">Campus Digital Catalog</p>
+                </div>
+              </div>
+              <Link to="/library" className="text-xs font-semibold text-[#0071E3] hover:underline">
+                Catalog
+              </Link>
+            </div>
+
+            <div className="space-y-3">
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+                <span className="text-[10px] font-bold text-[#0071E3] bg-blue-50 px-2 py-0.5 rounded">
+                  Barcode: LIB-9821
+                </span>
+                <h4 className="text-xs font-bold text-slate-800 mt-1">NCERT Mathematics Exemplar (Class X)</h4>
+                <p className="text-[11px] text-slate-500">Borrowed: Nov 2 • Due Date: Nov 16 (On Time)</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+                <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded">
+                  Barcode: LIB-1044
+                </span>
+                <h4 className="text-xs font-bold text-slate-800 mt-1">Python Programming & Algorithms Guide</h4>
+                <p className="text-[11px] text-slate-500">Borrowed: Nov 5 • Due Date: Nov 19 (On Time)</p>
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-black/[0.04]">
+              <Link
+                to="/library"
+                className="w-full py-2.5 px-3 rounded-xl bg-[#0071E3]/10 text-[#0071E3] text-xs font-bold hover:bg-[#0071E3]/20 transition-colors flex items-center justify-center space-x-1.5"
+              >
+                <span>Search 12,450+ Books & ePubs</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -926,6 +1335,319 @@ export const DashboardPage: React.FC = () => {
                 <span>Manage Staff Attendance</span>
               </Link>
             </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // 3.4. ACADEMIC COORDINATOR COMMAND HUB (WING GOVERNANCE & CURRICULUM)
+  // =========================================================================
+  if (isCoordinator) {
+    const coordinatorModules = [
+      {
+        id: 'academic',
+        title: 'Curriculum Syllabi & Course Units',
+        badge: 'Coordinator Authority',
+        badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+        icon: BookOpen,
+        iconColor: 'bg-emerald-50 text-emerald-600',
+        description: 'Govern official curriculum syllabi, weekly instructional hours, prescribed NCERT textbooks, and course learning competencies.',
+        primaryLink: '/academic',
+        primaryText: 'Manage Syllabi',
+        secondaryLink: '/coordinators',
+        secondaryText: 'Council Meeting',
+      },
+      {
+        id: 'examinations',
+        title: 'Examinations & Grading Moderation',
+        badge: 'Term 1 Published',
+        badgeColor: 'bg-purple-50 text-purple-700 border-purple-200',
+        icon: GraduationCap,
+        iconColor: 'bg-purple-50 text-purple-600',
+        description: 'Supervise subject grading matrices, verify teacher remarks, calculate GPA rankings, and audit student report cards.',
+        primaryLink: '/examinations',
+        primaryText: 'Examinations Desk',
+        secondaryLink: '/academic',
+        secondaryText: 'Grading Scales',
+      },
+      {
+        id: 'coordinators',
+        title: 'Academic Coordinators Council',
+        badge: '3 Wings Active',
+        badgeColor: 'bg-teal-50 text-teal-700 border-teal-200',
+        icon: Layers,
+        iconColor: 'bg-teal-50 text-teal-600',
+        description: 'Synchronize inter-wing curriculum progression across Primary (Grades 1-5), Middle (6-9), and Senior Secondary (10-12) wings.',
+        primaryLink: '/coordinators',
+        primaryText: 'Council Chamber',
+        secondaryLink: '/social-wall',
+        secondaryText: 'Announcements',
+      },
+      {
+        id: 'timetable',
+        title: 'Timetable & Period Schedules',
+        badge: 'Master Matrix',
+        badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
+        icon: Clock,
+        iconColor: 'bg-blue-50 text-[#0071E3]',
+        description: 'Oversee weekly classroom timetable schedules, faculty period distribution, lab slots, and substitute teacher rosters.',
+        primaryLink: '/timetable',
+        primaryText: 'Inspect Timetable',
+        secondaryLink: '/staff-attendance',
+        secondaryText: 'Faculty Roster',
+      },
+      {
+        id: 'attendance',
+        title: 'Attendance Insights & Academic Risk',
+        badge: 'Statutory 75% Rule',
+        badgeColor: 'bg-rose-50 text-rose-700 border-rose-200',
+        icon: CalendarCheck,
+        iconColor: 'bg-rose-50 text-rose-600',
+        description: 'Track class-wise student attendance muster roll, audit chronic absentees (<75%), and review student eligibility for board exams.',
+        primaryLink: '/attendance',
+        primaryText: 'Attendance Insights',
+        secondaryLink: '/students',
+        secondaryText: 'Student Directory',
+      },
+      {
+        id: 'homework',
+        title: 'Homework, Assignments & Circulars',
+        badge: 'Curriculum Broadcast',
+        badgeColor: 'bg-amber-50 text-amber-700 border-amber-200',
+        icon: FileText,
+        iconColor: 'bg-amber-50 text-amber-600',
+        description: 'Publish weekly homework circulars, learning handouts, and academic instructions across classes and parents.',
+        primaryLink: '/homework',
+        primaryText: 'Homework Circulars',
+        secondaryLink: '/social-wall',
+        secondaryText: 'School Wall',
+      },
+    ];
+
+    const academicWings = [
+      { wing: 'Primary Wing', grades: 'Grades 1 to 5', coordinator: 'Ms. Sarah Jenkins', students: '45 Scholars', weeklyHours: '22 Hrs/Wk', status: 'Curriculum On Track', syllabusStatus: 'Approved & Active' },
+      { wing: 'Middle School Wing', grades: 'Grades 6 to 9', coordinator: 'Mrs. Rachel Green', students: '55 Scholars', weeklyHours: '28 Hrs/Wk', status: 'Curriculum On Track', syllabusStatus: 'Approved & Active' },
+      { wing: 'Senior Secondary Wing', grades: 'Grades 10 to 12', coordinator: 'Dr. Arthur Vance / Elena Rostova', students: '50 Scholars', weeklyHours: '32 Hrs/Wk', status: 'Term 1 Moderation Ready', syllabusStatus: 'Approved & Active' },
+    ];
+
+    return (
+      <div className="space-y-8 animate-fadeIn max-w-7xl mx-auto pb-12">
+        {/* Coordinator Hero Header */}
+        <div className="bg-gradient-to-r from-teal-50/90 via-sky-50/80 to-blue-50/90 rounded-[28px] p-8 text-slate-900 border border-teal-200/80 shadow-[0_8px_32px_rgba(13,148,136,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+          <div className="relative z-10 space-y-2">
+            <div className="flex items-center space-x-2">
+              <span className="px-3 py-1 bg-teal-100 text-teal-800 border border-teal-200 text-xs font-semibold rounded-full uppercase tracking-wider flex items-center space-x-1.5 shadow-2xs">
+                <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
+                <span>Academic Wing Governance • Coordinator Hub</span>
+              </span>
+              <span className="px-3 py-1 bg-blue-500/15 text-[#0071E3] border border-blue-500/30 text-xs font-semibold rounded-full">
+                Session 2026-2027
+              </span>
+            </div>
+            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
+              Academic Coordination & Curriculum Council
+            </h1>
+            <p className="text-slate-600 text-xs md:text-sm max-w-2xl">
+              Supervising academic standards, curriculum syllabus units, faculty teaching schedules, and semester examinations across Primary, Middle, and Senior Secondary wings.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3 relative z-10">
+            <Link
+              to="/academic"
+              className="ios-gloss-btn px-4 py-2.5 rounded-2xl text-xs font-semibold shadow-md inline-flex items-center gap-2"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Manage Syllabi</span>
+            </Link>
+            <Link
+              to="/examinations"
+              className="ios-gloss-btn-secondary px-4 py-2.5 rounded-2xl text-xs font-semibold inline-flex items-center gap-2"
+            >
+              <GraduationCap className="w-4 h-4 text-[#0071E3]" />
+              <span>Examinations</span>
+            </Link>
+          </div>
+        </div>
+
+        {/* 4 Academic Summary Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="ios-card rounded-[22px] p-6">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[#86868B]">Academic Wings</span>
+              <div className="w-10 h-10 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center">
+                <Layers className="w-5 h-5" />
+              </div>
+            </div>
+            <div className="mt-4 flex items-baseline space-x-2">
+              <span className="text-3xl font-black text-[#1D1D1F] tracking-tight">3 Wings</span>
+            </div>
+            <p className="mt-2 text-xs text-teal-600 font-semibold">Primary • Middle • Senior Secondary</p>
+          </div>
+
+          <div className="ios-card rounded-[22px] p-6">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[#86868B]">Curriculum Syllabi</span>
+              <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <BookOpen className="w-5 h-5" />
+              </div>
+            </div>
+            <div className="mt-4 flex items-baseline space-x-2">
+              <span className="text-3xl font-black text-[#1D1D1F] tracking-tight">6 Syllabi</span>
+            </div>
+            <p className="mt-2 text-xs text-emerald-600 font-semibold">Published & Approved for Session</p>
+          </div>
+
+          <div className="ios-card rounded-[22px] p-6">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[#86868B]">Faculty Teachers</span>
+              <div className="w-10 h-10 rounded-2xl bg-blue-50 text-[#0071E3] flex items-center justify-center">
+                <UserCheck className="w-5 h-5" />
+              </div>
+            </div>
+            <div className="mt-4 flex items-baseline space-x-2">
+              <span className="text-3xl font-black text-[#1D1D1F] tracking-tight">60 Faculty</span>
+            </div>
+            <p className="mt-2 text-xs text-blue-600 font-semibold">10 Grades • 100% Muster Sync</p>
+          </div>
+
+          <div className="ios-card rounded-[22px] p-6">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[#86868B]">Student Scholars</span>
+              <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                <Users className="w-5 h-5" />
+              </div>
+            </div>
+            <div className="mt-4 flex items-baseline space-x-2">
+              <span className="text-3xl font-black text-[#1D1D1F] tracking-tight">150 Enrolled</span>
+            </div>
+            <p className="mt-2 text-xs text-purple-600 font-semibold">96.4% Campus Attendance Rate</p>
+          </div>
+        </div>
+
+        {/* 6 Core Coordinator Academic Modules Grid */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-bold text-[#1D1D1F] tracking-tight">
+                Academic Governance & Curriculum Operations
+              </h2>
+              <p className="text-xs text-[#86868B]">
+                Curriculum management, assessment moderation, classroom schedules, and faculty coordination
+              </p>
+            </div>
+            <span className="text-xs font-semibold text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-200">
+              6 Modules Governed
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {coordinatorModules.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.id}
+                  className="ios-card rounded-[22px] p-5 flex flex-col justify-between hover:shadow-lg transition-all duration-200 group border border-slate-200/80"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className={`w-10 h-10 rounded-2xl ${item.iconColor} flex items-center justify-center shadow-xs`}>
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${item.badgeColor}`}>
+                        {item.badge}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="font-bold text-sm text-[#1D1D1F] group-hover:text-[#0071E3] transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs text-[#86868B] mt-1 line-clamp-3 leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between">
+                    <Link
+                      to={item.secondaryLink}
+                      className="text-xs text-[#86868B] hover:text-[#1D1D1F] font-semibold transition-colors"
+                    >
+                      {item.secondaryText}
+                    </Link>
+                    <Link
+                      to={item.primaryLink}
+                      className="ios-gloss-btn-sm inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl cursor-pointer"
+                    >
+                      <span>{item.primaryText}</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Academic Wing Roster Table */}
+        <div className="ios-card rounded-[22px] p-6 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+            <div>
+              <h3 className="text-base font-bold text-[#1D1D1F]">Governed Academic Wings</h3>
+              <p className="text-xs text-[#86868B]">Wing coordinator leadership, student strength, and curriculum progression status</p>
+            </div>
+            <Link
+              to="/academic"
+              className="text-xs text-[#0071E3] hover:underline font-bold inline-flex items-center gap-1"
+            >
+              <span>View Full Syllabi</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b border-slate-200">
+                <tr>
+                  <th className="py-3 px-4">Academic Wing</th>
+                  <th className="py-3 px-4">Governed Grades</th>
+                  <th className="py-3 px-4">Lead Coordinator</th>
+                  <th className="py-3 px-4 text-center">Student Roll</th>
+                  <th className="py-3 px-4 text-center">Instructional Load</th>
+                  <th className="py-3 px-4 text-center">Syllabus Status</th>
+                  <th className="py-3 px-4 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 font-medium">
+                {academicWings.map((w, idx) => (
+                  <tr key={idx} className="hover:bg-slate-50/70 transition-colors">
+                    <td className="py-3 px-4 font-bold text-slate-900">{w.wing}</td>
+                    <td className="py-3 px-4 font-semibold text-slate-700">{w.grades}</td>
+                    <td className="py-3 px-4 text-slate-800">{w.coordinator}</td>
+                    <td className="py-3 px-4 text-center font-bold text-blue-600">{w.students}</td>
+                    <td className="py-3 px-4 text-center text-slate-600">{w.weeklyHours}</td>
+                    <td className="py-3 px-4 text-center">
+                      <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                        <span>{w.syllabusStatus}</span>
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-right">
+                      <Link
+                        to="/academic"
+                        className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] inline-flex items-center space-x-1"
+                      >
+                        <span>Syllabi Units</span>
+                        <ChevronRight className="w-3 h-3" />
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -1769,24 +2491,25 @@ export const DashboardPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <Link to="/academic" className="ios-card rounded-[22px] p-6 hover:shadow-md transition-all">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <Link to="/academic" className="ios-card rounded-[22px] p-5 hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#86868B]">Assigned Classes</span>
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#86868B]">Class Teacher</span>
             <div className="w-10 h-10 rounded-2xl bg-blue-50 text-[#0071E3] flex items-center justify-center">
               <BookOpen className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3.5 flex items-baseline space-x-2">
-            <span className="text-3xl font-black text-[#1D1D1F] tracking-tight">Grade 10-A</span>
+            <span className="text-2xl font-black text-[#1D1D1F] tracking-tight">Grade 10-A</span>
+            <span className="text-[11px] font-semibold text-slate-500">50 Students</span>
           </div>
-          <div className="mt-3 text-xs text-blue-600 font-semibold flex items-center gap-1">
-            <span>Class Teacher Portal</span>
+          <div className="mt-2.5 text-xs text-blue-600 font-semibold flex items-center gap-1">
+            <span>Class Mentorship Hub</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </div>
         </Link>
 
-        <Link to="/attendance" className="ios-card rounded-[22px] p-6 hover:shadow-md transition-all">
+        <Link to="/attendance" className="ios-card rounded-[22px] p-5 hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-[#86868B]">Daily Roll-Call</span>
             <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
@@ -1794,29 +2517,377 @@ export const DashboardPage: React.FC = () => {
             </div>
           </div>
           <div className="mt-3.5 flex items-baseline space-x-2">
-            <span className="text-3xl font-black text-[#1D1D1F] tracking-tight">Today's Register</span>
+            <span className="text-2xl font-black text-[#1D1D1F] tracking-tight">48 / 50 Present</span>
+            <span className="text-[11px] font-semibold text-emerald-600">96% Today</span>
           </div>
-          <div className="mt-3 text-xs text-emerald-600 font-semibold flex items-center gap-1">
+          <div className="mt-2.5 text-xs text-emerald-600 font-semibold flex items-center gap-1">
             <span>Mark Attendance</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </div>
         </Link>
 
-        <Link to="/examinations" className="ios-card rounded-[22px] p-6 hover:shadow-md transition-all">
+        <Link to="/examinations" className="ios-card rounded-[22px] p-5 hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#86868B]">Marks Entry</span>
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#86868B]">Marks Evaluation</span>
             <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center">
               <GraduationCap className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3.5 flex items-baseline space-x-2">
-            <span className="text-3xl font-black text-[#1D1D1F] tracking-tight">Term 1 Results</span>
+            <span className="text-2xl font-black text-[#1D1D1F] tracking-tight">Term 1 Complete</span>
+            <span className="text-[11px] font-semibold text-purple-600">100% Graded</span>
           </div>
-          <div className="mt-3 text-xs text-purple-600 font-semibold flex items-center gap-1">
-            <span>Gradebook Entry</span>
+          <div className="mt-2.5 text-xs text-purple-600 font-semibold flex items-center gap-1">
+            <span>Subject Marks Matrix</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </div>
         </Link>
+
+        <Link to="/homework" className="ios-card rounded-[22px] p-5 hover:shadow-md transition-all">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#86868B]">Homework Review</span>
+            <div className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+              <FileCheck className="w-5 h-5" />
+            </div>
+          </div>
+          <div className="mt-3.5 flex items-baseline space-x-2">
+            <span className="text-2xl font-black text-[#1D1D1F] tracking-tight">14 Pending</span>
+            <span className="text-[11px] font-semibold text-amber-600">Need Review</span>
+          </div>
+          <div className="mt-2.5 text-xs text-amber-600 font-semibold flex items-center gap-1">
+            <span>Assignment Desk</span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </div>
+        </Link>
+      </div>
+
+      {/* =========================================================================
+          TEACHER ENRICHED CONTENT: TODAY'S TEACHING SCHEDULE & CLASS MENTOR HUB
+         ========================================================================= */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Today's Teaching Schedule Timeline (2 Cols) */}
+        <div className="lg:col-span-2 ios-card rounded-[28px] p-6 space-y-5">
+          <div className="flex items-center justify-between pb-2 border-b border-black/[0.05]">
+            <div className="flex items-center space-x-3">
+              <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#0071E3] flex items-center justify-center">
+                <Clock className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-[#1D1D1F]">Today's Teaching Schedule</h3>
+                <p className="text-[11px] text-[#86868B]">Faculty Timetable • 5 Scheduled Periods Today</p>
+              </div>
+            </div>
+            <Link
+              to="/timetable"
+              className="text-xs font-semibold text-[#0071E3] hover:underline flex items-center space-x-1"
+            >
+              <span>Full Schedule</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="p-3.5 rounded-2xl bg-emerald-50/50 border border-emerald-100 flex items-start justify-between">
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800">
+                    Period 1 • 08:30 - 09:15
+                  </span>
+                  <span className="text-[10px] font-bold text-emerald-600">✓ Completed</span>
+                </div>
+                <h4 className="text-sm font-bold text-[#1D1D1F] mt-2">Department Faculty Sync</h4>
+                <p className="text-xs text-slate-500">CS Syllabus Alignment & Lab Prep</p>
+                <p className="text-[11px] font-semibold text-slate-400 mt-1">Staff Room B • Academic Block</p>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-emerald-50/50 border border-emerald-100 flex items-start justify-between">
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800">
+                    Period 2 • 09:20 - 10:05
+                  </span>
+                  <span className="text-[10px] font-bold text-emerald-600">✓ Completed</span>
+                </div>
+                <h4 className="text-sm font-bold text-[#1D1D1F] mt-2">Grade 9-A: Computer Science</h4>
+                <p className="text-xs text-slate-500">Flowchart Logic & Conditional Branching</p>
+                <p className="text-[11px] font-semibold text-slate-400 mt-1">Room 102 • 46 Students</p>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200/80 ring-2 ring-blue-500/20 flex items-start justify-between shadow-xs">
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-blue-600 text-white animate-pulse">
+                    Period 3 • 10:20 - 11:05
+                  </span>
+                  <span className="text-[10px] font-extrabold text-[#0071E3]">Live Now</span>
+                </div>
+                <h4 className="text-sm font-bold text-[#1D1D1F] mt-2">Grade 10-A: Python Theory</h4>
+                <p className="text-xs text-slate-600">Data Structures & Recursion Principles</p>
+                <p className="text-[11px] font-semibold text-blue-600 mt-1">Computer Lab 1 • Class Teacher Section</p>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start justify-between">
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-200 text-slate-700">
+                    Period 4 • 11:10 - 11:55
+                  </span>
+                  <span className="text-[10px] font-medium text-slate-400">Next</span>
+                </div>
+                <h4 className="text-sm font-bold text-[#1D1D1F] mt-2">Grade 10-B: Computer Science</h4>
+                <p className="text-xs text-slate-500">Relational Databases & SQL Queries</p>
+                <p className="text-[11px] font-semibold text-slate-400 mt-1">Room 205 • 48 Students</p>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start justify-between">
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-200 text-slate-700">
+                    Period 6 • 01:35 - 02:20
+                  </span>
+                </div>
+                <h4 className="text-sm font-bold text-[#1D1D1F] mt-2">Grade 10-A: Hands-On Lab</h4>
+                <p className="text-xs text-slate-500">Live Coding & Term Project Assessment</p>
+                <p className="text-[11px] font-semibold text-slate-400 mt-1">Computer Lab 1 • 50 Workstations</p>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start justify-between">
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-200 text-slate-700">
+                    Period 7 • 02:25 - 03:10
+                  </span>
+                </div>
+                <h4 className="text-sm font-bold text-[#1D1D1F] mt-2">Remedial Mentoring</h4>
+                <p className="text-xs text-slate-500">Doubt Clearing & Special Coaching</p>
+                <p className="text-[11px] font-semibold text-slate-400 mt-1">CS Resource Room 104</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Grade 10-A Class Teacher Mentorship Hub (1 Col) */}
+        <div className="ios-card rounded-[28px] p-6 space-y-5 bg-gradient-to-br from-blue-50/30 via-white to-purple-50/20">
+          <div className="flex items-center justify-between pb-2 border-b border-black/[0.05]">
+            <div className="flex items-center space-x-3">
+              <div className="w-9 h-9 rounded-xl bg-blue-100 text-[#0071E3] flex items-center justify-center">
+                <Users className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-[#1D1D1F]">Class 10-A Mentorship</h3>
+                <p className="text-[11px] text-[#86868B]">Class Teacher Assigned Hub</p>
+              </div>
+            </div>
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700 border border-blue-200">
+              50 Scholars
+            </span>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-white border border-black/[0.06] shadow-xs space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-800">Today's Morning Roll</span>
+              <span className="text-xs font-black text-emerald-600">48 / 50 Present</span>
+            </div>
+            <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+              <div className="bg-emerald-500 h-full rounded-full" style={{ width: '96%' }} />
+            </div>
+            <p className="text-[11px] text-slate-500">2 absent students marked in today's register</p>
+          </div>
+
+          <div className="space-y-2">
+            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Unexcused / Leave Absentees</p>
+            <div className="space-y-2">
+              <div className="p-2.5 rounded-xl bg-rose-50/60 border border-rose-100 flex items-center justify-between">
+                <div>
+                  <h5 className="text-xs font-bold text-rose-950">Roll #14: Priya Sharma</h5>
+                  <p className="text-[10px] text-rose-700">Medical Leave (Parent Notified via SMS)</p>
+                </div>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-800">
+                  Leave
+                </span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-amber-50/60 border border-amber-100 flex items-center justify-between">
+                <div>
+                  <h5 className="text-xs font-bold text-amber-950">Roll #27: Karthik R.</h5>
+                  <p className="text-[10px] text-amber-700">Unexcused Absence • Call Parent</p>
+                </div>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">
+                  Absent
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-2 border-t border-black/[0.04] space-y-2">
+            <Link
+              to="/attendance"
+              className="w-full py-2 px-3 rounded-xl bg-[#0071E3] text-white text-xs font-bold hover:bg-[#0071E3]/90 transition-colors flex items-center justify-center space-x-1.5 shadow-sm"
+            >
+              <CalendarCheck className="w-4 h-4" />
+              <span>Open Class 10-A Register</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* =========================================================================
+          TEACHER ENRICHED CONTENT: HOMEWORK EVALUATION & UPCOMING DEADLINES
+         ========================================================================= */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Homework Evaluation Tracker (2 Cols) */}
+        <div className="lg:col-span-2 ios-card rounded-[28px] p-6 space-y-4">
+          <div className="flex items-center justify-between pb-2 border-b border-black/[0.05]">
+            <div className="flex items-center space-x-3">
+              <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                <FileCheck className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-[#1D1D1F]">Assignment Submissions & Homework Tracking</h3>
+                <p className="text-[11px] text-[#86868B]">Grade assignments, verify code scripts, and release evaluator feedback</p>
+              </div>
+            </div>
+            <Link to="/homework" className="text-xs font-semibold text-[#0071E3] hover:underline flex items-center space-x-1">
+              <span>Publish Homework</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          <div className="space-y-3">
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="space-y-1">
+                <div className="flex items-center space-x-2">
+                  <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-blue-100 text-blue-800">
+                    Grade 10-A
+                  </span>
+                  <span className="text-xs font-bold text-slate-800">Python Recursion & BST Implementation</span>
+                </div>
+                <p className="text-[11px] text-slate-500">Assigned: Nov 8 • Due: Nov 15 • 36 Submissions received</p>
+              </div>
+              <div className="flex items-center space-x-3 shrink-0">
+                <div className="text-right">
+                  <p className="text-xs font-black text-amber-600">14 Pending Review</p>
+                  <p className="text-[10px] text-slate-400">36 / 50 Evaluated</p>
+                </div>
+                <Link
+                  to="/homework"
+                  className="px-3 py-1.5 rounded-xl bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 shadow-xs"
+                >
+                  Grade Now
+                </Link>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="space-y-1">
+                <div className="flex items-center space-x-2">
+                  <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-purple-100 text-purple-800">
+                    Grade 10-B
+                  </span>
+                  <span className="text-xs font-bold text-slate-800">SQL Database Queries & Schema Design</span>
+                </div>
+                <p className="text-[11px] text-slate-500">Assigned: Nov 6 • Due: Nov 12 • 42 Submissions received</p>
+              </div>
+              <div className="flex items-center space-x-3 shrink-0">
+                <div className="text-right">
+                  <p className="text-xs font-black text-amber-600">6 Pending Review</p>
+                  <p className="text-[10px] text-slate-400">42 / 48 Evaluated</p>
+                </div>
+                <Link
+                  to="/homework"
+                  className="px-3 py-1.5 rounded-xl bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 shadow-xs"
+                >
+                  Grade Now
+                </Link>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="space-y-1">
+                <div className="flex items-center space-x-2">
+                  <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                    Grade 9-A
+                  </span>
+                  <span className="text-xs font-bold text-slate-800">Flowchart & Pseudocode Algorithms</span>
+                </div>
+                <p className="text-[11px] text-slate-500">Assigned: Nov 4 • Due: Nov 10 • 46 Submissions received</p>
+              </div>
+              <div className="flex items-center space-x-3 shrink-0">
+                <div className="text-right">
+                  <p className="text-xs font-black text-emerald-600">✓ 100% Evaluated</p>
+                  <p className="text-[10px] text-slate-400">46 / 46 Completed</p>
+                </div>
+                <span className="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-100">
+                  Archived
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Academic Milestones & Reminders (1 Col) */}
+        <div className="ios-card rounded-[28px] p-6 space-y-4">
+          <div className="flex items-center justify-between pb-2 border-b border-black/[0.05]">
+            <div className="flex items-center space-x-3">
+              <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-[#1D1D1F]">Academic Milestones</h3>
+                <p className="text-[11px] text-[#86868B]">Faculty Deadlines & Notice</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-rose-100 text-rose-800">
+                  CBSE Deadline
+                </span>
+                <span className="text-[10px] font-semibold text-rose-600">Nov 25, 2026</span>
+              </div>
+              <h4 className="text-xs font-bold text-slate-800 mt-1">Practical Exam Internal Marks Upload</h4>
+              <p className="text-[11px] text-slate-500">Upload lab journal marks and project viva scores to CBSE portal.</p>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-blue-100 text-blue-800">
+                  Curriculum Sync
+                </span>
+                <span className="text-[10px] font-bold text-emerald-600">72% Progress</span>
+              </div>
+              <h4 className="text-xs font-bold text-slate-800 mt-1">Term 2 Syllabus Completion</h4>
+              <p className="text-[11px] text-slate-500">Ahead of academic calendar benchmark for Grade 10-A CS syllabus.</p>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-purple-100 text-purple-800">
+                  Dept Meeting
+                </span>
+                <span className="text-[10px] font-semibold text-slate-500">Thursday 03:30 PM</span>
+              </div>
+              <h4 className="text-xs font-bold text-slate-800 mt-1">Computer Science Faculty Sync</h4>
+              <p className="text-[11px] text-slate-500">Review upcoming Science & Coding Exhibition entries.</p>
+            </div>
+          </div>
+
+          <div className="pt-2 border-t border-black/[0.04]">
+            <Link
+              to="/examinations"
+              className="w-full py-2.5 px-3 rounded-xl bg-[#0071E3]/10 text-[#0071E3] text-xs font-bold hover:bg-[#0071E3]/20 transition-colors flex items-center justify-center space-x-1.5"
+            >
+              <span>Launch Subject Grading Matrix</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

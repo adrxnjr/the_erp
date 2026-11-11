@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import {
   CheckSquare,
   Bell,
@@ -24,6 +24,36 @@ import {
   Printer,
   DollarSign,
   X,
+  ShieldCheck,
+  CheckCircle2,
+  Database,
+  Key,
+  RefreshCw,
+  CreditCard,
+  Activity,
+  Layers,
+  Clock,
+  Lock,
+  Server,
+  Globe,
+  Building,
+  Save,
+  SlidersHorizontal,
+  LayoutGrid,
+  ToggleLeft,
+  ToggleRight,
+  GraduationCap,
+  Bus,
+  Trophy,
+  Sparkles,
+  BookOpen,
+  Compass,
+  ChevronRight,
+  Eye,
+  Shield,
+  Users,
+  ArrowRight,
+  Sliders,
 } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 import schoolData from '../data/schoolData.json';
@@ -411,15 +441,60 @@ export const ModuleHubPage: React.FC = () => {
   // =========================================================================
   // 8. ROLES & USERS STATE
   // =========================================================================
-  const [managedUsers] = useState([
-    { id: 'usr-1', username: 'adrin', fullName: 'Adrin (Correspondent)', assignedRole: 'Super Admin', portalScope: 'Full Institutional Governance', status: 'Active', email: 'correspondent@evergrow.edu' },
-    { id: 'usr-2', username: 'staff', fullName: 'Campus Office Staff Desk', assignedRole: 'Vice Admin', portalScope: 'Office Desk & Student Records', status: 'Active', email: 'office.desk@evergrow.edu' },
-    { id: 'usr-3', username: 'principal', fullName: 'Dr. Arthur Vance', assignedRole: 'Principal', portalScope: 'Academic Council & Appraisals', status: 'Active', email: 'principal@evergrow.edu' },
-    { id: 'usr-4', username: 'coordinator1', fullName: 'Dr. Elena Rostova', assignedRole: 'Coordinator', portalScope: 'Grades 10–12 Senior Secondary', status: 'Active', email: 'coordinator@evergrow.edu' },
-    { id: 'usr-5', username: 'staff3', fullName: 'Suresh Kumar', assignedRole: 'Teacher', portalScope: 'Mathematics Lead Faculty', status: 'Active', email: 'suresh.math@evergrow.edu' },
-    { id: 'usr-6', username: 'parent1', fullName: 'Rajesh Sharma', assignedRole: 'Parent', portalScope: 'Guardian Portal (M. Mohan)', status: 'Active', email: 'rajesh.sharma@gmail.com' },
-    { id: 'usr-7', username: 'student1', fullName: 'M. Mohan', assignedRole: 'Student', portalScope: 'Grade 10-A Student Portal', status: 'Active', email: 'mohan.10a@evergrow.edu' },
+  const [userRoleFilter, setUserRoleFilter] = useState('all');
+  const [userSearchTerm, setUserSearchTerm] = useState('');
+  const [managedUsers, setManagedUsers] = useState([
+    { id: 'usr-1', username: 'adrin', fullName: 'Adrin (Correspondent)', assignedRole: 'Super Admin', category: 'admin', portalScope: 'Full Institutional Governance', status: 'Active', email: 'correspondent@evergrow.edu', phone: '+91 98450 11001', lastLogin: '10 mins ago', permissions: ['Full Access', 'Financial Sanctions', 'System Customization', 'Affiliation Governance'] },
+    { id: 'usr-2', username: 'principal', fullName: 'Dr. Arthur Vance', assignedRole: 'Principal', category: 'admin', portalScope: 'Academic Council & Faculty Appraisals', status: 'Active', email: 'principal@evergrow.edu', phone: '+91 98450 11002', lastLogin: '25 mins ago', permissions: ['Academic Governance', 'Faculty Reviews', 'Exam Approvals', 'Disciplinary Oversight'] },
+    { id: 'usr-3', username: 'staff', fullName: 'Elena Rostova (Office Desk)', assignedRole: 'School Admin', category: 'staff', portalScope: 'Office Desk, Admissions & Counter Operations', status: 'Active', email: 'office.desk@evergrow.edu', phone: '+91 98450 11003', lastLogin: 'Just now', permissions: ['150 Student Directory', 'Fee Collection & Dues', 'Gate Pass Checkpoints', 'Bonafide Issuance'] },
+    { id: 'usr-4', username: 'coordinator1', fullName: 'Dr. Elena Rostova', assignedRole: 'Coordinator', category: 'coordinator', portalScope: 'Grades 10–12 Senior Secondary Wing', status: 'Active', email: 'coordinator@evergrow.edu', phone: '+91 98450 11004', lastLogin: '1 hour ago', permissions: ['Senior Syllabus Governance', 'Term 1/2 Exam Moderation', 'Grading Scheme Review'] },
+    { id: 'usr-5', username: 'coordinator2', fullName: 'Prof. Ramesh Joshi', assignedRole: 'Coordinator', category: 'coordinator', portalScope: 'Grades 6–9 Middle School Wing', status: 'Active', email: 'coordinator.middle@evergrow.edu', phone: '+91 98450 11005', lastLogin: '3 hours ago', permissions: ['Middle School Curriculum', 'Unit Tests Scheduling', 'Remedial Programs'] },
+    { id: 'usr-6', username: 'coordinator3', fullName: 'Mrs. Anita Deshmukh', assignedRole: 'Coordinator', category: 'coordinator', portalScope: 'Grades 1–5 Primary Wing', status: 'Active', email: 'coordinator.primary@evergrow.edu', phone: '+91 98450 11006', lastLogin: 'Yesterday', permissions: ['Primary Competency Framework', 'Early Childhood Assessment', 'Activity Timetables'] },
+    { id: 'usr-7', username: 'teacher1', fullName: 'Michael Chang', assignedRole: 'Teacher', category: 'faculty', portalScope: 'Grade 10-A Mentor & CS Faculty', status: 'Active', email: 'michael.chang@evergrow.edu', phone: '+91 98450 11007', lastLogin: '5 mins ago', permissions: ['Class 10-A Roll-Call', 'Python & CS Marks Entry', 'Homework Dissemination', 'Parent SMS Alerts'] },
+    { id: 'usr-8', username: 'teacher2', fullName: 'Mrs. Radhika Green', assignedRole: 'Teacher', category: 'faculty', portalScope: 'English Literature Lead Faculty', status: 'Active', email: 'radhika.green@evergrow.edu', phone: '+91 98450 11008', lastLogin: '45 mins ago', permissions: ['English Subject Grading', 'Drama & Debate Mentorship', 'Classroom Attendance'] },
+    { id: 'usr-9', username: 'teacher3', fullName: 'Dr. S. Nair', assignedRole: 'Teacher', category: 'faculty', portalScope: 'Chemistry & Science Block Lead', status: 'Active', email: 's.nair@evergrow.edu', phone: '+91 98450 11009', lastLogin: '2 hours ago', permissions: ['Science Lab Safety', 'Titration Practicals Scoring', 'CBSE External Vivas'] },
+    { id: 'usr-10', username: 'teacher4', fullName: 'Coach David', assignedRole: 'Teacher', category: 'faculty', portalScope: 'Athletics & Sports Director', status: 'Active', email: 'coach.david@evergrow.edu', phone: '+91 98450 11010', lastLogin: '4 hours ago', permissions: ['Sports Attendance', 'Inter-School Meet Rosters', 'Physical Fitness Records'] },
+    { id: 'usr-11', username: 'accountant1', fullName: 'Ramesh Sundaram', assignedRole: 'Accountant', category: 'staff', portalScope: 'Treasury Reserves & Faculty Payroll', status: 'Active', email: 'accounts@evergrow.edu', phone: '+91 98450 11011', lastLogin: '30 mins ago', permissions: ['Payroll Disbursement (₹38.5L)', 'Bank Transfer Batches', 'Tax/PF Remittance Ledger'] },
+    { id: 'usr-12', username: 'parent1', fullName: 'Rajesh Sharma', assignedRole: 'Parent', category: 'parent', portalScope: 'Guardian of Liam Smith (Grade 10-A)', status: 'Active', email: 'rajesh.sharma@gmail.com', phone: '+91 94431 87238', lastLogin: 'Today', permissions: ['Report Card Viewing', 'Tuition Fee Payment Gateway', 'Bus #04 GPS Radar', 'Leave Requests'] },
+    { id: 'usr-13', username: 'parent2', fullName: 'Sunita Patel', assignedRole: 'Parent', category: 'parent', portalScope: 'Guardian of Aarav Patel (Grade 10-A)', status: 'Active', email: 'sunita.patel@outlook.com', phone: '+91 98224 45910', lastLogin: 'Yesterday', permissions: ['Fee Receipts Download', 'Attendance History', 'Teacher Meeting Booking'] },
+    { id: 'usr-14', username: 'student1', fullName: 'Liam Smith', assignedRole: 'Student', category: 'student', portalScope: 'Grade 10-A • Roll 01 (Student Desk)', status: 'Active', email: 'liam.smith@evergrow.edu', phone: '+91 94431 87239', lastLogin: 'Active Now', permissions: ['Timetable Routine', 'Homework Submissions', 'Gamified Rewards & 1,450 XP', 'Library Catalog'] },
+    { id: 'usr-15', username: 'student2', fullName: 'Aarav Patel', assignedRole: 'Student', category: 'student', portalScope: 'Grade 10-A • Roll 02 (Student Desk)', status: 'Active', email: 'aarav.patel@evergrow.edu', phone: '+91 98224 45911', lastLogin: '3 hours ago', permissions: ['Daily Lecture Routine', 'Term 1 Gradebook', 'Online Learning Modules'] },
+    { id: 'usr-16', username: 'student3', fullName: 'Ananya Seth', assignedRole: 'Student', category: 'student', portalScope: 'Grade 10-A • Roll 03 (Student Desk)', status: 'Active', email: 'ananya.seth@evergrow.edu', phone: '+91 98110 33499', lastLogin: '1 hour ago', permissions: ['Daily Lecture Routine', 'Term 1 Gradebook', 'Olympiad Study Materials'] },
   ]);
+
+  // =========================================================================
+  // 9. INSTITUTIONAL SETTINGS & ERP MODULES CUSTOMIZER STATE
+  // =========================================================================
+  const [settingsActiveTab, setSettingsActiveTab] = useState<'modules' | 'affiliation' | 'academic' | 'timings' | 'security'>('modules');
+  const [settingsModuleSearch, setSettingsModuleSearch] = useState('');
+  const [settingsModuleCategory, setSettingsModuleCategory] = useState('all');
+
+  const [erpModules, setErpModules] = useState<{ [key: string]: { enabled: boolean; title: string; category: string; description: string; usage: string; route: string; icon: any } }>({
+    admissions: { enabled: true, title: 'Admissions & Inquiries', category: 'Admissions', description: 'Student online application processing, applicant verification, and entrance token management.', usage: 'Used by Office Desk staff to admit new scholars, review parent documents, and generate official Student IDs.', route: '/admissions', icon: UserPlus },
+    fees: { enabled: true, title: 'Fees, Billing & Counter Receipts', category: 'Finance', description: 'Real-time cash/UPI/card fee payments, customizable tuition fee structures, and printable GST receipts.', usage: 'Used by Office Desk and Treasury to collect fees, print immediate receipts, and grant sibling/merit fee waivers.', route: '/fees', icon: CreditCard },
+    examinations: { enabled: true, title: 'Examinations & CBSE Report Cards', category: 'Academics', description: 'Term 1 & Term 2 exam sessions, teacher marks spreadsheet entry, and automated report card generation.', usage: 'Used by Subject Teachers to evaluate scores and Academic Coordinators to publish audited CBSE report cards.', route: '/examinations', icon: GraduationCap },
+    attendance: { enabled: true, title: 'Attendance & Biometric Roll-Call', category: 'Daily Operations', description: 'Daily period-by-period roll-call registers with instant automated SMS notifications to parents of absentees.', usage: 'Used by Class Teachers for morning roll-call and Office Desk to enforce the mandatory 75% CBSE exam rule.', route: '/attendance', icon: Calendar },
+    rewards: { enabled: true, title: 'Campus Rewards & Gamified Honors', category: 'Student Motivation', description: '18-day streak counters, scholar XP points (1,450 XP), tier badges, and digital honors (Student exclusive).', usage: 'Used exclusively by Students for motivation; teachers award badges for academic excellence and perfect attendance.', route: '/rewards', icon: Trophy },
+    transport: { enabled: true, title: 'Transport Fleet & Bus GPS Radar', category: 'Safety & Logistics', description: 'Real-time satellite GPS tracking of 12 campus buses, geofenced bus stops, and driver compliance monitoring.', usage: 'Used by Parents to monitor their child\'s live bus route and by Office Staff to manage fleet speed and maintenance.', route: '/transport', icon: Bus },
+    visitors: { enabled: true, title: 'Campus Gate Passes & Visitors', category: 'Campus Security', description: 'Live RFID check-in badges for visiting parents, supply vendor gate passes, and vehicle parking security logs.', usage: 'Used by Campus Security to log all campus visitors, verify parent identity, and issue authorized visitor badges.', route: '/visitors', icon: ShieldCheck },
+    tuitions: { enabled: true, title: 'Partner Tuitions & Academies', category: 'Academics', description: 'Curated directory of verified after-school coaching institutions, subject batches, and academic inquiries.', usage: 'Used by Parents and Students to find accredited tutoring centers for Olympiad and Board examination prep.', route: '/tuitions', icon: BookOpen },
+    library: { enabled: true, title: 'Library & Digital Catalog', category: 'Resources', description: 'Barcode book circulation management for 12,450+ physical volumes and 1,800+ downloadable digital ePubs.', usage: 'Used by Students and Faculty to search catalog, borrow books, read ePubs, and track return deadlines.', route: '/library', icon: Library },
+    socialWall: { enabled: true, title: 'Campus Social Wall & Circulars', category: 'Community', description: 'Official campus noticeboard for sports meet highlights, science fair photos, and urgent administrative circulars.', usage: 'Used by the Correspondent and Principal to broadcast achievements, achievements, and circulars to school community.', route: '/social', icon: Sparkles },
+    payroll: { enabled: true, title: 'Faculty Payroll & Compensation', category: 'Finance', description: 'Monthly salary disbursement processing for 60 professors and 20 staff, PF deductions, and bank transfer batches.', usage: 'Used by the Correspondent and Treasury to authorize the ₹38,50,000 monthly payroll and generate salary slips.', route: '/payroll', icon: Receipt },
+    career: { enabled: true, title: 'AI Career Guidance & RIASEC Test', category: 'Student Counseling', description: 'Psychometric career mapping, college degree eligibility analyzer, and competitive entrance exam roadmaps.', usage: 'Used by Senior Secondary Students (Grades 10–12) to discover personalized career roadmaps and university paths.', route: '/career', icon: Compass },
+  });
+
+  const toggleModuleStatus = (key: string) => {
+    setErpModules((prev) => {
+      const current = prev[key];
+      const updated = !current.enabled;
+      toast.success(`${current.title} is now ${updated ? 'Enabled & Active' : 'Disabled / Hidden in Navigation'}.`);
+      return {
+        ...prev,
+        [key]: { ...current, enabled: updated },
+      };
+    });
+  };
 
   return (
     <div className="space-y-6 pb-12 animate-fadeIn max-w-7xl mx-auto">
@@ -2104,7 +2179,7 @@ export const ModuleHubPage: React.FC = () => {
 
 
       {/* ─────────────────────────────────────────────────────────────
-          13. ANALYTICS MODULE
+          13. ANALYTICS MODULE (COMPREHENSIVELY ENRICHED)
           ───────────────────────────────────────────────────────────── */}
       {moduleKey === 'analytics' && (
         <div className="space-y-6">
@@ -2118,34 +2193,171 @@ export const ModuleHubPage: React.FC = () => {
                 <p className="text-xs text-slate-500">Board pass rate projections, student retention curves, fee collection velocity, and academic risk alerts</p>
               </div>
             </div>
-            <span className="text-xs font-bold text-blue-700 bg-blue-100 px-3 py-1.5 rounded-full border border-blue-200">
-              Live BI Engine Connected
-            </span>
+            <div className="flex items-center space-x-2">
+              <span className="text-xs font-bold text-blue-700 bg-blue-100 px-3 py-1.5 rounded-full border border-blue-200">
+                Live BI Engine Connected
+              </span>
+              <button
+                onClick={() => toast.success('Analytics data refreshed. Synchronized with live database telemetry.')}
+                className="p-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 shadow-xs cursor-pointer"
+                title="Refresh Analytics"
+              >
+                <RefreshCw className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
+          {/* 4 Primary Top-Level Metric Cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
               <div className="text-[11px] font-bold text-slate-400 uppercase">Projected Board Pass Rate</div>
               <div className="text-2xl font-black text-emerald-600 mt-1">100%</div>
+              <p className="text-[10px] text-slate-500 mt-0.5">Grade 10 CBSE Benchmark</p>
             </div>
             <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
               <div className="text-[11px] font-bold text-slate-400 uppercase">Student Retention</div>
               <div className="text-2xl font-black text-blue-600 mt-1">98.6%</div>
+              <p className="text-[10px] text-slate-500 mt-0.5">Annual Re-enrollment Velocity</p>
             </div>
             <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
-              <div className="text-[11px] font-bold text-slate-400 uppercase">Term Fee Collection Speed</div>
+              <div className="text-[11px] font-bold text-slate-400 uppercase">Term Fee Realization</div>
               <div className="text-2xl font-black text-purple-600 mt-1">97.3%</div>
+              <p className="text-[10px] text-slate-500 mt-0.5">₹1.72 Cr / ₹1.85 Cr Collected</p>
             </div>
             <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
-              <div className="text-[11px] font-bold text-slate-400 uppercase">Academic Risk Prediction</div>
-              <div className="text-2xl font-black text-slate-800 mt-1">Low (3 Flags)</div>
+              <div className="text-[11px] font-bold text-slate-400 uppercase">Statutory Attendance Rate</div>
+              <div className="text-2xl font-black text-slate-800 mt-1">94.2%</div>
+              <p className="text-[10px] text-rose-600 font-semibold mt-0.5">3 At-Risk Flags (&lt;75%)</p>
+            </div>
+          </div>
+
+          {/* Academic Performance & Subject Benchmarks */}
+          <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+              <div>
+                <h2 className="text-base font-black text-slate-800">Academic Grading Breakdown & Subject Performance</h2>
+                <p className="text-xs text-slate-500">Curriculum competency mastery and term evaluation scores across 150 enrolled scholars</p>
+              </div>
+              <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                Term 1 Results Published
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {/* Grade Distribution Breakdown */}
+              <div className="p-4 rounded-2xl bg-white border border-slate-200/80 space-y-3">
+                <h3 className="font-bold text-xs uppercase tracking-wider text-slate-500">Scholastic Grade Distribution</h3>
+                <div className="space-y-2.5">
+                  {[
+                    { grade: 'A+ (Distinction 90–100%)', count: '63 Scholars', pct: 42, color: 'bg-emerald-500' },
+                    { grade: 'A (First Class 80–89%)', count: '54 Scholars', pct: 36, color: 'bg-blue-500' },
+                    { grade: 'B+ (High Merit 70–79%)', count: '24 Scholars', pct: 16, color: 'bg-indigo-500' },
+                    { grade: 'B & Support Needed (60–69%)', count: '9 Scholars', pct: 6, color: 'bg-amber-500' },
+                  ].map((item, idx) => (
+                    <div key={idx} className="space-y-1">
+                      <div className="flex items-center justify-between text-xs font-semibold">
+                        <span className="text-slate-800">{item.grade}</span>
+                        <span className="text-slate-600 font-mono">{item.count} ({item.pct}%)</span>
+                      </div>
+                      <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                        <div className={`h-full ${item.color} rounded-full`} style={{ width: `${item.pct}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Subject Averages Benchmarks */}
+              <div className="p-4 rounded-2xl bg-white border border-slate-200/80 space-y-3">
+                <h3 className="font-bold text-xs uppercase tracking-wider text-slate-500">Core Subject Averages</h3>
+                <div className="space-y-2.5">
+                  {[
+                    { subject: 'Computer Science & AI (CS)', avg: 91.2, faculty: 'Adrin / Mr. David Joseph', color: 'bg-blue-600' },
+                    { subject: 'English Literature & Language', avg: 88.5, faculty: 'Mrs. Rachel Green', color: 'bg-teal-600' },
+                    { subject: 'Mathematics & Calculus', avg: 84.6, faculty: 'Dr. Arthur Vance', color: 'bg-purple-600' },
+                    { subject: 'General Science & Physics', avg: 82.8, faculty: 'Mrs. Anitha Raman', color: 'bg-emerald-600' },
+                  ].map((sub, idx) => (
+                    <div key={idx} className="space-y-1">
+                      <div className="flex items-center justify-between text-xs font-semibold">
+                        <div>
+                          <span className="text-slate-900">{sub.subject}</span>
+                          <span className="text-[10px] text-slate-400 block font-normal">{sub.faculty}</span>
+                        </div>
+                        <span className="text-slate-800 font-black text-sm font-mono">{sub.avg}%</span>
+                      </div>
+                      <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                        <div className={`h-full ${sub.color} rounded-full`} style={{ width: `${sub.avg}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Revenue Velocity & Campus Operational Telemetry */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* Financial Velocity */}
+            <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-3">
+              <h2 className="text-base font-black text-slate-800">Fee Inflow & Realization Velocity</h2>
+              <p className="text-xs text-slate-500">Session 2026-2027 annual tuition, laboratory, and bus pass realization</p>
+              <div className="grid grid-cols-2 gap-3 pt-2 text-xs">
+                <div className="p-3 rounded-xl bg-white border border-slate-200">
+                  <div className="text-slate-500 font-medium">Gross Billed</div>
+                  <div className="text-base font-black text-slate-900 mt-0.5">₹1,85,00,000</div>
+                  <div className="text-[10px] text-emerald-600 font-semibold mt-0.5">150 Scholars Ledger</div>
+                </div>
+                <div className="p-3 rounded-xl bg-white border border-slate-200">
+                  <div className="text-slate-500 font-medium">Collected to Date</div>
+                  <div className="text-base font-black text-emerald-600 mt-0.5">₹1,72,50,000</div>
+                  <div className="text-[10px] text-slate-500 mt-0.5">93.2% Realized</div>
+                </div>
+                <div className="p-3 rounded-xl bg-white border border-slate-200">
+                  <div className="text-slate-500 font-medium">Outstanding Balances</div>
+                  <div className="text-base font-black text-amber-600 mt-0.5">₹12,50,000</div>
+                  <div className="text-[10px] text-slate-500 mt-0.5">Dec Installments Due</div>
+                </div>
+                <div className="p-3 rounded-xl bg-white border border-slate-200">
+                  <div className="text-slate-500 font-medium">Scholarships Disbursed</div>
+                  <div className="text-base font-black text-purple-600 mt-0.5">₹8,40,000</div>
+                  <div className="text-[10px] text-purple-600 font-semibold mt-0.5">Merit & RTE Subsidies</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Transport & Safety Telemetry */}
+            <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-3">
+              <h2 className="text-base font-black text-slate-800">Transport & Campus Operations Safety Index</h2>
+              <p className="text-xs text-slate-500">Live vehicle tracking, RFID gate clock-ins, and campus safety metrics</p>
+              <div className="grid grid-cols-2 gap-3 pt-2 text-xs">
+                <div className="p-3 rounded-xl bg-white border border-slate-200">
+                  <div className="text-slate-500 font-medium">Active Fleet Buses</div>
+                  <div className="text-base font-black text-blue-600 mt-0.5">24 Vehicles</div>
+                  <div className="text-[10px] text-emerald-600 font-semibold mt-0.5">100% On-Schedule GPS</div>
+                </div>
+                <div className="p-3 rounded-xl bg-white border border-slate-200">
+                  <div className="text-slate-500 font-medium">Gate Swipes Logged</div>
+                  <div className="text-base font-black text-slate-900 mt-0.5">842 Today</div>
+                  <div className="text-[10px] text-slate-500 mt-0.5">&lt;200ms RFID Verification</div>
+                </div>
+                <div className="p-3 rounded-xl bg-white border border-slate-200">
+                  <div className="text-slate-500 font-medium">Campus Punctuality</div>
+                  <div className="text-base font-black text-emerald-600 mt-0.5">97.8%</div>
+                  <div className="text-[10px] text-slate-500 mt-0.5">On-Time Morning Roll</div>
+                </div>
+                <div className="p-3 rounded-xl bg-white border border-slate-200">
+                  <div className="text-slate-500 font-medium">Safety Compliances</div>
+                  <div className="text-base font-black text-teal-600 mt-0.5">100% Cleared</div>
+                  <div className="text-[10px] text-teal-600 font-semibold mt-0.5">Fire & Police Verified</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       )}
 
       {/* ─────────────────────────────────────────────────────────────
-          14. ROLES & USERS MODULE
+          14. ROLES & USERS MODULE (COMPREHENSIVELY ENRICHED)
           ───────────────────────────────────────────────────────────── */}
       {moduleKey === 'roles-users' && (
         <div className="space-y-6">
@@ -2159,42 +2371,502 @@ export const ModuleHubPage: React.FC = () => {
                 <p className="text-xs text-slate-500">Multi-portal RBAC governance: Super Admin (Correspondent), Staff Office Desk, Principal, Faculty, Guardians & Students</p>
               </div>
             </div>
-            <span className="text-xs font-bold text-slate-600 bg-white px-3 py-1.5 rounded-xl border border-slate-200">
-              {managedUsers.length} Active System Accounts
-            </span>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => toast.success('New user registration modal initiated. Pre-assigned to school domain.')}
+                className="px-4 py-2.5 rounded-xl bg-[#0071E3] hover:bg-blue-600 text-white text-xs font-bold flex items-center space-x-1.5 shadow-md shadow-blue-500/25 cursor-pointer transition-all"
+              >
+                <UserPlus className="w-4 h-4 text-white" />
+                <span>Add User Account</span>
+              </button>
+              <button
+                onClick={() => toast.success('RBAC security audit log exported successfully.')}
+                className="px-3.5 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold flex items-center space-x-1.5 border border-slate-200 shadow-xs cursor-pointer transition-all"
+              >
+                <Download className="w-4 h-4 text-slate-600" />
+                <span>Audit Export</span>
+              </button>
+            </div>
           </div>
 
+          {/* Quick Metrics */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] border border-white/60">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Total System Accounts</span>
+              <div className="mt-2 flex items-baseline space-x-2">
+                <span className="text-2xl font-black text-slate-900">{managedUsers.length}</span>
+                <span className="text-xs font-bold text-emerald-600">100% Active</span>
+              </div>
+              <p className="text-[11px] text-slate-500 mt-1">Across 4 distinct portals</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] border border-white/60">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">RBAC Role Profiles</span>
+              <div className="mt-2 flex items-baseline space-x-2">
+                <span className="text-2xl font-black text-blue-600">6 Profiles</span>
+                <span className="text-xs font-bold text-blue-600">Enforced</span>
+              </div>
+              <p className="text-[11px] text-slate-500 mt-1">Granular permission matrices</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] border border-white/60">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Password & Session Policy</span>
+              <div className="mt-2 flex items-baseline space-x-2">
+                <span className="text-2xl font-black text-purple-600">Strict</span>
+                <span className="text-xs font-bold text-purple-600">30m Idle</span>
+              </div>
+              <p className="text-[11px] text-slate-500 mt-1">5-attempt lockout security</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] border border-white/60">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Authentication Health</span>
+              <div className="mt-2 flex items-baseline space-x-2">
+                <span className="text-2xl font-black text-emerald-600">99.9%</span>
+                <span className="text-xs font-bold text-emerald-600">Verified</span>
+              </div>
+              <p className="text-[11px] text-slate-500 mt-1">JWT Tokens with auto-rotation</p>
+            </div>
+          </div>
+
+          {/* User Directory Filter & Table */}
           <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              {/* Category Filter Pills */}
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  { key: 'all', label: 'All Accounts', count: managedUsers.length },
+                  { key: 'admin', label: 'Administration', count: managedUsers.filter(u => u.category === 'admin').length },
+                  { key: 'coordinator', label: 'Coordinators', count: managedUsers.filter(u => u.category === 'coordinator').length },
+                  { key: 'faculty', label: 'Faculty', count: managedUsers.filter(u => u.category === 'faculty').length },
+                  { key: 'staff', label: 'Support & Treasury', count: managedUsers.filter(u => u.category === 'staff').length },
+                  { key: 'parent', label: 'Parents', count: managedUsers.filter(u => u.category === 'parent').length },
+                  { key: 'student', label: 'Students', count: managedUsers.filter(u => u.category === 'student').length },
+                ].map((tab) => (
+                  <button
+                    key={tab.key}
+                    onClick={() => setUserRoleFilter(tab.key)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                      userRoleFilter === tab.key
+                        ? 'bg-[#0071E3] text-white shadow-sm'
+                        : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                    }`}
+                  >
+                    {tab.label} ({tab.count})
+                  </button>
+                ))}
+              </div>
+
+              {/* Search Bar */}
+              <div className="relative w-full md:w-64">
+                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                <input
+                  type="text"
+                  placeholder="Search name, user, email..."
+                  value={userSearchTerm}
+                  onChange={(e) => setUserSearchTerm(e.target.value)}
+                  className="w-full pl-9 pr-3 py-1.5 bg-white rounded-xl border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                />
+              </div>
+            </div>
+
+            <div className="overflow-x-auto rounded-2xl border border-slate-200">
+              <table className="w-full text-left text-xs bg-white">
+                <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b border-slate-200 text-[11px]">
+                  <tr>
+                    <th className="py-3 px-4">User & Username</th>
+                    <th className="py-3 px-4">Assigned Role</th>
+                    <th className="py-3 px-4">Portal Scope</th>
+                    <th className="py-3 px-4">Key Permissions</th>
+                    <th className="py-3 px-4">Contact Info</th>
+                    <th className="py-3 px-4 text-center">Status</th>
+                    <th className="py-3 px-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 font-medium">
+                  {managedUsers
+                    .filter((u) => {
+                      if (userRoleFilter !== 'all' && u.category !== userRoleFilter) return false;
+                      if (!userSearchTerm.trim()) return true;
+                      const term = userSearchTerm.toLowerCase();
+                      return (
+                        u.fullName.toLowerCase().includes(term) ||
+                        u.username.toLowerCase().includes(term) ||
+                        u.email.toLowerCase().includes(term) ||
+                        u.assignedRole.toLowerCase().includes(term)
+                      );
+                    })
+                    .map((u) => (
+                      <tr key={u.id} className="hover:bg-slate-50/80 transition-colors">
+                        <td className="py-3 px-4">
+                          <div className="font-bold text-slate-900">{u.fullName}</div>
+                          <div className="font-mono text-[10px] text-blue-600 font-semibold">@{u.username}</div>
+                          <div className="text-[10px] text-slate-400">Seen: {u.lastLogin}</div>
+                        </td>
+                        <td className="py-3 px-4">
+                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
+                            u.category === 'admin' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' :
+                            u.category === 'coordinator' ? 'bg-teal-50 text-teal-700 border-teal-200' :
+                            u.category === 'faculty' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                            u.category === 'staff' ? 'bg-cyan-50 text-cyan-700 border-cyan-200' :
+                            u.category === 'parent' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                            'bg-amber-50 text-amber-700 border-amber-200'
+                          }`}>
+                            {u.assignedRole}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 text-slate-700 font-medium max-w-[180px]">
+                          {u.portalScope}
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="flex flex-wrap gap-1 max-w-[200px]">
+                            {u.permissions?.slice(0, 2).map((p, i) => (
+                              <span key={i} className="px-1.5 py-0.5 rounded bg-slate-100 text-[10px] text-slate-600 border border-slate-200">
+                                {p}
+                              </span>
+                            ))}
+                            {(u.permissions?.length || 0) > 2 && (
+                              <span className="text-[10px] text-slate-400 font-semibold self-center">
+                                +{u.permissions.length - 2} more
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="py-3 px-4 text-slate-600">
+                          <div className="font-mono text-[11px] text-slate-800">{u.email}</div>
+                          <div className="text-[10px] text-slate-400">{u.phone}</div>
+                        </td>
+                        <td className="py-3 px-4 text-center">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                            {u.status}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 text-right">
+                          <div className="flex items-center justify-end space-x-1.5">
+                            <button
+                              onClick={() => toast.success(`Password reset link dispatched for @${u.username}.`)}
+                              className="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold transition-colors cursor-pointer"
+                              title="Reset Password"
+                            >
+                              Reset
+                            </button>
+                            <button
+                              onClick={() => toast.success(`Permissions inspector opened for ${u.fullName}.`)}
+                              className="px-2 py-1 rounded bg-blue-50 hover:bg-blue-100 text-[#0071E3] text-[10px] font-bold border border-blue-200 transition-colors cursor-pointer"
+                              title="Edit Access"
+                            >
+                              Edit
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Role & Permission Access Control Matrix */}
+          <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-4">
+            <div className="flex items-center space-x-3 border-b border-slate-200 pb-3">
+              <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center border border-purple-200">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-bold text-sm text-slate-900">Enterprise Role-Based Access Control (RBAC) Matrix</h3>
+                <p className="text-[11px] text-slate-500">Definitive permission mapping across all 8 core campus modules</p>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto rounded-2xl border border-slate-200">
+              <table className="w-full text-left text-xs bg-white">
+                <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b border-slate-200 text-[10px]">
+                  <tr>
+                    <th className="py-3 px-4">Campus Function / Module</th>
+                    <th className="py-3 px-3 text-center">Super Admin</th>
+                    <th className="py-3 px-3 text-center">Principal</th>
+                    <th className="py-3 px-3 text-center">Coordinator</th>
+                    <th className="py-3 px-3 text-center">Teacher</th>
+                    <th className="py-3 px-3 text-center">Office Desk</th>
+                    <th className="py-3 px-3 text-center">Guardian</th>
+                    <th className="py-3 px-3 text-center">Student</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 text-[11px] font-semibold text-slate-700">
+                  <tr>
+                    <td className="py-2.5 px-4 font-bold text-slate-900">Student Directory (150 Enrolled)</td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Full</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Full</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-bold">Wing Only</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-bold">Class Only</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Full</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded font-bold">Ward Only</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded font-bold">Self Only</span></td>
+                  </tr>
+                  <tr>
+                    <td className="py-2.5 px-4 font-bold text-slate-900">Fee Counter, Cash & Invoices</td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Sanction</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-500 bg-slate-50 px-2 py-0.5 rounded">View Dues</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Collect</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-bold">Pay Dues</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Status</span></td>
+                  </tr>
+                  <tr>
+                    <td className="py-2.5 px-4 font-bold text-slate-900">Examinations & Mark Entries</td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Publish</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Approve</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Moderate</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-bold">Grade Input</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-500 bg-slate-50 px-2 py-0.5 rounded">Print Report</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Grades</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Grades</span></td>
+                  </tr>
+                  <tr>
+                    <td className="py-2.5 px-4 font-bold text-slate-900">Class Timetable & Periods</td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Full</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Full</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Manage Wing</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Periods</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Periods</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Schedule</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Schedule</span></td>
+                  </tr>
+                  <tr>
+                    <td className="py-2.5 px-4 font-bold text-slate-900">Transport Bus GPS Radar</td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Manage</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">Live Map</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Manage Bus</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Live GPS</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">Bus Route</span></td>
+                  </tr>
+                  <tr>
+                    <td className="py-2.5 px-4 font-bold text-slate-900">Treasury Reserves & Payroll</td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Authorize</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-bold">Draft Batches</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                  </tr>
+                  <tr>
+                    <td className="py-2.5 px-4 font-bold text-slate-900">Gate Passes & Visitor RFID</td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">Audit Log</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">Audit Log</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Issue / Mark</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                  </tr>
+                  <tr>
+                    <td className="py-2.5 px-4 font-bold text-slate-900">Institutional ERP Settings</td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-rose-700 bg-rose-50 px-2 py-0.5 rounded font-bold">Exclusive</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─────────────────────────────────────────────────────────────
+          15. API INTEGRATIONS MODULE (COMPREHENSIVELY ENRICHED)
+          ───────────────────────────────────────────────────────────── */}
+      {moduleKey === 'integrations' && (
+        <div className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-600 to-blue-700 text-white flex items-center justify-center shadow-md shadow-indigo-500/25 shrink-0">
+                <Workflow className="w-6 h-6" />
+              </div>
+              <div>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Enterprise API Gateways & Integrations</h1>
+                <p className="text-xs text-slate-500">Connected campus telemetry, WhatsApp Business API, Razorpay gateway, and cloud backups</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-200 flex items-center space-x-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>6 Gateways Online • 99.98% Uptime</span>
+              </span>
+              <button
+                onClick={() => toast.success('API health ping broadcasted. All 6 gateway endpoints responding normally.')}
+                className="px-3 py-1.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs shadow-xs cursor-pointer"
+              >
+                Ping All Gateways
+              </button>
+            </div>
+          </div>
+
+          {/* 6 Master Integration Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              {
+                id: 'whatsapp',
+                title: 'WhatsApp Business Cloud API',
+                provider: 'Meta Graph API v19.0',
+                status: 'Connected (Verified Sender)',
+                statusColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+                desc: 'Automated instant fee receipts, student absence notices, and homework notifications dispatched to verified parent numbers.',
+                metric: '1,420 Templates Dispatched',
+                metricSub: '99.4% Verified Delivery',
+                icon: Phone,
+                iconBg: 'bg-emerald-50 text-emerald-600',
+              },
+              {
+                id: 'payment',
+                title: 'Payment Gateway (Razorpay & Cashfree)',
+                provider: 'Merchant ID: MERCH_EGS_84920',
+                status: 'Live (Auto-Settlement Active)',
+                statusColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+                desc: 'Parent UPI, debit/credit cards, and NetBanking counter collections with direct T+1 institutional bank account reconciliation.',
+                metric: '₹1,42,500 Processed Today',
+                metricSub: '0.0% Chargeback Rate',
+                icon: CreditCard,
+                iconBg: 'bg-blue-50 text-[#0071E3]',
+              },
+              {
+                id: 'gps',
+                title: 'AIS-140 GPS Fleet Telemetry Server',
+                provider: 'Traccar Enterprise Protocol',
+                status: 'Streaming 1 Hz Live',
+                statusColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+                desc: 'Live geo-coordinate streaming for 24 campus buses with parent ETA notifications, speed compliance, and route boundary alerts.',
+                metric: '24 Buses Online',
+                metricSub: '0 Speed Violations Logged',
+                icon: Server,
+                iconBg: 'bg-indigo-50 text-indigo-600',
+              },
+              {
+                id: 'biometric',
+                title: 'ZK-Teco Biometric & RFID Turnstiles',
+                provider: 'TCP/IP Port 4370 Direct Socket',
+                status: '4 Turnstiles Active',
+                statusColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+                desc: 'Hardware attendance synchronization for student RFID entry badges and faculty biometric muster roll clock-in.',
+                metric: '842 Swipes Logged Today',
+                metricSub: '<180ms Recognition Latency',
+                icon: Activity,
+                iconBg: 'bg-purple-50 text-purple-600',
+              },
+              {
+                id: 'sms',
+                title: 'Fast2SMS & Jio DLT SMS Gateway',
+                provider: 'DLT Entity ID: 110142958000',
+                status: 'Verified DLT Sender',
+                statusColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+                desc: 'Regulatory transactional SMS fallback for emergency circulars, severe weather campus closures, and staff 2FA authentication.',
+                metric: '24,500 Credits Remaining',
+                metricSub: 'Header: EGROWS',
+                icon: Send,
+                iconBg: 'bg-amber-50 text-amber-600',
+              },
+              {
+                id: 'backup',
+                title: 'Automated Cloud Database S3 Backup',
+                provider: 'AWS S3 & Cloud Storage (Mumbai Region)',
+                status: 'AES-256 Daily 02:00 AM Cron',
+                statusColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+                desc: 'Geo-redundant encrypted database snapshots, student documents vault, and fee ledger audit logs retention for 7 years.',
+                metric: '184 MB Snapshot Verified',
+                metricSub: 'Zero Data Loss Tolerance',
+                icon: Database,
+                iconBg: 'bg-teal-50 text-teal-600',
+              },
+            ].map((gw) => {
+              const Icon = gw.icon;
+              return (
+                <div key={gw.id} className="p-5 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 flex flex-col justify-between space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className={`w-10 h-10 rounded-2xl ${gw.iconBg} flex items-center justify-center border border-slate-200/60`}>
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${gw.statusColor}`}>
+                        {gw.status}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="font-bold text-sm text-slate-900">{gw.title}</h3>
+                      <div className="text-[10px] font-mono text-slate-500 mt-0.5">{gw.provider}</div>
+                      <p className="text-xs text-slate-500 mt-2 line-clamp-3 leading-relaxed">{gw.desc}</p>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-200 space-y-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-bold text-slate-800">{gw.metric}</span>
+                      <span className="text-[10px] text-slate-500 font-semibold">{gw.metricSub}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => toast.success(`Diagnostic test completed for ${gw.title}. Connection healthy.`)}
+                        className="w-full py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold transition-all cursor-pointer"
+                      >
+                        Run Diagnostic Test
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Webhook Stream & API Event Log Table */}
+          <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+              <div>
+                <h2 className="text-base font-black text-slate-800">Live Webhook Dispatch & Gateway Ingress Stream</h2>
+                <p className="text-xs text-slate-500">Real-time telemetry event trace, HTTP response codes, and network round-trip latencies</p>
+              </div>
+              <span className="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200 font-mono">
+                Auto-Polling: 5s
+              </span>
+            </div>
+
             <div className="overflow-x-auto rounded-2xl border border-slate-200">
               <table className="w-full text-left text-xs bg-white">
                 <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b border-slate-200">
                   <tr>
-                    <th className="py-3 px-4">User</th>
-                    <th className="py-3 px-4">Assigned Role</th>
-                    <th className="py-3 px-4">Portal Scope</th>
-                    <th className="py-3 px-4">Account Email</th>
+                    <th className="py-3 px-4">Event Timestamp</th>
+                    <th className="py-3 px-4">Service Gateway</th>
+                    <th className="py-3 px-4">Webhook Event Type</th>
                     <th className="py-3 px-4 text-center">Status</th>
+                    <th className="py-3 px-4 text-right">Latency</th>
+                    <th className="py-3 px-4 text-right">Payload Detail</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-medium">
-                  {managedUsers.map((u) => (
-                    <tr key={u.id} className="hover:bg-slate-50/70 transition-colors">
-                      <td className="py-3 px-4">
-                        <div className="font-bold text-slate-900">{u.fullName}</div>
-                        <div className="font-mono text-[10px] text-slate-400">@{u.username}</div>
-                      </td>
-                      <td className="py-3 px-4">
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200">
-                          {u.assignedRole}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4 text-slate-600">{u.portalScope}</td>
-                      <td className="py-3 px-4 font-mono text-slate-500">{u.email}</td>
+                  {[
+                    { time: 'Just now (10:48:12)', service: 'WhatsApp Cloud API', event: 'message.template.delivered', status: '200 OK', lat: '124ms', detail: 'Fee receipt template sent to +91 94431 87230' },
+                    { time: '1 min ago (10:47:05)', service: 'Razorpay UPI Ingress', event: 'payment.captured', status: '200 OK', lat: '210ms', detail: '₹14,500 Term 2 Fee collected for S001' },
+                    { time: '2 mins ago (10:46:00)', service: 'AIS-140 GPS Server', event: 'fleet.geofence.boundary_exit', status: '200 OK', lat: '88ms', detail: 'Bus #04 exited Whitefield depot radius' },
+                    { time: '4 mins ago (10:44:18)', service: 'ZK-Teco Biometric Turnstile', event: 'gate.rfid.clock_in', status: '200 OK', lat: '42ms', detail: 'Student M. Mohan badge verified at Gate 1' },
+                    { time: '7 mins ago (10:41:00)', service: 'Jio DLT SMS Gateway', event: 'sms.dispatch.delivered', status: '200 OK', lat: '340ms', detail: 'Morning roll-call attendance summary SMS' },
+                    { time: 'Today, 02:00:00 AM', service: 'AWS S3 Cloud Backup', event: 'vault.snapshot.completed', status: '200 OK', lat: '1.2s', detail: 'Encrypted database snapshot dump: 184 MB' },
+                  ].map((row, idx) => (
+                    <tr key={idx} className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3 px-4 font-mono text-slate-600 font-semibold">{row.time}</td>
+                      <td className="py-3 px-4 font-bold text-slate-900">{row.service}</td>
+                      <td className="py-3 px-4 font-mono text-blue-600">{row.event}</td>
                       <td className="py-3 px-4 text-center">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
-                          {u.status}
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          {row.status}
                         </span>
                       </td>
+                      <td className="py-3 px-4 text-right font-mono text-slate-500">{row.lat}</td>
+                      <td className="py-3 px-4 text-right text-slate-600 max-w-xs truncate">{row.detail}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -2205,31 +2877,439 @@ export const ModuleHubPage: React.FC = () => {
       )}
 
       {/* ─────────────────────────────────────────────────────────────
-          15. INTEGRATIONS & SETTINGS MODULES
+          16. INSTITUTIONAL SETTINGS & ERP MODULES DIRECTORY
           ───────────────────────────────────────────────────────────── */}
-      {(moduleKey === 'integrations' || moduleKey === 'settings') && (
-        <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-4">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-blue-600 text-white flex items-center justify-center">
-              <Workflow className="w-5 h-5" />
+      {moduleKey === 'settings' && (
+        <div className="space-y-6">
+          {/* Header Banner */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-slate-700 to-slate-900 text-white flex items-center justify-center shadow-md shadow-slate-700/25 shrink-0">
+                <SlidersHorizontal className="w-6 h-6" />
+              </div>
+              <div>
+                <h1 className="text-xl font-black text-slate-800 tracking-tight">Institutional Settings & Customize ERP Modules</h1>
+                <p className="text-xs text-slate-500">
+                  Explore all campus ERP features, understand what each module does and how to use it, and configure institutional affiliation standards.
+                </p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-base font-black text-slate-800">
-                {moduleKey === 'integrations' ? 'API Gateways & Integrations' : 'Institutional Preferences'}
-              </h2>
-              <p className="text-xs text-slate-500">Connected campus telemetry, WhatsApp Business API, and automated daily backups</p>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => toast.success('All institutional parameters and module configurations have been successfully saved.')}
+                className="px-4 py-2.5 rounded-xl bg-[#0071E3] hover:bg-blue-600 text-white text-xs font-bold flex items-center space-x-1.5 shadow-md shadow-blue-500/25 cursor-pointer transition-all"
+              >
+                <Save className="w-4 h-4 text-white" />
+                <span>Save & Apply Settings</span>
+              </button>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-            <div className="p-4 rounded-2xl bg-white border border-slate-200">
-              <div className="font-bold text-slate-900">WhatsApp Business Cloud API</div>
-              <div className="text-emerald-600 font-semibold mt-1">● Connected (Verified Sender)</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-white border border-slate-200">
-              <div className="font-bold text-slate-900">GPS Fleet Telemetry Server</div>
-              <div className="text-emerald-600 font-semibold mt-1">● 24 Buses Streaming Live</div>
-            </div>
+
+          {/* Navigation Sub-Tabs */}
+          <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-[#EBEEF2] shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF]">
+            {[
+              { id: 'modules', label: 'Customize ERP Modules (12)', icon: LayoutGrid, desc: 'Feature switchboard & capabilities' },
+              { id: 'affiliation', label: 'CBSE Affiliation & Legal', icon: Building, desc: 'School board accreditation' },
+              { id: 'academic', label: 'Academic & Passing Rules', icon: GraduationCap, desc: '75% attendance & grading scale' },
+              { id: 'timings', label: 'Campus Hours & Bell Timings', icon: Clock, desc: 'Daily bells & bus dispatch' },
+              { id: 'security', label: 'Security & Backup Policies', icon: ShieldCheck, desc: 'Lockout & cloud backups' },
+            ].map((tab) => {
+              const Icon = tab.icon;
+              const isActive = settingsActiveTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setSettingsActiveTab(tab.id as any)}
+                  className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-white text-slate-900 shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF]'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/40'
+                  }`}
+                >
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-[#0071E3]' : 'text-slate-500'}`} />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
           </div>
+
+          {/* TAB 1: CUSTOMIZE ERP MODULES SWITCHBOARD & DIRECTORY */}
+          {settingsActiveTab === 'modules' && (
+            <div className="space-y-6">
+              {/* Directory Filter & Search */}
+              <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900">ERP Features Directory & Module Controls</h3>
+                    <p className="text-xs text-slate-500">
+                      Understand each setting's purpose, see how your institution can use it, and toggle modules active or hidden.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-center gap-2">
+                    {/* Search */}
+                    <div className="relative w-full sm:w-60">
+                      <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                      <input
+                        type="text"
+                        placeholder="Search module or use case..."
+                        value={settingsModuleSearch}
+                        onChange={(e) => setSettingsModuleSearch(e.target.value)}
+                        className="w-full pl-9 pr-3 py-1.5 bg-white rounded-xl border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Category Pills */}
+                <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-200">
+                  {['all', 'Academics', 'Finance', 'Daily Operations', 'Safety & Logistics', 'Campus Security', 'Student Motivation', 'Resources', 'Community', 'Student Counseling'].map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setSettingsModuleCategory(cat)}
+                      className={`px-3 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
+                        settingsModuleCategory === cat
+                          ? 'bg-[#0071E3] text-white'
+                          : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                      }`}
+                    >
+                      {cat === 'all' ? 'All Categories (12)' : cat}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Module Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {Object.entries(erpModules)
+                  .filter(([_, mod]) => {
+                    if (settingsModuleCategory !== 'all' && mod.category !== settingsModuleCategory) return false;
+                    if (!settingsModuleSearch.trim()) return true;
+                    const q = settingsModuleSearch.toLowerCase();
+                    return (
+                      mod.title.toLowerCase().includes(q) ||
+                      mod.description.toLowerCase().includes(q) ||
+                      mod.usage.toLowerCase().includes(q) ||
+                      mod.category.toLowerCase().includes(q)
+                    );
+                  })
+                  .map(([key, mod]) => {
+                    const ModIcon = mod.icon;
+                    return (
+                      <div
+                        key={key}
+                        className={`p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border transition-all flex flex-col justify-between ${
+                          mod.enabled ? 'border-white/80' : 'border-slate-300 opacity-75'
+                        }`}
+                      >
+                        <div className="space-y-3.5">
+                          {/* Card Top: Icon, Title & Toggle Switch */}
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="flex items-center space-x-3">
+                              <div className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${
+                                mod.enabled ? 'bg-blue-600 text-white' : 'bg-slate-300 text-slate-600'
+                              }`}>
+                                <ModIcon className="w-5 h-5" />
+                              </div>
+                              <div>
+                                <h4 className="font-extrabold text-sm text-slate-900 leading-snug">{mod.title}</h4>
+                                <span className="inline-block mt-0.5 text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-slate-600 border border-slate-200">
+                                  {mod.category}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Toggle Button */}
+                            <button
+                              type="button"
+                              onClick={() => toggleModuleStatus(key)}
+                              className={`px-3 py-1.5 rounded-xl text-[11px] font-black flex items-center space-x-1.5 transition-all cursor-pointer ${
+                                mod.enabled
+                                  ? 'bg-emerald-500 text-white shadow-sm hover:bg-emerald-600'
+                                  : 'bg-slate-300 text-slate-700 hover:bg-slate-400'
+                              }`}
+                              title={mod.enabled ? 'Click to disable module' : 'Click to enable module'}
+                            >
+                              <span>{mod.enabled ? 'Active' : 'Disabled'}</span>
+                            </button>
+                          </div>
+
+                          {/* "What this is" Block */}
+                          <div className="p-3 rounded-2xl bg-white/90 border border-slate-200/80 space-y-1">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                              What this setting is:
+                            </span>
+                            <p className="text-xs text-slate-700 leading-relaxed">
+                              {mod.description}
+                            </p>
+                          </div>
+
+                          {/* "What you can use it for" Block */}
+                          <div className="p-3 rounded-2xl bg-blue-50/70 border border-blue-200/80 space-y-1">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-blue-700">
+                              How the school can use it:
+                            </span>
+                            <p className="text-xs text-slate-700 leading-relaxed font-medium">
+                              {mod.usage}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Card Bottom: Navigation Shortcut */}
+                        <div className="mt-4 pt-3 border-t border-slate-200/80 flex items-center justify-between text-xs">
+                          <span className="text-[11px] font-mono text-slate-400">Route: {mod.route}</span>
+                          <Link
+                            to={mod.route}
+                            className="inline-flex items-center space-x-1 font-bold text-[#0071E3] hover:underline"
+                          >
+                            <span>Open Module</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 2: CBSE AFFILIATION & OFFICIAL REGISTRY */}
+          {settingsActiveTab === 'affiliation' && (
+            <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-6">
+              <div className="flex items-center space-x-3 border-b border-slate-200 pb-3">
+                <div className="w-10 h-10 rounded-2xl bg-blue-50 text-[#0071E3] flex items-center justify-center border border-blue-200">
+                  <Building className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm text-slate-900">CBSE Affiliation & Official Regulatory Credentials</h3>
+                  <p className="text-xs text-slate-500">Official accreditation identifiers displayed on report cards and certificates</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">Institution Legal Name</label>
+                  <p className="text-[11px] text-slate-400">Used on CBSE official mark sheets, Transfer Certificates (TC), and bonafide badges.</p>
+                  <input
+                    type="text"
+                    defaultValue="Ever Grow Schools (CBSE Senior Secondary)"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">CBSE Affiliation Number</label>
+                  <p className="text-[11px] text-slate-400">Official 7-digit CBSE registration number recognized by New Delhi.</p>
+                  <input
+                    type="text"
+                    defaultValue="1930842"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-mono font-bold focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">CBSE School Code</label>
+                  <p className="text-[11px] text-slate-400">Unique exam center code allocated for Board exam registration.</p>
+                  <input
+                    type="text"
+                    defaultValue="45892"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-mono font-bold focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">Active Academic Session</label>
+                  <p className="text-[11px] text-slate-400">Current running academic term governing attendance and fee calendars.</p>
+                  <input
+                    type="text"
+                    defaultValue="2026–2027 Academic Session"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2 md:col-span-2">
+                  <label className="block text-slate-600 font-bold">Official Campus Address & Board Jurisdiction</label>
+                  <p className="text-[11px] text-slate-400">Physical campus location and regional CBSE directorate zone.</p>
+                  <input
+                    type="text"
+                    defaultValue="Ever Grow Knowledge Park, Whitefield, Bangalore - 560066 • CBSE Regional Office Chennai / South Zone"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: ACADEMIC & PASSING RULES */}
+          {settingsActiveTab === 'academic' && (
+            <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-6">
+              <div className="flex items-center space-x-3 border-b border-slate-200 pb-3">
+                <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-200">
+                  <GraduationCap className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm text-slate-900">Academic Evaluation Thresholds & Passing Rules</h3>
+                  <p className="text-xs text-slate-500">Criteria for board exam eligibility, passing marks, and grade boundaries</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">Mandatory Attendance Threshold</label>
+                  <p className="text-[11px] text-slate-400">CBSE Rule: Students with &lt;75% attendance are automatically flagged for debarment.</p>
+                  <input
+                    type="text"
+                    defaultValue="75.0% Minimum Attendance"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-rose-600 font-black focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">Minimum Passing Marks Standard</label>
+                  <p className="text-[11px] text-slate-400">Theory and practical cut-offs required for passing grade promotion.</p>
+                  <input
+                    type="text"
+                    defaultValue="35% Theory / 40% Practical Vivas"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">Assessment Weightage Distribution</label>
+                  <p className="text-[11px] text-slate-400">Split between continuous internal assessments (CIE) and end-term finals.</p>
+                  <input
+                    type="text"
+                    defaultValue="40% Internal Assessment + 60% Term Final"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">Moderation & Grading Scheme</label>
+                  <p className="text-[11px] text-slate-400">Governing scale for Grade Point Average (GPA 10.0 scale) and grade bands.</p>
+                  <input
+                    type="text"
+                    defaultValue="9-Point CBSE Scale (A1, A2, B1, B2, C1, C2, D, E1, E2)"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: CAMPUS HOURS & TIMINGS */}
+          {settingsActiveTab === 'timings' && (
+            <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-6">
+              <div className="flex items-center space-x-3 border-b border-slate-200 pb-3">
+                <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center border border-purple-200">
+                  <Clock className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm text-slate-900">Campus Working Hours & Daily Bell Routine</h3>
+                  <p className="text-xs text-slate-500">Instructional periods, morning roll-call, and afternoon bus dispersal schedule</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">Campus Gates Open</label>
+                  <p className="text-[11px] text-slate-400">Security gates open for early student arrivals.</p>
+                  <input
+                    type="text"
+                    defaultValue="07:45 AM"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-black focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">Morning Assembly & Roll-Call</label>
+                  <p className="text-[11px] text-slate-400">Official cutoff for morning student punctuality.</p>
+                  <input
+                    type="text"
+                    defaultValue="08:30 AM"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-black focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">Dispersal & Bus Departures</label>
+                  <p className="text-[11px] text-slate-400">Closing bell and 12-bus transport fleet departures.</p>
+                  <input
+                    type="text"
+                    defaultValue="03:45 PM"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-black focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2 md:col-span-3">
+                  <label className="block text-slate-600 font-bold">Saturday Instructional Policy</label>
+                  <p className="text-[11px] text-slate-400">Working Saturday hours for co-curricular activities, remedial coaching, and parent consultations.</p>
+                  <input
+                    type="text"
+                    defaultValue="1st & 3rd Saturday Working (08:30 AM – 12:45 PM Half Day) • 2nd & 4th Saturday Holiday"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 5: SECURITY & BACKUP POLICIES */}
+          {settingsActiveTab === 'security' && (
+            <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-6">
+              <div className="flex items-center space-x-3 border-b border-slate-200 pb-3">
+                <div className="w-10 h-10 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center border border-rose-200">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm text-slate-900">Security, Account Lockout & Cloud Backup Safeguards</h3>
+                  <p className="text-xs text-slate-500">Protection against credential brute-forcing, automated data backups, and session integrity</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">Failed Login Account Lockout</label>
+                  <p className="text-[11px] text-slate-400">Protects student and staff credentials by freezing accounts after failed password attempts.</p>
+                  <input
+                    type="text"
+                    defaultValue="5 Failed Attempts (15-Minute Cooldown)"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">Idle Session Expiry Timeout</label>
+                  <p className="text-[11px] text-slate-400">Automatically logs out unattended teacher or staff browser windows on campus computers.</p>
+                  <input
+                    type="text"
+                    defaultValue="30 Minutes Idle Timeout"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">Automated Database Cloud Snapshots</label>
+                  <p className="text-[11px] text-slate-400">Nightly encrypted SQL snapshots archived with SHA-256 data validation.</p>
+                  <input
+                    type="text"
+                    defaultValue="Daily at 02:00 AM (Encrypted AWS S3 Vault)"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-slate-800 font-mono font-bold focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
+                  <label className="block text-slate-600 font-bold">Audit Logging Trail</label>
+                  <p className="text-[11px] text-slate-400">Immutable trace recording all marks modifications, fee edits, and staff permission shifts.</p>
+                  <input
+                    type="text"
+                    defaultValue="Enabled (Retained for 365 Days for CBSE Audits)"
+                    className="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-emerald-700 font-bold focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

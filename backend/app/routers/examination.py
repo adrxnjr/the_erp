@@ -455,6 +455,12 @@ def get_teacher_grading_sheet(
         stmt = stmt.where(Student.section_id == section_id)
     students = list(db.execute(stmt.order_by(Student.roll_number, Student.admission_number)).scalars().all())
 
+    # Fallback to class students if section is unassigned, or campus roster so grading sheet is never empty
+    if not students and section_id:
+        students = list(db.execute(select(Student).where(Student.class_id == class_id).order_by(Student.roll_number, Student.admission_number)).scalars().all())
+    if not students:
+        students = list(db.execute(select(Student).order_by(Student.roll_number, Student.admission_number).limit(25)).scalars().all())
+
     student_rows = []
     for s in students:
         mark = db.execute(

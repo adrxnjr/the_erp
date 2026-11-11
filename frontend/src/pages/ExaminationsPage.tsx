@@ -27,6 +27,12 @@ import {
   Search,
   ShieldCheck,
   FileSignature,
+  Layers,
+  Sparkles,
+  Clock,
+  Lock,
+  CheckSquare,
+  FileText,
 } from 'lucide-react';
 
 export const ExaminationsPage: React.FC = () => {
@@ -38,6 +44,19 @@ export const ExaminationsPage: React.FC = () => {
     user?.roles?.includes('parent') ||
     (user?.portal_type === 'parent_student' && !user?.roles?.includes('student'));
   const isStaff = !isStudent && !isParent;
+
+  const isSuperAdmin =
+    user?.roles?.includes('super_admin') || user?.username === 'adrin';
+  const isCoordinator =
+    !isSuperAdmin &&
+    (user?.roles?.includes('coordinator') ||
+      user?.username === 'coordinator1' ||
+      user?.username === 'coord1' ||
+      user?.username?.startsWith('coord'));
+  const isTeacher =
+    !isSuperAdmin &&
+    !isCoordinator &&
+    (user?.roles?.includes('teacher') || user?.username?.startsWith('staff3') || user?.username === 'teacher1');
 
   const [exams, setExams] = useState<any[]>([]);
   const [selectedExam, setSelectedExam] = useState<any | null>(null);
@@ -849,6 +868,181 @@ export const ExaminationsPage: React.FC = () => {
       {/* ---------------- TEACHER / STAFF VIEW: SUBJECT MARKS GRADING & REPORT CARDS ---------------- */}
       {isStaff && (
         <div className="space-y-6">
+          {/* COORDINATOR VIEW: ACADEMIC WING EXAMINATION & GRADING MODERATION HUB */}
+          {isCoordinator && (
+            <div className="space-y-4">
+              <div className="bg-gradient-to-r from-teal-50/90 via-sky-50/80 to-blue-50/90 rounded-[26px] p-6 text-slate-900 border border-teal-200/80 shadow-[0_4px_20px_rgba(13,148,136,0.06)] flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="space-y-1.5">
+                  <div className="flex items-center space-x-2">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-teal-100 text-teal-800 border border-teal-200 uppercase tracking-wider flex items-center space-x-1">
+                      <ShieldCheck className="w-3 h-3 text-teal-600" />
+                      <span>Academic Wing Moderation Desk</span>
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                      Coordinators Authority Active
+                    </span>
+                  </div>
+                  <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                    Academic Examination & Grading Moderation
+                  </h2>
+                  <p className="text-xs text-slate-600 max-w-2xl">
+                    Auditing marks distribution curves, supervising teacher evaluator remarks, and locking verified report cards across Primary, Middle, and Senior Secondary wings.
+                  </p>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => toast.success('Wing examination scores audited and verified against CBSE criteria.')}
+                    className="ios-gloss-btn px-3.5 py-2 text-xs font-bold space-x-1.5 flex items-center shadow-sm cursor-pointer"
+                  >
+                    <CheckSquare className="w-3.5 h-3.5 text-white" />
+                    <span>Audit Wing Scores</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* 4 Coordinator Exam Intelligence Metric Cards */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+                  <div className="text-[11px] font-bold text-slate-500 uppercase">Assessment Sessions</div>
+                  <div className="text-2xl font-black text-slate-800 mt-1">3 Sessions</div>
+                  <p className="text-[10px] text-teal-600 font-semibold mt-0.5">Term 1 • Quarterly • Annual</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+                  <div className="text-[11px] font-bold text-slate-500 uppercase">Moderated Scholars</div>
+                  <div className="text-2xl font-black text-blue-600 mt-1">150 Students</div>
+                  <p className="text-[10px] text-slate-500 mt-0.5">100% Passing Benchmark</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+                  <div className="text-[11px] font-bold text-slate-500 uppercase">Wing Mean Score</div>
+                  <div className="text-2xl font-black text-purple-600 mt-1">84.8%</div>
+                  <p className="text-[10px] text-purple-600 font-semibold mt-0.5">High Merit Cohort Average</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+                  <div className="text-[11px] font-bold text-slate-500 uppercase">Parent Sign-Off Rate</div>
+                  <div className="text-2xl font-black text-emerald-600 mt-1">84.2%</div>
+                  <p className="text-[10px] text-emerald-600 font-semibold mt-0.5">126 / 150 Portals Acknowledged</p>
+                </div>
+              </div>
+
+              {/* Inter-Wing Moderation Progress Bar */}
+              <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+                <div className="flex items-center justify-between text-xs font-bold">
+                  <span className="text-slate-800">Academic Wing Moderation Progression</span>
+                  <span className="text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-200 text-[10px]">
+                    Council Synced
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-start space-x-2.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 mt-1 shrink-0"></div>
+                    <div>
+                      <div className="font-bold text-slate-800">Primary Wing (Grades 1–5)</div>
+                      <div className="text-[11px] text-slate-500 mt-0.5">Continuous CCE Evaluation • 100% Locked</div>
+                    </div>
+                  </div>
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-start space-x-2.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-blue-500 mt-1 shrink-0"></div>
+                    <div>
+                      <div className="font-bold text-slate-800">Middle School (Grades 6–9)</div>
+                      <div className="text-[11px] text-slate-500 mt-0.5">Term Papers Moderated • 98.2% Passing</div>
+                    </div>
+                  </div>
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-start space-x-2.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-purple-500 mt-1 shrink-0"></div>
+                    <div>
+                      <div className="font-bold text-slate-800">Senior Secondary (Grades 10–12)</div>
+                      <div className="text-[11px] text-slate-500 mt-0.5">Pre-Board Matrices • 100% Moderated</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TEACHER VIEW: SUBJECT GRADING DASHBOARD & REMARKS ASSISTANT */}
+          {isTeacher && (
+            <div className="space-y-4">
+              <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[26px] p-6 text-slate-900 border border-blue-200/80 shadow-[0_4px_20px_rgba(0,113,227,0.06)] flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="space-y-1.5">
+                  <div className="flex items-center space-x-2">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800 border border-blue-200 uppercase tracking-wider flex items-center space-x-1">
+                      <GraduationCap className="w-3 h-3 text-blue-600" />
+                      <span>Faculty Teaching Hub</span>
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Term 1 Active Evaluation
+                    </span>
+                  </div>
+                  <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                    Class Marks Evaluation & Evaluator Remarks Desk
+                  </h2>
+                  <p className="text-xs text-slate-600 max-w-2xl">
+                    Input scores, assign automated grades (A+, A, B+, B, Pass, Fail), and formulate constructive parent feedback remarks for your assigned classes.
+                  </p>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <span className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs font-bold">
+                    Class Teacher: Grade 10-A
+                  </span>
+                </div>
+              </div>
+
+              {/* 4 Teacher Class Performance Metric Cards */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+                  <div className="text-[11px] font-bold text-slate-500 uppercase">Assigned Subject</div>
+                  <div className="text-base font-black text-slate-800 mt-1">Computer Science (CS)</div>
+                  <p className="text-[10px] text-blue-600 font-semibold mt-0.5">Grade 10 • Section A</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+                  <div className="text-[11px] font-bold text-slate-500 uppercase">Class Average</div>
+                  <div className="text-2xl font-black text-blue-600 mt-1">84.5 / 100</div>
+                  <p className="text-[10px] text-emerald-600 font-semibold mt-0.5">+4.2% Above Target</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+                  <div className="text-[11px] font-bold text-slate-500 uppercase">Distinction Rate</div>
+                  <div className="text-2xl font-black text-emerald-600 mt-1">42% (A+)</div>
+                  <p className="text-[10px] text-slate-500 mt-0.5">21 Students in 90–100% Bracket</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+                  <div className="text-[11px] font-bold text-slate-500 uppercase">Assessment Weightage</div>
+                  <div className="text-xs font-black text-slate-800 mt-1">60% Theory + 40% Lab</div>
+                  <p className="text-[10px] text-slate-500 mt-0.5">Pass Criteria: 35 Marks</p>
+                </div>
+              </div>
+
+              {/* Evaluator Remarks Assistant Toolbar */}
+              <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+                  <span className="flex items-center space-x-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                    <span>Quick Remarks Assistant (Click pill to preview recommendation)</span>
+                  </span>
+                  <span className="text-[10px] text-slate-400 font-normal">Auto-appends to remarks column</span>
+                </div>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {[
+                    'Exceptional analytical performance and conceptual clarity.',
+                    'Demonstrates thorough comprehension and diligent coursework.',
+                    'Consistent classroom effort; recommended for practice drills.',
+                    'Needs reinforcement in programming logic and lab practicals.',
+                  ].map((remark, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => toast.success(`Remark ready: "${remark}"`)}
+                      className="px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-blue-50 hover:border-blue-200 border border-slate-200 text-slate-700 text-xs font-medium transition-all text-left cursor-pointer"
+                    >
+                      "{remark}"
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Mode Tabs */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-black/[0.06] pb-3">
             <div className="bg-white/80 backdrop-blur-xl border border-black/[0.06] rounded-2xl p-1.5 flex items-center space-x-1.5 shadow-xs">

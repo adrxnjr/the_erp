@@ -29,6 +29,7 @@ const StudentRewardsPage = lazy(() => import('./pages/StudentRewardsPage').then(
 const AdminRewardsPage = lazy(() => import('./pages/AdminRewardsPage').then(m => ({ default: m.AdminRewardsPage })));
 const CustomizeAdminPage = lazy(() => import('./pages/CustomizeAdminPage').then(m => ({ default: m.CustomizeAdminPage })));
 const ModuleHubPage = lazy(() => import('./pages/ModuleHubPage').then(m => ({ default: m.ModuleHubPage })));
+const ParentNotificationsPage = lazy(() => import('./pages/ParentNotificationsPage').then(m => ({ default: m.ParentNotificationsPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
 import { WelcomeScreen } from './components/WelcomeScreen';
@@ -91,6 +92,19 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
   }
 
   return <>{children}</>;
+};
+
+// Notifications Dispatcher: Displays ParentNotificationsPage for parents, ModuleHubPage for staff
+const NotificationsRouteDispatcher: React.FC = () => {
+  const { user } = useAuth();
+  if (user?.portal_type === 'parent') {
+    return <ParentNotificationsPage />;
+  }
+  return (
+    <RoleGuard allowedPortals={['staff']}>
+      <ModuleHubPage />
+    </RoleGuard>
+  );
 };
 
 export function App() {
@@ -215,7 +229,8 @@ export function App() {
 
               {/* Extended Enterprise Modules */}
               <Route path="/approvals" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
-              <Route path="/notifications" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
+              <Route path="/notifications" element={<NotificationsRouteDispatcher />} />
+              <Route path="/parent-notifications" element={<ParentNotificationsPage />} />
               <Route path="/parents" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
               <Route path="/homework" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
               <Route path="/library" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
