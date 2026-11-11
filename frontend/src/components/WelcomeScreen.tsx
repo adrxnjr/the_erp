@@ -263,7 +263,14 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
           <h1 className="welcome-title">Welcome</h1>
           {schoolName && (
             <div className="welcome-subtitle">
-              {schoolName}
+              {schoolName.includes(' — ') ? (
+                <>
+                  <div className="welcome-subtitle-main">{schoolName.split(' — ')[0]}</div>
+                  <div className="welcome-subtitle-sub">{schoolName.split(' — ')[1]}</div>
+                </>
+              ) : (
+                <div className="welcome-subtitle-main">{schoolName}</div>
+              )}
             </div>
           )}
         </div>
