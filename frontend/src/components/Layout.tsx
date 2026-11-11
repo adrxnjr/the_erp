@@ -121,7 +121,7 @@ export const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) =
       )}
 
       {/* Main Layout Container */}
-      <div className="flex-1 flex w-full max-w-full min-w-0">
+      <div className="flex-1 flex w-full max-w-full min-w-0 lg:pl-60">
         <Sidebar mobileOpen={mobileDrawerOpen} onCloseMobile={() => setMobileDrawerOpen(false)} />
         <main className="flex-1 min-w-0 px-3.5 sm:px-6 md:px-8 py-3.5 sm:py-6 max-w-7xl mx-auto w-full min-h-[calc(100vh-60px)] lg:min-h-screen overflow-x-hidden">
           {children || <Outlet />}
