@@ -442,10 +442,22 @@ export const ModuleHubPage: React.FC = () => {
   // =========================================================================
   const [userRoleFilter, setUserRoleFilter] = useState('all');
   const [userSearchTerm, setUserSearchTerm] = useState('');
+  const [assignRoleModalUser, setAssignRoleModalUser] = useState<any | null>(null);
+  const [assignedRoleChoice, setAssignedRoleChoice] = useState<string>('Teacher');
+  const [showAddUserModal, setShowAddUserModal] = useState<boolean>(false);
+  const [newUserForm, setNewUserForm] = useState({
+    fullName: '',
+    username: '',
+    email: '',
+    phone: '',
+    role: 'Teacher',
+  });
+
   const [managedUsers, setManagedUsers] = useState([
-    { id: 'usr-1', username: 'adrin', fullName: 'Adrin (Correspondent)', assignedRole: 'Super Admin', category: 'admin', portalScope: 'Full Institutional Governance', status: 'Active', email: 'correspondent@evergrow.edu', phone: '+91 98450 11001', lastLogin: '10 mins ago', permissions: ['Full Access', 'Financial Sanctions', 'System Customization', 'Affiliation Governance'] },
-    { id: 'usr-2', username: 'principal', fullName: 'Dr. Arthur Vance', assignedRole: 'Principal', category: 'admin', portalScope: 'Academic Council & Faculty Appraisals', status: 'Active', email: 'principal@evergrow.edu', phone: '+91 98450 11002', lastLogin: '25 mins ago', permissions: ['Academic Governance', 'Faculty Reviews', 'Exam Approvals', 'Disciplinary Oversight'] },
-    { id: 'usr-3', username: 'staff', fullName: 'Elena Rostova (Office Desk)', assignedRole: 'School Admin', category: 'staff', portalScope: 'Office Desk, Admissions & Counter Operations', status: 'Active', email: 'office.desk@evergrow.edu', phone: '+91 98450 11003', lastLogin: 'Just now', permissions: ['150 Student Directory', 'Fee Collection & Dues', 'Gate Pass Checkpoints', 'Bonafide Issuance'] },
+    { id: 'usr-1', username: 'adrin', fullName: 'Adrin (Super Admin)', assignedRole: 'Super Admin', category: 'admin', portalScope: 'Full Institutional Governance', status: 'Active', email: 'correspondent@evergrow.edu', phone: '+91 98450 11001', lastLogin: '10 mins ago', permissions: ['Full Access', 'Financial Sanctions', 'System Customization', 'Affiliation Governance'] },
+    { id: 'usr-vice', username: 'viceadmin', fullName: 'Dr. Marcus Vance (Vice Admin)', assignedRole: 'Vice Admin', category: 'admin', portalScope: 'Operational Administration & Campus Supervision', status: 'Active', email: 'viceadmin@evergrow.edu', phone: '+91 98450 11015', lastLogin: '15 mins ago', permissions: ['Staff Oversight', 'Timetable Management', 'Student Discipline', 'Administrative Governance'] },
+    { id: 'usr-2', username: 'principal', fullName: 'Dr. Arthur Vance', assignedRole: 'Super Admin', category: 'admin', portalScope: 'Academic Council & Faculty Appraisals', status: 'Active', email: 'principal@evergrow.edu', phone: '+91 98450 11002', lastLogin: '25 mins ago', permissions: ['Academic Governance', 'Faculty Reviews', 'Exam Approvals', 'Disciplinary Oversight'] },
+    { id: 'usr-3', username: 'staff', fullName: 'Elena Rostova (Office Desk)', assignedRole: 'Vice Admin', category: 'admin', portalScope: 'Office Desk, Admissions & Counter Operations', status: 'Active', email: 'office.desk@evergrow.edu', phone: '+91 98450 11003', lastLogin: 'Just now', permissions: ['150 Student Directory', 'Fee Collection & Dues', 'Gate Pass Checkpoints', 'Bonafide Issuance'] },
     { id: 'usr-4', username: 'coordinator1', fullName: 'Dr. Elena Rostova', assignedRole: 'Coordinator', category: 'coordinator', portalScope: 'Grades 10–12 Senior Secondary Wing', status: 'Active', email: 'coordinator@evergrow.edu', phone: '+91 98450 11004', lastLogin: '1 hour ago', permissions: ['Senior Syllabus Governance', 'Term 1/2 Exam Moderation', 'Grading Scheme Review'] },
     { id: 'usr-5', username: 'coordinator2', fullName: 'Prof. Ramesh Joshi', assignedRole: 'Coordinator', category: 'coordinator', portalScope: 'Grades 6–9 Middle School Wing', status: 'Active', email: 'coordinator.middle@evergrow.edu', phone: '+91 98450 11005', lastLogin: '3 hours ago', permissions: ['Middle School Curriculum', 'Unit Tests Scheduling', 'Remedial Programs'] },
     { id: 'usr-6', username: 'coordinator3', fullName: 'Mrs. Anita Deshmukh', assignedRole: 'Coordinator', category: 'coordinator', portalScope: 'Grades 1–5 Primary Wing', status: 'Active', email: 'coordinator.primary@evergrow.edu', phone: '+91 98450 11006', lastLogin: 'Yesterday', permissions: ['Primary Competency Framework', 'Early Childhood Assessment', 'Activity Timetables'] },
@@ -453,13 +465,122 @@ export const ModuleHubPage: React.FC = () => {
     { id: 'usr-8', username: 'teacher2', fullName: 'Mrs. Radhika Green', assignedRole: 'Teacher', category: 'faculty', portalScope: 'English Literature Lead Faculty', status: 'Active', email: 'radhika.green@evergrow.edu', phone: '+91 98450 11008', lastLogin: '45 mins ago', permissions: ['English Subject Grading', 'Drama & Debate Mentorship', 'Classroom Attendance'] },
     { id: 'usr-9', username: 'teacher3', fullName: 'Dr. S. Nair', assignedRole: 'Teacher', category: 'faculty', portalScope: 'Chemistry & Science Block Lead', status: 'Active', email: 's.nair@evergrow.edu', phone: '+91 98450 11009', lastLogin: '2 hours ago', permissions: ['Science Lab Safety', 'Titration Practicals Scoring', 'CBSE External Vivas'] },
     { id: 'usr-10', username: 'teacher4', fullName: 'Coach David', assignedRole: 'Teacher', category: 'faculty', portalScope: 'Athletics & Sports Director', status: 'Active', email: 'coach.david@evergrow.edu', phone: '+91 98450 11010', lastLogin: '4 hours ago', permissions: ['Sports Attendance', 'Inter-School Meet Rosters', 'Physical Fitness Records'] },
-    { id: 'usr-11', username: 'accountant1', fullName: 'Ramesh Sundaram', assignedRole: 'Accountant', category: 'staff', portalScope: 'Treasury Reserves & Faculty Payroll', status: 'Active', email: 'accounts@evergrow.edu', phone: '+91 98450 11011', lastLogin: '30 mins ago', permissions: ['Payroll Disbursement (₹38.5L)', 'Bank Transfer Batches', 'Tax/PF Remittance Ledger'] },
+    { id: 'usr-11', username: 'accountant1', fullName: 'Ramesh Sundaram', assignedRole: 'Vice Admin', category: 'admin', portalScope: 'Treasury Reserves & Faculty Payroll', status: 'Active', email: 'accounts@evergrow.edu', phone: '+91 98450 11011', lastLogin: '30 mins ago', permissions: ['Payroll Disbursement (₹38.5L)', 'Bank Transfer Batches', 'Tax/PF Remittance Ledger'] },
     { id: 'usr-12', username: 'parent1', fullName: 'Rajesh Sharma', assignedRole: 'Parent', category: 'parent', portalScope: 'Guardian of Liam Smith (Grade 10-A)', status: 'Active', email: 'rajesh.sharma@gmail.com', phone: '+91 94431 87238', lastLogin: 'Today', permissions: ['Report Card Viewing', 'Tuition Fee Payment Gateway', 'Bus #04 GPS Radar', 'Leave Requests'] },
     { id: 'usr-13', username: 'parent2', fullName: 'Sunita Patel', assignedRole: 'Parent', category: 'parent', portalScope: 'Guardian of Aarav Patel (Grade 10-A)', status: 'Active', email: 'sunita.patel@outlook.com', phone: '+91 98224 45910', lastLogin: 'Yesterday', permissions: ['Fee Receipts Download', 'Attendance History', 'Teacher Meeting Booking'] },
     { id: 'usr-14', username: 'student1', fullName: 'Liam Smith', assignedRole: 'Student', category: 'student', portalScope: 'Grade 10-A • Roll 01 (Student Desk)', status: 'Active', email: 'liam.smith@evergrow.edu', phone: '+91 94431 87239', lastLogin: 'Active Now', permissions: ['Timetable Routine', 'Homework Submissions', 'Gamified Rewards & 1,450 XP', 'Library Catalog'] },
     { id: 'usr-15', username: 'student2', fullName: 'Aarav Patel', assignedRole: 'Student', category: 'student', portalScope: 'Grade 10-A • Roll 02 (Student Desk)', status: 'Active', email: 'aarav.patel@evergrow.edu', phone: '+91 98224 45911', lastLogin: '3 hours ago', permissions: ['Daily Lecture Routine', 'Term 1 Gradebook', 'Online Learning Modules'] },
     { id: 'usr-16', username: 'student3', fullName: 'Ananya Seth', assignedRole: 'Student', category: 'student', portalScope: 'Grade 10-A • Roll 03 (Student Desk)', status: 'Active', email: 'ananya.seth@evergrow.edu', phone: '+91 98110 33499', lastLogin: '1 hour ago', permissions: ['Daily Lecture Routine', 'Term 1 Gradebook', 'Olympiad Study Materials'] },
   ]);
+
+  const handleApplyRoleAssignment = (userId: string, newRole: string) => {
+    setManagedUsers((prev) =>
+      prev.map((u) => {
+        if (u.id === userId) {
+          let cat = 'faculty';
+          let scope = u.portalScope;
+          let perms = u.permissions;
+          if (newRole === 'Super Admin') {
+            cat = 'admin';
+            scope = 'Full Institutional Governance & System Settings';
+            perms = ['Full Access', 'Financial Sanctions', 'System Customization', 'Affiliation Governance'];
+          } else if (newRole === 'Vice Admin') {
+            cat = 'admin';
+            scope = 'Operational Administration & Campus Supervision';
+            perms = ['Staff Oversight', 'Timetable Management', 'Student Discipline', 'Administrative Governance'];
+          } else if (newRole === 'Coordinator') {
+            cat = 'coordinator';
+            scope = 'Academic Wing Oversight & Syllabus Review';
+            perms = ['Syllabus Governance', 'Exam Moderation', 'Grading Scheme Review'];
+          } else if (newRole === 'Teacher') {
+            cat = 'faculty';
+            scope = 'Subject Faculty & Classroom Mentorship';
+            perms = ['Attendance Roll-Call', 'Marks & Exam Entry', 'Homework Dissemination', 'Parent Alerts'];
+          } else if (newRole === 'Parent') {
+            cat = 'parent';
+            scope = 'Guardian Portal & Scholar Oversight';
+            perms = ['Report Card Viewing', 'Tuition Fee Payment', 'Bus GPS Radar', 'Leave Requests'];
+          } else if (newRole === 'Student') {
+            cat = 'student';
+            scope = 'Student Desk & Academic Routine';
+            perms = ['Timetable Routine', 'Homework Submissions', 'Gamified Rewards', 'Library Catalog'];
+          }
+          return {
+            ...u,
+            assignedRole: newRole,
+            category: cat,
+            portalScope: scope,
+            permissions: perms,
+          };
+        }
+        return u;
+      })
+    );
+    toast.success(`Role Assigned: User successfully updated to ${newRole}`);
+    setAssignRoleModalUser(null);
+  };
+
+  const handleCreateNewUser = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newUserForm.fullName.trim() || !newUserForm.username.trim()) {
+      toast.error('Please enter both Full Name and Username.');
+      return;
+    }
+    const newId = `usr-${Date.now()}`;
+    let cat = 'faculty';
+    let scope = 'General Portal Access';
+    let perms = ['Standard School Access'];
+    if (newUserForm.role === 'Super Admin') {
+      cat = 'admin';
+      scope = 'Full Institutional Governance & System Settings';
+      perms = ['Full Access', 'Financial Sanctions', 'System Customization', 'Affiliation Governance'];
+    } else if (newUserForm.role === 'Vice Admin') {
+      cat = 'admin';
+      scope = 'Operational Administration & Campus Supervision';
+      perms = ['Staff Oversight', 'Timetable Management', 'Student Discipline', 'Administrative Governance'];
+    } else if (newUserForm.role === 'Coordinator') {
+      cat = 'coordinator';
+      scope = 'Academic Wing Oversight & Syllabus Review';
+      perms = ['Syllabus Governance', 'Exam Moderation', 'Grading Scheme Review'];
+    } else if (newUserForm.role === 'Teacher') {
+      cat = 'faculty';
+      scope = 'Subject Faculty & Classroom Mentorship';
+      perms = ['Attendance Roll-Call', 'Marks & Exam Entry', 'Homework Dissemination', 'Parent Alerts'];
+    } else if (newUserForm.role === 'Parent') {
+      cat = 'parent';
+      scope = 'Guardian Portal & Scholar Oversight';
+      perms = ['Report Card Viewing', 'Tuition Fee Payment', 'Bus GPS Radar', 'Leave Requests'];
+    } else if (newUserForm.role === 'Student') {
+      cat = 'student';
+      scope = 'Student Desk & Academic Routine';
+      perms = ['Timetable Routine', 'Homework Submissions', 'Gamified Rewards', 'Library Catalog'];
+    }
+
+    const newUser = {
+      id: newId,
+      username: newUserForm.username.toLowerCase().trim(),
+      fullName: newUserForm.fullName.trim(),
+      assignedRole: newUserForm.role,
+      category: cat,
+      portalScope: scope,
+      status: 'Active',
+      email: newUserForm.email.trim() || `${newUserForm.username.toLowerCase()}@evergrow.edu`,
+      phone: newUserForm.phone.trim() || '+91 98450 00000',
+      lastLogin: 'Never (New)',
+      permissions: perms,
+    };
+
+    setManagedUsers((prev) => [newUser, ...prev]);
+    toast.success(`User Account Created: @${newUser.username} assigned as ${newUser.assignedRole}`);
+    setShowAddUserModal(false);
+    setNewUserForm({
+      fullName: '',
+      username: '',
+      email: '',
+      phone: '',
+      role: 'Teacher',
+    });
+  };
 
   // =========================================================================
   // 9. INSTITUTIONAL SETTINGS & ERP MODULES CUSTOMIZER STATE
@@ -2372,7 +2493,7 @@ export const ModuleHubPage: React.FC = () => {
             </div>
             <div className="flex items-center space-x-2">
               <button
-                onClick={() => toast.success('New user registration modal initiated. Pre-assigned to school domain.')}
+                onClick={() => setShowAddUserModal(true)}
                 className="px-4 py-2.5 rounded-xl bg-[#0071E3] hover:bg-blue-600 text-white text-xs font-bold flex items-center space-x-1.5 shadow-md shadow-blue-500/25 cursor-pointer transition-all"
               >
                 <UserPlus className="w-4 h-4 text-white" />
@@ -2396,25 +2517,25 @@ export const ModuleHubPage: React.FC = () => {
                 <span className="text-2xl font-black text-slate-900">{managedUsers.length}</span>
                 <span className="text-xs font-bold text-emerald-600">100% Active</span>
               </div>
-              <p className="text-[11px] text-slate-500 mt-1">Across 4 distinct portals</p>
+              <p className="text-[11px] text-slate-500 mt-1">Across all portal scopes</p>
             </div>
 
             <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] border border-white/60">
               <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">RBAC Role Profiles</span>
               <div className="mt-2 flex items-baseline space-x-2">
-                <span className="text-2xl font-black text-blue-600">6 Profiles</span>
+                <span className="text-2xl font-black text-blue-600">6 Roles</span>
                 <span className="text-xs font-bold text-blue-600">Enforced</span>
               </div>
-              <p className="text-[11px] text-slate-500 mt-1">Granular permission matrices</p>
+              <p className="text-[11px] text-slate-500 mt-1">Super Admin, Vice Admin, Coordinator, Teacher, Parent, Student</p>
             </div>
 
             <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] border border-white/60">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Password & Session Policy</span>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Role Assignment Desk</span>
               <div className="mt-2 flex items-baseline space-x-2">
-                <span className="text-2xl font-black text-purple-600">Strict</span>
-                <span className="text-xs font-bold text-purple-600">30m Idle</span>
+                <span className="text-2xl font-black text-purple-600">Live</span>
+                <span className="text-xs font-bold text-purple-600">Dynamic</span>
               </div>
-              <p className="text-[11px] text-slate-500 mt-1">5-attempt lockout security</p>
+              <p className="text-[11px] text-slate-500 mt-1">Instant role switching & assignment</p>
             </div>
 
             <div className="p-4 rounded-2xl bg-[#EBEEF2] shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] border border-white/60">
@@ -2430,16 +2551,16 @@ export const ModuleHubPage: React.FC = () => {
           {/* User Directory Filter & Table */}
           <div className="p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-4">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-              {/* Category Filter Pills */}
+              {/* Role Filter Pills */}
               <div className="flex flex-wrap gap-1.5">
                 {[
-                  { key: 'all', label: 'All Accounts', count: managedUsers.length },
-                  { key: 'admin', label: 'Administration', count: managedUsers.filter(u => u.category === 'admin').length },
-                  { key: 'coordinator', label: 'Coordinators', count: managedUsers.filter(u => u.category === 'coordinator').length },
-                  { key: 'faculty', label: 'Faculty', count: managedUsers.filter(u => u.category === 'faculty').length },
-                  { key: 'staff', label: 'Support & Treasury', count: managedUsers.filter(u => u.category === 'staff').length },
-                  { key: 'parent', label: 'Parents', count: managedUsers.filter(u => u.category === 'parent').length },
-                  { key: 'student', label: 'Students', count: managedUsers.filter(u => u.category === 'student').length },
+                  { key: 'all', label: 'All Roles', count: managedUsers.length },
+                  { key: 'Super Admin', label: 'Super Admin', count: managedUsers.filter(u => u.assignedRole === 'Super Admin').length },
+                  { key: 'Vice Admin', label: 'Vice Admin', count: managedUsers.filter(u => u.assignedRole === 'Vice Admin').length },
+                  { key: 'Coordinator', label: 'Coordinator', count: managedUsers.filter(u => u.assignedRole === 'Coordinator').length },
+                  { key: 'Teacher', label: 'Teacher', count: managedUsers.filter(u => u.assignedRole === 'Teacher').length },
+                  { key: 'Parent', label: 'Parent', count: managedUsers.filter(u => u.assignedRole === 'Parent').length },
+                  { key: 'Student', label: 'Student', count: managedUsers.filter(u => u.assignedRole === 'Student').length },
                 ].map((tab) => (
                   <button
                     key={tab.key}
@@ -2460,7 +2581,7 @@ export const ModuleHubPage: React.FC = () => {
                 <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
                 <input
                   type="text"
-                  placeholder="Search name, user, email..."
+                  placeholder="Search name, username, email..."
                   value={userSearchTerm}
                   onChange={(e) => setUserSearchTerm(e.target.value)}
                   className="w-full pl-9 pr-3 py-1.5 bg-white rounded-xl border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
@@ -2473,7 +2594,8 @@ export const ModuleHubPage: React.FC = () => {
                 <thead className="bg-slate-50 text-slate-500 font-bold uppercase border-b border-slate-200 text-[11px]">
                   <tr>
                     <th className="py-3 px-4">User & Username</th>
-                    <th className="py-3 px-4">Assigned Role</th>
+                    <th className="py-3 px-4">Current Assigned Role</th>
+                    <th className="py-3 px-4">Assign Role (Quick)</th>
                     <th className="py-3 px-4">Portal Scope</th>
                     <th className="py-3 px-4">Key Permissions</th>
                     <th className="py-3 px-4">Contact Info</th>
@@ -2484,7 +2606,7 @@ export const ModuleHubPage: React.FC = () => {
                 <tbody className="divide-y divide-slate-100 font-medium">
                   {managedUsers
                     .filter((u) => {
-                      if (userRoleFilter !== 'all' && u.category !== userRoleFilter) return false;
+                      if (userRoleFilter !== 'all' && u.assignedRole !== userRoleFilter) return false;
                       if (!userSearchTerm.trim()) return true;
                       const term = userSearchTerm.toLowerCase();
                       return (
@@ -2502,18 +2624,32 @@ export const ModuleHubPage: React.FC = () => {
                           <div className="text-[10px] text-slate-400">Seen: {u.lastLogin}</div>
                         </td>
                         <td className="py-3 px-4">
-                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
-                            u.category === 'admin' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' :
-                            u.category === 'coordinator' ? 'bg-teal-50 text-teal-700 border-teal-200' :
-                            u.category === 'faculty' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                            u.category === 'staff' ? 'bg-cyan-50 text-cyan-700 border-cyan-200' :
-                            u.category === 'parent' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border inline-block ${
+                            u.assignedRole === 'Super Admin' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' :
+                            u.assignedRole === 'Vice Admin' ? 'bg-sky-50 text-sky-700 border-sky-200' :
+                            u.assignedRole === 'Coordinator' ? 'bg-teal-50 text-teal-700 border-teal-200' :
+                            u.assignedRole === 'Teacher' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                            u.assignedRole === 'Parent' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
                             'bg-amber-50 text-amber-700 border-amber-200'
                           }`}>
                             {u.assignedRole}
                           </span>
                         </td>
-                        <td className="py-3 px-4 text-slate-700 font-medium max-w-[180px]">
+                        <td className="py-3 px-4">
+                          <select
+                            value={u.assignedRole}
+                            onChange={(e) => handleApplyRoleAssignment(u.id, e.target.value)}
+                            className="text-[11px] font-bold bg-[#EBEEF2] border border-slate-300 rounded-lg px-2 py-1 text-slate-700 cursor-pointer focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          >
+                            <option value="Super Admin">Super Admin</option>
+                            <option value="Vice Admin">Vice Admin</option>
+                            <option value="Coordinator">Coordinator</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="Parent">Parent</option>
+                            <option value="Student">Student</option>
+                          </select>
+                        </td>
+                        <td className="py-3 px-4 text-slate-700 font-medium max-w-[170px]">
                           {u.portalScope}
                         </td>
                         <td className="py-3 px-4">
@@ -2542,18 +2678,21 @@ export const ModuleHubPage: React.FC = () => {
                         <td className="py-3 px-4 text-right">
                           <div className="flex items-center justify-end space-x-1.5">
                             <button
+                              onClick={() => {
+                                setAssignRoleModalUser(u);
+                                setAssignedRoleChoice(u.assignedRole);
+                              }}
+                              className="px-2.5 py-1 rounded bg-blue-50 hover:bg-blue-100 text-[#0071E3] text-[10px] font-bold border border-blue-200 transition-colors cursor-pointer"
+                              title="Assign Role"
+                            >
+                              Assign Role
+                            </button>
+                            <button
                               onClick={() => toast.success(`Password reset link dispatched for @${u.username}.`)}
                               className="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold transition-colors cursor-pointer"
                               title="Reset Password"
                             >
                               Reset
-                            </button>
-                            <button
-                              onClick={() => toast.success(`Permissions inspector opened for ${u.fullName}.`)}
-                              className="px-2 py-1 rounded bg-blue-50 hover:bg-blue-100 text-[#0071E3] text-[10px] font-bold border border-blue-200 transition-colors cursor-pointer"
-                              title="Edit Access"
-                            >
-                              Edit
                             </button>
                           </div>
                         </td>
@@ -2582,11 +2721,10 @@ export const ModuleHubPage: React.FC = () => {
                   <tr>
                     <th className="py-3 px-4">Campus Function / Module</th>
                     <th className="py-3 px-3 text-center">Super Admin</th>
-                    <th className="py-3 px-3 text-center">Principal</th>
+                    <th className="py-3 px-3 text-center">Vice Admin</th>
                     <th className="py-3 px-3 text-center">Coordinator</th>
                     <th className="py-3 px-3 text-center">Teacher</th>
-                    <th className="py-3 px-3 text-center">Office Desk</th>
-                    <th className="py-3 px-3 text-center">Guardian</th>
+                    <th className="py-3 px-3 text-center">Parent</th>
                     <th className="py-3 px-3 text-center">Student</th>
                   </tr>
                 </thead>
@@ -2597,17 +2735,15 @@ export const ModuleHubPage: React.FC = () => {
                     <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Full</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-bold">Wing Only</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-bold">Class Only</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Full</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded font-bold">Ward Only</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded font-bold">Self Only</span></td>
                   </tr>
                   <tr>
                     <td className="py-2.5 px-4 font-bold text-slate-900">Fee Counter, Cash & Invoices</td>
                     <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Sanction</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-slate-500 bg-slate-50 px-2 py-0.5 rounded">View Dues</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Audit</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Collect</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-bold">Pay Dues</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Status</span></td>
                   </tr>
@@ -2617,37 +2753,33 @@ export const ModuleHubPage: React.FC = () => {
                     <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Approve</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Moderate</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-bold">Grade Input</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-slate-500 bg-slate-50 px-2 py-0.5 rounded">Print Report</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Grades</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Grades</span></td>
                   </tr>
                   <tr>
                     <td className="py-2.5 px-4 font-bold text-slate-900">Class Timetable & Periods</td>
                     <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Full</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Full</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Oversight</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Manage Wing</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Periods</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Periods</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Schedule</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Schedule</span></td>
                   </tr>
                   <tr>
                     <td className="py-2.5 px-4 font-bold text-slate-900">Transport Bus GPS Radar</td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Manage</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">Live Map</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Manage Bus</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Live GPS</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">Bus Route</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Fleet Admin</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Live Radar</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-bold">Live Radar</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">View Route</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Ward Bus</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Assigned Bus</span></td>
                   </tr>
                   <tr>
                     <td className="py-2.5 px-4 font-bold text-slate-900">Treasury Reserves & Payroll</td>
                     <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Authorize</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Audit</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-bold">Draft Batches</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
                   </tr>
@@ -2657,15 +2789,13 @@ export const ModuleHubPage: React.FC = () => {
                     <td className="py-2.5 px-3 text-center"><span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded">Audit Log</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">Issue / Mark</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
                   </tr>
                   <tr>
                     <td className="py-2.5 px-4 font-bold text-slate-900">Institutional ERP Settings</td>
                     <td className="py-2.5 px-3 text-center"><span className="text-rose-700 bg-rose-50 px-2 py-0.5 rounded font-bold">Exclusive</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
-                    <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
+                    <td className="py-2.5 px-3 text-center"><span className="text-slate-500 bg-slate-50 px-2 py-0.5 rounded">Read Only</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
                     <td className="py-2.5 px-3 text-center"><span className="text-slate-400">✕</span></td>
@@ -2675,6 +2805,180 @@ export const ModuleHubPage: React.FC = () => {
               </table>
             </div>
           </div>
+
+          {/* ASSIGN ROLE MODAL */}
+          {assignRoleModalUser && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-fadeIn">
+              <div className="bg-[#EBEEF2] shadow-[10px_10px_30px_#A3B1C6,-10px_-10px_30px_#FFFFFF] rounded-3xl border border-white max-w-lg w-full p-6 space-y-5">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+                  <div>
+                    <h3 className="font-bold text-base text-slate-900">Assign Account Role</h3>
+                    <p className="text-xs text-slate-500">
+                      Configure RBAC permissions for <strong className="text-slate-800">{assignRoleModalUser.fullName}</strong> (@{assignRoleModalUser.username})
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setAssignRoleModalUser(null)}
+                    className="p-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-500 border border-slate-200 cursor-pointer"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 block">Select Assigned Role:</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {[
+                      { role: 'Super Admin', desc: 'Full institutional governance & settings' },
+                      { role: 'Vice Admin', desc: 'Operational oversight & campus supervision' },
+                      { role: 'Coordinator', desc: 'Academic wing oversight & syllabus' },
+                      { role: 'Teacher', desc: 'Roll-call, mark entry & homework' },
+                      { role: 'Parent', desc: 'Ward progress, fee receipts & bus GPS' },
+                      { role: 'Student', desc: 'Student desk, routine & library' },
+                    ].map((item) => (
+                      <button
+                        type="button"
+                        key={item.role}
+                        onClick={() => setAssignedRoleChoice(item.role)}
+                        className={`p-3 rounded-2xl text-left transition-all border cursor-pointer ${
+                          assignedRoleChoice === item.role
+                            ? 'bg-blue-50 border-blue-500 shadow-sm'
+                            : 'bg-white border-slate-200 hover:bg-slate-50'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-black text-slate-900">{item.role}</span>
+                          {assignedRoleChoice === item.role && (
+                            <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
+                          )}
+                        </div>
+                        <p className="text-[10px] text-slate-500 mt-0.5">{item.desc}</p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-end space-x-2 pt-2 border-t border-slate-200">
+                  <button
+                    type="button"
+                    onClick={() => setAssignRoleModalUser(null)}
+                    className="px-4 py-2 rounded-xl bg-white text-slate-700 font-bold text-xs border border-slate-200 hover:bg-slate-50 cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyRoleAssignment(assignRoleModalUser.id, assignedRoleChoice)}
+                    className="px-4 py-2 rounded-xl bg-[#0071E3] text-white font-bold text-xs hover:bg-blue-600 shadow-md shadow-blue-500/25 cursor-pointer"
+                  >
+                    Confirm & Assign Role
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ADD USER MODAL */}
+          {showAddUserModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-fadeIn">
+              <div className="bg-[#EBEEF2] shadow-[10px_10px_30px_#A3B1C6,-10px_-10px_30px_#FFFFFF] rounded-3xl border border-white max-w-lg w-full p-6 space-y-5">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+                  <div>
+                    <h3 className="font-bold text-base text-slate-900">Add User & Assign Role</h3>
+                    <p className="text-xs text-slate-500">Create an institutional user account and assign immediate role</p>
+                  </div>
+                  <button
+                    onClick={() => setShowAddUserModal(false)}
+                    className="p-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-500 border border-slate-200 cursor-pointer"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <form onSubmit={handleCreateNewUser} className="space-y-3">
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Full Name</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Dr. Jennifer Lawrence"
+                      value={newUserForm.fullName}
+                      onChange={(e) => setNewUserForm({ ...newUserForm, fullName: e.target.value })}
+                      className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold outline-none focus:ring-2 focus:ring-[#0071E3]"
+                      required
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 block mb-1">Username</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. jlawrence"
+                        value={newUserForm.username}
+                        onChange={(e) => setNewUserForm({ ...newUserForm, username: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold outline-none focus:ring-2 focus:ring-[#0071E3]"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 block mb-1">Assign Initial Role</label>
+                      <select
+                        value={newUserForm.role}
+                        onChange={(e) => setNewUserForm({ ...newUserForm, role: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 outline-none focus:ring-2 focus:ring-[#0071E3]"
+                      >
+                        <option value="Super Admin">Super Admin</option>
+                        <option value="Vice Admin">Vice Admin</option>
+                        <option value="Coordinator">Coordinator</option>
+                        <option value="Teacher">Teacher</option>
+                        <option value="Parent">Parent</option>
+                        <option value="Student">Student</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 block mb-1">Email Address</label>
+                      <input
+                        type="email"
+                        placeholder="e.g. j.lawrence@evergrow.edu"
+                        value={newUserForm.email}
+                        onChange={(e) => setNewUserForm({ ...newUserForm, email: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold outline-none focus:ring-2 focus:ring-[#0071E3]"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 block mb-1">Phone Number</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. +91 98450 12345"
+                        value={newUserForm.phone}
+                        onChange={(e) => setNewUserForm({ ...newUserForm, phone: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold outline-none focus:ring-2 focus:ring-[#0071E3]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-end space-x-2 pt-3 border-t border-slate-200">
+                    <button
+                      type="button"
+                      onClick={() => setShowAddUserModal(false)}
+                      className="px-4 py-2 rounded-xl bg-white text-slate-700 font-bold text-xs border border-slate-200 hover:bg-slate-50 cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-4 py-2 rounded-xl bg-[#0071E3] text-white font-bold text-xs hover:bg-blue-600 shadow-md shadow-blue-500/25 cursor-pointer"
+                    >
+                      Create User & Assign Role
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

@@ -20,6 +20,7 @@ from app.services.audit_service import record_audit
 
 STAFF_ROLES = {
     "super_admin",
+    "vice_admin",
     "principal",
     "correspondent",
     "school_admin",
