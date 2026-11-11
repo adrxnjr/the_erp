@@ -27,6 +27,7 @@ import {
   X,
   CheckSquare,
   Bell,
+  Mail,
   UserPlus,
   FileText,
   Library,
@@ -42,6 +43,7 @@ import {
   FileCheck,
 } from 'lucide-react';
 import { AnimatedLogo } from './AnimatedLogo';
+import { defaultMessages } from '../data/inboxData';
 
 interface NavItem {
   to: string;
@@ -136,6 +138,70 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
   // Teacher remains untouched
   const isTeacher =
     !isSuperAdmin && !isOfficeStaff && !isAdmin && !isCoordinator && !isStudent && !isParent;
+
+  // Real-time unread messages count for Direct Campus Inbox (Coordinator, Teacher, Parent)
+  const [inboxUnreadCount, setInboxUnreadCount] = useState<number>(() => {
+    try {
+      let msgs: any[] = [];
+      const stored = localStorage.getItem('evergrow_inbox_messages');
+      if (stored) {
+        msgs = JSON.parse(stored);
+      } else {
+        msgs = defaultMessages;
+        localStorage.setItem('evergrow_inbox_messages', JSON.stringify(defaultMessages));
+      }
+      if (Array.isArray(msgs)) {
+        return msgs.filter((m: any) => m.toRole === 'coordinator' && !m.read).length;
+      }
+    } catch (e) {}
+    return 1;
+  });
+
+  useEffect(() => {
+    const updateInboxCount = () => {
+      const role = isCoordinator
+        ? 'coordinator'
+        : isTeacher
+        ? 'teacher'
+        : isParent
+        ? 'parent'
+        : null;
+
+      if (!role) {
+        setInboxUnreadCount(0);
+        return;
+      }
+
+      try {
+        let msgs: any[] = [];
+        const stored = localStorage.getItem('evergrow_inbox_messages');
+        if (stored) {
+          msgs = JSON.parse(stored);
+        } else {
+          msgs = defaultMessages;
+          localStorage.setItem('evergrow_inbox_messages', JSON.stringify(defaultMessages));
+        }
+        if (Array.isArray(msgs)) {
+          const count = msgs.filter((m: any) => m.toRole === role && !m.read).length;
+          setInboxUnreadCount(count);
+          return;
+        }
+      } catch (e) {}
+      setInboxUnreadCount(role === 'coordinator' ? 1 : 0);
+    };
+
+    updateInboxCount();
+
+    window.addEventListener('evergrow:new-message', updateInboxCount);
+    window.addEventListener('evergrow:inbox-unread-count', updateInboxCount);
+    window.addEventListener('storage', updateInboxCount);
+
+    return () => {
+      window.removeEventListener('evergrow:new-message', updateInboxCount);
+      window.removeEventListener('evergrow:inbox-unread-count', updateInboxCount);
+      window.removeEventListener('storage', updateInboxCount);
+    };
+  }, [isCoordinator, isTeacher, isParent]);
 
   useEffect(() => {
     if (isSuperAdmin || isAdmin || isCoordinator) {
@@ -277,6 +343,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
     { to: '/timetable', label: 'Timetable & Classes', icon: Clock },
     { to: '/examinations', label: 'Examinations & Grading', icon: GraduationCap },
     { to: '/homework', label: 'Homework & Circulars', icon: FileText },
+    {
+      to: '/inbox',
+      label: 'Inbox',
+      icon: Mail,
+      badge: inboxUnreadCount > 0 ? inboxUnreadCount : undefined,
+    },
   ];
 
   // 5. Teacher Navigation (Rewards removed - Gamified Rewards & Honors reserved for students)
@@ -288,6 +360,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
     { to: '/timetable', label: 'Timetable', icon: Clock },
     { to: '/examinations', label: 'Examinations', icon: GraduationCap },
     { to: '/transport', label: 'Transport', icon: Bus },
+    {
+      to: '/inbox',
+      label: 'Inbox',
+      icon: Mail,
+      badge: inboxUnreadCount > 0 ? inboxUnreadCount : undefined,
+    },
   ];
 
   // 6. Student Navigation (Unchanged)
@@ -312,6 +390,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
       label: 'Notifications',
       icon: Bell,
       badge: parentUnreadCount > 0 ? parentUnreadCount : undefined,
+    },
+    {
+      to: '/inbox',
+      label: 'Inbox',
+      icon: Mail,
+      badge: inboxUnreadCount > 0 ? inboxUnreadCount : undefined,
     },
     { to: '/attendance', label: 'Attendance', icon: CalendarCheck },
     { to: '/timetable', label: 'Timetable', icon: Clock },

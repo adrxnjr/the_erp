@@ -30,6 +30,7 @@ const AdminRewardsPage = lazy(() => import('./pages/AdminRewardsPage').then(m =>
 const CustomizeAdminPage = lazy(() => import('./pages/CustomizeAdminPage').then(m => ({ default: m.CustomizeAdminPage })));
 const ModuleHubPage = lazy(() => import('./pages/ModuleHubPage').then(m => ({ default: m.ModuleHubPage })));
 const ParentNotificationsPage = lazy(() => import('./pages/ParentNotificationsPage').then(m => ({ default: m.ParentNotificationsPage })));
+const InboxPage = lazy(() => import('./pages/InboxPage').then(m => ({ default: m.InboxPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
 import { WelcomeScreen } from './components/WelcomeScreen';
@@ -231,6 +232,7 @@ export function App() {
               <Route path="/approvals" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
               <Route path="/notifications" element={<NotificationsRouteDispatcher />} />
               <Route path="/parent-notifications" element={<ParentNotificationsPage />} />
+              <Route path="/inbox" element={<InboxPage />} />
               <Route path="/parents" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
               <Route path="/homework" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
               <Route path="/library" element={<RoleGuard allowedPortals={['staff']}><ModuleHubPage /></RoleGuard>} />
