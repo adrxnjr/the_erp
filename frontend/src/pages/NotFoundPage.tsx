@@ -8,8 +8,8 @@ export const NotFoundPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-slate-700">
-      <div className="max-w-md w-full bg-white p-8 md:p-10 rounded-3xl shadow-lg border border-slate-200 text-center space-y-6">
+    <div className="min-h-screen bg-[#F5F6F8] flex flex-col items-center justify-center p-6 text-slate-700">
+      <div className="max-w-md w-full bg-[#F5F6F8] p-8 md:p-10 rounded-3xl shadow-[8px_8px_20px_#D4DAE5,-8px_-8px_20px_#FFFFFF] border border-white/80 text-center space-y-6">
         <div className="w-20 h-20 mx-auto rounded-3xl bg-blue-50 border border-blue-200/80 flex items-center justify-center text-blue-600 shadow-inner">
           <Compass className="w-10 h-10 animate-pulse" />
         </div>

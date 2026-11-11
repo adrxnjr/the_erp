@@ -9,9 +9,9 @@
 
 @layer base {
   :root {
-    --neu-bg: #FFFFFF;
-    --neu-surface: #FFFFFF;
-    --neu-dark: #E2E8F0;
+    --neu-bg: #F5F6F8;
+    --neu-surface: #F5F6F8;
+    --neu-dark: #D4DAE5;
     --neu-light: #FFFFFF;
     --neu-primary: #0066FF;
     --neu-primary-dark: #0052CC;
@@ -34,7 +34,7 @@
   }
 
   body {
-    background-color: #FFFFFF;
+    background-color: #F5F6F8;
     color: #1E293B;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -57,74 +57,74 @@
 }
 
 /* =========================================================================
-   CLEAN MODERN WHITE DESIGN SYSTEM (APPLE & MODERN SAAS PALETTE)
+   PRISTINE NEUMORPHIC (SOFT UI) DESIGN SYSTEM
    ========================================================================= */
 
-/* Clean White Extruded Panels / Cards */
+/* Neumorphic Extruded Panels / Cards */
 .neu-flat,
 .ios-card {
-  background: #FFFFFF;
+  background: #F5F6F8 !important;
   border-radius: 22px;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 6px 6px 16px #D4DAE5, -6px -6px 16px #FFFFFF !important;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .neu-card-interactive,
 .ios-card-interactive {
-  background: #FFFFFF;
+  background: #F5F6F8 !important;
   border-radius: 22px;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 6px 6px 16px #D4DAE5, -6px -6px 16px #FFFFFF !important;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .neu-card-interactive:hover,
 .ios-card-interactive:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
-  border-color: #CBD5E1;
+  box-shadow: 9px 9px 22px #C8D0DC, -9px -9px 22px #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 1) !important;
 }
 
 .neu-card-interactive:active,
 .ios-card-interactive:active {
   transform: translateY(0);
-  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.04);
+  box-shadow: inset 3px 3px 6px #D4DAE5, inset -3px -3px 6px #FFFFFF !important;
 }
 
 /* Inset / Sunken Wells (for tracks, search inputs, wells) */
 .neu-inset,
 .neu-pressed {
-  background: #F8FAFC;
+  background: #F5F6F8 !important;
   border-radius: 14px;
-  border: 1px solid #E2E8F0;
-  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: inset 3px 3px 6px #D4DAE5, inset -3px -3px 6px #FFFFFF !important;
 }
 
 /* Form Input */
 .neu-input {
-  background: #FFFFFF;
-  color: #1E293B;
+  background: #F5F6F8 !important;
+  color: #1E293B !important;
   border-radius: 14px;
-  border: 1px solid #CBD5E1;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow: inset 3px 3px 6px #D4DAE5, inset -3px -3px 6px #FFFFFF !important;
   transition: all 0.2s ease;
 }
 
 .neu-input:focus {
   outline: none;
-  border-color: #0066FF;
-  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15);
+  border-color: rgba(0, 102, 255, 0.4) !important;
+  box-shadow: inset 3px 3px 7px #C8D0DC, inset -3px -3px 7px #FFFFFF, 0 0 0 2px rgba(0, 102, 255, 0.25) !important;
 }
 
 /* Tactile Buttons */
 .neu-btn {
-  background: #FFFFFF;
-  color: #1E293B;
+  background: #F5F6F8 !important;
+  color: #1E293B !important;
   font-weight: 600;
   border-radius: 14px;
-  border: 1px solid #CBD5E1;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 4px 4px 10px #D4DAE5, -4px -4px 10px #FFFFFF !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
@@ -134,24 +134,23 @@
 
 .neu-btn:hover {
   transform: translateY(-1px);
-  background: #F8FAFC;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
+  box-shadow: 6px 6px 14px #C8D0DC, -6px -6px 14px #FFFFFF !important;
 }
 
 .neu-btn:active {
   transform: translateY(0);
-  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: inset 3px 3px 6px #D4DAE5, inset -3px -3px 6px #FFFFFF !important;
 }
 
 /* Primary (Vibrant Blue Accent) Button */
 .neu-btn-primary,
 .ios-gloss-btn {
-  background: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
-  color: #FFFFFF;
+  background: linear-gradient(135deg, #0066FF 0%, #0052CC 100%) !important;
+  color: #FFFFFF !important;
   font-weight: 600;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 5px 5px 14px rgba(0, 82, 204, 0.35), -3px -3px 10px #FFFFFF !important;
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
@@ -161,26 +160,26 @@
 
 .neu-btn-primary:hover,
 .ios-gloss-btn:hover {
-  background: linear-gradient(135deg, #0070FF 0%, #005CE6 100%);
-  box-shadow: 0 6px 16px rgba(0, 102, 255, 0.38);
+  background: linear-gradient(135deg, #0070FF 0%, #005CE6 100%) !important;
+  box-shadow: 7px 7px 18px rgba(0, 102, 255, 0.45), -4px -4px 12px #FFFFFF !important;
   transform: translateY(-1px);
 }
 
 .neu-btn-primary:active,
 .ios-gloss-btn:active {
   transform: translateY(0);
-  box-shadow: inset 0 2px 4px rgba(0, 40, 100, 0.4);
+  box-shadow: inset 3px 3px 6px rgba(0, 40, 100, 0.45), -1px -1px 3px #FFFFFF !important;
 }
 
 /* Secondary Soft Button */
 .neu-btn-secondary,
 .ios-gloss-btn-secondary {
-  background: #F8FAFC;
-  color: #334155;
+  background: #F5F6F8 !important;
+  color: #334155 !important;
   font-weight: 600;
   border-radius: 14px;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 4px 4px 10px #D4DAE5, -4px -4px 10px #FFFFFF !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
@@ -191,24 +190,24 @@
 .neu-btn-secondary:hover,
 .ios-gloss-btn-secondary:hover {
   transform: translateY(-1px);
-  background: #F1F5F9;
-  color: #0F172A;
+  box-shadow: 6px 6px 14px #C8D0DC, -6px -6px 14px #FFFFFF !important;
+  color: #0F172A !important;
 }
 
 .neu-btn-secondary:active,
 .ios-gloss-btn-secondary:active {
   transform: translateY(0);
-  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: inset 3px 3px 6px #D4DAE5, inset -3px -3px 6px #FFFFFF !important;
 }
 
 /* Emerald Accent Button */
 .ios-gloss-btn-emerald {
-  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-  color: #FFFFFF;
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+  color: #FFFFFF !important;
   font-weight: 600;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 5px 5px 14px rgba(16, 185, 129, 0.35), -3px -3px 10px #FFFFFF !important;
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
@@ -217,16 +216,21 @@
 
 .ios-gloss-btn-emerald:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.38);
+  box-shadow: 7px 7px 18px rgba(16, 185, 129, 0.45), -4px -4px 12px #FFFFFF !important;
+}
+
+.ios-gloss-btn-emerald:active {
+  transform: translateY(0);
+  box-shadow: inset 3px 3px 6px rgba(4, 120, 87, 0.5), -1px -1px 3px #FFFFFF !important;
 }
 
 /* Modal Dialog */
 .neu-modal,
 .ios-modal {
-  background: #FFFFFF;
+  background: #F5F6F8 !important;
   border-radius: 26px;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 14px 14px 32px #C8D0DC, -14px -14px 32px #FFFFFF !important;
   animation: neuModalIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -242,7 +246,7 @@
 }
 
 /* =========================================================================
-   GLOBAL CLEAN WHITE APPLICATION ENHANCEMENTS ACROSS ALL PAGES
+   GLOBAL NEUMORPHIC APPLICATION ENHANCEMENTS ACROSS ALL PAGES
    ========================================================================= */
 
 /* All Cards, Panels, and Container Surfaces */
@@ -257,29 +261,32 @@
 .bg-white.rounded-3xl.border,
 .bg-slate-50.rounded-2xl,
 .bg-slate-50.rounded-xl.border {
-  background-color: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
-  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03) !important;
+  background-color: #F5F6F8 !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 6px 6px 16px #D4DAE5, -6px -6px 16px #FFFFFF !important;
 }
 
-/* Neutralize legacy hardcoded blue-tint classes */
+/* Map legacy hardcoded background colors to clean bright neumorphic surface */
 [class*="bg-[#EBEEF2]"],
 [class*="bg-[#E9EEF5]"] {
-  background-color: #FFFFFF !important;
+  background-color: #F5F6F8 !important;
 }
 
+/* Map legacy shadows to clean neumorphic extruded dual shadows */
 [class*="shadow-"][class*="#C8D0DC"],
 [class*="shadow-"][class*="#C5D0E0"],
 [class*="shadow-"][class*="#BAC6D8"] {
-  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03) !important;
-  border-color: #E2E8F0 !important;
+  box-shadow: 6px 6px 16px #D4DAE5, -6px -6px 16px #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
 }
 
+/* Map legacy inset shadows to clean neumorphic sunken wells */
 [class*="shadow-[inset"][class*="#C8D0DC"],
-[class*="shadow-[inset"][class*="#C5D0E0"] {
-  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.04) !important;
-  background-color: #F8FAFC !important;
-  border-color: #E2E8F0 !important;
+[class*="shadow-[inset"][class*="#C5D0E0"],
+[class*="shadow-[inset"][class*="#BAC6D8"] {
+  box-shadow: inset 3px 3px 6px #D4DAE5, inset -3px -3px 6px #FFFFFF !important;
+  background-color: #F5F6F8 !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
 }
 
 /* Form Inputs, Select Dropdowns, Textareas Across All Pages */
@@ -291,13 +298,14 @@ input[type="tel"],
 input[type="date"],
 select,
 textarea {
-  background-color: #FFFFFF !important;
+  background-color: #F5F6F8 !important;
   color: #1E293B !important;
-  border: 1px solid #CBD5E1 !important;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow: inset 3px 3px 6px #D4DAE5, inset -3px -3px 6px #FFFFFF !important;
+  border-radius: 16px !important;
 }
 
-/* Styled Native Select Dropdowns Following Clean UI Theme */
+/* Styled Native Select Dropdowns Following Neumorphic Theme */
 select {
   appearance: none !important;
   -webkit-appearance: none !important;
@@ -307,12 +315,12 @@ select {
   background-position: right 0.85rem center !important;
   background-size: 1rem 1rem !important;
   padding-right: 2.5rem !important;
-  border-radius: 14px !important;
+  border-radius: 16px !important;
   cursor: pointer !important;
 }
 
 select option {
-  background-color: #FFFFFF !important;
+  background-color: #F5F6F8 !important;
   color: #1E293B !important;
   padding: 10px 14px !important;
   font-weight: 600 !important;
@@ -327,49 +335,49 @@ input[type="date"]:focus,
 select:focus,
 textarea:focus {
   outline: none !important;
-  border-color: #0066FF !important;
-  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15) !important;
+  box-shadow: inset 3px 3px 7px #C8D0DC, inset -3px -3px 7px #FFFFFF, 0 0 0 2px rgba(0, 102, 255, 0.25) !important;
 }
 
-/* Tables */
+/* Neumorphic Tables */
 table {
-  background-color: #FFFFFF !important;
+  background-color: #F5F6F8 !important;
 }
 
 thead th {
-  background-color: #F8FAFC !important;
+  background-color: #F5F6F8 !important;
   color: #475569 !important;
-  border-bottom: 1px solid #E2E8F0 !important;
+  border-bottom: 1px solid rgba(212, 218, 229, 0.7) !important;
 }
 
 tbody tr {
   transition: all 0.15s ease;
+  border-bottom: 1px solid rgba(212, 218, 229, 0.35) !important;
 }
 
 tbody tr:hover {
-  background-color: #F8FAFC !important;
+  background-color: rgba(255, 255, 255, 0.6) !important;
 }
 
-/* Light Canvas (maps, telemetry, charts) */
+/* Neumorphic Canvas (maps, telemetry, charts) */
 .ios-light-canvas {
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.04);
+  background: #F5F6F8 !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: inset 4px 4px 8px #D4DAE5, inset -4px -4px 8px #FFFFFF !important;
   border-radius: 20px;
 }
 
-/* Clean Custom Scrollbars */
+/* Neumorphic Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #FFFFFF;
+  background: #F5F6F8;
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #C8D0DC;
   border-radius: 9999px;
-  border: 2px solid #FFFFFF;
+  border: 2px solid #F5F6F8;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94A3B8;

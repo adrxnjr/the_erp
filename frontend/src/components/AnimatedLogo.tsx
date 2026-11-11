@@ -32,7 +32,7 @@ export const AnimatedLogo: React.FC<AnimatedLogoProps> = ({
   if (customLogoUrl) {
     return (
       <div className={`flex items-center gap-2.5 p-1.5 ${className}`}>
-        <div className="w-10 h-10 rounded-xl bg-[#EBEEF2] shadow-[2px_2px_5px_#C8D0DC,-2px_-2px_5px_#FFFFFF] p-1 flex items-center justify-center shrink-0 border border-white/80">
+        <div className="w-10 h-10 rounded-xl bg-[#F5F6F8] shadow-[2px_2px_5px_#D4DAE5,-2px_-2px_5px_#FFFFFF] p-1 flex items-center justify-center shrink-0 border border-white/80">
           <img
             src={customLogoUrl}
             alt={displayTitle}

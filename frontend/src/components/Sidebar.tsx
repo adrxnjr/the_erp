@@ -423,23 +423,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
 
   return (
     <aside
-      className={`fixed inset-y-0 left-0 z-50 md:sticky md:top-0 w-64 md:w-60 bg-white text-slate-700 flex flex-col shrink-0 h-screen border-r border-slate-200/80 shadow-xs select-none transition-transform duration-300 ease-in-out ${
+      className={`fixed inset-y-0 left-0 z-50 md:sticky md:top-0 w-64 md:w-60 bg-[#F5F6F8] text-slate-700 flex flex-col shrink-0 h-screen border-r border-white/80 shadow-[4px_0_16px_rgba(212,218,229,0.35)] select-none transition-transform duration-300 ease-in-out ${
         mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
       }`}
     >
       {/* Brand Header with mobile close button */}
-      <div className="w-full px-2 pt-2.5 pb-2 bg-white flex items-center justify-between relative shrink-0 z-20">
+      <div className="w-full px-2 pt-2.5 pb-2 bg-[#F5F6F8] flex items-center justify-between relative shrink-0 z-20">
         <AnimatedLogo className="w-full" idPrefix="sidebar-logo" />
         <button
           onClick={onCloseMobile}
           aria-label="Close navigation drawer"
-          className="md:hidden absolute right-3 p-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 border border-slate-200 shadow-xs cursor-pointer"
+          className="md:hidden absolute right-3 p-1.5 rounded-xl bg-[#F5F6F8] hover:bg-slate-100 text-slate-500 hover:text-slate-800 border border-white/80 shadow-[2px_2px_5px_#D4DAE5,-2px_-2px_5px_#FFFFFF] cursor-pointer"
         >
           <X className="w-4 h-4" />
         </button>
         {/* Seamless blend fade beneath logo: only visible when scrolled */}
         <div
-          className={`pointer-events-none absolute left-0 right-0 -bottom-6 h-6 bg-gradient-to-b from-white to-transparent z-20 transition-opacity duration-200 ${
+          className={`pointer-events-none absolute left-0 right-0 -bottom-6 h-6 bg-gradient-to-b from-[#F5F6F8] to-transparent z-20 transition-opacity duration-200 ${
             isScrolled ? 'opacity-100' : 'opacity-0'
           }`}
         />
@@ -485,8 +485,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
                       className={({ isActive }) =>
                         `flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-all duration-150 ${
                           isActive || isCurrentActive
-                            ? 'bg-blue-50 text-[#0066FF] font-bold border border-blue-200/80 shadow-xs'
-                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-transparent font-medium active:scale-[0.98]'
+                            ? 'bg-[#F5F6F8] text-[#0066FF] font-bold shadow-[inset_2px_2px_5px_#D4DAE5,inset_-2px_-2px_5px_#FFFFFF] border border-white/60'
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-[#F5F6F8] hover:shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] hover:border-white/70 active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] border border-transparent font-medium'
                         }`
                       }
                     >
@@ -529,8 +529,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
                       className={({ isActive }) =>
                         `flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-all duration-150 ${
                           isActive || isCurrentActive
-                            ? 'bg-blue-50 text-[#0066FF] font-bold border border-blue-200/80 shadow-xs'
-                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-transparent font-medium active:scale-[0.98]'
+                            ? 'bg-[#F5F6F8] text-[#0066FF] font-bold shadow-[inset_2px_2px_5px_#D4DAE5,inset_-2px_-2px_5px_#FFFFFF] border border-white/60'
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-[#F5F6F8] hover:shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] hover:border-white/70 active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] border border-transparent font-medium'
                         }`
                       }
                     >
@@ -567,8 +567,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
                     className={({ isActive }) =>
                       `flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-all duration-150 ${
                         isActive
-                          ? 'bg-blue-50 text-[#0066FF] font-bold border border-blue-200/80 shadow-xs'
-                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-transparent font-medium active:scale-[0.98]'
+                          ? 'bg-[#F5F6F8] text-[#0066FF] font-bold shadow-[inset_2px_2px_5px_#D4DAE5,inset_-2px_-2px_5px_#FFFFFF] border border-white/60'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-[#F5F6F8] hover:shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] hover:border-white/70 active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] border border-transparent font-medium'
                       }`
                     }
                   >
@@ -589,15 +589,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
         )}
         </nav>
         {/* Seamless blend fade gradient above footer */}
-        <div className="pointer-events-none absolute left-0 right-0 bottom-0 h-6 bg-gradient-to-t from-white via-white/85 to-transparent z-20" />
+        <div className="pointer-events-none absolute left-0 right-0 bottom-0 h-6 bg-gradient-to-t from-[#F5F6F8] via-[#F5F6F8]/85 to-transparent z-20" />
       </div>
 
       {/* FOOTER: Logged-in user card (name, role, logout) */}
       {user && (
-        <div className="p-2 bg-white shrink-0 relative z-20 border-t border-slate-100">
-          <div className="flex items-center justify-between p-1.5 rounded-xl bg-slate-50 border border-slate-200">
+        <div className="p-2 bg-[#F5F6F8] shrink-0 relative z-20 border-t border-white/80">
+          <div className="flex items-center justify-between p-1.5 rounded-xl bg-[#F5F6F8] shadow-[4px_4px_10px_#D4DAE5,-4px_-4px_10px_#FFFFFF] border border-white/80">
             <div className="flex items-center space-x-2 min-w-0">
-              <div className="w-7 h-7 rounded-full bg-white shadow-xs flex items-center justify-center text-[#0066FF] font-bold text-xs border border-slate-200 shrink-0">
+              <div className="w-7 h-7 rounded-full bg-[#F5F6F8] shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] flex items-center justify-center text-[#0066FF] font-bold text-xs border border-white/60 shrink-0">
                 {user.username === 'staff' ? 'E' : (user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U')}
               </div>
               <div className="min-w-0">
@@ -627,7 +627,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
             <button
               onClick={logout}
               title="Sign Out"
-              className="p-1 text-slate-400 hover:text-rose-600 bg-white shadow-xs rounded-lg transition-all border border-slate-200 active:scale-95 shrink-0 ml-1 cursor-pointer"
+              className="p-1.5 text-slate-400 hover:text-rose-600 bg-[#F5F6F8] shadow-[2px_2px_5px_#D4DAE5,-2px_-2px_5px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF] rounded-lg transition-all border border-white/80 active:scale-95 shrink-0 ml-1 cursor-pointer"
             >
               <LogOut className="w-3.5 h-3.5" />
             </button>
