@@ -333,10 +333,6 @@ export const LoginPage: React.FC = () => {
             <ArrowLeft className="w-3.5 h-3.5 text-[#0071E3]" />
             <span>Website</span>
           </Link>
-          <div className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Mobile Ready</span>
-          </div>
         </div>
 
         {/* Compact Logo + Title */}
