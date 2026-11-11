@@ -2481,14 +2481,20 @@ export const ModuleHubPage: React.FC = () => {
           ───────────────────────────────────────────────────────────── */}
       {moduleKey === 'roles-users' && (
         <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60">
-            <div className="flex items-center space-x-3">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-6 rounded-3xl bg-[#EBEEF2] shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60">
+            <div className="flex items-center space-x-3 min-w-0">
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-700 to-indigo-800 text-white flex items-center justify-center shadow-md shadow-blue-600/25 shrink-0">
                 <UserCog className="w-6 h-6" />
               </div>
+<<<<<<< HEAD
               <div>
                 <h1 className="text-xl font-black text-slate-800 tracking-tight">Roles & User Access Management</h1>
                 <p className="text-xs text-slate-500">RBAC governance: Correspondent, Office Desk, Faculty, Parents & Students</p>
+=======
+              <div className="min-w-0">
+                <h1 className="text-lg sm:text-xl font-black text-slate-800 tracking-tight">Roles, Permissions & User Access Management</h1>
+                <p className="text-xs text-slate-500">Multi-portal RBAC governance: Super Admin (Correspondent), Staff Office Desk, Principal, Faculty, Guardians & Students</p>
+>>>>>>> d560d95 (Mobile responsievness fixed)
               </div>
             </div>
             <div className="flex items-center space-x-2">

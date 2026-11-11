@@ -528,7 +528,7 @@ export const TransportPage: React.FC = () => {
         </div>
 
         {/* Tab switchers */}
-        <div className="flex items-center space-x-1.5 bg-slate-100/80 p-1.5 rounded-2xl border border-black/[0.04] self-start md:self-auto overflow-x-auto">
+        <div className="w-full md:w-auto max-w-full flex items-center space-x-1.5 bg-slate-100/80 p-1.5 rounded-2xl border border-black/[0.04] self-start md:self-auto overflow-x-auto scrollbar-none shrink-0">
           {/* Main Tracker Button: Labeled strictly "My Bus" in student portal, "My Child Bus" in parent portal */}
           <button
             onClick={() => {
@@ -537,7 +537,7 @@ export const TransportPage: React.FC = () => {
                 fetchBusTracking(selectedStudentId || undefined, true);
               }
             }}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all shrink-0 whitespace-nowrap ${
               activeTab === 'tracker'
                 ? 'bg-white text-slate-900 shadow-sm'
                 : 'text-slate-600 hover:text-slate-900'
@@ -556,7 +556,7 @@ export const TransportPage: React.FC = () => {
             <>
               <button
                 onClick={() => setActiveTab('live')}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all shrink-0 whitespace-nowrap ${
                   activeTab === 'live'
                     ? 'bg-white text-slate-900 shadow-sm'
                     : 'text-slate-600 hover:text-slate-900'
@@ -569,7 +569,7 @@ export const TransportPage: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveTab('routes')}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all shrink-0 whitespace-nowrap ${
                   activeTab === 'routes'
                     ? 'bg-white text-slate-900 shadow-sm'
                     : 'text-slate-600 hover:text-slate-900'
@@ -579,7 +579,7 @@ export const TransportPage: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveTab('fleet')}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all shrink-0 whitespace-nowrap ${
                   activeTab === 'fleet'
                     ? 'bg-white text-slate-900 shadow-sm'
                     : 'text-slate-600 hover:text-slate-900'
@@ -589,7 +589,7 @@ export const TransportPage: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveTab('driver')}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all shrink-0 whitespace-nowrap ${
                   activeTab === 'driver'
                     ? 'bg-white text-slate-900 shadow-sm'
                     : 'text-slate-600 hover:text-slate-900'

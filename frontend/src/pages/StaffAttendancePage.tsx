@@ -147,14 +147,14 @@ export const StaffAttendancePage: React.FC = () => {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Top Banner - Apple iOS Light Glass */}
-      <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
-        <div className="relative z-10 space-y-2">
-          <div className="flex items-center space-x-2">
-            <span className="px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 text-xs font-semibold rounded-full uppercase tracking-wider flex items-center space-x-1.5">
-              <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+      <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden">
+        <div className="relative z-10 space-y-2 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 text-[11px] sm:text-xs font-semibold rounded-full uppercase tracking-wider whitespace-nowrap shrink-0">
+              <ShieldCheck className="w-3.5 h-3.5 text-blue-600 shrink-0" />
               <span>Campus Faculty & Employee Oversight</span>
             </span>
-            <span className="px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold rounded-full flex items-center space-x-1">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] sm:text-xs font-semibold rounded-full whitespace-nowrap shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               <span>Live Daily Register</span>
             </span>

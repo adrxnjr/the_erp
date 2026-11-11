@@ -163,9 +163,9 @@ export const TreasuryPage: React.FC = () => {
       {/* Header Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 bg-gradient-to-r from-blue-50/80 via-indigo-50/60 to-purple-50/80 rounded-[28px] border border-blue-100/60 backdrop-blur-md shadow-sm">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-[#0071E3] text-xs font-semibold mb-2">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            Super Admin Executive Governance
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-[#0071E3] text-[11px] sm:text-xs font-semibold mb-2 whitespace-nowrap shrink-0">
+            <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
+            <span>Super Admin Executive Governance</span>
           </div>
           <h1 className="text-2xl md:text-3xl font-bold text-[#1D1D1F] tracking-tight">
             Institutional Treasury & Liabilities

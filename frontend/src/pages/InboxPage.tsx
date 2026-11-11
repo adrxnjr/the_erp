@@ -204,17 +204,17 @@ export const InboxPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-12">
+    <div className="space-y-6 max-w-7xl mx-auto pb-12 w-full max-w-full overflow-x-hidden">
       {/* Top Header Card */}
-      <div className="ios-card rounded-[28px] p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#0071E3] to-[#0077ED] flex items-center justify-center shadow-lg text-white">
-            <Mail className="w-6 h-6" />
+      <div className="ios-card rounded-[22px] sm:rounded-[28px] p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex items-center space-x-3.5 sm:space-x-4 min-w-0">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-[#0071E3] to-[#0077ED] flex items-center justify-center shadow-lg text-white shrink-0">
+            <Mail className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <h1 className="text-xl font-black text-slate-800 tracking-tight">Direct Campus Inbox</h1>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
+          <div className="min-w-0">
+            <div className="flex items-center space-x-2 flex-wrap">
+              <h1 className="text-lg sm:text-xl font-black text-slate-800 tracking-tight">Direct Campus Inbox</h1>
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200 shrink-0">
                 {currentRole === 'teacher' ? 'Faculty Portal' : currentRole === 'coordinator' ? 'Coordinator Council' : 'Parent Portal'}
               </span>
             </div>
@@ -226,7 +226,7 @@ export const InboxPage: React.FC = () => {
 
         <button
           onClick={() => setShowCompose(true)}
-          className="ios-gloss-btn px-5 py-2.5 text-xs font-semibold flex items-center space-x-2 transition-all shadow-md active:scale-95 cursor-pointer"
+          className="ios-gloss-btn w-full sm:w-auto px-5 py-2.5 text-xs font-semibold flex items-center justify-center space-x-2 transition-all shadow-md active:scale-95 cursor-pointer shrink-0"
         >
           <Plus className="w-4 h-4 text-white" />
           <span>New Message</span>
@@ -239,10 +239,10 @@ export const InboxPage: React.FC = () => {
         <div className="lg:col-span-5 space-y-4">
           {/* Tabs & Search */}
           <div className="ios-card rounded-[22px] p-3 space-y-3">
-            <div className="flex items-center space-x-1.5 bg-[#E9EEF5] p-1 rounded-xl shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]">
+            <div className="flex items-center space-x-1.5 bg-[#E9EEF5] p-1 rounded-xl shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] overflow-x-auto scrollbar-none">
               <button
                 onClick={() => setActiveTab('inbox')}
-                className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer border-none ${
+                className={`flex-1 py-1.5 px-3 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer border-none shrink-0 whitespace-nowrap ${
                   activeTab === 'inbox'
                     ? 'bg-white text-[#0071E3] shadow-[2px_2px_5px_#C8D0DC,-2px_-2px_5px_#FFFFFF]'
                     : 'text-slate-600 hover:text-slate-900'
@@ -253,7 +253,7 @@ export const InboxPage: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveTab('sent')}
-                className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer border-none ${
+                className={`flex-1 py-1.5 px-3 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer border-none shrink-0 whitespace-nowrap ${
                   activeTab === 'sent'
                     ? 'bg-white text-[#0071E3] shadow-[2px_2px_5px_#C8D0DC,-2px_-2px_5px_#FFFFFF]'
                     : 'text-slate-600 hover:text-slate-900'
@@ -264,7 +264,7 @@ export const InboxPage: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveTab('all')}
-                className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer border-none ${
+                className={`flex-1 py-1.5 px-3 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 cursor-pointer border-none shrink-0 whitespace-nowrap ${
                   activeTab === 'all'
                     ? 'bg-white text-[#0071E3] shadow-[2px_2px_5px_#C8D0DC,-2px_-2px_5px_#FFFFFF]'
                     : 'text-slate-600 hover:text-slate-900'

@@ -6,7 +6,6 @@ import {
   ShieldCheck,
   GraduationCap,
   Users,
-  Compass,
   Award,
   Bus,
   CheckCircle2,
@@ -14,19 +13,13 @@ import {
   Phone,
   Mail,
   MapPin,
-  Menu,
-  X,
-  ExternalLink,
-  ChevronRight,
   BookOpen,
   Cpu,
   Trophy,
-  Activity,
-  Layers,
-  Clock,
   Send,
-  QrCode,
-  FileText,
+  Clock,
+  Sparkles,
+  ArrowRight,
 } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 import heroStudentsImg from '../assets/hero-students.jpg';
@@ -124,14 +117,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
   const location = useLocation();
   const toast = useToast();
 
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Quick admission form state
+  // Quick admission enquiry state
   const [enquiryForm, setEnquiryForm] = useState({
     student_name: '',
     parent_name: '',
     parent_phone: '',
     grade_applying_for: 'Grade 1',
+    message: '',
   });
   const [submittingEnquiry, setSubmittingEnquiry] = useState(false);
   const [submittedCode, setSubmittedCode] = useState<string | null>(null);
@@ -148,14 +140,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
   }, [location, initialOpenLogin, navigate]);
 
   const handleOpenLogin = (portal: 'staff' | 'student' | 'parent' = 'staff') => {
-    setMobileMenuOpen(false);
     navigate(`/login?portal=${portal}`);
   };
 
   const handleQuickEnquirySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!enquiryForm.student_name || !enquiryForm.parent_phone) {
-      toast.error('Please provide student name and contact phone number.');
+    if (!enquiryForm.student_name.trim() || !enquiryForm.parent_phone.trim()) {
+      toast.error('Please enter the student name and contact phone number.');
       return;
     }
 
@@ -164,24 +155,35 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
       const res = await api.post('/students/enquiries', {
         ...enquiryForm,
         parent_email: 'prospective.parent@gmail.com',
-        notes: 'Submitted via Home Page Quick Admission Desk',
+        notes: enquiryForm.message || 'Submitted via Home Page Quick Admission Desk',
       });
       const code = res.data?.application_number || `ENQ-${Date.now().toString().slice(-6)}`;
       setSubmittedCode(code);
-      toast.success(`Admission application received! Tracking code: ${code}`);
-      setEnquiryForm({ student_name: '', parent_name: '', parent_phone: '', grade_applying_for: 'Grade 1' });
+      toast.success(`Application received! Reference: ${code}`);
+      setEnquiryForm({
+        student_name: '',
+        parent_name: '',
+        parent_phone: '',
+        grade_applying_for: 'Grade 1',
+        message: '',
+      });
     } catch {
-      // Fallback local code
       const fallbackCode = `ENQ-2026-${Math.floor(1000 + Math.random() * 9000)}`;
       setSubmittedCode(fallbackCode);
-      toast.success(`Admission enquiry registered! Reference: ${fallbackCode}`);
+      toast.success(`Enquiry submitted! Reference: ${fallbackCode}`);
+      setEnquiryForm({
+        student_name: '',
+        parent_name: '',
+        parent_phone: '',
+        grade_applying_for: 'Grade 1',
+        message: '',
+      });
     } finally {
       setSubmittingEnquiry(false);
     }
   };
 
   const scrollToSection = (id: string) => {
-    setMobileMenuOpen(false);
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -189,745 +191,551 @@ export const LandingPage: React.FC<LandingPageProps> = ({ initialOpenLogin = fal
   };
 
   return (
-    <div className="min-h-screen bg-[#EBEEF2] text-slate-800 font-sans selection:bg-slate-300 selection:text-slate-900">
+    <div className="min-h-screen bg-[#EBEEF2] text-slate-800 font-sans selection:bg-slate-300 selection:text-slate-900 w-full max-w-full overflow-x-hidden">
       {/* 1. STICKY NEUMORPHIC NAVBAR */}
-      <header className="sticky top-0 z-40 bg-[#EBEEF2]/90 backdrop-blur-xl border-b border-slate-300/40 transition-all">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          {/* Logo Brand */}
-          <a href="#" className="flex items-center space-x-3.5 group">
-            <div className="w-11 h-11 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] flex items-center justify-center p-1.5 transition-transform group-hover:scale-105">
+      <header className="sticky top-0 z-40 bg-[#EBEEF2]/95 backdrop-blur-xl border-b border-slate-300/40 transition-all w-full max-w-full overflow-hidden">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+          {/* Logo Brand: Never wraps, unbroken even on 316px */}
+          <a
+            href="#home"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('home');
+            }}
+            className="flex items-center gap-2 sm:gap-2.5 group shrink-0"
+          >
+            <div className="w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#EBEEF2] shadow-[2px_2px_5px_#C8D0DC,-2px_-2px_5px_#FFFFFF] flex items-center justify-center p-1 sm:p-1.5 transition-transform group-hover:scale-105 shrink-0">
               <img src={logoImg} alt="Ever Grow Schools Logo" className="w-full h-full object-contain" />
             </div>
-            <div>
-              <div className="flex items-center space-x-1.5">
-                <span className="text-lg font-black tracking-tight text-blue-600">Ever Grow</span>
-                <span className="text-lg font-bold tracking-tight text-[#C25E2E]">Schools</span>
-              </div>
-              <p className="text-[11px] font-semibold text-slate-500 tracking-tight">
-                Excellence in Holistic Education
-              </p>
+            <div className="flex items-baseline gap-1 whitespace-nowrap shrink-0">
+              <span className="text-sm xs:text-base sm:text-lg font-black tracking-tight text-blue-600 whitespace-nowrap">
+                Ever Grow
+              </span>
+              <span className="text-sm xs:text-base sm:text-lg font-bold tracking-tight text-[#C25E2E] whitespace-nowrap">
+                Schools
+              </span>
             </div>
           </a>
 
-          {/* Desktop Center Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-6 text-xs font-bold text-slate-600">
-            <button
-              onClick={() => scrollToSection('about')}
-              className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer"
-            >
-              About School
-            </button>
-            <button
-              onClick={() => scrollToSection('academics')}
-              className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer"
-            >
-              Academics
-            </button>
-            <button
-              onClick={() => scrollToSection('campus-tech')}
-              className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer"
-            >
-              Campus Tech & ERP
-            </button>
-            <button
-              onClick={() => scrollToSection('tuitions')}
-              className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer"
-            >
-              Tuition Centers
-            </button>
-            <button
-              onClick={() => scrollToSection('enquiry')}
-              className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer"
-            >
-              Admissions
-            </button>
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer"
-            >
-              Contact
-            </button>
-          </nav>
-
-          {/* Top-Right Colorful Pill "Login" Button */}
-          <div className="hidden sm:flex items-center space-x-3">
-            <button
-              onClick={() => handleOpenLogin('staff')}
-              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white text-xs font-bold shadow-md shadow-blue-500/25 hover:shadow-indigo-500/40 hover:scale-105 active:scale-95 transition-all text-center border-none cursor-pointer"
-            >
-              <span>Login</span>
-            </button>
-          </div>
-
-          {/* Mobile Menu Hamburger */}
-          <div className="lg:hidden flex items-center space-x-2">
-            <button
-              onClick={() => handleOpenLogin('staff')}
-              className="px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-bold sm:hidden text-center shadow-sm"
-            >
-              <span>Login</span>
-            </button>
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-full bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] text-slate-700 transition-colors"
-              aria-label="Toggle navigation menu"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Dropdown Drawer */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden bg-[#EBEEF2] border-b border-slate-300/40 px-6 py-5 space-y-4 animate-fade-in shadow-[0_10px_20px_rgba(200,208,220,0.5)]">
-            <div className="flex flex-col space-y-3 text-sm font-semibold text-slate-700">
+          {/* Right Navigation & Controls: Strictly 3 Nav Items (Home, About us, Contact) + Login */}
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+            {/* Desktop 3 Navigation Links */}
+            <nav className="hidden md:flex items-center gap-6 text-xs font-bold text-slate-600 mr-2">
+              <button
+                onClick={() => scrollToSection('home')}
+                className="px-3 py-1.5 rounded-full hover:text-blue-600 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer whitespace-nowrap"
+              >
+                Home
+              </button>
               <button
                 onClick={() => scrollToSection('about')}
-                className="text-left py-1 hover:text-blue-600"
+                className="px-3 py-1.5 rounded-full hover:text-blue-600 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer whitespace-nowrap"
               >
-                About School
-              </button>
-              <button
-                onClick={() => scrollToSection('academics')}
-                className="text-left py-1 hover:text-blue-600"
-              >
-                Academics & Streams
-              </button>
-              <button
-                onClick={() => scrollToSection('campus-tech')}
-                className="text-left py-1 hover:text-blue-600"
-              >
-                Campus Technology & ERP
-              </button>
-              <button
-                onClick={() => scrollToSection('tuitions')}
-                className="text-left py-1 hover:text-blue-600"
-              >
-                Extended Tuition Centers
-              </button>
-              <button
-                onClick={() => scrollToSection('enquiry')}
-                className="text-left py-1 hover:text-blue-600"
-              >
-                Admission Enquiry
+                About us
               </button>
               <button
                 onClick={() => scrollToSection('contact')}
-                className="text-left py-1 hover:text-blue-600"
+                className="px-3 py-1.5 rounded-full hover:text-blue-600 hover:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] transition-all cursor-pointer whitespace-nowrap"
               >
-                Contact Campus
+                Contact
               </button>
-            </div>
+            </nav>
 
-            <div className="pt-3 border-t border-slate-300/40 flex flex-col gap-2">
-              <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                Select Portal to Sign In:
-              </div>
-              <div className="grid grid-cols-3 gap-2">
-                <button
-                  onClick={() => handleOpenLogin('staff')}
-                  className="py-2 px-3 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold text-xs text-center shadow-sm"
-                >
-                  Staff
-                </button>
-                <button
-                  onClick={() => handleOpenLogin('student')}
-                  className="py-2 px-3 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold text-xs text-center shadow-sm"
-                >
-                  Student
-                </button>
-                <button
-                  onClick={() => handleOpenLogin('parent')}
-                  className="py-2 px-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-xs text-center shadow-sm"
-                >
-                  Parent
-                </button>
-              </div>
-            </div>
+            {/* Login Button */}
+            <button
+              onClick={() => handleOpenLogin('staff')}
+              className="px-3.5 py-1.5 sm:px-6 sm:py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 active:scale-95 transition-all text-center border-none cursor-pointer whitespace-nowrap shrink-0"
+            >
+              Login
+            </button>
           </div>
-        )}
+        </div>
+
+        {/* Mobile Open Column Headings (Always openly visible like column headings in a table, NO hamburger/menu) */}
+        <div className="md:hidden border-t border-slate-300/40 bg-[#EBEEF2] grid grid-cols-3 text-center divide-x divide-slate-300/40 py-2.5 px-1 shadow-[inset_0_1px_3px_rgba(200,208,220,0.3)]">
+          <button
+            onClick={() => scrollToSection('home')}
+            className="py-1 text-xs font-black text-slate-700 hover:text-blue-600 active:text-blue-600 tracking-tight transition-colors cursor-pointer"
+          >
+            Home
+          </button>
+          <button
+            onClick={() => scrollToSection('about')}
+            className="py-1 text-xs font-black text-slate-700 hover:text-blue-600 active:text-blue-600 tracking-tight transition-colors cursor-pointer"
+          >
+            About us
+          </button>
+          <button
+            onClick={() => scrollToSection('contact')}
+            className="py-1 text-xs font-black text-slate-700 hover:text-blue-600 active:text-blue-600 tracking-tight transition-colors cursor-pointer"
+          >
+            Contact
+          </button>
+        </div>
       </header>
 
-      {/* 2. FULL-SCREEN HERO SECTION */}
-      <section className="relative w-full h-[calc(100vh-5rem)] min-h-[560px] overflow-hidden bg-[#EBEEF2]">
-        {/* Full-Screen Edge-to-Edge Hero Image */}
-        <img
-          src={heroStudentsImg}
-          alt="Ever Grow School Students"
-          className="w-full h-full object-cover object-center animate-scale-up"
-        />
+      {/* 2. SECTION 1: HOME (HERO & CORE PILLARS) */}
+      <section id="home" className="relative w-full bg-[#EBEEF2]">
+        {/* Hero Visual Area */}
+        <div className="relative w-full h-[50vh] sm:h-[65vh] md:h-[75vh] min-h-[380px] sm:min-h-[460px] overflow-hidden bg-[#EBEEF2]">
+          <img
+            src={heroStudentsImg}
+            alt="Ever Grow School Students"
+            className="w-full h-full object-cover object-center"
+          />
 
-        {/* Floating Bottom Overlay with Continuous Student Showcase Ticker */}
-        <div className="absolute inset-x-0 bottom-0 pb-6 pt-24 bg-gradient-to-t from-[#EBEEF2] via-[#EBEEF2]/80 to-transparent">
-          <div className="max-w-7xl mx-auto px-4 text-center space-y-3.5 overflow-hidden">
-            <div className="inline-flex items-center space-x-2 text-xs font-bold text-slate-700 bg-[#EBEEF2]/90 backdrop-blur-md shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] px-4 py-1.5 rounded-full border border-white/70">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span className="text-slate-900 font-extrabold">2,500+ Active Scholars</span>
-              <span className="text-slate-400">•</span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 font-extrabold">
-                Meet Our Achievers
+          {/* Floating Bottom Ticker */}
+          <div className="absolute inset-x-0 bottom-0 pb-3 sm:pb-6 pt-16 bg-gradient-to-t from-[#EBEEF2] via-[#EBEEF2]/80 to-transparent">
+            <div className="max-w-7xl mx-auto px-3.5 sm:px-4 text-center space-y-2 overflow-hidden">
+              <div className="inline-flex items-center gap-2 text-[11px] sm:text-xs font-bold text-slate-700 bg-[#EBEEF2]/90 backdrop-blur-md shadow-[inset_2px_2px_5px_#C8D0DC,inset_-2px_-2px_5px_#FFFFFF] px-3.5 py-1.5 rounded-full border border-white/70">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                <span className="text-slate-900 font-extrabold whitespace-nowrap">2,500+ Active Scholars</span>
+                <span className="text-slate-400">•</span>
+                <span className="text-slate-600 whitespace-nowrap">CBSE Affiliation #1930482</span>
+                <span className="text-slate-400 hidden sm:inline">•</span>
+                <span className="text-blue-600 font-bold hidden sm:inline whitespace-nowrap">Admissions Open 2026-27</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Hero Headline & Intro Box */}
+        <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-8 sm:py-12">
+          <div className="text-center max-w-3xl mx-auto space-y-4">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 border border-blue-200 shadow-2xs whitespace-nowrap">
+              <Sparkles className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+              <span>Nurturing Inquisitive Minds & Leaders</span>
+            </div>
+            <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+              Inspiring Excellence in Every Child
+            </h1>
+            <p className="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
+              Ever Grow Schools delivers holistic education blending rigorous academic foundation, hands-on STEM & AI innovation labs, world-class athletic facilities, and value-based personal mentorship.
+            </p>
+
+            {/* Quick Action Buttons */}
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="px-5 py-2.5 rounded-full bg-[#0071E3] hover:bg-blue-600 text-white text-xs sm:text-sm font-bold shadow-md shadow-blue-500/25 flex items-center gap-1.5 cursor-pointer transition-all"
+              >
+                <span>Contact Campus & Apply</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => scrollToSection('about')}
+                className="px-5 py-2.5 rounded-full bg-[#EBEEF2] hover:bg-white text-slate-700 text-xs sm:text-sm font-bold shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] cursor-pointer transition-all"
+              >
+                About Our School
+              </button>
+            </div>
+          </div>
+
+          {/* Continuous Student Showcase Ticker */}
+          <div className="mt-8 pt-6 border-t border-slate-300/40">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                Student Achievements & Scholar Spotlights
               </span>
+              <span className="text-[11px] font-semibold text-blue-600">Continuous Rolling Honour Roll</span>
             </div>
-
-            {/* Seamless Horizontal Infinite Loop Ticker with Gradient Fade Edges */}
-            <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] py-1">
-              <div className="animate-marquee flex items-center gap-4">
-                {[...STUDENT_SHOWCASE, ...STUDENT_SHOWCASE].map((student, idx) => (
-                  <div
-                    key={`${student.name}-${idx}`}
-                    className="flex items-center space-x-3.5 px-3.5 py-2.5 rounded-2xl bg-[#EBEEF2]/95 backdrop-blur-md shadow-[4px_4px_10px_#C8D0DC,-4px_-4px_10px_#FFFFFF] hover:shadow-[6px_6px_14px_#C0CAD8,-6px_-6px_14px_#FFFFFF] transition-all shrink-0 cursor-pointer border border-white/80 group select-none hover:-translate-y-0.5"
-                  >
-                    {/* Student Photo with Vibrant Gradient Ring */}
-                    <div className={`p-0.5 rounded-full bg-gradient-to-tr ${student.accent} shrink-0 shadow-sm group-hover:scale-105 transition-transform`}>
-                      <img
-                        src={student.photo}
-                        alt={student.name}
-                        className="w-11 h-11 rounded-full object-cover"
-                        loading="lazy"
-                        onError={(e) => {
-                          // Clean fallback placeholder if network fails
-                          (e.target as HTMLElement).style.display = 'none';
-                        }}
-                      />
-                    </div>
-                    {/* Student Details */}
-                    <div className="text-left">
-                      <div className="flex items-center space-x-1.5">
-                        <span className="text-xs font-black text-slate-800 tracking-tight">{student.name}</span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
-                      </div>
-                      <div className="flex items-center space-x-1.5 mt-0.5">
-                        <span className="text-[10px] font-bold text-slate-500">{student.grade}</span>
-                        <span className="text-slate-300">•</span>
-                        <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full border ${student.tagBg}`}>
-                          {student.achievement}
-                        </span>
-                      </div>
-                    </div>
+            <div className="flex gap-3 overflow-x-auto scrollbar-none pb-2 -mx-3.5 px-3.5 sm:mx-0 sm:px-0">
+              {STUDENT_SHOWCASE.map((student, idx) => (
+                <div
+                  key={idx}
+                  className="shrink-0 w-60 sm:w-64 bg-[#EBEEF2] rounded-2xl p-3 shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] border border-white/60 flex items-center gap-3"
+                >
+                  <img
+                    src={student.photo}
+                    alt={student.name}
+                    className="w-12 h-12 rounded-xl object-cover shadow-sm shrink-0"
+                  />
+                  <div className="min-w-0">
+                    <div className="font-extrabold text-xs text-slate-800 truncate">{student.name}</div>
+                    <div className="text-[10px] font-semibold text-slate-500">{student.grade}</div>
+                    <span className={`inline-block mt-1 text-[9px] font-black px-2 py-0.5 rounded-full border ${student.tagBg} truncate max-w-full`}>
+                      {student.achievement}
+                    </span>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* 2.5 LIVE METRICS BAR */}
-      <section className="py-12 bg-[#EBEEF2]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 max-w-5xl mx-auto text-left">
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border border-blue-200/40 group hover:-translate-y-1">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-md shadow-blue-500/30 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                <GraduationCap className="w-6 h-6" />
+          {/* 4 Core Pillars of Excellence Cards */}
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="bg-[#EBEEF2] rounded-2xl p-5 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-2.5">
+              <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
+                <BookOpen className="w-5 h-5" />
               </div>
-              <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 font-mono tracking-tight">2,500+</div>
-              <div className="text-xs font-bold text-slate-700 mt-1">Active Enrolled Students</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">Pre-K to Grade 12</div>
-            </div>
-
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border border-emerald-200/40 group hover:-translate-y-1">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/30 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                <Trophy className="w-6 h-6" />
-              </div>
-              <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 font-mono tracking-tight">100%</div>
-              <div className="text-xs font-bold text-slate-700 mt-1">Board Exam Pass Rate</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">State & National Ranks</div>
-            </div>
-
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border border-indigo-200/40 group hover:-translate-y-1">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/30 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                <Users className="w-6 h-6" />
-              </div>
-              <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 font-mono tracking-tight">60+</div>
-              <div className="text-xs font-bold text-slate-700 mt-1">Specialized Faculty</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">Ph.D. & Masters Mentors</div>
-            </div>
-
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all border border-amber-200/40 group hover:-translate-y-1">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-md shadow-amber-500/30 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                <Bus className="w-6 h-6" />
-              </div>
-              <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-600 font-mono tracking-tight">24</div>
-              <div className="text-xs font-bold text-slate-700 mt-1">GPS Smart Fleets</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">Live Safe Transit Network</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. ABOUT & CAMPUS LIFE SHOWCASE */}
-      <section id="about" className="py-20 bg-[#EBEEF2] border-t border-slate-300/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-3xl mx-auto space-y-3">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              A World-Class Infrastructure Designed for Curiosity
-            </h2>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              At Ever Grow, learning extends far beyond textbooks. Our 20-acre sustainable smart campus provides immersive
-              environments for STEM, athletics, performing arts, and scientific discovery.
-            </p>
-          </div>
-
-          {/* Highlights Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-4 border border-blue-200/50 hover:-translate-y-1 group">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-md shadow-blue-500/25 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Cpu className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900">Robotics & AI Innovation Labs</h3>
+              <h2 className="text-base font-extrabold text-slate-900 tracking-tight">Academic Rigor</h2>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Equipped with microcontrollers, 3D printers, and sensor arrays where students build real-world IoT and
-                robotics prototypes starting from Grade 4.
-              </p>
-              <div className="pt-2 text-[11px] font-bold text-blue-600 flex items-center space-x-1">
-                <span>Integrated STEM Curriculum</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </div>
-            </div>
-
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-4 border border-emerald-200/50 hover:-translate-y-1 group">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/25 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Trophy className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900">Olympic Standard Sports Arena</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Featuring an all-weather 400m synthetic running track, FINA-compliant swimming pool, indoor badminton courts,
-                and professional football academy.
-              </p>
-              <div className="pt-2 text-[11px] font-bold text-emerald-600 flex items-center space-x-1">
-                <span>Inter-School Championships</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </div>
-            </div>
-
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-4 border border-purple-200/50 hover:-translate-y-1 group">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-md shadow-purple-500/25 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <BookOpen className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900">Digital Library & Knowledge Center</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Over 35,000 physical volumes complemented by continuous access to global research databases, JSTOR, and
-                multimedia educational repositories.
-              </p>
-              <div className="pt-2 text-[11px] font-bold text-purple-600 flex items-center space-x-1">
-                <span>Collaborative Study Pods</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. KEY HIGHLIGHTS & ERP FEATURE GRID */}
-      <section id="campus-tech" className="py-20 bg-[#EBEEF2] border-t border-slate-300/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-3xl mx-auto space-y-3">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              An Enterprise Platform Built for Transparent Governance
-            </h2>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              Ever Grow Schools is powered by our proprietary School ERP operating system, connecting educators, parents,
-              students, and administrators into an integrated digital ecosystem.
-            </p>
-          </div>
-
-          {/* 6 Core Feature Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Feature 1 */}
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-blue-200/40 hover:-translate-y-1 group">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-md shadow-blue-500/25 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
-                <Compass className="w-5 h-5" />
-              </div>
-              <h3 className="font-bold text-slate-900 text-base">Smart Tuition Recommendation</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Algorithmic coaching matching based on diagnostic test scores, batch timing preferences, neighborhood radius,
-                and academic track.
+                Structured CBSE curriculum with smart interactive boards, continuous assessment, and personalized learning tracks.
               </p>
             </div>
 
-            {/* Feature 2 */}
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-amber-200/40 hover:-translate-y-1 group">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-md shadow-amber-500/25 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
-                <Award className="w-5 h-5" />
+            <div className="bg-[#EBEEF2] rounded-2xl p-5 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-2.5">
+              <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center">
+                <Cpu className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-slate-900 text-base">Gamified Student Rewards</h3>
+              <h2 className="text-base font-extrabold text-slate-900 tracking-tight">STEM & Robotics</h2>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Motivates academic consistency and 100% attendance through milestone badges, reward points, and term wall of
-                fame recognitions.
+                Hands-on AI coding, robotics labs, and practical science experimentation preparing students for tomorrow.
               </p>
             </div>
 
-            {/* Feature 3 */}
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-emerald-200/40 hover:-translate-y-1 group">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/25 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
+            <div className="bg-[#EBEEF2] rounded-2xl p-5 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-2.5">
+              <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+                <Trophy className="w-5 h-5" />
+              </div>
+              <h2 className="text-base font-extrabold text-slate-900 tracking-tight">Sports & Arts</h2>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Olympic standard athletic tracks, basketball, football, music academies, and fine arts societies.
+              </p>
+            </div>
+
+            <div className="bg-[#EBEEF2] rounded-2xl p-5 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] border border-white/60 space-y-2.5">
+              <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
                 <Bus className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-slate-900 text-base">Live GPS Fleet Tracking</h3>
+              <h2 className="text-base font-extrabold text-slate-900 tracking-tight">Smart Transit</h2>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Sub-second bus telemetry, automated arrival ETA alerts for parents, speed monitoring, and student onboard
-                validation via NFC/RFID.
-              </p>
-            </div>
-
-            {/* Feature 4 */}
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-purple-200/40 hover:-translate-y-1 group">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-md shadow-purple-500/25 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
-                <Activity className="w-5 h-5" />
-              </div>
-              <h3 className="font-bold text-slate-900 text-base">AI Career & Stream Guidance</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Comprehensive psychometric interest evaluations and algorithmic college match paths for secondary and senior
-                secondary scholars.
-              </p>
-            </div>
-
-            {/* Feature 5 */}
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-indigo-200/40 hover:-translate-y-1 group">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-md shadow-indigo-500/25 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
-                <Users className="w-5 h-5" />
-              </div>
-              <h3 className="font-bold text-slate-900 text-base">Comprehensive 3-Way Portals</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Bespoke interfaces tailored specifically for school administrators, subject teachers, parents, and students
-                with granular role security.
-              </p>
-            </div>
-
-            {/* Feature 6 */}
-            <div className="bg-[#EBEEF2] rounded-3xl p-7 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-rose-200/40 hover:-translate-y-1 group">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-rose-500 to-pink-600 text-white shadow-md shadow-rose-500/25 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
-                <QrCode className="w-5 h-5" />
-              </div>
-              <h3 className="font-bold text-slate-900 text-base">Digital QR Student Credentials</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                High-resolution verifiable digital student identity cards with instant PDF export, parent emergency contact,
-                and attendance check-in.
+                Live GPS school bus tracking, RFID attendance check-in, speed governors, and automated parent arrival alerts.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. ACADEMIC STRUCTURE & STREAMS */}
-      <section id="academics" className="py-20 bg-[#EBEEF2] border-t border-slate-300/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-3xl mx-auto space-y-3">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              Structured for Every Milestone of Growth
+      {/* 3. SECTION 2: ABOUT US */}
+      <section id="about" className="py-12 sm:py-20 bg-[#EBEEF2] border-t border-slate-300/40">
+        <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 space-y-10">
+          <div className="text-center max-w-3xl mx-auto space-y-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-purple-100 text-purple-700 border border-purple-200 shadow-2xs whitespace-nowrap">
+              <GraduationCap className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+              <span>About Ever Grow Schools</span>
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Two Decades of Nurturing Champions
             </h2>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              Our curriculum blends national educational standards with inquiry-based global pedagogy, fostering foundational
-              fluency in mathematics, humanities, and sciences.
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Founded with the vision to provide benchmark education, Ever Grow Schools combines values, innovative pedagogy, and holistic student development.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-blue-200/60 hover:-translate-y-1">
-              <span className="text-[10px] font-extrabold uppercase bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-3 py-1 rounded-full inline-block shadow-sm">
-                Foundation Stage
-              </span>
-              <h3 className="text-base font-bold text-slate-900">Pre-Primary (Ages 3–5)</h3>
+          {/* About Grid: 4 Key Pillars */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-[#EBEEF2] rounded-2xl p-6 shadow-[6px_6px_14px_#C8D0DC,-6px_-6px_14px_#FFFFFF] border border-white/60 space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                  <Award className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-800">Holistic Pedagogy & Values</h3>
+                  <p className="text-xs text-slate-500">Beyond Rote Memorization</p>
+                </div>
+              </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Montessori-inspired sensory development, phonics mastery, spatial reasoning, and social interaction skills.
+                We believe education is more than examinations. Our curriculum is crafted to inspire creative problem solving, ethics, emotional intelligence, and confident communication skills.
               </p>
             </div>
 
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-indigo-200/60 hover:-translate-y-1">
-              <span className="text-[10px] font-extrabold uppercase bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-3 py-1 rounded-full inline-block shadow-sm">
-                Primary School
-              </span>
-              <h3 className="text-base font-bold text-slate-900">Grades 1 to 5</h3>
+            <div className="bg-[#EBEEF2] rounded-2xl p-6 shadow-[6px_6px_14px_#C8D0DC,-6px_-6px_14px_#FFFFFF] border border-white/60 space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                  <Users className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-800">Master Faculty Mentorship</h3>
+                  <p className="text-xs text-slate-500">60+ Certified Educators</p>
+                </div>
+              </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Core conceptual numeracy, bilingual literacy, environmental science, computational thinking, and visual arts.
+                Our faculty undergo continuous professional training. With an optimal 1:15 educator-to-student ratio, every child receives personal attention, academic guidance, and nurturing care.
               </p>
             </div>
 
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-purple-200/60 hover:-translate-y-1">
-              <span className="text-[10px] font-extrabold uppercase bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1 rounded-full inline-block shadow-sm">
-                Middle School
-              </span>
-              <h3 className="text-base font-bold text-slate-900">Grades 6 to 8</h3>
+            <div className="bg-[#EBEEF2] rounded-2xl p-6 shadow-[6px_6px_14px_#C8D0DC,-6px_-6px_14px_#FFFFFF] border border-white/60 space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-800">Safe, 20-Acre Green Campus</h3>
+                  <p className="text-xs text-slate-500">ISO 9001:2015 Certified</p>
+                </div>
+              </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Applied laboratory sciences, algebraic foundations, world geography, robotics workshops, and competitive sports.
+                Located in an eco-friendly campus with solar generation, 24/7 CCTV surveillance, biometric security, hygienic cafeterias, and extensive sports facilities.
               </p>
             </div>
 
-            <div className="bg-[#EBEEF2] rounded-3xl p-6 shadow-[5px_5px_12px_#C8D0DC,-5px_-5px_12px_#FFFFFF] hover:shadow-[7px_7px_15px_#C0CAD8,-7px_-7px_15px_#FFFFFF] transition-all space-y-3 border border-emerald-200/60 hover:-translate-y-1">
-              <span className="text-[10px] font-extrabold uppercase bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-3 py-1 rounded-full inline-block shadow-sm">
-                Senior Secondary
-              </span>
-              <h3 className="text-base font-bold text-slate-900">Grades 9 to 12</h3>
+            <div className="bg-[#EBEEF2] rounded-2xl p-6 shadow-[6px_6px_14px_#C8D0DC,-6px_-6px_14px_#FFFFFF] border border-white/60 space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
+                  <CheckCircle2 className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-800">Institutional Accreditations</h3>
+                  <p className="text-xs text-slate-500">CBSE Affiliation #1930482</p>
+                </div>
+              </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Specialized Science (PCM/PCB), Commerce with Math, and Humanities streams with integrated entrance prep.
+                Recognized consistently among top-ranked schools in Karnataka with a 100% board examination pass rate and seamless college admissions placements.
               </p>
+            </div>
+          </div>
+
+          {/* Key Metrics Counters */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            <div className="bg-[#EBEEF2] rounded-2xl p-4 text-center shadow-[4px_4px_8px_#C8D0DC,-4px_-4px_8px_#FFFFFF]">
+              <div className="text-2xl sm:text-3xl font-black text-blue-600">2,500+</div>
+              <div className="text-[11px] font-semibold text-slate-600 mt-0.5">Enrolled Students</div>
+            </div>
+            <div className="bg-[#EBEEF2] rounded-2xl p-4 text-center shadow-[4px_4px_8px_#C8D0DC,-4px_-4px_8px_#FFFFFF]">
+              <div className="text-2xl sm:text-3xl font-black text-emerald-600">100%</div>
+              <div className="text-[11px] font-semibold text-slate-600 mt-0.5">Board Pass Rate</div>
+            </div>
+            <div className="bg-[#EBEEF2] rounded-2xl p-4 text-center shadow-[4px_4px_8px_#C8D0DC,-4px_-4px_8px_#FFFFFF]">
+              <div className="text-2xl sm:text-3xl font-black text-purple-600">1 : 15</div>
+              <div className="text-[11px] font-semibold text-slate-600 mt-0.5">Faculty Ratio</div>
+            </div>
+            <div className="bg-[#EBEEF2] rounded-2xl p-4 text-center shadow-[4px_4px_8px_#C8D0DC,-4px_-4px_8px_#FFFFFF]">
+              <div className="text-2xl sm:text-3xl font-black text-amber-600">20+</div>
+              <div className="text-[11px] font-semibold text-slate-600 mt-0.5">Acres Green Campus</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6. TUITION CENTERS SECTION */}
-      <section id="tuitions" className="py-20 bg-[#EBEEF2] border-t border-slate-300/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="bg-gradient-to-r from-blue-600 via-indigo-600 via-purple-600 to-pink-600 rounded-[32px] p-8 md:p-12 text-white shadow-xl shadow-indigo-500/25 border-none">
-            <div className="max-w-3xl space-y-4">
-              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
-                Neighborhood Tuition & Subject Mastery Centers
-              </h2>
-              <p className="text-sm md:text-base text-white/95 leading-relaxed">
-                Beyond regular school hours, Ever Grow operates state-of-the-art coaching centers providing small-batch
-                remedial support, Olympiad mentorship, and doubt clearance with certified master educators.
-              </p>
-              <div className="pt-2 flex flex-wrap gap-4 text-xs font-bold">
-                <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-2.5 rounded-full text-white border border-white/20">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
-                  <span>Maximum 12 Students Per Batch</span>
+      {/* 4. SECTION 3: CONTACT & ADMISSIONS */}
+      <section id="contact" className="py-12 sm:py-20 bg-[#EBEEF2] border-t border-slate-300/40">
+        <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 space-y-10">
+          <div className="text-center max-w-3xl mx-auto space-y-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 border border-blue-200 shadow-2xs whitespace-nowrap">
+              <Phone className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+              <span>Contact Campus</span>
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Get in Touch with Ever Grow Schools
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              We welcome prospective families to tour our campus, meet faculty mentors, and explore admissions.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            {/* Campus Coordinates & Quick Portals */}
+            <div className="space-y-4">
+              <div className="bg-[#EBEEF2] rounded-2xl p-6 shadow-[6px_6px_14px_#C8D0DC,-6px_-6px_14px_#FFFFFF] border border-white/60 space-y-4">
+                <h3 className="text-base font-extrabold text-slate-800">Campus Contact Details</h3>
+
+                <div className="space-y-3 text-xs text-slate-600">
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-bold text-slate-800">Campus Address:</span>
+                      <p className="text-slate-500">124 Campus Boulevard, Green Hills, Bengaluru, KA 560064</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <Phone className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-bold text-slate-800">Admissions Helpline:</span>
+                      <p className="text-slate-500">+91 (080) 4567-8900 / +91 98450 11001</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <Mail className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-bold text-slate-800">Official Email:</span>
+                      <p className="text-slate-500">admissions@evergrow.edu / office@evergrow.edu</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <Clock className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-bold text-slate-800">Visiting Hours:</span>
+                      <p className="text-slate-500">Monday – Saturday: 8:30 AM – 4:30 PM</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-2.5 rounded-full text-white border border-white/20">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
-                  <span>Personalized Weekly Progress Tracking</span>
-                </div>
-                <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-2.5 rounded-full text-white border border-white/20">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
-                  <span>Direct ERP Gradebook Sync</span>
+              </div>
+
+              {/* Quick Portal Launch Cards */}
+              <div className="bg-[#EBEEF2] rounded-2xl p-5 shadow-[6px_6px_14px_#C8D0DC,-6px_-6px_14px_#FFFFFF] border border-white/60 space-y-3">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 block">
+                  Quick Portal Access
+                </span>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    onClick={() => handleOpenLogin('staff')}
+                    className="p-3 rounded-xl bg-[#EBEEF2] hover:bg-white text-center shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] border border-white/60 transition-transform hover:-translate-y-0.5 cursor-pointer"
+                  >
+                    <div className="text-xs font-black text-blue-600">Staff</div>
+                    <div className="text-[10px] text-slate-500">Faculty Desk</div>
+                  </button>
+
+                  <button
+                    onClick={() => handleOpenLogin('student')}
+                    className="p-3 rounded-xl bg-[#EBEEF2] hover:bg-white text-center shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] border border-white/60 transition-transform hover:-translate-y-0.5 cursor-pointer"
+                  >
+                    <div className="text-xs font-black text-indigo-600">Student</div>
+                    <div className="text-[10px] text-slate-500">Self-Service</div>
+                  </button>
+
+                  <button
+                    onClick={() => handleOpenLogin('parent')}
+                    className="p-3 rounded-xl bg-[#EBEEF2] hover:bg-white text-center shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] border border-white/60 transition-transform hover:-translate-y-0.5 cursor-pointer"
+                  >
+                    <div className="text-xs font-black text-emerald-600">Parent</div>
+                    <div className="text-[10px] text-slate-500">Guardian Desk</div>
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* 7. QUICK ADMISSION ENQUIRY SECTION */}
-      <section id="enquiry" className="py-20 bg-[#EBEEF2] border-t border-slate-300/40">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-[#EBEEF2] rounded-[32px] p-8 md:p-12 shadow-[8px_8px_20px_#C8D0DC,-8px_-8px_20px_#FFFFFF] border-none space-y-8">
-            <div className="text-center max-w-2xl mx-auto space-y-2">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                Begin Your Child's Educational Journey
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-500">
-                Submit an admission enquiry to receive the school prospectus and schedule a campus tour with our Dean.
-              </p>
-            </div>
-
-            {submittedCode ? (
-              <div className="bg-[#EBEEF2] shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] rounded-2xl p-6 text-center space-y-3 animate-fade-in">
-                <div className="w-12 h-12 rounded-full bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] text-emerald-600 flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="w-6 h-6" />
-                </div>
-                <h3 className="text-base font-bold text-slate-900">Application Registered Successfully!</h3>
-                <p className="text-xs text-slate-600 max-w-md mx-auto">
-                  Your official application tracking reference is:
+            {/* Admission Enquiry Form */}
+            <div className="bg-[#EBEEF2] rounded-2xl p-6 sm:p-8 shadow-[6px_6px_14px_#C8D0DC,-6px_-6px_14px_#FFFFFF] border border-white/60 space-y-4">
+              <div className="space-y-1">
+                <h3 className="text-base sm:text-lg font-bold text-slate-800">
+                  Admission & General Enquiry
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Submit this quick form to request a prospectus, fee schedule, or schedule a campus walkthrough.
                 </p>
-                <div className="inline-block px-6 py-2.5 rounded-full bg-[#EBEEF2] text-emerald-700 font-mono font-black text-lg tracking-wider shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF]">
-                  {submittedCode}
-                </div>
-                <div className="text-[11px] text-slate-500 pt-1">
-                  Our admissions team will reach out within 24 hours.
-                </div>
-                <div className="pt-2">
+              </div>
+
+              {submittedCode ? (
+                <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-center space-y-2">
+                  <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
+                  <div className="font-bold text-sm text-emerald-900">Enquiry Submitted Successfully!</div>
+                  <p className="text-xs text-emerald-700">
+                    Application Reference Number: <span className="font-mono font-bold">{submittedCode}</span>
+                  </p>
                   <button
                     onClick={() => setSubmittedCode(null)}
-                    className="text-xs text-blue-600 font-bold hover:underline cursor-pointer"
+                    className="mt-2 text-xs font-semibold text-emerald-800 underline cursor-pointer"
                   >
                     Submit Another Enquiry
                   </button>
                 </div>
-              </div>
-            ) : (
-              <form onSubmit={handleQuickEnquirySubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              ) : (
+                <form onSubmit={handleQuickEnquirySubmit} className="space-y-3.5">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5 pl-2">Student Full Name *</label>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                      Student Full Name *
+                    </label>
                     <input
                       type="text"
                       required
+                      placeholder="e.g. Rahul Sharma"
                       value={enquiryForm.student_name}
                       onChange={(e) => setEnquiryForm({ ...enquiryForm, student_name: e.target.value })}
-                      placeholder="e.g. Alexander Smith"
-                      className="w-full px-5 py-3 bg-[#EBEEF2] rounded-full text-xs text-slate-800 placeholder-slate-400 shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_#C0CAD8,inset_-4px_-4px_8px_#FFFFFF]"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
                   </div>
 
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                        Parent Contact Phone *
+                      </label>
+                      <input
+                        type="tel"
+                        required
+                        placeholder="+91 98450 12345"
+                        value={enquiryForm.parent_phone}
+                        onChange={(e) => setEnquiryForm({ ...enquiryForm, parent_phone: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                        Grade Applying For
+                      </label>
+                      <select
+                        value={enquiryForm.grade_applying_for}
+                        onChange={(e) => setEnquiryForm({ ...enquiryForm, grade_applying_for: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      >
+                        <option value="Pre-Primary / KG">Pre-Primary / KG</option>
+                        <option value="Grade 1">Grade 1</option>
+                        <option value="Grade 2">Grade 2</option>
+                        <option value="Grade 3">Grade 3</option>
+                        <option value="Grade 4">Grade 4</option>
+                        <option value="Grade 5">Grade 5</option>
+                        <option value="Grade 6">Grade 6</option>
+                        <option value="Grade 7">Grade 7</option>
+                        <option value="Grade 8">Grade 8</option>
+                        <option value="Grade 9">Grade 9</option>
+                        <option value="Grade 10">Grade 10</option>
+                        <option value="Grade 11 - Science / Commerce">Grade 11 - Science / Commerce</option>
+                        <option value="Grade 12 - Senior Secondary">Grade 12 - Senior Secondary</option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5 pl-2">Parent / Guardian Name *</label>
-                    <input
-                      type="text"
-                      required
-                      value={enquiryForm.parent_name}
-                      onChange={(e) => setEnquiryForm({ ...enquiryForm, parent_name: e.target.value })}
-                      placeholder="e.g. William Smith"
-                      className="w-full px-5 py-3 bg-[#EBEEF2] rounded-full text-xs text-slate-800 placeholder-slate-400 shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_#C0CAD8,inset_-4px_-4px_8px_#FFFFFF]"
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                      Message / Special Queries (Optional)
+                    </label>
+                    <textarea
+                      rows={2}
+                      placeholder="Ask about school bus routes, tuition center, or fee structure..."
+                      value={enquiryForm.message}
+                      onChange={(e) => setEnquiryForm({ ...enquiryForm, message: e.target.value })}
+                      className="w-full px-3.5 py-2 rounded-xl bg-[#EBEEF2] shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF] text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5 pl-2">Contact Mobile Number *</label>
-                    <input
-                      type="tel"
-                      required
-                      value={enquiryForm.parent_phone}
-                      onChange={(e) => setEnquiryForm({ ...enquiryForm, parent_phone: e.target.value })}
-                      placeholder="e.g. +1 (555) 019-2834"
-                      className="w-full px-5 py-3 bg-[#EBEEF2] rounded-full text-xs text-slate-800 placeholder-slate-400 shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] border-none focus:outline-none focus:shadow-[inset_4px_4px_8px_#C0CAD8,inset_-4px_-4px_8px_#FFFFFF]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5 pl-2">Grade Applying For</label>
-                    <select
-                      value={enquiryForm.grade_applying_for}
-                      onChange={(e) => setEnquiryForm({ ...enquiryForm, grade_applying_for: e.target.value })}
-                      className="w-full px-5 py-3 bg-[#EBEEF2] rounded-full text-xs text-slate-800 shadow-[inset_3px_3px_6px_#C8D0DC,inset_-3px_-3px_6px_#FFFFFF] border-none focus:outline-none cursor-pointer"
-                    >
-                      {['Pre-K / Kindergarten', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'].map((g) => (
-                        <option key={g} value={g}>{g}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="text-[11px] text-slate-500">
-                    Need the complete application form?{' '}
-                    <button
-                      type="button"
-                      onClick={() => navigate('/admission-enquiry')}
-                      className="text-blue-600 font-bold hover:underline cursor-pointer"
-                    >
-                      Open Full Admission Portal
-                    </button>
                   </div>
 
                   <button
                     type="submit"
                     disabled={submittingEnquiry}
-                    className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white text-xs font-extrabold shadow-lg shadow-blue-500/25 hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center space-x-2 disabled:opacity-60 border-none cursor-pointer"
+                    className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold shadow-md shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer transition-all disabled:opacity-50"
                   >
-                    {submittingEnquiry ? (
-                      <span>Registering Application...</span>
-                    ) : (
-                      <>
-                        <Send className="w-3.5 h-3.5 text-white" />
-                        <span>Submit Admission Enquiry</span>
-                      </>
-                    )}
+                    <Send className="w-4 h-4" />
+                    <span>{submittingEnquiry ? 'Submitting Application...' : 'Submit Admission Enquiry'}</span>
                   </button>
-                </div>
-              </form>
-            )}
+                </form>
+              )}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 8. FOOTER */}
-      <footer id="contact" className="bg-[#EBEEF2] text-slate-600 py-16 border-t border-slate-300/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-xs">
-            {/* Column 1: School Identity */}
-            <div className="space-y-4 md:col-span-1">
-              <div className="flex items-center space-x-2.5">
-                <div className="w-9 h-9 rounded-2xl bg-[#EBEEF2] shadow-[3px_3px_6px_#C8D0DC,-3px_-3px_6px_#FFFFFF] p-1.5 flex items-center justify-center">
-                  <img src={logoImg} alt="Ever Grow Logo" className="w-full h-full object-contain" />
-                </div>
-                <div className="flex items-center space-x-1">
-                  <span className="text-base font-black text-blue-600">Ever Grow</span>
-                  <span className="text-base font-bold text-[#C25E2E]">Schools</span>
-                </div>
-              </div>
-              <p className="text-slate-500 leading-relaxed">
-                Ever Grow International Schools — accredited institutional campus committed to academic rigor, integrity,
-                character formation, and innovation.
-              </p>
-              <div className="text-[10px] text-slate-400 space-y-1 font-mono">
-                <div>CBSE Affiliation No: 1930482</div>
-                <div>ISO 9001:2025 Certified Campus</div>
-              </div>
-            </div>
-
-            {/* Column 2: Navigation Links */}
-            <div className="space-y-3">
-              <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[11px]">Quick Exploration</h4>
-              <ul className="space-y-2 text-slate-600 font-medium">
-                <li><button onClick={() => scrollToSection('about')} className="hover:text-blue-600 transition-colors cursor-pointer">Campus Ethos</button></li>
-                <li><button onClick={() => scrollToSection('academics')} className="hover:text-blue-600 transition-colors cursor-pointer">Curricular Streams</button></li>
-                <li><button onClick={() => scrollToSection('campus-tech')} className="hover:text-blue-600 transition-colors cursor-pointer">School ERP Systems</button></li>
-                <li><button onClick={() => scrollToSection('tuitions')} className="hover:text-blue-600 transition-colors cursor-pointer">Extended Learning</button></li>
-                <li><button onClick={() => scrollToSection('enquiry')} className="hover:text-blue-600 transition-colors cursor-pointer">Online Admissions</button></li>
-              </ul>
-            </div>
-
-            {/* Column 3: Institutional Portals */}
-            <div className="space-y-3">
-              <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[11px]">Campus Portals</h4>
-              <ul className="space-y-2 text-slate-600 font-medium">
-                <li>
-                  <button onClick={() => handleOpenLogin('staff')} className="hover:text-blue-600 transition-colors flex items-center space-x-1 cursor-pointer">
-                    <span>Faculty & Staff Desk</span>
-                    <ChevronRight className="w-3 h-3 text-slate-400" />
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => handleOpenLogin('student')} className="hover:text-blue-600 transition-colors flex items-center space-x-1 cursor-pointer">
-                    <span>Student Learning Portal</span>
-                    <ChevronRight className="w-3 h-3 text-slate-400" />
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => handleOpenLogin('parent')} className="hover:text-blue-600 transition-colors flex items-center space-x-1 cursor-pointer">
-                    <span>Parent Guardian Desk</span>
-                    <ChevronRight className="w-3 h-3 text-slate-400" />
-                  </button>
-                </li>
-                <li>
-                  <a href="/admission-enquiry" className="hover:text-blue-600 transition-colors flex items-center space-x-1">
-                    <span>Public Admission Enquiry</span>
-                    <ExternalLink className="w-3 h-3 text-slate-400" />
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 4: Contact Information */}
-            <div className="space-y-3">
-              <h4 className="text-slate-900 font-extrabold uppercase tracking-wider text-[11px]">Campus Contact</h4>
-              <div className="space-y-2.5 text-slate-600 font-medium">
-                <div className="flex items-start space-x-2">
-                  <MapPin className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-                  <span>Ever Grow Academic Corridor, Global Tech Highway, Sector 4</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Phone className="w-4 h-4 text-blue-600 shrink-0" />
-                  <span>+1 (800) 555-GROW (4769)</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Mail className="w-4 h-4 text-blue-600 shrink-0" />
-                  <span>admissions@evergrowschools.edu</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Clock className="w-4 h-4 text-blue-600 shrink-0" />
-                  <span>Mon – Sat: 8:00 AM – 5:00 PM</span>
-                </div>
-              </div>
-            </div>
+      {/* 5. MINIMAL CLEAN FOOTER */}
+      <footer className="py-8 bg-[#EBEEF2] border-t border-slate-300/40 text-center">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="font-extrabold text-blue-600">Ever Grow</span>
+            <span className="font-bold text-[#C25E2E]">Schools</span>
+            <span className="text-slate-400">•</span>
+            <span>CBSE Affiliation #1930482</span>
           </div>
 
-          <div className="pt-8 border-t border-slate-300/40 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 font-medium">
-            <div>
-              © 2026 Ever Grow Schools. All Rights Reserved. Engineered for Educational Excellence.
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="hover:text-slate-800 cursor-pointer">Privacy Charter</span>
-              <span>•</span>
-              <span className="hover:text-slate-800 cursor-pointer">Terms of Service</span>
-              <span>•</span>
-              <span className="hover:text-slate-800 cursor-pointer">Security Compliance</span>
-            </div>
+          <div className="flex items-center gap-4 text-xs font-semibold text-slate-600">
+            <button onClick={() => scrollToSection('home')} className="hover:text-blue-600">
+              Home
+            </button>
+            <span>•</span>
+            <button onClick={() => scrollToSection('about')} className="hover:text-blue-600">
+              About us
+            </button>
+            <span>•</span>
+            <button onClick={() => scrollToSection('contact')} className="hover:text-blue-600">
+              Contact
+            </button>
+          </div>
+
+          <div>
+            © 2026 Ever Grow Schools. All Rights Reserved.
           </div>
         </div>
       </footer>
     </div>
   );
 };
-

@@ -286,9 +286,9 @@ export const DashboardPage: React.FC = () => {
             </button>
           </div>
         )}
-        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="relative z-10 max-w-2xl space-y-2">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 border border-blue-200">
+        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="relative z-10 max-w-2xl space-y-2 min-w-0">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 border border-blue-200 whitespace-nowrap shrink-0">
               Student Self-Service Portal
             </span>
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
@@ -793,9 +793,9 @@ export const DashboardPage: React.FC = () => {
             </button>
           </div>
         )}
-        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden">
-          <div className="relative z-10 max-w-xl">
-            <span className="px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 text-xs font-semibold rounded-full uppercase tracking-wider">
+        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden">
+          <div className="relative z-10 max-w-xl min-w-0">
+            <span className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 text-xs font-semibold rounded-full uppercase tracking-wider whitespace-nowrap shrink-0">
               Parent Guardian Portal
             </span>
             <h1 className="text-3xl font-extrabold mt-3 tracking-tight text-[#1D1D1F]">
@@ -1026,14 +1026,14 @@ export const DashboardPage: React.FC = () => {
           </div>
         )}
         {/* Super Admin Executive Hero Banner */}
-        <div className="bg-gradient-to-r from-purple-50/90 via-indigo-50/80 to-blue-50/90 rounded-[28px] p-8 text-slate-900 border border-purple-200/80 shadow-[0_8px_32px_rgba(88,86,214,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
-          <div className="relative z-10 space-y-2">
-            <div className="flex items-center space-x-2">
-              <span className="px-3 py-1 bg-purple-100 text-purple-700 border border-purple-200 text-xs font-semibold rounded-full uppercase tracking-wider flex items-center space-x-1.5 shadow-2xs">
-                <ShieldCheck className="w-3.5 h-3.5" />
+        <div className="bg-gradient-to-r from-purple-50/90 via-indigo-50/80 to-blue-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 border border-purple-200/80 shadow-[0_8px_32px_rgba(88,86,214,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden">
+          <div className="relative z-10 space-y-2 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-100 text-purple-700 border border-purple-200 text-[11px] sm:text-xs font-semibold rounded-full uppercase tracking-wider whitespace-nowrap shrink-0 shadow-2xs">
+                <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
                 <span>Super Admin Board Trustee</span>
               </span>
-              <span className="px-3 py-1 bg-emerald-500/15 text-[#34C759] border border-emerald-500/30 text-xs font-semibold rounded-full">
+              <span className="inline-flex items-center px-3 py-1 bg-emerald-500/15 text-[#34C759] border border-emerald-500/30 text-[11px] sm:text-xs font-semibold rounded-full whitespace-nowrap shrink-0">
                 {stats?.active_academic_year || 'Academic Session 2026-2027'}
               </span>
             </div>
@@ -1434,14 +1434,14 @@ export const DashboardPage: React.FC = () => {
     return (
       <div className="space-y-8 animate-fadeIn max-w-7xl mx-auto pb-12">
         {/* Coordinator Hero Header */}
-        <div className="bg-gradient-to-r from-teal-50/90 via-sky-50/80 to-blue-50/90 rounded-[28px] p-8 text-slate-900 border border-teal-200/80 shadow-[0_8px_32px_rgba(13,148,136,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
-          <div className="relative z-10 space-y-2">
-            <div className="flex items-center space-x-2">
-              <span className="px-3 py-1 bg-teal-100 text-teal-800 border border-teal-200 text-xs font-semibold rounded-full uppercase tracking-wider flex items-center space-x-1.5 shadow-2xs">
-                <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
+        <div className="bg-gradient-to-r from-teal-50/90 via-sky-50/80 to-blue-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 border border-teal-200/80 shadow-[0_8px_32px_rgba(13,148,136,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden">
+          <div className="relative z-10 space-y-2 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-teal-100 text-teal-800 border border-teal-200 text-[11px] sm:text-xs font-semibold rounded-full uppercase tracking-wider whitespace-nowrap shrink-0 shadow-2xs">
+                <ShieldCheck className="w-3.5 h-3.5 text-teal-600 shrink-0" />
                 <span>Academic Wing Governance • Coordinator Hub</span>
               </span>
-              <span className="px-3 py-1 bg-blue-500/15 text-[#0071E3] border border-blue-500/30 text-xs font-semibold rounded-full">
+              <span className="inline-flex items-center px-3 py-1 bg-blue-500/15 text-[#0071E3] border border-blue-500/30 text-[11px] sm:text-xs font-semibold rounded-full whitespace-nowrap shrink-0">
                 Session 2026-2027
               </span>
             </div>
@@ -1811,14 +1811,14 @@ export const DashboardPage: React.FC = () => {
     return (
       <div className="space-y-8 animate-fadeIn max-w-7xl mx-auto pb-12">
         {/* Office Desk Hero Header */}
-        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
-          <div className="relative z-10 space-y-2">
-            <div className="flex items-center space-x-2">
-              <span className="px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 text-xs font-semibold rounded-full uppercase tracking-wider flex items-center space-x-1.5 shadow-2xs">
-                <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden">
+          <div className="relative z-10 space-y-2 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 text-[11px] sm:text-xs font-semibold rounded-full uppercase tracking-wider whitespace-nowrap shrink-0 shadow-2xs">
+                <ShieldCheck className="w-3.5 h-3.5 text-blue-600 shrink-0" />
                 <span>Campus Office Desk • Central Operations</span>
               </span>
-              <span className="px-3 py-1 bg-emerald-500/15 text-[#34C759] border border-emerald-500/30 text-xs font-semibold rounded-full">
+              <span className="inline-flex items-center px-3 py-1 bg-emerald-500/15 text-[#34C759] border border-emerald-500/30 text-[11px] sm:text-xs font-semibold rounded-full whitespace-nowrap shrink-0">
                 Session 2026-2027
               </span>
             </div>
@@ -2170,14 +2170,14 @@ export const DashboardPage: React.FC = () => {
           </div>
         )}
         {/* Admin Executive Header */}
-        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
-          <div className="relative z-10 space-y-2">
-            <div className="flex items-center space-x-2">
-              <span className="px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 text-xs font-semibold rounded-full uppercase tracking-wider flex items-center space-x-1.5 shadow-2xs">
-                <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden">
+          <div className="relative z-10 space-y-2 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 text-[11px] sm:text-xs font-semibold rounded-full uppercase tracking-wider whitespace-nowrap shrink-0 shadow-2xs">
+                <ShieldCheck className="w-3.5 h-3.5 text-blue-600 shrink-0" />
                 <span>Campus Administration & Principal Desk</span>
               </span>
-              <span className="px-3 py-1 bg-emerald-500/15 text-[#34C759] border border-emerald-500/30 text-xs font-semibold rounded-full">
+              <span className="inline-flex items-center px-3 py-1 bg-emerald-500/15 text-[#34C759] border border-emerald-500/30 text-[11px] sm:text-xs font-semibold rounded-full whitespace-nowrap shrink-0">
                 {stats?.active_academic_year || 'Academic Session 2026-2027'}
               </span>
             </div>
@@ -2466,9 +2466,9 @@ export const DashboardPage: React.FC = () => {
   // =========================================================================
   return (
     <div className="space-y-7 animate-fadeIn max-w-6xl mx-auto pb-12">
-      <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-8 text-slate-900 shadow-[0_8px_32px_rgba(0,113,227,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-6 border border-blue-200/80 relative overflow-hidden">
-        <div className="relative z-10 space-y-2">
-          <span className="px-3 py-1 bg-blue-100/80 text-blue-700 border border-blue-200 text-xs font-semibold rounded-full uppercase tracking-wider">
+      <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-5 sm:p-6 md:p-8 text-slate-900 shadow-[0_8px_32px_rgba(0,113,227,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 border border-blue-200/80 relative overflow-hidden">
+        <div className="relative z-10 space-y-2 min-w-0">
+          <span className="inline-flex items-center px-3 py-1 bg-blue-100/80 text-blue-700 border border-blue-200 text-[11px] sm:text-xs font-semibold rounded-full uppercase tracking-wider whitespace-nowrap shrink-0">
             Faculty Teaching Hub
           </span>
           <h1 className="text-3xl font-extrabold tracking-tight text-[#1D1D1F]">

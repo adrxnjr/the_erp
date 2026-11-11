@@ -157,6 +157,7 @@ export const LoginPage: React.FC = () => {
   }
 
   return (
+<<<<<<< HEAD
     <div className="h-screen max-h-screen w-full flex flex-col lg:flex-row bg-[#F5F6F8] overflow-y-auto lg:overflow-hidden select-none">
       {/* ─────────────────────────────────────────────────────────────
           LEFT SIDE: BRAND ARTWORK & INSTITUTIONAL DESIGN PANEL
@@ -164,12 +165,26 @@ export const LoginPage: React.FC = () => {
       <div className="w-full lg:w-1/2 xl:w-[48%] h-full max-h-screen relative flex flex-col justify-between p-5 lg:p-7 xl:p-9 overflow-hidden bg-[#F5F6F8]">
         {/* Soft Ambient Subtle Highlight */}
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/60 rounded-full blur-3xl pointer-events-none" />
+=======
+    <div className="min-h-screen min-h-dvh w-full flex flex-col lg:flex-row bg-[#EBEEF2] overflow-x-hidden overflow-y-auto lg:overflow-hidden select-none">
+      {/* ─────────────────────────────────────────────────────────────
+          LEFT SIDE: BRAND ARTWORK & INSTITUTIONAL DESIGN PANEL
+          ───────────────────────────────────────────────────────────── */}
+      <div className="w-full lg:w-1/2 xl:w-[48%] lg:h-full lg:max-h-screen relative flex flex-col justify-between p-4 sm:p-6 lg:p-7 xl:p-9 bg-[#EBEEF2] shrink-0">
+        {/* Soft Ambient Light Reflective Highlights for Neumorphic Balance */}
+        <div className="absolute -top-24 -left-24 w-72 sm:w-96 h-72 sm:h-96 bg-white/40 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-72 sm:w-[450px] h-72 sm:h-[450px] bg-slate-200/40 rounded-full blur-3xl pointer-events-none" />
+>>>>>>> d560d95 (Mobile responsievness fixed)
 
         {/* Top Header: Quick Return Link */}
         <div className="relative z-10 flex items-center justify-between">
           <Link
             to="/"
+<<<<<<< HEAD
             className="inline-flex items-center space-x-2 text-xs font-bold text-slate-600 hover:text-slate-900 transition-all py-2 px-4 rounded-full bg-[#F5F6F8] border border-white/80 shadow-[3px_3px_7px_#D4DAE5,-3px_-3px_7px_#FFFFFF] hover:shadow-[4px_4px_9px_#C8D0DC,-4px_-4px_9px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#D4DAE5,inset_-2px_-2px_4px_#FFFFFF]"
+=======
+            className="inline-flex items-center space-x-2 text-xs font-bold text-slate-600 hover:text-slate-900 transition-all py-1.5 sm:py-2 px-3.5 sm:px-4 rounded-full bg-[#EBEEF2] shadow-[3px_3px_7px_#C8D0DC,-3px_-3px_7px_#FFFFFF] hover:shadow-[4px_4px_9px_#C0CAD8,-4px_-4px_9px_#FFFFFF] active:shadow-[inset_2px_2px_4px_#C8D0DC,inset_-2px_-2px_4px_#FFFFFF]"
+>>>>>>> d560d95 (Mobile responsievness fixed)
           >
             <ArrowLeft className="w-3.5 h-3.5 text-[#0071E3]" />
             <span>Return to School Website</span>
@@ -177,19 +192,25 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {/* Center: Brand Showcase & Animated Logo */}
-        <div className="relative z-10 my-auto py-2 xl:py-4 space-y-5 xl:space-y-6 max-w-xl xl:max-w-2xl">
+        <div className="relative z-10 my-auto py-3 lg:py-2 xl:py-4 space-y-3 sm:space-y-5 xl:space-y-6 max-w-xl xl:max-w-2xl">
           {/* Animated Logo */}
           <div className="flex justify-center lg:justify-start">
-            <AnimatedLogo className="w-full max-w-[280px] sm:max-w-[320px] xl:max-w-[360px]" idPrefix="login-left" />
+            <AnimatedLogo className="w-full max-w-[220px] sm:max-w-[280px] xl:max-w-[360px]" idPrefix="login-left" />
           </div>
 
           {/* Core Institutional Typography */}
-          <div className="space-y-3 xl:space-y-4">
-            <h1 className="text-3xl sm:text-4xl xl:text-5xl font-black text-[#C25E2E] tracking-tight leading-[1.15]">
+          <div className="space-y-2 sm:space-y-3 xl:space-y-4 text-center lg:text-left">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-[#C25E2E] tracking-tight leading-[1.15]">
               Empowering Future Leaders with Smart Governance
             </h1>
+<<<<<<< HEAD
             <p className="text-base sm:text-lg xl:text-xl text-slate-600 leading-relaxed font-normal max-w-xl">
               Official Ever Grow Schools portal. Academic records, grading, and school administration.
+=======
+            <p className="text-xs sm:text-base lg:text-lg xl:text-xl text-slate-600 leading-relaxed font-normal max-w-xl mx-auto lg:mx-0">
+              Welcome to the official Ever Grow Schools management portal. Access academic records,
+              grading, attendance registers, and school communications.
+>>>>>>> d560d95 (Mobile responsievness fixed)
             </p>
           </div>
         </div>
@@ -198,9 +219,15 @@ export const LoginPage: React.FC = () => {
       {/* ─────────────────────────────────────────────────────────────
           RIGHT SIDE: NEUMORPHIC PILL FORM
           ───────────────────────────────────────────────────────────── */}
+<<<<<<< HEAD
       <div className="w-full lg:w-1/2 xl:w-[52%] h-full max-h-screen flex flex-col justify-between p-5 lg:p-7 xl:p-9 bg-[#F5F6F8] border-t lg:border-t-0 lg:border-l border-white/60 overflow-hidden">
         {/* Main Form Body - Pill Design */}
         <div className="w-full max-w-sm xl:max-w-md mx-auto my-auto space-y-4 xl:space-y-4.5">
+=======
+      <div className="w-full lg:w-1/2 xl:w-[52%] lg:h-full lg:max-h-screen flex flex-col justify-between p-4 sm:p-6 lg:p-7 xl:p-9 bg-[#EBEEF2] overflow-y-auto min-h-0">
+        {/* Main Form Body - Neumorphic Pill Design */}
+        <div className="w-full max-w-sm xl:max-w-md mx-auto my-auto space-y-4 xl:space-y-4.5 pb-6 lg:pb-0">
+>>>>>>> d560d95 (Mobile responsievness fixed)
           {/* Heading */}
           <div className="text-center pb-0.5">
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-700 tracking-tight">
