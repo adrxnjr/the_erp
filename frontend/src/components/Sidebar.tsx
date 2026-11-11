@@ -65,6 +65,7 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMobile }) => {
   const { user, logout } = useAuth();
   const location = useLocation();
+  const [isScrolled, setIsScrolled] = useState(false);
   const [pendingSocialCount, setPendingSocialCount] = useState<number>(0);
   const [parentUnreadCount, setParentUnreadCount] = useState<number>(() => {
     try {
@@ -436,18 +437,29 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onCloseMob
         >
           <X className="w-4 h-4" />
         </button>
-        {/* Seamless blend fade gradient beneath logo (no harsh white split line) */}
-        <div className="pointer-events-none absolute left-0 right-0 -bottom-8 h-8 bg-gradient-to-b from-[#E9EEF5] via-[#E9EEF5]/85 to-transparent z-20" />
+        {/* Seamless blend fade beneath logo: only visible when scrolled */}
+        <div
+          className={`pointer-events-none absolute left-0 right-0 -bottom-6 h-6 bg-gradient-to-b from-[#E9EEF5] to-transparent z-20 transition-opacity duration-200 ${
+            isScrolled ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
       </div>
 
-      {/* Navigation Container with smooth custom scrollbar & blend fade */}
+      {/* Navigation Container with smooth custom scrollbar & dynamic blend fade */}
       <div className="relative flex-1 min-h-0 flex flex-col overflow-hidden">
         <nav
-          className="flex-1 px-2.5 space-y-3 overflow-y-auto pt-2.5 pb-4 scrollbar-thin scrollbar-thumb-slate-300"
-          style={{
-            maskImage: 'linear-gradient(to bottom, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%)',
-          }}
+          onScroll={(e) => setIsScrolled(e.currentTarget.scrollTop > 4)}
+          className="flex-1 px-2.5 space-y-3 overflow-y-auto pt-2 pb-4 scrollbar-thin scrollbar-thumb-slate-300"
+          style={
+            isScrolled
+              ? {
+                  maskImage:
+                    'linear-gradient(to bottom, transparent 0px, black 16px, black calc(100% - 16px), transparent 100%)',
+                  WebkitMaskImage:
+                    'linear-gradient(to bottom, transparent 0px, black 16px, black calc(100% - 16px), transparent 100%)',
+                }
+              : undefined
+          }
         >
         {isSuperAdmin ? (
           // ─── SUPER ADMIN GROUPED SECTIONS ───

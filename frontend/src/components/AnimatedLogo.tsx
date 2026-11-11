@@ -99,9 +99,8 @@ export const AnimatedLogo: React.FC<AnimatedLogoProps> = ({
               <stop offset="100%" stopColor="#312E81" />
             </linearGradient>
 
-            <filter id={`${p}-paint-shadow`} x="-10%" y="-10%" width="130%" height="130%">
-              <feDropShadow dx="0" dy="16" stdDeviation="20" floodColor="#0f172a" floodOpacity="0.2" />
-              <feDropShadow dx="0" dy="5" stdDeviation="7" floodColor="#000000" floodOpacity="0.14" />
+            <filter id={`${p}-paint-shadow`} x="-5%" y="-5%" width="115%" height="115%">
+              <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#0f172a" floodOpacity="0.08" />
             </filter>
 
             <filter id={`${p}-text-shadow`} x="-20%" y="-20%" width="140%" height="140%">

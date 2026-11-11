@@ -22,3 +22,4 @@ for u, p, portal in tests:
         print(f"[OK] {u} ({portal}) -> {body.get('full_name')} | roles: {body.get('roles')}")
     except Exception as e:
         print(f"[FAIL] {u} ({portal}) -> {e}")
+

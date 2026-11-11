@@ -368,11 +368,9 @@ tbody tr:hover {
 @keyframes logoSoftFloat {
   0%, 100% {
     transform: translateY(0px) scale(1);
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
   }
   50% {
-    transform: translateY(-6px) scale(1.025);
-    filter: drop-shadow(0 12px 24px rgba(0, 102, 255, 0.22));
+    transform: translateY(-4px) scale(1.015);
   }
 }
 
