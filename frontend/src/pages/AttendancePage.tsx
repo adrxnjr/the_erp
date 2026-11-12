@@ -883,23 +883,22 @@ export const AttendancePage: React.FC = () => {
           <table className="w-full text-left text-xs">
             <thead className="bg-black/[0.02] text-[#86868B] text-[11px] uppercase font-semibold border-b border-black/[0.05]">
               <tr>
-                <th className="px-5 py-3 w-20">Roll No</th>
-                <th className="px-5 py-3">Student Name</th>
-                <th className="px-5 py-3">Class & Section</th>
-                <th className="px-5 py-3">Attendance Options (Present / Absent / OD)</th>
+                <th className="px-3 sm:px-5 py-3 w-16 sm:w-20">Roll No</th>
+                <th className="px-3 sm:px-5 py-3">Student Name</th>
+                <th className="px-3 sm:px-5 py-3">Attendance Options (Present / Absent / OD)</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-black/[0.04]">
               {loadingRecords && students.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="py-12 text-center text-slate-400">
+                  <td colSpan={3} className="py-12 text-center text-slate-400">
                     <RefreshCw className="w-5 h-5 text-[#0071E3] animate-spin mx-auto mb-2" />
                     Loading students for {selectedClass} Section {selectedSection}...
                   </td>
                 </tr>
               ) : filteredStudents.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="py-8 text-center text-[#86868B]">
+                  <td colSpan={3} className="py-8 text-center text-[#86868B]">
                     No students found matching your search.
                   </td>
                 </tr>
@@ -909,57 +908,52 @@ export const AttendancePage: React.FC = () => {
 
                   return (
                     <tr key={s.student_id} className="hover:bg-black/[0.02] transition-colors">
-                      <td className="px-5 py-3.5 font-mono font-bold text-slate-600">
+                      <td className="px-3 sm:px-5 py-3 font-mono font-bold text-slate-600">
                         #{s.roll_no}
                       </td>
-                      <td className="px-5 py-3.5">
+                      <td className="px-3 sm:px-5 py-3">
                         <span className="font-bold text-[#1D1D1F] block">{s.name}</span>
-                        <span className="text-[10px] text-slate-400 font-mono">ID: {s.student_id.slice(0, 8)}</span>
+                        <span className="text-[10px] text-slate-400 font-mono">ID: {s.student_id}</span>
                       </td>
-                      <td className="px-5 py-3.5">
-                        <span className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-                          {selectedClass} - {selectedSection}
-                        </span>
-                      </td>
-                      <td className="px-5 py-3.5">
+                      <td className="px-3 sm:px-5 py-3">
                         {canMark ? (
-                          <div className="inline-flex rounded-full p-1 bg-black/[0.04] space-x-1.5 shadow-2xs">
+                          <div className="inline-flex rounded-full p-1 bg-black/[0.04] space-x-1 sm:space-x-1.5 shadow-2xs">
                             <button
                               type="button"
                               onClick={() => handleStatusChange(s.student_id, 'Present')}
-                              className={`px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center space-x-1 ${
+                              className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center space-x-1 ${
                                 currentStatus === 'Present'
-                                  ? 'bg-[#34C759] text-white shadow-xs'
-                                  : 'text-[#86868B] hover:text-[#1D1D1F]'
+                                  ? 'bg-[#22c55e] text-white shadow-xs'
+                                  : 'text-slate-600 hover:text-[#1D1D1F]'
                               }`}
                             >
-                              <Check className="w-3 h-3" />
+                              <Check className="w-3.5 h-3.5" />
                               <span>Present</span>
                             </button>
 
                             <button
                               type="button"
                               onClick={() => handleStatusChange(s.student_id, 'Absent')}
-                              className={`px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center space-x-1 ${
+                              className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center space-x-1 ${
                                 currentStatus === 'Absent'
-                                  ? 'bg-[#FF2D55] text-white shadow-xs'
-                                  : 'text-[#86868B] hover:text-[#1D1D1F]'
+                                  ? 'bg-[#ef4444] text-white shadow-xs'
+                                  : 'text-slate-600 hover:text-[#1D1D1F]'
                               }`}
                             >
-                              <XCircle className="w-3 h-3" />
+                              <XCircle className="w-3.5 h-3.5" />
                               <span>Absent</span>
                             </button>
 
                             <button
                               type="button"
                               onClick={() => handleStatusChange(s.student_id, 'OD')}
-                              className={`px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center space-x-1 ${
+                              className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center space-x-1 ${
                                 currentStatus === 'OD'
-                                  ? 'bg-[#5856D6] text-white shadow-xs'
-                                  : 'text-[#86868B] hover:text-[#1D1D1F]'
+                                  ? 'bg-[#6366f1] text-white shadow-xs'
+                                  : 'text-slate-600 hover:text-[#1D1D1F]'
                               }`}
                             >
-                              <Award className="w-3 h-3" />
+                              <Award className="w-3.5 h-3.5" />
                               <span>OD</span>
                             </button>
                           </div>
