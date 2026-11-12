@@ -1,458 +1,370 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import schoolData from '../data/schoolData.json';
 import {
   Lock,
-  CheckCircle,
   Save,
   CalendarCheck,
   AlertTriangle,
-  ShieldAlert,
-  UserCheck,
   Clock,
   Award,
   BookOpen,
   Users,
   CheckCircle2,
   XCircle,
-  Send,
-  FileDown,
   Search,
-  Building2,
-  Sparkles,
-  PhoneCall,
-  Download,
+  Check,
+  Send,
+  Calendar,
+  GraduationCap,
+  ShieldAlert,
+  ShieldCheck,
+  Info,
+  RefreshCw,
 } from 'lucide-react';
+
+interface StudentItem {
+  student_id: string;
+  roll_no: string;
+  name: string;
+  status: 'Present' | 'Absent' | 'OD';
+}
+
+interface StudentHistoryRecord {
+  id: string;
+  date: string;
+  subject: string;
+  class_name: string;
+  section: string;
+  status: string;
+  marked_by?: string;
+}
+
+interface StudentAttendanceResponse {
+  student_name: string;
+  admission_number: string;
+  roll_number: string;
+  class_name: string;
+  section: string;
+  today_status: string;
+  total_present: number;
+  total_absent: number;
+  total_od: number;
+  total_days: number;
+  overall_percentage: number;
+  records: StudentHistoryRecord[];
+}
 
 export const AttendancePage: React.FC = () => {
   const { user } = useAuth();
   const toast = useToast();
+
   const isStudent = user?.portal_type === 'student' || user?.roles?.includes('student');
   const isParent =
     user?.portal_type === 'parent' ||
     user?.roles?.includes('parent') ||
     (user?.portal_type === 'parent_student' && !user?.roles?.includes('student'));
 
+  const todayStr = useMemo(() => new Date().toISOString().split('T')[0], []);
+
   // ---------------- STUDENT & PARENT VIEW STATE ----------------
-  const [studentAttendance, setStudentAttendance] = useState<any>(null);
-  const [studentProfile, setStudentProfile] = useState<any>(null);
+  const [studentData, setStudentData] = useState<StudentAttendanceResponse | null>(null);
   const [parentChildren, setParentChildren] = useState<any[]>([]);
   const [selectedChildId, setSelectedChildId] = useState<string>('');
   const [loadingStudent, setLoadingStudent] = useState<boolean>(true);
 
-  // ---------------- STAFF & ADMIN VIEW STATE ----------------
-  const [classes, setClasses] = useState<any[]>([]);
-  const [sections, setSections] = useState<any[]>([]);
-  const [selectedClass, setSelectedClass] = useState('');
-  const [selectedSection, setSelectedSection] = useState('');
-  const [selectedYear, setSelectedYear] = useState('');
-  const [attendanceDate, setAttendanceDate] = useState(new Date().toISOString().split('T')[0]);
-
-  // Section quick filter for Admin / Correspondent: 'ALL', '10-A', '10-B', '10-C'
-  const [activeSectionFilter, setActiveSectionFilter] = useState<string>('ALL');
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [sendingSms, setSendingSms] = useState<boolean>(false);
-
-  const [students, setStudents] = useState<any[]>([]);
-  const [attendanceState, setAttendanceState] = useState<{ [id: string]: string }>({});
-  const [isLocked, setIsLocked] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  // Staff handling permissions
-  const [staffInfo, setStaffInfo] = useState<{
-    is_admin: boolean;
-    is_teacher: boolean;
-    can_edit_attendance: boolean;
-    handled_classes: any[];
-  }>({
-    is_admin: true,
-    is_teacher: false,
-    can_edit_attendance: false,
-    handled_classes: [],
+  // ---------------- TEACHER & STAFF VIEW STATE ----------------
+  const [classList, setClassList] = useState<string[]>(['Grade 10', 'Grade 9', 'Grade 8', 'Grade 11', 'Grade 12']);
+  const [sectionMap, setSectionMap] = useState<Record<string, string[]>>({
+    'Grade 10': ['A', 'B', 'C'],
   });
+  const [subjectList, setSubjectList] = useState<string[]>([
+    'Mathematics',
+    'English Literature',
+    'General Science',
+    'Social Studies',
+    'Computer Science',
+  ]);
 
-  // Authentic 150 student dataset from schoolData.json
-  const defaultStudents = useMemo(() => {
-    // 6 realistic pre-marked absentees for realistic campus attendance demonstration (144 / 150 present = 96.0%)
-    const absenteeIds = new Set(['S008', 'S023', 'S055', 'S082', 'S112', 'S140']);
-    const lateIds = new Set(['S015', 'S067', 'S104']);
+  const [selectedClass, setSelectedClass] = useState<string>('Grade 10');
+  const [selectedSection, setSelectedSection] = useState<string>('A');
+  const [selectedSubject, setSelectedSubject] = useState<string>('Mathematics');
+  const [attendanceDate, setAttendanceDate] = useState<string>(todayStr);
 
-    return (schoolData.students || []).map((s: any) => {
-      let defaultStatus = 'present';
-      if (absenteeIds.has(s.student_id)) defaultStatus = 'absent';
-      else if (lateIds.has(s.student_id)) defaultStatus = 'late';
+  const [teacherName, setTeacherName] = useState<string>('');
+  const [classTeacherFor, setClassTeacherFor] = useState<{ class_name: string; section: string }[]>([]);
+  const [isClassTeacher, setIsClassTeacher] = useState<boolean>(true);
+  const [canMark, setCanMark] = useState<boolean>(true);
+  const [isExistingRecord, setIsExistingRecord] = useState<boolean>(false);
 
-      return {
-        id: s.student_id,
-        admission_number: s.admission_no,
-        full_name: s.name,
-        roll_number: s.roll_no,
-        class_section: s.class_section,
-        gender: s.gender === 'M' ? 'Male' : 'Female',
-        address: s.address,
-        default_status: defaultStatus,
-      };
-    });
-  }, []);
+  const [students, setStudents] = useState<StudentItem[]>([]);
+  const [attendanceState, setAttendanceState] = useState<Record<string, 'Present' | 'Absent' | 'OD'>>({});
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [loadingRecords, setLoadingRecords] = useState<boolean>(false);
+  const [savingAttendance, setSavingAttendance] = useState<boolean>(false);
 
-  // Fallback demo dataset to guarantee Daily Attendance History Log is never empty
-  const defaultAttendanceFallback = useMemo(() => ({
-    total_days: 32,
-    present_days: 31,
-    percentage: 96.9,
-    records: [
-      { date: '2026-11-11', session: 'full_day', status: 'present', classes_happened: ['Mathematics', 'Physics', 'Chemistry'], remarks: 'Roll-call verified by Class Faculty Mrs. Anitha Raman' },
-      { date: '2026-11-10', session: 'full_day', status: 'present', classes_happened: ['English Literature', 'Computer Science', 'Biology'], remarks: 'Active participation in STEM lab & lecture' },
-      { date: '2026-11-09', session: 'full_day', status: 'present', classes_happened: ['Social Science', 'Mathematics', 'Physical Education'], remarks: 'Present for all 6 scheduled lecture periods' },
-      { date: '2026-11-08', session: 'full_day', status: 'present', classes_happened: ['Chemistry Lab', 'Physics', 'English'], remarks: 'Laboratory practical experiment signed off' },
-      { date: '2026-11-07', session: 'full_day', status: 'present', classes_happened: ['Mathematics', 'Environmental Science', 'Hindi'], remarks: 'Morning muster roll signed off' },
-      { date: '2026-11-06', session: 'full_day', status: 'present', classes_happened: ['Biology', 'Mathematics', 'Computer Science'], remarks: 'Full day attendance recorded' },
-      { date: '2026-11-05', session: 'full_day', status: 'absent', classes_happened: ['Physics', 'Chemistry', 'English'], remarks: 'Excused medical leave | Parent guardian notified via automated SMS' },
-      { date: '2026-11-04', session: 'full_day', status: 'present', classes_happened: ['Mathematics', 'Social Science', 'Hindi'], remarks: 'Verified by Class Faculty' },
-      { date: '2026-11-03', session: 'full_day', status: 'present', classes_happened: ['Computer Science', 'Physics Lab', 'English'], remarks: 'Lab session attendance verified' },
-      { date: '2026-11-01', session: 'full_day', status: 'present', classes_happened: ['Mathematics', 'Biology', 'Physical Education'], remarks: 'Present for all periods' },
-      { date: '2026-10-31', session: 'full_day', status: 'present', classes_happened: ['Social Science', 'Chemistry', 'Hindi'], remarks: 'Roll-call verified' },
-      { date: '2026-10-30', session: 'full_day', status: 'present', classes_happened: ['Physics', 'Mathematics', 'English'], remarks: 'Attended full session' },
-      { date: '2026-10-29', session: 'full_day', status: 'present', classes_happened: ['Biology Lab', 'Computer Science', 'Mathematics'], remarks: 'Practical session verified' },
-      { date: '2026-10-28', session: 'full_day', status: 'present', classes_happened: ['Chemistry', 'English', 'Social Science'], remarks: 'Verified by Subject Teacher' },
-      { date: '2026-10-27', session: 'full_day', status: 'present', classes_happened: ['Mathematics', 'Physics', 'Physical Education'], remarks: 'Full day verified' },
-      { date: '2026-10-25', session: 'full_day', status: 'late', classes_happened: ['Hindi', 'Mathematics', 'Biology'], remarks: 'Late gate entry 08:20 AM | Noted by Class Coordinator' },
-      { date: '2026-10-24', session: 'full_day', status: 'present', classes_happened: ['Computer Science', 'English', 'Physics'], remarks: 'Verified by Class Faculty' },
-      { date: '2026-10-23', session: 'full_day', status: 'present', classes_happened: ['Mathematics', 'Social Science', 'Chemistry'], remarks: 'Present for all 6 periods' },
-      { date: '2026-10-22', session: 'full_day', status: 'present', classes_happened: ['Biology', 'Physics', 'Hindi'], remarks: 'Regular roll-call completed' },
-      { date: '2026-10-21', session: 'full_day', status: 'present', classes_happened: ['English', 'Mathematics Lab', 'Computer Science'], remarks: 'Lab practical completed' },
-    ],
-  }), []);
-
-  // ---------------- FETCH LOGIC: STUDENT / PARENT ----------------
+  // ---------------- FETCH OPTIONS (TEACHER VIEW) ----------------
   useEffect(() => {
-    document.title = 'Daily Attendance Tracking — Ever Grow Schools ERP';
-    if (isStudent) {
-      const fetchStudentAttendance = async () => {
-        setLoadingStudent(true);
-        try {
-          const profRes = await api.get('/portal/student/profile');
-          setStudentProfile(profRes.data);
-          const attRes = await api.get(`/portal/student/${profRes.data.id}/attendance`);
-          if (attRes.data && attRes.data.records && attRes.data.records.length > 0) {
-            setStudentAttendance(attRes.data);
-          } else {
-            setStudentAttendance(defaultAttendanceFallback);
-          }
-        } catch (e) {
-          console.error('Error fetching student attendance:', e);
-          setStudentAttendance(defaultAttendanceFallback);
-        } finally {
-          setLoadingStudent(false);
-        }
-      };
-      fetchStudentAttendance();
-    } else if (isParent) {
-      const fetchParentChildren = async () => {
-        setLoadingStudent(true);
-        try {
-          const res = await api.get('/portal/parent/children');
-          setParentChildren(res.data);
-          if (res.data.length > 0) {
-            setSelectedChildId(res.data[0].id);
-          }
-        } catch (e) {
-          console.error('Error fetching parent children:', e);
-        } finally {
-          setLoadingStudent(false);
-        }
-      };
-      fetchParentChildren();
-    }
-  }, [isStudent, isParent, defaultAttendanceFallback]);
+    document.title = 'Attendance Management — Ever Grow Schools ERP';
 
-  useEffect(() => {
-    if (isParent && selectedChildId) {
-      const fetchChildAttendance = async () => {
-        setLoadingStudent(true);
-        try {
-          const attRes = await api.get(`/portal/student/${selectedChildId}/attendance`);
-          if (attRes.data && attRes.data.records && attRes.data.records.length > 0) {
-            setStudentAttendance(attRes.data);
-          } else {
-            setStudentAttendance(defaultAttendanceFallback);
-          }
-        } catch (e) {
-          console.error('Error fetching child attendance:', e);
-          setStudentAttendance(defaultAttendanceFallback);
-        } finally {
-          setLoadingStudent(false);
-        }
-      };
-      fetchChildAttendance();
-    }
-  }, [isParent, selectedChildId, defaultAttendanceFallback]);
-
-  // ---------------- FETCH LOGIC: STAFF & ADMIN ----------------
-  useEffect(() => {
     if (isStudent || isParent) return;
 
-    const loadContext = async () => {
+    const fetchOptions = async () => {
       try {
-        const [clsRes, yrRes, staffRes] = await Promise.allSettled([
-          api.get('/academic/classes'),
-          api.get('/academic/years'),
-          api.get('/academic/staff/my-classes'),
-        ]);
-
-        const allClasses = clsRes.status === 'fulfilled' ? clsRes.value.data : [];
-        let info: {
-          is_admin: boolean;
-          is_teacher: boolean;
-          can_edit_attendance: boolean;
-          handled_classes: any[];
-        } = {
-          is_admin: true,
-          is_teacher: false,
-          can_edit_attendance: false,
-          handled_classes: [],
-        };
-
-        if (staffRes.status === 'fulfilled' && staffRes.value.data) {
-          info = staffRes.value.data;
-          setStaffInfo(info);
-        }
-
-        // If user is a teacher with handled classes, restrict classes to handled classes
-        if (info.is_teacher && !info.is_admin && info.handled_classes.length > 0) {
-          const handledClassIds = new Set(info.handled_classes.map((h: any) => h.class_id));
-          const teacherClasses = allClasses.filter((c: any) => handledClassIds.has(c.id));
-          setClasses(teacherClasses.length > 0 ? teacherClasses : allClasses);
-          setSelectedClass(info.handled_classes[0].class_id);
-        } else {
-          setClasses(allClasses);
-          if (allClasses.length > 0) {
-            setSelectedClass(allClasses[0].id);
+        const res = await api.get('/attendance/options');
+        if (res.data) {
+          if (res.data.classes && res.data.classes.length > 0) {
+            setClassList(res.data.classes);
           }
-        }
-
-        if (yrRes.status === 'fulfilled' && yrRes.value.data.length > 0) {
-          setSelectedYear(yrRes.value.data[0].id);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    loadContext();
-  }, [isStudent, isParent]);
-
-  useEffect(() => {
-    if (isStudent || isParent) return;
-
-    const loadSectionsAndStudents = async () => {
-      try {
-        if (selectedClass) {
-          const secRes = await api.get(`/academic/sections?class_id=${selectedClass}`).catch(() => ({ data: [] }));
-          let availableSections = secRes.data || [];
-
-          if (staffInfo.is_teacher && !staffInfo.is_admin && staffInfo.handled_classes.length > 0) {
-            const handledSectionIds = new Set(
-              staffInfo.handled_classes
-                .filter((h: any) => h.class_id === selectedClass)
-                .map((h: any) => h.section_id)
-            );
-            if (handledSectionIds.size > 0) {
-              availableSections = secRes.data.filter((s: any) => handledSectionIds.has(s.id));
+          if (res.data.sections) {
+            setSectionMap(res.data.sections);
+          }
+          if (res.data.subjects && res.data.subjects.length > 0) {
+            setSubjectList(res.data.subjects);
+            setSelectedSubject(res.data.subjects[0]);
+          }
+          if (res.data.teacher_name) {
+            setTeacherName(res.data.teacher_name);
+          }
+          if (res.data.is_class_teacher_for) {
+            setClassTeacherFor(res.data.is_class_teacher_for);
+            // Default select their assigned class teacher role if available
+            if (res.data.is_class_teacher_for.length > 0) {
+              const primary = res.data.is_class_teacher_for[0];
+              setSelectedClass(primary.class_name);
+              setSelectedSection(primary.section);
             }
           }
-
-          setSections(availableSections);
-          if (availableSections.length > 0 && !selectedSection) {
-            setSelectedSection(availableSections[0].id);
-          }
         }
-
-        // Fetch students from API, fall back to authentic defaultStudents
-        let studentItems: any[] = [];
-        try {
-          const stdRes = await api.get(`/students${selectedClass ? `?class_id=${selectedClass}` : ''}`);
-          studentItems = Array.isArray(stdRes.data) ? stdRes.data : stdRes.data?.items || [];
-        } catch {
-          studentItems = [];
-        }
-
-        if (studentItems.length === 0) {
-          studentItems = defaultStudents;
-        }
-
-        setStudents(studentItems);
-
-        const initial: { [id: string]: string } = {};
-        studentItems.forEach((s: any) => {
-          initial[s.id] = s.default_status || 'present';
-        });
-        setAttendanceState((prev) => (Object.keys(prev).length === 0 ? initial : prev));
-      } catch (e) {
-        console.error(e);
-        setStudents(defaultStudents);
+      } catch (err) {
+        console.warn('Could not load attendance options from API, using defaults:', err);
       }
     };
-    loadSectionsAndStudents();
-  }, [selectedClass, staffInfo, isStudent, isParent, defaultStudents]);
 
-  const handleStatusToggle = (studentId: string, status: string) => {
-    if (staffInfo.is_admin) return;
-    if (isLocked) return;
+    fetchOptions();
+  }, [isStudent, isParent]);
+
+  // Available sections for current class
+  const currentSections = useMemo(() => {
+    return sectionMap[selectedClass] || ['A', 'B', 'C'];
+  }, [sectionMap, selectedClass]);
+
+  // Keep section valid if class changes
+  useEffect(() => {
+    if (currentSections.length > 0 && !currentSections.includes(selectedSection)) {
+      setSelectedSection(currentSections[0]);
+    }
+  }, [currentSections, selectedSection]);
+
+  // ---------------- FETCH STUDENTS & ATTENDANCE RECORDS ----------------
+  const fetchRecords = useCallback(async () => {
+    if (isStudent || isParent) return;
+    if (!selectedClass || !selectedSection || !selectedSubject || !attendanceDate) return;
+
+    setLoadingRecords(true);
+    try {
+      const res = await api.get('/attendance/records', {
+        params: {
+          class_name: selectedClass,
+          section: selectedSection,
+          subject: selectedSubject,
+          date: attendanceDate,
+        },
+      });
+
+      const data = res.data;
+      setIsClassTeacher(Boolean(data.is_class_teacher));
+      setCanMark(Boolean(data.can_mark));
+      setIsExistingRecord(Boolean(data.is_existing));
+
+      if (data.students && Array.isArray(data.students)) {
+        setStudents(data.students);
+        const map: Record<string, 'Present' | 'Absent' | 'OD'> = {};
+        data.students.forEach((s: StudentItem) => {
+          map[s.student_id] = s.status || 'Present';
+        });
+        setAttendanceState(map);
+      }
+    } catch (err: any) {
+      console.error('Error fetching attendance records:', err);
+      toast.error('Failed to load student roster for selected class.');
+    } finally {
+      setLoadingRecords(false);
+    }
+  }, [selectedClass, selectedSection, selectedSubject, attendanceDate, isStudent, isParent, toast]);
+
+  useEffect(() => {
+    fetchRecords();
+  }, [fetchRecords]);
+
+  // ---------------- FETCH STUDENT ATTENDANCE (STUDENT VIEW) ----------------
+  const fetchStudentAttendance = useCallback(async (childId?: string) => {
+    setLoadingStudent(true);
+    try {
+      const url = childId ? `/attendance/student/my?student_id_override=${childId}` : '/attendance/student/my';
+      const res = await api.get(url);
+      setStudentData(res.data);
+    } catch (err: any) {
+      console.error('Error loading student attendance:', err);
+      toast.error('Could not load attendance history.');
+    } finally {
+      setLoadingStudent(false);
+    }
+  }, [toast]);
+
+  useEffect(() => {
+    if (isStudent) {
+      fetchStudentAttendance();
+    } else if (isParent) {
+      const loadParentData = async () => {
+        try {
+          const res = await api.get('/portal/parent/children');
+          const children = res.data || [];
+          setParentChildren(children);
+          if (children.length > 0) {
+            const firstChildId = children[0].id;
+            setSelectedChildId(firstChildId);
+            fetchStudentAttendance(firstChildId);
+          }
+        } catch (err) {
+          console.error('Error loading parent children:', err);
+          fetchStudentAttendance();
+        }
+      };
+      loadParentData();
+    }
+  }, [isStudent, isParent, fetchStudentAttendance]);
+
+  const handleChildChange = (childId: string) => {
+    setSelectedChildId(childId);
+    fetchStudentAttendance(childId);
+  };
+
+  // ---------------- ATTENDANCE ACTIONS (TEACHER) ----------------
+  const handleStatusChange = (studentId: string, status: 'Present' | 'Absent' | 'OD') => {
+    if (!canMark) {
+      toast.error('Only the assigned Class Teacher is authorized to modify attendance for this class.');
+      return;
+    }
     setAttendanceState((prev) => ({
       ...prev,
       [studentId]: status,
     }));
   };
 
+  const handleMarkAllPresent = () => {
+    if (!canMark) {
+      toast.error('Only the assigned Class Teacher is authorized to modify attendance for this class.');
+      return;
+    }
+    const updated: Record<string, 'Present' | 'Absent' | 'OD'> = {};
+    students.forEach((s) => {
+      updated[s.student_id] = 'Present';
+    });
+    setAttendanceState(updated);
+    toast.success('Marked all students as Present.');
+  };
+
   const handleSaveAttendance = async () => {
-    if (staffInfo.is_admin) {
-      toast.error('Institutional Policy: Administrator accounts have read-only attendance oversight. Attendance cannot be modified directly.');
+    if (!canMark) {
+      toast.error('Forbidden: Only the assigned Class Teacher can save attendance for this class.');
       return;
     }
 
-    setLoading(true);
-    setMessage(null);
+    if (attendanceDate > todayStr) {
+      toast.error('Future dates are not permitted. Please select today or a past date.');
+      return;
+    }
+
+    if (students.length === 0) {
+      toast.error('No students found to record attendance.');
+      return;
+    }
+
+    setSavingAttendance(true);
     try {
-      const items = Object.entries(attendanceState).map(([student_id, status]) => ({
-        student_id,
-        status,
+      const studentPayload = students.map((s) => ({
+        student_id: s.student_id,
+        roll_no: s.roll_no,
+        name: s.name,
+        status: attendanceState[s.student_id] || 'Present',
       }));
 
-      await api.post('/attendance/student/bulk', {
-        class_id: selectedClass,
-        section_id: selectedSection,
-        academic_year_id: selectedYear,
-        attendance_date: attendanceDate,
-        session: 'full_day',
-        items,
+      const res = await api.post('/attendance/save', {
+        class: selectedClass,
+        section: selectedSection,
+        subject: selectedSubject,
+        date: attendanceDate,
+        students: studentPayload,
       });
 
-      const succ = 'Attendance successfully marked and recorded!';
-      setMessage(succ);
-      toast.success(succ);
+      toast.success(res.data?.message || 'Attendance successfully saved to database!');
+      setIsExistingRecord(true);
     } catch (err: any) {
-      if (err.response?.status === 403) {
-        setIsLocked(true);
-        const lockMsg = 'Attendance for this date is locked. You must submit a formal correction request.';
-        setMessage(lockMsg);
-        toast.error(lockMsg);
-      } else {
-        const errMsg = err.response?.data?.message || 'Error recording attendance.';
-        setMessage(errMsg);
-        toast.error(errMsg);
-      }
+      console.error('Error saving attendance:', err);
+      const detail = err.response?.data?.detail || err.response?.data?.message || 'Failed to save attendance.';
+      toast.error(detail);
     } finally {
-      setLoading(false);
+      setSavingAttendance(false);
     }
   };
 
-  const handleSendAbsenteeSms = () => {
-    setSendingSms(true);
-    const todayStr = new Date().toLocaleDateString('en-GB');
-    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    
-    // Live notification for parent with exactly 1 absentee
-    const newNotice = {
-      id: 'N-ABS-' + Date.now(),
-      type: 'absence',
-      title: '🚨 ATTENDANCE ALERT: Child Marked Absent Today',
-      message: `Your child Liam Smith (Grade 10-A, Roll #02) was marked ABSENT today (${todayStr}) during morning class roll-call. Class Teacher Mrs. Anitha Raman has dispatched this automated priority alert. Please contact the class coordinator if this absence is excused.`,
-      time: timeStr,
-      date: todayStr,
-      read: false,
-      priority: 'high',
-    };
+  // Filter students based on search query
+  const filteredStudents = useMemo(() => {
+    if (!searchQuery.trim()) return students;
+    const q = searchQuery.toLowerCase().trim();
+    return students.filter(
+      (s) =>
+        s.name.toLowerCase().includes(q) ||
+        s.roll_no.toLowerCase().includes(q) ||
+        s.student_id.toLowerCase().includes(q)
+    );
+  }, [students, searchQuery]);
 
-    const previousNotice = {
-      id: 'N-002',
-      type: 'meeting',
-      title: 'Parent-Teacher Meeting Scheduled',
-      message: 'A Parent-Teacher Meeting has been scheduled for Nov 15, 2026 at 03:30 PM in the School Auditorium. Agenda: Term 1 Progress Review, Career Counselling, and Sports Day Planning.',
-      time: '10:00 AM',
-      date: '10/11/2026',
-      read: true,
-      priority: 'medium',
-    };
-
-    try {
-      // Exactly 2 notifications kept, removing old notification history
-      localStorage.setItem('evergrow_parent_notifications', JSON.stringify([newNotice, previousNotice]));
-      localStorage.setItem('evergrow_parent_unread_count', '1');
-      window.dispatchEvent(new CustomEvent('evergrow:notification-sent', { detail: { unread: 1 } }));
-      window.dispatchEvent(new CustomEvent('evergrow:parent-unread-count', { detail: 1 }));
-    } catch (e) {}
-
-    setTimeout(() => {
-      setSendingSms(false);
-      toast.success('Absence notification dispatched to parent! Parent menu will now show Notifications (1).');
-    }, 600);
-  };
-
-  // Filtered students for table view
-  const displayStudents = useMemo(() => {
-    let list = students.length > 0 ? students : defaultStudents;
-
-    if (activeSectionFilter !== 'ALL') {
-      list = list.filter((s: any) => s.class_section === activeSectionFilter);
-    }
-
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase().trim();
-      list = list.filter(
-        (s: any) =>
-          (s.full_name || s.name || '').toLowerCase().includes(q) ||
-          (s.admission_number || s.admission_no || '').toLowerCase().includes(q) ||
-          String(s.roll_number || s.roll_no || '').includes(q)
-      );
-    }
-
-    return list;
-  }, [students, defaultStudents, activeSectionFilter, searchQuery]);
-
-  // Dynamic counts
-  const stats = useMemo(() => {
-    const total = defaultStudents.length;
-    let present = 0;
-    let absent = 0;
-    let late = 0;
-
-    defaultStudents.forEach((s) => {
-      const st = attendanceState[s.id] || s.default_status || 'present';
-      if (st === 'present') present++;
-      else if (st === 'absent') absent++;
-      else if (st === 'late') late++;
+  // Live count stats for currently displayed roster
+  const rosterStats = useMemo(() => {
+    let p = 0;
+    let a = 0;
+    let od = 0;
+    students.forEach((s) => {
+      const st = attendanceState[s.student_id] || 'Present';
+      if (st === 'Present') p++;
+      else if (st === 'Absent') a++;
+      else if (st === 'OD') od++;
     });
-
-    const percentage = total > 0 ? ((present / total) * 100).toFixed(1) : '96.0';
-
-    return { total, present, absent, late, percentage };
-  }, [defaultStudents, attendanceState]);
+    const total = students.length;
+    // Count OD as present in percentage calculation
+    const pct = total > 0 ? (((p + od) / total) * 100).toFixed(1) : '100.0';
+    return { present: p, absent: a, od, total, pct };
+  }, [students, attendanceState]);
 
   // =========================================================================
-  // RENDER: STUDENT & PARENT PERSONAL ATTENDANCE VIEW
+  // VIEW: STUDENT READ-ONLY ATTENDANCE VIEW
   // =========================================================================
   if (isStudent || isParent) {
-    const records = studentAttendance?.records || [];
-    const percentage = studentAttendance?.percentage ?? 100.0;
-    const isAboveThreshold = percentage >= 75.0;
+    const records = studentData?.records || [];
+    const percentage = studentData?.overall_percentage ?? 100.0;
+    const isAbove75 = percentage >= 75.0;
+    const todayStatus = studentData?.today_status || 'Not Marked';
 
     return (
       <div className="space-y-6 max-w-5xl mx-auto pb-12">
-        {/* Parent child switcher if applicable */}
+        {/* Parent child switcher */}
         {isParent && parentChildren.length > 1 && (
-          <div className="bg-white/80 backdrop-blur-xl border border-black/[0.06] rounded-2xl p-4 flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-700">Select Child:</span>
+          <div className="bg-white/80 backdrop-blur-xl border border-black/[0.06] rounded-2xl p-4 flex items-center justify-between shadow-2xs">
+            <div className="flex items-center space-x-2">
+              <Users className="w-4 h-4 text-[#0071E3]" />
+              <span className="text-xs font-semibold text-slate-700">Select Ward / Child:</span>
+            </div>
             <select
               value={selectedChildId}
-              onChange={(e) => setSelectedChildId(e.target.value)}
-              className="bg-slate-50 border border-slate-200 text-xs font-semibold rounded-xl px-3 py-1.5 text-slate-800"
+              onChange={(e) => handleChildChange(e.target.value)}
+              className="bg-slate-50 border border-slate-200 text-xs font-semibold rounded-xl px-3 py-1.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
             >
               {parentChildren.map((c) => (
                 <option key={c.id} value={c.id}>
-                  {c.full_name} ({c.admission_number})
+                  {c.full_name} ({c.admission_number || c.class_name})
                 </option>
               ))}
             </select>
@@ -460,85 +372,158 @@ export const AttendancePage: React.FC = () => {
         )}
 
         {/* Top Header Card */}
-        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-5 sm:p-6 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden">
-          <div className="relative z-10 min-w-0">
-            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
-              {isStudent ? 'Attendance Summary' : `Attendance: ${parentChildren.find(c => c.id === selectedChildId)?.full_name || 'Child'}`}
-            </h1>
+        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/90 rounded-[28px] p-6 text-slate-900 border border-blue-200/80 shadow-[0_8px_32px_rgba(0,113,227,0.08)] relative overflow-hidden">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+            <div>
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-100/80 text-[#0071E3] text-xs font-bold mb-2">
+                <GraduationCap className="w-3.5 h-3.5" />
+                <span>Student Academic Portal • Read-Only View</span>
+              </div>
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1D1D1F]">
+                {isStudent ? 'My Attendance Record' : `Attendance: ${studentData?.student_name || 'Student'}`}
+              </h1>
+              <p className="text-xs text-slate-600 mt-1">
+                Enrolled: <strong>{studentData?.class_name || 'Class 10'} - Section {studentData?.section || 'A'}</strong> | Roll No: <strong>#{studentData?.roll_number || '01'}</strong> | Admission No: <strong>{studentData?.admission_number || 'ADM-2026-0001'}</strong>
+              </p>
+            </div>
+
+            {/* Today's Status Large Badge */}
+            <div className="sm:self-center">
+              <div
+                className={`px-4 py-2.5 rounded-2xl border flex items-center space-x-2.5 shadow-sm ${
+                  todayStatus === 'Present'
+                    ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                    : todayStatus === 'Absent'
+                    ? 'bg-rose-50 border-rose-200 text-rose-800'
+                    : todayStatus === 'OD'
+                    ? 'bg-indigo-50 border-indigo-200 text-indigo-800'
+                    : 'bg-slate-100 border-slate-200 text-slate-700'
+                }`}
+              >
+                <div
+                  className={`w-3 h-3 rounded-full ${
+                    todayStatus === 'Present'
+                      ? 'bg-emerald-500 animate-pulse'
+                      : todayStatus === 'Absent'
+                      ? 'bg-rose-500'
+                      : todayStatus === 'OD'
+                      ? 'bg-indigo-500 animate-pulse'
+                      : 'bg-slate-400'
+                  }`}
+                />
+                <div>
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Today's Status</div>
+                  <div className="text-sm font-extrabold">
+                    {todayStatus === 'Present' && 'Present'}
+                    {todayStatus === 'Absent' && 'Absent'}
+                    {todayStatus === 'OD' && 'On Duty (OD)'}
+                    {todayStatus === 'Not Marked' && 'Not Marked Yet'}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {loadingStudent ? (
           <div className="bg-white rounded-3xl p-12 text-center text-slate-500 font-medium">
-            Loading your attendance records...
+            <RefreshCw className="w-6 h-6 text-[#0071E3] animate-spin mx-auto mb-2" />
+            Loading attendance records from database...
           </div>
         ) : (
           <div className="space-y-6">
-            {/* Attendance Score Card & Breakdown */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              {/* Primary Gauge */}
-              <div className="md:col-span-2 bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-3xl p-6 shadow-sm flex items-center justify-between">
-                <div>
-                  <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                    Overall Attendance Rate
-                  </div>
-                  <div className="text-4xl font-black text-slate-900 mt-1 tracking-tight">
-                    {percentage}%
-                  </div>
-                  <div className="mt-2">
-                    <span
-                      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
-                        isAboveThreshold
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                          : 'bg-rose-50 text-rose-700 border border-rose-200'
-                      }`}
-                    >
-                      {isAboveThreshold ? 'Eligible for Term Exams (>75%)' : 'Below 75% Requirement'}
-                    </span>
+            {/* 4 Attendance Summary Metric Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* Overall Attendance Rate (OD counted as present) */}
+              <div className="ios-card rounded-[22px] p-5 border border-black/[0.06] shadow-2xs">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#86868B]">
+                    Overall Attendance
+                  </span>
+                  <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-[#0071E3]">
+                    <CheckCircle2 className="w-4 h-4" />
                   </div>
                 </div>
-
-                <div className="w-20 h-20 rounded-full border-4 border-emerald-500/20 border-t-emerald-500 flex items-center justify-center font-bold text-slate-800 text-sm">
+                <div className="text-3xl font-extrabold text-[#1D1D1F] mt-2">
                   {percentage}%
                 </div>
+                <div className="mt-2 flex items-center space-x-1.5">
+                  <span
+                    className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                      isAbove75
+                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                        : 'bg-rose-50 text-rose-700 border border-rose-200'
+                    }`}
+                  >
+                    {isAbove75 ? '✓ Exam Eligible (≥75%)' : '⚠ Below 75% Requirement'}
+                  </span>
+                </div>
+                <p className="text-[10px] text-slate-400 mt-1 font-medium">On-Duty (OD) is counted as present</p>
               </div>
 
-              {/* Present Days */}
-              <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-3xl p-6 shadow-sm">
-                <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Days Present</div>
-                <div className="text-3xl font-extrabold text-emerald-600 mt-1">
-                  {studentAttendance?.present_days ?? 0}
+              {/* Total Present */}
+              <div className="ios-card rounded-[22px] p-5 border border-black/[0.06] shadow-2xs">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#86868B]">
+                    Total Present
+                  </span>
+                  <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600">
+                    <Check className="w-4 h-4" />
+                  </div>
                 </div>
-                <div className="text-[11px] text-slate-500 mt-1">
-                  Out of {studentAttendance?.total_days ?? 0} total working days
+                <div className="text-3xl font-extrabold text-emerald-600 mt-2">
+                  {studentData?.total_present ?? 0}
                 </div>
+                <p className="text-[11px] text-slate-500 mt-1">Sessions attended in full</p>
               </div>
 
-              {/* Absent Days */}
-              <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-3xl p-6 shadow-sm">
-                <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Days Absent</div>
-                <div className="text-3xl font-extrabold text-rose-600 mt-1">
-                  {Math.max(0, (studentAttendance?.total_days ?? 0) - (studentAttendance?.present_days ?? 0))}
+              {/* Total Absent */}
+              <div className="ios-card rounded-[22px] p-5 border border-black/[0.06] shadow-2xs">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#86868B]">
+                    Total Absent
+                  </span>
+                  <div className="w-8 h-8 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-600">
+                    <XCircle className="w-4 h-4" />
+                  </div>
                 </div>
-                <div className="text-[11px] text-slate-500 mt-1">Excused / Medical leaves included</div>
+                <div className="text-3xl font-extrabold text-rose-600 mt-2">
+                  {studentData?.total_absent ?? 0}
+                </div>
+                <p className="text-[11px] text-slate-500 mt-1">Excused & unexcused leaves</p>
+              </div>
+
+              {/* Total OD (On Duty) */}
+              <div className="ios-card rounded-[22px] p-5 border border-black/[0.06] shadow-2xs">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#86868B]">
+                    Total OD (On Duty)
+                  </span>
+                  <div className="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-600">
+                    <Award className="w-4 h-4" />
+                  </div>
+                </div>
+                <div className="text-3xl font-extrabold text-indigo-600 mt-2">
+                  {studentData?.total_od ?? 0}
+                </div>
+                <p className="text-[11px] text-indigo-600/80 font-medium mt-1">Approved academic/sports duty</p>
               </div>
             </div>
 
-            {/* Statutory Compliance Callout */}
-            <div className="bg-blue-50/80 border border-blue-200 rounded-2xl p-4 flex items-center space-x-3 text-xs text-blue-900">
+            {/* Policy note */}
+            <div className="bg-blue-50/80 border border-blue-200 rounded-2xl p-4 flex items-center space-x-3 text-xs text-blue-900 shadow-2xs">
               <CalendarCheck className="w-5 h-5 text-blue-600 shrink-0" />
               <span>
-                <strong>CBSE / ICSE Board Policy:</strong> Students must maintain an aggregate attendance of 75% or
-                higher to obtain the official Examination Hall Ticket.
+                <strong>Attendance Policy Notice:</strong> Per institutional regulations, students must maintain at least <strong>75% attendance</strong> to qualify for term examinations. <strong>On-Duty (OD)</strong> sessions approved by the principal/class teacher are counted as <strong>Present</strong> towards your total attendance percentage.
               </span>
             </div>
 
-            {/* Attendance History Log Table */}
-            <div className="bg-white/90 backdrop-blur-xl border border-black/[0.06] rounded-3xl overflow-hidden shadow-sm">
-              <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+            {/* Date-wise Attendance List Table */}
+            <div className="ios-card rounded-[22px] overflow-hidden border border-black/[0.06] shadow-2xs">
+              <div className="p-5 border-b border-black/[0.05] flex items-center justify-between">
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">Daily Attendance History Log</h3>
-                  <p className="text-xs text-slate-500">Official institutional record signed off by class faculty</p>
+                  <h3 className="text-sm font-bold text-[#1D1D1F]">Date-Wise Attendance History</h3>
+                  <p className="text-xs text-[#86868B]">Official subject-wise attendance register</p>
                 </div>
                 <span className="text-xs font-semibold text-slate-400 font-mono">
                   {records.length} Recorded Sessions
@@ -547,69 +532,55 @@ export const AttendancePage: React.FC = () => {
 
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-50/80 text-slate-400 uppercase font-semibold border-b border-slate-100">
+                  <thead className="bg-black/[0.02] text-[#86868B] text-[11px] uppercase font-semibold border-b border-black/[0.05]">
                     <tr>
                       <th className="py-3 px-5">Date</th>
-                      <th className="py-3 px-5">Session</th>
-                      <th className="py-3 px-5">Classes & Subjects Conducted</th>
-                      <th className="py-3 px-5">Status</th>
-                      <th className="py-3 px-5">Faculty Remarks</th>
+                      <th className="py-3 px-5">Subject</th>
+                      <th className="py-3 px-5">Class & Section</th>
+                      <th className="py-3 px-5">Attendance Status</th>
+                      <th className="py-3 px-5">Marked By</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-black/[0.04]">
                     {records.length === 0 ? (
                       <tr>
                         <td colSpan={5} className="py-8 px-5 text-center text-slate-400">
-                          No attendance sessions recorded yet for the current term.
+                          No attendance sessions recorded yet for this term.
                         </td>
                       </tr>
                     ) : (
-                      records.map((r: any, idx: number) => {
-                        const classesList = r.classes_happened && r.classes_happened.length > 0
-                          ? r.classes_happened
-                          : ['Mathematics', 'General Science', 'English Literature'];
-
-                        return (
-                          <tr key={idx} className="hover:bg-slate-50/60 transition-colors">
-                            <td className="py-3.5 px-5 font-semibold text-slate-900 whitespace-nowrap">
-                              {r.date}
-                            </td>
-                            <td className="py-3.5 px-5 text-slate-600 capitalize whitespace-nowrap">
-                              <span className="font-semibold text-slate-700 block">
-                                {r.session?.replace('_', ' ') || 'Full Day'}
-                              </span>
-                              <span className="text-[10px] text-slate-400">6 Periods Scheduled</span>
-                            </td>
-                            <td className="py-3.5 px-5">
-                              <div className="flex flex-wrap gap-1.5 max-w-md">
-                                {classesList.map((cls: string, cIdx: number) => (
-                                  <span
-                                    key={cIdx}
-                                    className="inline-flex items-center px-2 py-0.5 rounded-lg text-[11px] font-medium bg-slate-100/90 text-slate-700 border border-slate-200/80 shadow-2xs"
-                                  >
-                                    <BookOpen className="w-2.5 h-2.5 mr-1 text-[#0071E3] shrink-0" />
-                                    <span>{cls}</span>
-                                  </span>
-                                ))}
-                              </div>
-                            </td>
-                            <td className="py-3.5 px-5 whitespace-nowrap">
-                              <span
-                                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                                  r.status === 'present'
-                                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                                    : r.status === 'absent'
-                                    ? 'bg-rose-50 text-rose-700 border border-rose-200'
-                                    : 'bg-amber-50 text-amber-700 border border-amber-200'
-                                }`}
-                              >
-                                {r.status}
-                              </span>
-                            </td>
-                            <td className="py-3.5 px-5 text-slate-500 max-w-xs">{r.remarks || 'Standard Roll-Call'}</td>
-                          </tr>
-                        );
-                      })
+                      records.map((r, idx) => (
+                        <tr key={r.id || idx} className="hover:bg-black/[0.02] transition-colors">
+                          <td className="py-3.5 px-5 font-semibold text-slate-900 whitespace-nowrap">
+                            {r.date}
+                          </td>
+                          <td className="py-3.5 px-5">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-lg text-[11px] font-semibold bg-blue-50 text-[#0071E3] border border-blue-200">
+                              <BookOpen className="w-2.5 h-2.5 mr-1 text-[#0071E3]" />
+                              {r.subject}
+                            </span>
+                          </td>
+                          <td className="py-3.5 px-5 font-medium text-slate-700">
+                            {r.class_name} - {r.section}
+                          </td>
+                          <td className="py-3.5 px-5 whitespace-nowrap">
+                            <span
+                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                                r.status === 'Present'
+                                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                  : r.status === 'Absent'
+                                  ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                                  : 'bg-indigo-50 text-indigo-700 border border-indigo-200'
+                              }`}
+                            >
+                              {r.status === 'OD' ? 'On Duty (OD)' : r.status}
+                            </span>
+                          </td>
+                          <td className="py-3.5 px-5 text-slate-500 font-medium">
+                            {r.marked_by || 'Class Faculty'}
+                          </td>
+                        </tr>
+                      ))
                     )}
                   </tbody>
                 </table>
@@ -622,285 +593,291 @@ export const AttendancePage: React.FC = () => {
   }
 
   // =========================================================================
-  // RENDER: STAFF & ADMIN ATTENDANCE REGISTER
+  // VIEW: TEACHER ATTENDANCE REGISTER
   // =========================================================================
-  const isAdmin = staffInfo.is_admin || user?.portal_type === 'staff';
-  const isTeacher = staffInfo.is_teacher && !staffInfo.is_admin;
-
   return (
     <div className="space-y-6 pb-12">
       {/* Top Header Row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="min-w-0">
-          <h1 className="text-xl sm:text-2xl font-bold text-[#1D1D1F] tracking-tight whitespace-nowrap">
-            Campus Attendance
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold text-[#1D1D1F] tracking-tight">
+            Daily Attendance Register
           </h1>
+          <p className="text-xs text-[#86868B] mt-0.5">
+            Classroom roll-call and subject muster • Logged in as: <strong>{teacherName || user?.full_name || 'Faculty Teacher'}</strong>
+          </p>
         </div>
 
         {/* Action Controls */}
-        <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+        <div className="flex items-center space-x-2.5">
           <button
-            onClick={handleSendAbsenteeSms}
-            disabled={sendingSms}
-            className="flex-1 sm:flex-none justify-center px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-semibold rounded-full flex items-center space-x-2 transition-colors shadow-2xs"
+            type="button"
+            onClick={handleMarkAllPresent}
+            disabled={!canMark || loadingRecords || students.length === 0}
+            className="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-semibold rounded-full flex items-center space-x-1.5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shadow-2xs"
           >
-            <Send className="w-3.5 h-3.5 text-rose-600" />
-            <span>{sendingSms ? 'Sending SMS...' : 'Notify Absentees (1 Today)'}</span>
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Mark All Present</span>
           </button>
 
-          {!isAdmin && (
-            <button
-              onClick={handleSaveAttendance}
-              disabled={loading || isLocked}
-              className="flex-1 sm:flex-none justify-center ios-gloss-btn px-5 py-2 text-xs font-semibold space-x-2 disabled:opacity-50"
-            >
+          <button
+            type="button"
+            onClick={handleSaveAttendance}
+            disabled={!canMark || savingAttendance || loadingRecords || students.length === 0}
+            className="ios-gloss-btn px-5 py-2 text-xs font-semibold flex items-center space-x-2 disabled:opacity-40 disabled:cursor-not-allowed shadow-sm"
+          >
+            {savingAttendance ? (
+              <RefreshCw className="w-4 h-4 text-white animate-spin" />
+            ) : (
               <Save className="w-4 h-4 text-white" />
-              <span>Save Roll-Call</span>
-            </button>
+            )}
+            <span>{savingAttendance ? 'Saving...' : 'Save Attendance'}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Class Teacher Protection Notice */}
+      {isClassTeacher ? (
+        <div className="bg-emerald-50/90 border border-emerald-200/80 rounded-2xl p-3.5 flex items-center justify-between text-xs text-emerald-900 shadow-2xs">
+          <div className="flex items-center space-x-2">
+            <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>
+              <strong>Class Teacher Authorization:</strong> You are the verified Class Teacher for <strong>{selectedClass} Section {selectedSection}</strong>. You have full permission to mark and update attendance.
+            </span>
+          </div>
+          {isExistingRecord && (
+            <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold shrink-0">
+              Existing Record Loaded (Update Mode)
+            </span>
           )}
         </div>
-      </div>
-
-      {/* 4 Executive Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="ios-card rounded-[22px] p-5">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#86868B]">Campus Attendance</span>
-            <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600">
-              <CheckCircle2 className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="text-3xl font-extrabold text-[#1D1D1F] mt-2">{stats.percentage}%</div>
-          <p className="text-xs text-emerald-600 font-semibold mt-1">↑ 1.4% higher than monthly average</p>
+      ) : (
+        <div className="bg-amber-50/90 border border-amber-200/80 rounded-2xl p-3.5 flex items-center space-x-2 text-xs text-amber-900 shadow-2xs">
+          <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0" />
+          <span>
+            <strong>View-Only Mode:</strong> Only the assigned Class Teacher can record or update attendance for <strong>{selectedClass} Section {selectedSection}</strong>. Modifying attendance is locked for other faculty.
+          </span>
         </div>
+      )}
 
-        <div className="ios-card rounded-[22px] p-5">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#86868B]">Students Present</span>
-            <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-[#0071E3]">
-              <Users className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="text-3xl font-extrabold text-[#1D1D1F] mt-2">
-            {stats.present} <span className="text-base font-normal text-[#86868B]">/ {stats.total}</span>
-          </div>
-          <p className="text-xs text-slate-500 mt-1">10-A (49/50), 10-B (47/50), 10-C (48/50)</p>
-        </div>
-
-        <div className="ios-card rounded-[22px] p-5">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#86868B]">Faculty On Duty</span>
-            <div className="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-600">
-              <Award className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="text-3xl font-extrabold text-[#1D1D1F] mt-2">
-            58 <span className="text-base font-normal text-[#86868B]">/ 60</span>
-          </div>
-          <p className="text-xs text-slate-500 mt-1">2 on approved academic leave</p>
-        </div>
-
-        <div className="ios-card rounded-[22px] p-5">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#86868B]">Support Staff</span>
-            <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-600">
-              <Clock className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="text-3xl font-extrabold text-[#1D1D1F] mt-2">
-            19 <span className="text-base font-normal text-[#86868B]">/ 20</span>
-          </div>
-          <p className="text-xs text-slate-500 mt-1">Security, transport & labs active</p>
-        </div>
-      </div>
-
-      {/* Section Performance Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {[
-          { sec: '10-A', mentor: 'Mrs. Anitha Raman', present: 49, total: 50, rate: '98.0%', status: 'Muster Signed 09:10 AM' },
-          { sec: '10-B', mentor: 'Mr. David Joseph', present: 47, total: 50, rate: '94.0%', status: 'Muster Signed 09:14 AM' },
-          { sec: '10-C', mentor: 'Dr. Priya Sundaram', present: 48, total: 50, rate: '96.0%', status: 'Muster Signed 09:08 AM' },
-        ].map((item) => (
-          <div
-            key={item.sec}
-            onClick={() => setActiveSectionFilter(item.sec)}
-            className={`ios-card rounded-[20px] p-4 cursor-pointer transition-all border ${
-              activeSectionFilter === item.sec
-                ? 'border-[#0071E3] ring-2 ring-[#0071E3]/20 bg-blue-50/20'
-                : 'hover:border-slate-300'
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <span className="text-xs font-bold text-[#1D1D1F]">Class {item.sec}</span>
-                <p className="text-[11px] text-[#86868B]">Mentor: {item.mentor}</p>
-              </div>
-              <span className="text-sm font-black text-[#0071E3]">{item.rate}</span>
-            </div>
-            <div className="mt-3 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-              <div
-                className="bg-[#0071E3] h-full rounded-full transition-all duration-500"
-                style={{ width: item.rate }}
-              />
-            </div>
-            <div className="flex items-center justify-between text-[10px] text-slate-500 mt-2">
-              <span>{item.present} / {item.total} Present</span>
-              <span className="text-emerald-600 font-medium">✓ {item.status}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Filter and Search Bar */}
-      <div className="ios-card rounded-[22px] p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-4">
-        {/* Section Segmented Control */}
-        <div className="w-full md:w-auto max-w-full flex items-center space-x-1.5 p-1 bg-black/[0.04] rounded-2xl sm:rounded-full self-start md:self-auto overflow-x-auto scrollbar-none shrink-0">
-          {[
-            { id: 'ALL', label: 'All 150 Students' },
-            { id: '10-A', label: 'Class 10-A (50)' },
-            { id: '10-B', label: 'Class 10-B (50)' },
-            { id: '10-C', label: 'Class 10-C (50)' },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveSectionFilter(tab.id)}
-              className={`px-3.5 sm:px-4 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 whitespace-nowrap ${
-                activeSectionFilter === tab.id
-                  ? 'bg-white text-[#1D1D1F] shadow-xs'
-                  : 'text-[#86868B] hover:text-[#1D1D1F]'
-              }`}
+      {/* Teacher Selectors Bar: Class, Section, Subject, Date */}
+      <div className="ios-card rounded-[22px] p-4 sm:p-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* 1. Class Selector */}
+          <div>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#86868B] mb-1.5">
+              1. Class
+            </label>
+            <select
+              value={selectedClass}
+              onChange={(e) => setSelectedClass(e.target.value)}
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200/90 rounded-xl text-xs font-semibold text-[#1D1D1F] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
             >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+              {classList.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        {/* Search input and date picker */}
-        <div className="flex items-center space-x-3 w-full md:w-auto">
-          <div className="relative flex-1 md:w-64">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          {/* 2. Section Selector */}
+          <div>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#86868B] mb-1.5">
+              2. Section
+            </label>
+            <select
+              value={selectedSection}
+              onChange={(e) => setSelectedSection(e.target.value)}
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200/90 rounded-xl text-xs font-semibold text-[#1D1D1F] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+            >
+              {currentSections.map((sec) => (
+                <option key={sec} value={sec}>
+                  Section {sec}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* 3. Subject Selector */}
+          <div>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#86868B] mb-1.5">
+              3. Subject
+            </label>
+            <select
+              value={selectedSubject}
+              onChange={(e) => setSelectedSubject(e.target.value)}
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200/90 rounded-xl text-xs font-semibold text-[#1D1D1F] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+            >
+              {subjectList.map((sub) => (
+                <option key={sub} value={sub}>
+                  {sub}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* 4. Date Selector (default today, no future dates) */}
+          <div>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#86868B] mb-1.5">
+              4. Date (No Future Dates)
+            </label>
+            <input
+              type="date"
+              value={attendanceDate}
+              max={todayStr}
+              onChange={(e) => setAttendanceDate(e.target.value)}
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200/90 rounded-xl text-xs font-semibold text-[#1D1D1F] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* 4 Summary Stat Pills */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="ios-card rounded-[18px] p-4 text-center">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-[#86868B]">Total Students</div>
+          <div className="text-2xl font-black text-[#1D1D1F] mt-1">{rosterStats.total}</div>
+        </div>
+        <div className="ios-card rounded-[18px] p-4 text-center">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">Present</div>
+          <div className="text-2xl font-black text-emerald-600 mt-1">{rosterStats.present}</div>
+        </div>
+        <div className="ios-card rounded-[18px] p-4 text-center">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-rose-600">Absent</div>
+          <div className="text-2xl font-black text-rose-600 mt-1">{rosterStats.absent}</div>
+        </div>
+        <div className="ios-card rounded-[18px] p-4 text-center">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-indigo-600">On Duty (OD)</div>
+          <div className="text-2xl font-black text-indigo-600 mt-1">{rosterStats.od}</div>
+        </div>
+      </div>
+
+      {/* Student List & Attendance Table */}
+      <div className="ios-card rounded-[22px] overflow-hidden border border-black/[0.06] shadow-2xs">
+        {/* Table Header and Search Filter */}
+        <div className="p-4 sm:p-5 border-b border-black/[0.05] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 className="text-sm font-bold text-[#1D1D1F]">
+              Student Muster Roll — {selectedClass} Section {selectedSection}
+            </h2>
+            <p className="text-xs text-[#86868B]">
+              Subject: <strong>{selectedSubject}</strong> | Date: <strong>{attendanceDate}</strong>
+              {isExistingRecord && (
+                <span className="ml-2 text-emerald-600 font-semibold">• Saved Record Loaded</span>
+              )}
+            </p>
+          </div>
+
+          <div className="relative w-full sm:w-64">
+            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search by student name or roll..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200/80 rounded-full text-xs text-[#1D1D1F] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+              className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200/80 rounded-full text-xs text-[#1D1D1F] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
             />
           </div>
-
-          <input
-            type="date"
-            value={attendanceDate}
-            onChange={(e) => setAttendanceDate(e.target.value)}
-            className="px-3 py-2 bg-slate-50 border border-slate-200/80 rounded-full text-xs text-[#1D1D1F] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
-          />
-        </div>
-      </div>
-
-      {/* Student List - Table */}
-      <div className="ios-card rounded-[22px] overflow-hidden">
-        <div className="p-5 border-b border-black/[0.05] flex items-center justify-between">
-          <div>
-            <h2 className="text-sm font-bold text-[#1D1D1F]">
-              Daily Attendance Muster Roll — {activeSectionFilter === 'ALL' ? 'All Classes (10-A, 10-B, 10-C)' : `Section ${activeSectionFilter}`}
-            </h2>
-            <p className="text-xs text-[#86868B]">Showing {displayStudents.length} enrolled students</p>
-          </div>
-          <span className="text-xs font-semibold text-slate-400 font-mono">
-            Date: {attendanceDate}
-          </span>
         </div>
 
+        {/* Table Body */}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-black/[0.02] text-[#86868B] text-[11px] uppercase font-semibold border-b border-black/[0.05]">
               <tr>
-                <th className="px-6 py-3.5">Roll No</th>
-                <th className="px-6 py-3.5">Admission No</th>
-                <th className="px-6 py-3.5">Student Name</th>
-                <th className="px-6 py-3.5">Class & Section</th>
-                <th className="px-6 py-3.5">Attendance Status</th>
-                <th className="px-6 py-3.5">Parent Notification</th>
+                <th className="px-5 py-3 w-20">Roll No</th>
+                <th className="px-5 py-3">Student Name</th>
+                <th className="px-5 py-3">Class & Section</th>
+                <th className="px-5 py-3">Attendance Options (Present / Absent / OD)</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-black/[0.04]">
-              {displayStudents.length === 0 ? (
+              {loadingRecords ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-[#86868B]">
-                    No students match the current filter.
+                  <td colSpan={4} className="py-12 text-center text-slate-400">
+                    <RefreshCw className="w-5 h-5 text-[#0071E3] animate-spin mx-auto mb-2" />
+                    Loading students for {selectedClass} Section {selectedSection}...
+                  </td>
+                </tr>
+              ) : filteredStudents.length === 0 ? (
+                <tr>
+                  <td colSpan={4} className="py-8 text-center text-[#86868B]">
+                    No students found matching your search.
                   </td>
                 </tr>
               ) : (
-                displayStudents.map((s) => {
-                  const currentStatus = attendanceState[s.id] || s.default_status || 'present';
-                  const isAbsent = currentStatus === 'absent';
-                  const isLate = currentStatus === 'late';
+                filteredStudents.map((s) => {
+                  const currentStatus = attendanceState[s.student_id] || s.status || 'Present';
 
                   return (
-                    <tr key={s.id} className="hover:bg-black/[0.02] transition-colors">
-                      <td className="px-6 py-3.5 font-mono font-semibold text-slate-500">
-                        #{s.roll_number || s.roll_no}
+                    <tr key={s.student_id} className="hover:bg-black/[0.02] transition-colors">
+                      <td className="px-5 py-3.5 font-mono font-bold text-slate-600">
+                        #{s.roll_no}
                       </td>
-                      <td className="px-6 py-3.5 font-mono font-bold text-[#0071E3]">
-                        {s.admission_number || s.admission_no}
+                      <td className="px-5 py-3.5">
+                        <span className="font-bold text-[#1D1D1F] block">{s.name}</span>
+                        <span className="text-[10px] text-slate-400 font-mono">ID: {s.student_id.slice(0, 8)}...</span>
                       </td>
-                      <td className="px-6 py-3.5 font-semibold text-[#1D1D1F]">
-                        {s.full_name || s.name}
-                      </td>
-                      <td className="px-6 py-3.5">
+                      <td className="px-5 py-3.5">
                         <span className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-                          {s.class_section}
+                          {selectedClass} - {selectedSection}
                         </span>
                       </td>
-                      <td className="px-6 py-3.5">
-                        {isAdmin ? (
+                      <td className="px-5 py-3.5">
+                        {canMark ? (
+                          <div className="inline-flex rounded-full p-1 bg-black/[0.04] space-x-1.5 shadow-2xs">
+                            <button
+                              type="button"
+                              onClick={() => handleStatusChange(s.student_id, 'Present')}
+                              className={`px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center space-x-1 ${
+                                currentStatus === 'Present'
+                                  ? 'bg-[#34C759] text-white shadow-xs'
+                                  : 'text-[#86868B] hover:text-[#1D1D1F]'
+                              }`}
+                            >
+                              <Check className="w-3 h-3" />
+                              <span>Present</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => handleStatusChange(s.student_id, 'Absent')}
+                              className={`px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center space-x-1 ${
+                                currentStatus === 'Absent'
+                                  ? 'bg-[#FF2D55] text-white shadow-xs'
+                                  : 'text-[#86868B] hover:text-[#1D1D1F]'
+                              }`}
+                            >
+                              <XCircle className="w-3 h-3" />
+                              <span>Absent</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => handleStatusChange(s.student_id, 'OD')}
+                              className={`px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center space-x-1 ${
+                                currentStatus === 'OD'
+                                  ? 'bg-[#5856D6] text-white shadow-xs'
+                                  : 'text-[#86868B] hover:text-[#1D1D1F]'
+                              }`}
+                            >
+                              <Award className="w-3 h-3" />
+                              <span>OD</span>
+                            </button>
+                          </div>
+                        ) : (
                           <span
                             className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider ${
-                              currentStatus === 'present'
+                              currentStatus === 'Present'
                                 ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                                : currentStatus === 'absent'
+                                : currentStatus === 'Absent'
                                 ? 'bg-rose-50 text-rose-700 border border-rose-200'
-                                : 'bg-amber-50 text-amber-700 border border-amber-200'
+                                : 'bg-indigo-50 text-indigo-700 border border-indigo-200'
                             }`}
                           >
                             {currentStatus}
                           </span>
-                        ) : (
-                          <div className="inline-flex rounded-full p-0.5 bg-black/[0.05] space-x-1">
-                            {(['present', 'absent', 'late'] as const).map((st) => (
-                              <button
-                                key={st}
-                                type="button"
-                                onClick={() => handleStatusToggle(s.id, st)}
-                                className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold capitalize transition-all ${
-                                  currentStatus === st
-                                    ? st === 'present'
-                                      ? 'bg-[#34C759] text-white shadow-xs'
-                                      : st === 'absent'
-                                      ? 'bg-[#FF2D55] text-white shadow-xs'
-                                      : 'bg-[#FF9500] text-white shadow-xs'
-                                    : 'text-[#86868B] hover:text-[#1D1D1F]'
-                                }`}
-                              >
-                                {st}
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </td>
-                      <td className="px-6 py-3.5 text-slate-500">
-                        {isAbsent ? (
-                          <span className="inline-flex items-center space-x-1 text-rose-600 font-semibold text-[11px]">
-                            <PhoneCall className="w-3 h-3" />
-                            <span>Auto-SMS Dispatched (09:15 AM)</span>
-                          </span>
-                        ) : isLate ? (
-                          <span className="inline-flex items-center space-x-1 text-amber-600 font-medium text-[11px]">
-                            <Clock className="w-3 h-3" />
-                            <span>Entry Logged 08:42 AM</span>
-                          </span>
-                        ) : (
-                          <span className="text-slate-400 text-[11px]">Campus Gate Entry 08:15 AM</span>
                         )}
                       </td>
                     </tr>

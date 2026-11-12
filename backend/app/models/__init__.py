@@ -29,6 +29,7 @@ from app.models.attendance import (
     LeaveRequest,
     AttendanceCorrectionRequest,
     AttendanceChangeHistory,
+    Attendance,
 )
 from app.models.timetable import Period, TimetableEntry, Substitution
 from app.models.examination import (
@@ -120,6 +121,7 @@ __all__ = [
     "LeaveRequest",
     "AttendanceCorrectionRequest",
     "AttendanceChangeHistory",
+    "Attendance",
     "Period",
     "TimetableEntry",
     "Substitution",

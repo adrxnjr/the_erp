@@ -1,6 +1,6 @@
 import uuid
 from datetime import date, datetime, time
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -66,3 +66,72 @@ class AttendanceStatsResponse(BaseModel):
     absent_days: int
     late_days: int
     attendance_percentage: float
+
+
+# --- NEW ATTENDANCE MODULE SCHEMAS (CLASS TEACHER & STUDENT PORTAL) ---
+
+class StudentAttendanceRecordItem(BaseModel):
+    student_id: str
+    roll_no: Optional[str] = ""
+    name: str
+    status: str = Field("Present", description="Present, Absent, OD")
+
+
+class TeacherAttendanceQueryResponse(BaseModel):
+    class_name: str
+    section: str
+    subject: str
+    date: date
+    is_class_teacher: bool
+    can_mark: bool
+    is_existing: bool
+    teacher_name: Optional[str] = None
+    students: List[StudentAttendanceRecordItem]
+
+
+class SaveAttendancePayload(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    class_name: str = Field(..., alias="class")
+    section: str
+    subject: str
+    date: date
+    students: List[StudentAttendanceRecordItem]
+
+
+class TeacherClassTeacherAssignment(BaseModel):
+    class_name: str
+    section: str
+
+
+class TeacherAttendanceOptionsResponse(BaseModel):
+    classes: List[str]
+    sections: Dict[str, List[str]]
+    subjects: List[str]
+    teacher_name: str
+    is_class_teacher_for: List[TeacherClassTeacherAssignment]
+
+
+class StudentAttendanceHistoryItem(BaseModel):
+    id: str
+    date: date
+    subject: str
+    class_name: str
+    section: str
+    status: str
+    marked_by: Optional[str] = None
+
+
+class StudentMyAttendanceResponse(BaseModel):
+    student_name: str
+    admission_number: str
+    roll_number: str
+    class_name: str
+    section: str
+    today_status: str  # Present, Absent, OD, or Not Marked
+    total_present: int
+    total_absent: int
+    total_od: int
+    total_days: int
+    overall_percentage: float
+    records: List[StudentAttendanceHistoryItem]

@@ -126,3 +126,25 @@ class AttendanceChangeHistory(Base, UUIDPrimaryKeyMixin):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
+
+
+class Attendance(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """
+    Subject-wise and daily classroom attendance record.
+    Enforces unique record per student per subject per date.
+    Status values: Present, Absent, OD
+    """
+    __tablename__ = "attendance"
+    __table_args__ = (
+        UniqueConstraint("student_id", "subject", "date", name="uq_attendance_student_subject_date"),
+        Index("ix_attendance_class_section_date", "class", "section", "date"),
+    )
+
+    student_id: Mapped[str] = mapped_column(String(100), nullable=False, index=True)
+    class_val: Mapped[str] = mapped_column("class", String(50), nullable=False)
+    section: Mapped[str] = mapped_column(String(50), nullable=False)
+    subject: Mapped[str] = mapped_column(String(100), nullable=False)
+    date: Mapped[date] = mapped_column(Date, nullable=False, index=True)
+    status: Mapped[str] = mapped_column(String(20), nullable=False)  # 'Present', 'Absent', 'OD'
+    marked_by: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)  # teacher_id / user_id
+
